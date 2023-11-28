@@ -2845,7 +2845,7 @@ function displayrules_74(m)
     -----------------------------------------
     -- Main code:
 	for sm74only in pairs(gActiveMods) do
-	if (gActiveMods[sm74only].name:find("Super Mario 74") and not gActiveMods[sm74only].name:find("Ten Years After")) and gNetworkPlayers[0].currAreaIndex == 1 then
+	if (gActiveMods[sm74only].name:find("Super Mario 74") and gActiveMods[sm74only].name:find("(+EE)")) and gNetworkPlayers[0].currLevelNum == LEVEL_CASTLE_COURTYARD and gNetworkPlayers[0].currAreaIndex == 1 then
     if (switched74 == true) then
         if (hasConfirmed74 == false) and Rules_Display then
 			m.pos.x = -6558
@@ -3253,7 +3253,7 @@ function displayrules_74ee(m)
     -----------------------------------------
     -- Main code:
 	for sm74eeonly in pairs(gActiveMods) do
-	if gActiveMods[sm74eeonly].name:find("Super Mario 74") and gNetworkPlayers[0].currLevelNum == LEVEL_CASTLE_COURTYARD and gNetworkPlayers[0].currAreaIndex == 2 then
+	if (gActiveMods[sm74eeonly].name:find("Super Mario 74") and gActiveMods[sm74eeonly].name:find("(+EE)")) and gNetworkPlayers[0].currLevelNum == LEVEL_CASTLE_COURTYARD and gNetworkPlayers[0].currAreaIndex == 2 then
     if (switched74ee == true) then
         if (hasConfirmed74ee == false) and Rules_Display then
 			m.pos.x = 5481

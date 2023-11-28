@@ -218,11 +218,11 @@ if gActiveMods[romhacks].name:find("Star Road") or gActiveMods[romhacks].name:fi
 Set_Romhack_Position(-6797, 1851, 2710, LEVEL_CASTLE_GROUNDS, 1, 0, false, true)
 
 -- Super Mario 74
-elseif gActiveMods[romhacks].name:find("Super Mario 74") and gNetworkPlayers[0].currAreaIndex ~= 2 and not gActiveMods[romhacks].name:find("Ten Years After") then
+elseif gActiveMods[romhacks].name:find("Super Mario 74") and gActiveMods[romhacks].name:find("(+EE)") and gNetworkPlayers[0].currAreaIndex ~= 2 then
 Set_Romhack_Position(-6558, -578, 6464, LEVEL_CASTLE_COURTYARD, 1, 0, false, true)
 
 -- Super Mario 74: Extreme Edition
-elseif gActiveMods[romhacks].name:find("Super Mario 74") and gNetworkPlayers[0].currAreaIndex ~= 1 then
+elseif gActiveMods[romhacks].name:find("Super Mario 74") and gActiveMods[romhacks].name:find("(+EE)") and gNetworkPlayers[0].currAreaIndex ~= 1 then
 Set_Romhack_Position(5481, -922, 6320, LEVEL_CASTLE_COURTYARD, 2, 0, false, true)
 
 -- Super Mario 74: 10 years After
@@ -237,7 +237,7 @@ Set_Romhack_Position(5, -2794, 2082, LEVEL_CASTLE, 1, 0, false, true)
 elseif gActiveMods[romhacks].name:find("King Boo's Revenge 2") then
 Set_Romhack_Position(7710, 1575, 6682, LEVEL_CASTLE_GROUNDS, 1, 0, false, true)
 if OmmEnabled then
-_G.OmmApi.omm_force_setting_value("stars", 0)
+_G.OmmApi.omm_force_setting("stars", 0)
 end
 
 -- Lug's Delightful Dioramas
@@ -264,7 +264,7 @@ Set_Romhack_Position(147, -727, -395, LEVEL_CASTLE_GROUNDS, 1, 0, true, true)
 elseif gActiveMods[romhacks].name:find("Star Revenge 1: Star Takeover") then
 Set_Romhack_Position(8120, -1991, -9473, LEVEL_CASTLE_COURTYARD, 1, 0, true, true)
 if OmmEnabled then
-_G.OmmApi.omm_force_setting_value("stars", 0)
+_G.OmmApi.omm_force_setting("stars", 0)
 end
 
 -- Star Revenge 2: Night of Doom
@@ -290,9 +290,6 @@ Set_Romhack_Position(3255, 190, -4806, LEVEL_CASTLE_GROUNDS, 1, 0, false, true)
 -- Ztar Attack 2
 elseif gActiveMods[romhacks].name:find("\\#0c33c2\\Ztar Attack \\#c20c0c\\2") then
 Set_Romhack_Position(-1226, -1823, 515, LEVEL_CASTLE_GROUNDS, 1, 0, false, true)
-if OmmEnabled then
-_G.OmmApi.omm_force_setting_value("stars", 0)
-end
 
 -- SM64 Peach and The Pink Star
 elseif gActiveMods[romhacks].name:find("pink star") then
@@ -306,7 +303,7 @@ Set_Romhack_Position(-1328, 260, 4664, LEVEL_CASTLE_GROUNDS, 1, 0, true, true)
 elseif gActiveMods[romhacks].name:find("The Galactic Journey") then
 Set_Romhack_Position(-343, 944, 1154, LEVEL_CASTLE_GROUNDS, 1, 0, false, true)
 if OmmEnabled then
-_G.OmmApi.omm_force_setting_value("stars", 0)
+_G.OmmApi.omm_force_setting("stars", 0)
 end
 
 -- Star Revenge 1.5: Star Takeover Redone
@@ -317,7 +314,7 @@ Set_Romhack_Position(-3782, 2537, 2770, LEVEL_CASTLE_COURTYARD, 1, 0, false, tru
 elseif gActiveMods[romhacks].name:find("\\#074916\\Luigi and the Forest Ruins\\#ffffff\\") then
 Set_Romhack_Position(-6400, 371, 392, LEVEL_CASTLE_GROUNDS, 1, 0, true, true)
 if OmmEnabled then
-_G.OmmApi.omm_force_setting_value("stars", 0)
+_G.OmmApi.omm_force_setting("stars", 0)
 end
 		end
 	end
