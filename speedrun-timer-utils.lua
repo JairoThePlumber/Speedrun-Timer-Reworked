@@ -183,12 +183,7 @@ end
 function all_hook_update()
 local m = gMarioStates[0]
 if m.playerIndex ~= 0 then return end
-speedrun_update()
-introupdate()
-stop_timer_update()
-stop_speedrun_update()
-restart_timer_update()
-restart_speedrun_better_update()
+speedrun_commands_update()
 teams_character_update()
 on_romhack_interact_end_picture()
 on_king_boo_interact()

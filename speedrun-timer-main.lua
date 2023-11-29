@@ -173,8 +173,9 @@ gGlobalSyncTable.warptointro = false
 	end
 end
 
--- Basic timer from the speedrun timer but doesn't effect the other commands
-function speedrun_update()
+-- All The functions for the commands
+function speedrun_commands_update()
+	-- Basic timer from the speedrun timer but doesn't effect the other commands
 	if network_is_server() then
     if gGlobalSyncTable.startTimer then
         if startspeedruntime > 0 and not gGlobalSyncTable.beatedGame then
@@ -187,27 +188,18 @@ function speedrun_update()
 		return true
         end
     end
-end
-
--- This starts the speedrun with the Intro cutscene without the countdown
-function introupdate()
+	-- This starts the speedrun with the intro cutscene without the countdown
 	if gGlobalSyncTable.startIntro then
 		if not gGlobalSyncTable.beatedGame then
 			gGlobalSyncTable.startspeedrun = gGlobalSyncTable.startspeedrun + 1
 		end
 	end
-end
-
--- This change the timer to restart itself to 0 when doing /stop speedrun 
-function stop_timer_update()
-if gGlobalSyncTable.stopTimer and not gGlobalSyncTable.beatedGame then
+	-- This stops the timer but make sure this doesn't unpause if the run is finished
+	if gGlobalSyncTable.stopTimer and not gGlobalSyncTable.beatedGame then
        gGlobalSyncTable.startspeedrun = gGlobalSyncTable.startspeedrun + 0
 	end
-end
-
--- This change the timer to restart itself to 0 when doing /stop speedrun 
-function stop_speedrun_update()
-  if gGlobalSyncTable.stopSpeedrun then
+	-- This change the timer to restart itself to 0 when doing /str stop speedrun
+	if gGlobalSyncTable.stopSpeedrun then
 	if startspeedruntime > 0 and not gGlobalSyncTable.beatedGame then
 		gGlobalSyncTable.startspeedruntime = gGlobalSyncTable.startspeedruntime - gGlobalSyncTable.startspeedruntime
             gGlobalSyncTable.startspeedrun = gGlobalSyncTable.startspeedrun - gGlobalSyncTable.startspeedrun
@@ -218,11 +210,8 @@ function stop_speedrun_update()
 			return true 
 		end
 	end
-end
-
--- This restart the timer to zero when doing /restart timer (now it's doesn't start a countdown unless you do /restart speedrun)
-function restart_timer_update()
-  if gGlobalSyncTable.restartTimer then 
+	-- This restart the timer to zero when doing /str restart timer (You Have to do /str restart speedrun after doing this)
+	if gGlobalSyncTable.restartTimer then 
 	if startspeedruntime > 0 and not gGlobalSyncTable.beatedGame then
             gGlobalSyncTable.startspeedruntime = gGlobalSyncTable.startspeedruntime - gGlobalSyncTable.startspeedruntime
             gGlobalSyncTable.startspeedrun = gGlobalSyncTable.startspeedrun - gGlobalSyncTable.startspeedrun
@@ -233,10 +222,7 @@ function restart_timer_update()
 			return true 
 		end
 	end
-end
-
--- This is how you restart the speedrun when messing up the a run (you can use it once, otherwise you have to rehost it)
-function restart_speedrun_better_update()
+	-- This is how you restart the speedrun when messing up the a run (Now made it has it own function)
 	if network_is_server() then
     if gGlobalSyncTable.restartSpeedrun and not gGlobalSyncTable.startTimer then
 	if startspeedruntime > 0 and not gGlobalSyncTable.beatedGame then
