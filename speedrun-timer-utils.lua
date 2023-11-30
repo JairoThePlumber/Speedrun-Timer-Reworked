@@ -238,10 +238,10 @@ displayrules_forest_ruins(m)
 end
 
 -- All Hooks in hook_event order
-hook_event(HOOK_UPDATE, 	    all_hook_update)
-hook_event(HOOK_MARIO_UPDATE,   all_hook_mario_update)
-hook_event(HOOK_ON_INTERACT,    all_hook_interact)
-hook_event(HOOK_ON_INTERACT,    all_hook_interact_2)
+hook_event(HOOK_UPDATE, 	    	   all_hook_update)
+hook_event(HOOK_MARIO_UPDATE,   	   all_hook_mario_update)
+hook_event(HOOK_ON_INTERACT,    	   all_hook_interact)
+hook_event(HOOK_ON_INTERACT,    	   all_hook_interact_2)
 hook_event(HOOK_ON_HUD_RENDER_BEHIND,  all_hook_hud_render)
 hook_event(HOOK_ALLOW_INTERACT, function () return gGlobalSyncTable.startspeedrun > 0.1 end)
 

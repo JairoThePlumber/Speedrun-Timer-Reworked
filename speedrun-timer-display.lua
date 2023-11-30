@@ -18,12 +18,6 @@ else
 	showClassicCountdown = false
 end
 
-if mod_storage_load("showSm64Countdown") == nil or mod_storage_load("showSm64Countdown") == "true" then
-	showSm64Countdown = true
-else
-	showSm64Countdown = false
-end
-
 if mod_storage_load("showNewCountdown") == nil or mod_storage_load("showNewCountdown") == "true" then
 	showNewCountdown = true
 else
@@ -34,6 +28,12 @@ if mod_storage_load("showMenuCountdown") == nil or mod_storage_load("showMenuCou
 	showMenuCountdown = true
 else
 	showMenuCountdown = false
+end
+
+if mod_storage_load("showSm64Countdown") == nil or mod_storage_load("showSm64Countdown") == "true" then
+	showSm64Countdown = true
+else
+	showSm64Countdown = false
 end
 
 if mod_storage_load("BISFonts") == nil or mod_storage_load("BISFonts") == "true" then
@@ -72,42 +72,10 @@ else
 	MPDSFonts = false
 end
 
-if mod_storage_load("force_4by3") == nil or mod_storage_load("force_4by3") == "true" then
-	force_4by3 = true
-else
-	force_4by3 = false
-end
-
-if mod_storage_load("full_screen") == nil or mod_storage_load("full_screen") == "true" then
-	full_screen = true
-else
-	full_screen = false
-end
-
-if mod_storage_load("windowed") == nil or mod_storage_load("windowed") == "true" then
-	windowed = true
-else
-	windowed = false
-end
-
-if force_4by3 then
-x = -69
-y = 0
-end
-
-if full_screen then
-x = -10
-y = 0
-end
-
-if windowed then
-x = 0
-y = 0
-end
-
--- Don't remove this, otherwise a error appears
-x = 0
-y = 0
+-- Don't remove this, otherwise an error will appear
+local x = 0
+local y = 0
+local z = 225
 
 Hours = 0
 Minutes = 0
@@ -159,9 +127,9 @@ function normal_hud_center_render()
 	
 	showNormalCountdown = true
 	showClassicCountdown = false
-	showSm64Countdown = false
 	showNewCountdown = false
 	showMenuCountdown = false
+	showSm64Countdown = false
 	BISFonts = false
 	MPFonts = false
 	MK64Fonts = false
@@ -208,9 +176,9 @@ end
 	
 	showNormalCountdown = true
 	showClassicCountdown = false
-	showSm64Countdown = false
 	showNewCountdown = false
 	showMenuCountdown = false
+	showSm64Countdown = false
 	BISFonts = false
 	MPFonts = false
 	MK64Fonts = false
@@ -260,9 +228,9 @@ function normal_hud_bottom_render()
 	
 	showNormalCountdown = true
 	showClassicCountdown = false
-	showSm64Countdown = false
 	showNewCountdown = false
 	showMenuCountdown = false
+	showSm64Countdown = false
 	BISFonts = false
 	MPFonts = false
 	MK64Fonts = false
@@ -304,9 +272,9 @@ function classic_hud_center_render()
 	
 	showNormalCountdown = false
 	showClassicCountdown = true
-	showSm64Countdown = false
 	showNewCountdown = false
 	showMenuCountdown = false
+	showSm64Countdown = false
 	BISFonts = false
 	MPFonts = false
 	MK64Fonts = false
@@ -353,9 +321,9 @@ end
 	
 	showNormalCountdown = false
 	showClassicCountdown = true
-	showSm64Countdown = false
 	showNewCountdown = false
 	showMenuCountdown = false
+	showSm64Countdown = false
 	BISFonts = false
 	MPFonts = false
 	MK64Fonts = false
@@ -405,129 +373,9 @@ function classic_hud_bottom_render()
 	
 	showNormalCountdown = false
 	showClassicCountdown = true
+	showNewCountdown = false
+	showMenuCountdown = false
 	showSm64Countdown = false
-	showNewCountdown = false
-	showMenuCountdown = false
-	BISFonts = false
-	MPFonts = false
-	MK64Fonts = false
-	SM64DSFonts = false
-	SMBFonts = false
-	MPDSFonts = false
-end
-
--- Display the countdown timer with hud font
-function sm64_hud_center_render()
-
-	if not showSm64Countdown then return end
-
-    if gGlobalSyncTable.startspeedruntime <= 0 then
-        return
-    end
-	
-	if gGlobalSyncTable.startspeedruntime < 10 then
-	djui_hud_render_texture_tile(get_texture_info("mario_64_numbers"), x + 212, y + 100, 2, 2, (math.floor(gGlobalSyncTable.startspeedruntime%10)%8)*16, (math.floor(gGlobalSyncTable.startspeedruntime%10/8))*16, 16, 16)
-	end
-	if gGlobalSyncTable.startspeedruntime >= 10 then
-    djui_hud_render_texture_tile(get_texture_info("mario_64_numbers"), x + 200, y + 100, 2, 2, ((math.floor(gGlobalSyncTable.startspeedruntime/10)%10)%8)*16, (math.floor(gGlobalSyncTable.startspeedruntime%100/80))*16, 16, 16)
-	djui_hud_render_texture_tile(get_texture_info("mario_64_numbers"), x + 224, y + 100, 2, 2, (math.floor(gGlobalSyncTable.startspeedruntime%10)%8)*16, (math.floor(gGlobalSyncTable.startspeedruntime%10/8))*16, 16, 16)
-	end
-	
-	showNormalCountdown = false
-	showClassicCountdown = false
-	showSm64Countdown = true
-	showNewCountdown = false
-	showMenuCountdown = false
-	BISFonts = false
-	MPFonts = false
-	MK64Fonts = false
-	SM64DSFonts = false
-	SMBFonts = false
-	MPDSFonts = false
-end
-
--- Display the Go after the countdown timer ends
-function sm64_hud_go_center_render()
-
-	if not showSm64Countdown then return end
-
-if gGlobalSyncTable.startspeedruntime <= 0 then
-    if gGlobalSyncTable.startspeedrun <= 0 then
-        return true
-	else
-	if gGlobalSyncTable.startspeedrun >= 25 then
-	return false
-    end
-end
-
-	-- set text
-    local go_texture = get_texture_info("mario_64_go_texture")
-	djui_hud_render_texture(go_texture, x + 195, y + 100, 2, 2)
-	
-	showNormalCountdown = false
-	showClassicCountdown = false
-	showSm64Countdown = true
-	showNewCountdown = false
-	showMenuCountdown = false
-	BISFonts = false
-	MPFonts = false
-	MK64Fonts = false
-	SM64DSFonts = false
-	SMBFonts = false
-	MPDSFonts = false
-	end
-end
-
--- Display the timer itself
-function sm64_hud_bottom_render()
-	
-    if not showSpeedrunTimer then return end
-	
-	if not showSm64Countdown then return end
-	
-    if math.floor(gGlobalSyncTable.startspeedrun/30/60) < 0 then
-        Seconds = math.ceil(gGlobalSyncTable.startspeedrun/30)
-        MilliSeconds = (1000 - math.ceil(gGlobalSyncTable.startspeedrun/30%1 * 1000)) % 1000
-    else
-        Hours = math.floor(gGlobalSyncTable.startspeedrun/30/60/60)
-        Minutes = math.floor(gGlobalSyncTable.startspeedrun/30/60%60)
-        Seconds = math.floor(gGlobalSyncTable.startspeedrun/30)%60
-        MilliSeconds = math.floor(gGlobalSyncTable.startspeedrun/30%1 * 1000)
-    end
-	
-	local slash_texture = get_texture_info("mario_64_slash")
-	local slash2_texture = get_texture_info("mario_64_slash_2")
-	local time_texture = get_texture_info("mario_64_time_texture")
-	djui_hud_render_texture(slash2_texture, x + 248.37, y + 219, 1, 1)
-	djui_hud_render_texture(slash2_texture, x + 214.40, y + 219, 1, 1)
-	djui_hud_render_texture(slash_texture, x + 179, y + 219, 1, 1)
-	
-	if Hours >= 10 then
-    djui_hud_render_texture_tile(get_texture_info("mario_64_numbers"), x + 157, y + 222, 1, 1, ((math.floor(Hours/10)%10)%8)*16, (math.floor(Hours%100/80))*16, 16, 16)
-	djui_hud_render_texture(time_texture, x + 99, y + 222, 1, 1)
-	end
-	
-	if Hours < 10 then
-	djui_hud_render_texture(time_texture, x + 112, y + 222, 1, 1)
-	end
-	
-	djui_hud_render_texture_tile(get_texture_info("mario_64_numbers"), x + 168.99, y + 222, 1, 1, (math.floor(Hours%10)%8)*16, (math.floor(Hours%10/8))*16, 16, 16)
-	
-	djui_hud_render_texture_tile(get_texture_info("mario_64_numbers"), x + 188.99, y + 222, 1, 1, ((math.floor(Minutes/10)%10)%8)*16, (math.floor(Minutes%100/80))*16, 16, 16)
-	djui_hud_render_texture_tile(get_texture_info("mario_64_numbers"), x + 200.9600, y + 222, 1, 1, (math.floor(Minutes%10)%8)*16, (math.floor(Minutes%10/8))*16, 16, 16)
-	
-	djui_hud_render_texture_tile(get_texture_info("mario_64_numbers"), x + 223.39, y + 222, 1, 1, ((math.floor(Seconds/10)%10)%8)*16, (math.floor(Seconds%100/80))*16, 16, 16)
-	djui_hud_render_texture_tile(get_texture_info("mario_64_numbers"), x + 235.39, y + 222, 1, 1, (math.floor(Seconds%10)%8)*16, (math.floor(Seconds%10/8))*16, 16, 16)
-
-	djui_hud_render_texture_tile(get_texture_info("mario_64_numbers"), x + 257.30, y + 222, 1, 1, ((math.floor(MilliSeconds/100)%10)%8)*16, (math.floor(MilliSeconds%1000/800))*16, 16, 16)
-	djui_hud_render_texture_tile(get_texture_info("mario_64_numbers"), x + 269.25, y + 222, 1, 1, ((math.floor(MilliSeconds/10)%10)%8)*16, (math.floor(MilliSeconds%100/80))*16, 16, 16)
-	djui_hud_render_texture_tile(get_texture_info("mario_64_numbers"), x + 281.27, y + 222, 1, 1, (math.floor(MilliSeconds%10)%8)*16, (math.floor(MilliSeconds%10/8))*16, 16, 16)
-	
-	showNormalCountdown = false
-	showClassicCountdown = false
-	showSm64Countdown = true
-	showNewCountdown = false
-	showMenuCountdown = false
 	BISFonts = false
 	MPFonts = false
 	MK64Fonts = false
@@ -551,21 +399,23 @@ function font_hud_center_render()
     -- set size
     local size = 2
 	
-	if gGlobalSyncTable.startspeedruntime < 10 then
-    djui_hud_set_color(255, 255, 255, 255);
-    djui_hud_print_text(text, x + 212, y + 100, size);
-	end
+	-- get width of screen and text
+    local screenWidth = djui_hud_get_screen_width()
+    local screenHeight = djui_hud_get_screen_height()
+    local width = djui_hud_measure_text(text) * size
+    local height = 16 * size
+
+    local x = (screenWidth - width) / 2.0
+    local y = (screenHeight - height) / 2.0
 	
-	if gGlobalSyncTable.startspeedruntime >= 10 then
     djui_hud_set_color(255, 255, 255, 255);
-    djui_hud_print_text(text, x + 200, y + 100, size);
-	end
+    djui_hud_print_text(text, x - 3, y, size);
 	
 	showNormalCountdown = false
 	showClassicCountdown = false
-	showSm64Countdown = false
 	showNewCountdown = true
 	showMenuCountdown = false
+	showSm64Countdown = false
 	BISFonts = false
 	MPFonts = false
 	MK64Fonts = false
@@ -593,15 +443,24 @@ end
 
     -- set size
     local size = 2
+	
+	-- get width of screen and text
+    local screenWidth = djui_hud_get_screen_width()
+    local screenHeight = djui_hud_get_screen_height()
+    local width = djui_hud_measure_text(text) * size
+    local height = 16 * size
 
+    local x = (screenWidth - width) / 2.0
+    local y = (screenHeight - height) / 2.0
+	
     djui_hud_set_color(255, 255, 255, 255);
-    djui_hud_print_text(text, x + 200, y + 100, size);
+    djui_hud_print_text(text, x + 7, y, size);
 	
 	showNormalCountdown = false
 	showClassicCountdown = false
-	showSm64Countdown = false
 	showNewCountdown = true
 	showMenuCountdown = false
+	showSm64Countdown = false
 	BISFonts = false
 	MPFonts = false
 	MK64Fonts = false
@@ -642,47 +501,54 @@ function font_hud_bottom_render()
     -- set size
     local size = 1
 	
+	local screenWidth = djui_hud_get_screen_width()
+    local screenHeight = djui_hud_get_screen_height()
+    local width = 1 * 1
+
+    local x = (screenWidth - width) / 2.0
+    local y = screenHeight - 16
+	
 	if Hours >= 10 then
 	djui_hud_set_color(255, 255, 255, 255);
-    djui_hud_print_text(hours10text, x + 157, y + 222, size);
-	djui_hud_print_text(timetext, x + 99, y + 222, size);
+    djui_hud_print_text(hours10text, x - 70, y - 2, size);
+	djui_hud_print_text(timetext, x - 125, y - 2, size);
 	end
 	
 	if Hours < 10 then
 	djui_hud_set_color(255, 255, 255, 255);
-    djui_hud_print_text(hourstext, x + 169, y + 222, size);
-	djui_hud_print_text(timetext, x + 112, y + 222, size);
+    djui_hud_print_text(hourstext, x - 58, y - 2, size);
+	djui_hud_print_text(timetext, x - 115 , y - 2, size);
 	end
 
 
     djui_hud_set_color(255, 255, 255, 255);
-    djui_hud_print_text(Minutestext, x + 189, y + 222, size);
+    djui_hud_print_text(Minutestext, x - 38, y - 2, size);
 
 
     djui_hud_set_color(255, 255, 255, 255);
-    djui_hud_print_text(secondstext, x + 223.4, y + 222, size);
+    djui_hud_print_text(secondstext, x - 4, y - 2, size);
 
 
     djui_hud_set_color(255, 255, 255, 255);
-    djui_hud_print_text(millisecondstext, x + 257.3, y + 222, size);
+    djui_hud_print_text(millisecondstext, x + 30, y - 2, size);
 
     -- render
 	
     djui_hud_set_color(255, 255, 255, 255);
-    djui_hud_print_text(text, x + 179, y + 214, size);
+    djui_hud_print_text(text, x - 48, y - 10, size);
 
 
     djui_hud_set_color(255, 255, 255, 255);
-    djui_hud_print_text(alsotext, x + 214.4, y + 214, size);
+    djui_hud_print_text(alsotext, x - 13, y - 10, size);
 	
 	djui_hud_set_color(255, 255, 255, 255);
-    djui_hud_print_text(alsotext, x + 248.3, y + 214, size);
+    djui_hud_print_text(alsotext, x + 21, y - 10, size);
 	
 	showNormalCountdown = false
 	showClassicCountdown = false
-	showSm64Countdown = false
 	showNewCountdown = true
 	showMenuCountdown = false
+	showSm64Countdown = false
 	BISFonts = false
 	MPFonts = false
 	MK64Fonts = false
@@ -705,23 +571,24 @@ function font_menu_hud_center_render()
 
     -- set size
     local size = 3
-	local x = 0
+
+	-- get width of screen and text
+    local screenWidth = djui_hud_get_screen_width()
+    local screenHeight = djui_hud_get_screen_height()
+    local width = djui_hud_measure_text(text) * size
+    local height = 50 * size
+
+    local x = (screenWidth - width) / 2.04
+    local y = (screenHeight - height) / 2.0
 	
-	if gGlobalSyncTable.startspeedruntime < 10 then
     djui_hud_set_color(255, 255, 255, 255);
-    djui_hud_print_text(text, x + 890, y + 400, size);
-	end
-	
-	if gGlobalSyncTable.startspeedruntime >= 10 then
-    djui_hud_set_color(255, 255, 255, 255);
-    djui_hud_print_text(text, x + 850, y + 400, size);
-	end
+    djui_hud_print_text(text, x, y, size);
 	
 	showNormalCountdown = false
 	showClassicCountdown = false
-	showSm64Countdown = false
 	showNewCountdown = false
 	showMenuCountdown = true
+	showSm64Countdown = false
 	BISFonts = false
 	MPFonts = false
 	MK64Fonts = false
@@ -749,17 +616,25 @@ end
 
     -- set size
     local size = 3
-	local x = 0
+
+    -- get width of screen and text
+    local screenWidth = djui_hud_get_screen_width()
+    local screenHeight = djui_hud_get_screen_height()
+    local width = djui_hud_measure_text(text) * size
+    local height = 50 * size
+
+    local x = (screenWidth - width) / 2.0
+    local y = (screenHeight - height) / 2.0
 
     -- render
     djui_hud_set_color(255, 255, 255, 255);
-    djui_hud_print_text(text, x + 830, y + 400, size);
+    djui_hud_print_text(text, x, y, size);
 	
 	showNormalCountdown = false
 	showClassicCountdown = false
-	showSm64Countdown = false
 	showNewCountdown = false
 	showMenuCountdown = true
+	showSm64Countdown = false
 	BISFonts = false
 	MPFonts = false
 	MK64Fonts = false
@@ -793,20 +668,168 @@ function font_menu_hud_bottom_render()
     local size = 1.50
 
     -- get width of screen and text
+    local screenWidth = djui_hud_get_screen_width()
     local screenHeight = djui_hud_get_screen_height()
+    local width = djui_hud_measure_text(text) * size
 
-	local x = 0
+    local x = (screenWidth - width) / 2.0
     local y = screenHeight - 89
+
 
     -- render
     djui_hud_set_color(255, 255, 255, 255);
-    djui_hud_print_text(text, x + 700, y, size);
+    djui_hud_print_text(text, x, y, size);
 	
 	showNormalCountdown = false
 	showClassicCountdown = false
-	showSm64Countdown = false
 	showNewCountdown = false
 	showMenuCountdown = true
+	showSm64Countdown = false
+	BISFonts = false
+	MPFonts = false
+	MK64Fonts = false
+	SM64DSFonts = false
+	SMBFonts = false
+	MPDSFonts = false
+end
+
+-- Display the countdown timer with hud font
+function sm64_hud_center_render()
+
+	if not showSm64Countdown then return end
+	
+	if gGlobalSyncTable.startspeedruntime <= 0 then
+        return
+    end
+	
+	-- get width of screen and text
+    local screenWidth = djui_hud_get_screen_width()
+    local screenHeight = djui_hud_get_screen_height()
+    local width = 1 * 1
+    local height = 16 * 2
+
+    local x = (screenWidth - width) / 2.0
+    local y = (screenHeight - height) / 2.0
+	
+	if gGlobalSyncTable.startspeedruntime < 10 then
+	djui_hud_render_texture_tile(get_texture_info("mario_64_numbers"), x - 14, y, 2, 2, (math.floor(gGlobalSyncTable.startspeedruntime%10)%8)*16, (math.floor(gGlobalSyncTable.startspeedruntime%10/8))*16, 16, 16)
+	end
+	if gGlobalSyncTable.startspeedruntime >= 10 then
+    djui_hud_render_texture_tile(get_texture_info("mario_64_numbers"), x - 27, y, 2, 2, ((math.floor(gGlobalSyncTable.startspeedruntime/10)%10)%8)*16, (math.floor(gGlobalSyncTable.startspeedruntime%100/80))*16, 16, 16)
+	djui_hud_render_texture_tile(get_texture_info("mario_64_numbers"), x - 3, y, 2, 2, (math.floor(gGlobalSyncTable.startspeedruntime%10)%8)*16, (math.floor(gGlobalSyncTable.startspeedruntime%10/8))*16, 16, 16)
+	end
+	
+	showNormalCountdown = false
+	showClassicCountdown = false
+	showNewCountdown = false
+	showMenuCountdown = false
+	showSm64Countdown = true
+	BISFonts = false
+	MPFonts = false
+	MK64Fonts = false
+	SM64DSFonts = false
+	SMBFonts = false
+	MPDSFonts = false
+end
+
+-- Display the Go after the countdown timer ends
+function sm64_hud_go_center_render()
+
+	if not showSm64Countdown then return end
+
+if gGlobalSyncTable.startspeedruntime <= 0 then
+    if gGlobalSyncTable.startspeedrun <= 0 then
+        return true
+	else
+	if gGlobalSyncTable.startspeedrun >= 25 then
+	return false
+    end
+end
+
+	-- get width of screen and text
+    local screenWidth = djui_hud_get_screen_width()
+    local screenHeight = djui_hud_get_screen_height()
+    local width = 1 * 1
+    local height = 16 * 2
+
+    local x = (screenWidth - width) / 2.3
+    local y = (screenHeight - height) / 2.0
+	
+	-- set text
+    local go_texture = get_texture_info("mario_64_go_texture")
+	djui_hud_render_texture(go_texture, x, y, 2, 2)
+	
+	showNormalCountdown = false
+	showClassicCountdown = false
+	showNewCountdown = false
+	showMenuCountdown = false
+	showSm64Countdown = true
+	BISFonts = false
+	MPFonts = false
+	MK64Fonts = false
+	SM64DSFonts = false
+	SMBFonts = false
+	MPDSFonts = false
+	end
+end
+
+-- Display the timer itself
+function sm64_hud_bottom_render()
+	
+    if not showSpeedrunTimer then return end
+	
+	if not showSm64Countdown then return end
+	
+    if math.floor(gGlobalSyncTable.startspeedrun/30/60) < 0 then
+        Seconds = math.ceil(gGlobalSyncTable.startspeedrun/30)
+        MilliSeconds = (1000 - math.ceil(gGlobalSyncTable.startspeedrun/30%1 * 1000)) % 1000
+    else
+        Hours = math.floor(gGlobalSyncTable.startspeedrun/30/60/60)
+        Minutes = math.floor(gGlobalSyncTable.startspeedrun/30/60%60)
+        Seconds = math.floor(gGlobalSyncTable.startspeedrun/30)%60
+        MilliSeconds = math.floor(gGlobalSyncTable.startspeedrun/30%1 * 1000)
+    end
+	
+	local screenWidth = djui_hud_get_screen_width()
+    local screenHeight = djui_hud_get_screen_height()
+    local width = 1 * 1
+
+    local x = (screenWidth - width) / 2.0
+    local y = screenHeight - 16
+	
+	local slash_texture = get_texture_info("mario_64_slash")
+	local slash2_texture = get_texture_info("mario_64_slash_2")
+	local time_texture = get_texture_info("mario_64_time_texture")
+	djui_hud_render_texture(slash2_texture, x + 21, y - 5, 1, 1)
+	djui_hud_render_texture(slash2_texture, x - 13, y - 5, 1, 1)
+	djui_hud_render_texture(slash_texture, x - 48, y - 5, 1, 1)
+	
+	if Hours >= 10 then
+    djui_hud_render_texture_tile(get_texture_info("mario_64_numbers"), x - 70, y - 2, 1, 1, ((math.floor(Hours/10)%10)%8)*16, (math.floor(Hours%100/80))*16, 16, 16)
+	djui_hud_render_texture(time_texture, x - 125, y - 2, 1, 1)
+	end
+	
+	if Hours < 10 then
+	djui_hud_render_texture(time_texture, x - 115, y - 2, 1, 1)
+	end
+	
+	djui_hud_render_texture_tile(get_texture_info("mario_64_numbers"), x - 58, y - 2, 1, 1, (math.floor(Hours%10)%8)*16, (math.floor(Hours%10/8))*16, 16, 16)
+	
+	djui_hud_render_texture_tile(get_texture_info("mario_64_numbers"), x - 38, y - 2, 1, 1, ((math.floor(Minutes/10)%10)%8)*16, (math.floor(Minutes%100/80))*16, 16, 16)
+	djui_hud_render_texture_tile(get_texture_info("mario_64_numbers"), x - 26, y - 2, 1, 1, (math.floor(Minutes%10)%8)*16, (math.floor(Minutes%10/8))*16, 16, 16)
+	
+	djui_hud_render_texture_tile(get_texture_info("mario_64_numbers"), x - 4, y - 2, 1, 1, ((math.floor(Seconds/10)%10)%8)*16, (math.floor(Seconds%100/80))*16, 16, 16)
+	djui_hud_render_texture_tile(get_texture_info("mario_64_numbers"), x + 8, y - 2, 1, 1, (math.floor(Seconds%10)%8)*16, (math.floor(Seconds%10/8))*16, 16, 16)
+
+	djui_hud_render_texture_tile(get_texture_info("mario_64_numbers"), x + 30, y - 2, 1, 1, ((math.floor(MilliSeconds/100)%10)%8)*16, (math.floor(MilliSeconds%1000/800))*16, 16, 16)
+	djui_hud_render_texture_tile(get_texture_info("mario_64_numbers"), x + 42, y - 2, 1, 1, ((math.floor(MilliSeconds/10)%10)%8)*16, (math.floor(MilliSeconds%100/80))*16, 16, 16)
+	djui_hud_render_texture_tile(get_texture_info("mario_64_numbers"), x + 54, y - 2, 1, 1, (math.floor(MilliSeconds%10)%8)*16, (math.floor(MilliSeconds%10/8))*16, 16, 16)
+	
+	showNormalCountdown = false
+	showClassicCountdown = false
+	showNewCountdown = false
+	showMenuCountdown = false
+	showSm64Countdown = true
 	BISFonts = false
 	MPFonts = false
 	MK64Fonts = false
@@ -823,19 +846,26 @@ function bowser_inside_story_hud_center_render()
         return
     end
 	
+	local screenWidth = djui_hud_get_screen_width()
+    local screenHeight = djui_hud_get_screen_height()
+    local width = 1 * 1
+
+    local x = (screenWidth - width) / 2.0
+    local y = screenHeight - 16
+	
 	if gGlobalSyncTable.startspeedruntime < 10 then
-	djui_hud_render_texture_tile(get_texture_info("bowser_inside_story_big_numbers"), x + 210, y + 100, 2, 2, (math.floor(gGlobalSyncTable.startspeedruntime%10)%8)*16, (math.floor(gGlobalSyncTable.startspeedruntime%10/8))*16, 16, 16)
+	djui_hud_render_texture_tile(get_texture_info("bowser_inside_story_big_numbers"), x + 210 - z, y - 120, 2, 2, (math.floor(gGlobalSyncTable.startspeedruntime%10)%8)*16, (math.floor(gGlobalSyncTable.startspeedruntime%10/8))*16, 16, 16)
 	end
 	if gGlobalSyncTable.startspeedruntime >= 10 then
-	djui_hud_render_texture_tile(get_texture_info("bowser_inside_story_big_numbers"), x + 220, y + 100, 2, 2, (math.floor(gGlobalSyncTable.startspeedruntime%10)%8)*16, (math.floor(gGlobalSyncTable.startspeedruntime%10/8))*16, 16, 16)
-    djui_hud_render_texture_tile(get_texture_info("bowser_inside_story_big_numbers"), x + 200, y + 100, 2, 2, ((math.floor(gGlobalSyncTable.startspeedruntime/10)%10)%8)*16, (math.floor(gGlobalSyncTable.startspeedruntime%100/80))*16, 16, 16)
+	djui_hud_render_texture_tile(get_texture_info("bowser_inside_story_big_numbers"), x + 220 - z, y - 120, 2, 2, (math.floor(gGlobalSyncTable.startspeedruntime%10)%8)*16, (math.floor(gGlobalSyncTable.startspeedruntime%10/8))*16, 16, 16)
+    djui_hud_render_texture_tile(get_texture_info("bowser_inside_story_big_numbers"), x + 200 - z, y - 120, 2, 2, ((math.floor(gGlobalSyncTable.startspeedruntime/10)%10)%8)*16, (math.floor(gGlobalSyncTable.startspeedruntime%100/80))*16, 16, 16)
 	end
 	
 	showNormalCountdown = false
 	showClassicCountdown = false
-	showSm64Countdown = false
 	showNewCountdown = false
 	showMenuCountdown = false
+	showSm64Countdown = false
 	BISFonts = true
 	MPFonts = false
 	MK64Fonts = false
@@ -857,15 +887,22 @@ if gGlobalSyncTable.startspeedruntime <= 0 then
     end
 end
 
+	local screenWidth = djui_hud_get_screen_width()
+    local screenHeight = djui_hud_get_screen_height()
+    local width = 1 * 1
+
+    local x = (screenWidth - width) / 2.0
+    local y = screenHeight - 16
+
     -- set text
     local go_texture = get_texture_info("bowser_inside_story_go_texture")
-	djui_hud_render_texture(go_texture, x + 165, y + 80, 2, 2)
+	djui_hud_render_texture(go_texture, x + 165 - z, y - 140, 2, 2)
 	
 	showNormalCountdown = false
 	showClassicCountdown = false
-	showSm64Countdown = false
 	showNewCountdown = false
 	showMenuCountdown = false
+	showSm64Countdown = false
 	BISFonts = true
 	MPFonts = false
 	MK64Fonts = false
@@ -890,33 +927,40 @@ function bowser_inside_story_hud_bottom_render()
         Seconds = math.floor(gGlobalSyncTable.startspeedrun/30)%60
         MilliSeconds = math.floor(gGlobalSyncTable.startspeedrun/30%1 * 1000)
     end
+	
+	local screenWidth = djui_hud_get_screen_width()
+    local screenHeight = djui_hud_get_screen_height()
+    local width = 1 * 1
 
-    djui_hud_render_texture_tile(get_texture_info("bowser_inside_story_small_numbers"), x + 277, y + 222, 1, 1, (math.floor(MilliSeconds%10)%8)*16, (math.floor(MilliSeconds%10/8))*16, 16, 16)
-    djui_hud_render_texture_tile(get_texture_info("bowser_inside_story_small_numbers"), x + 267, y + 222, 1, 1, ((math.floor(MilliSeconds/10)%10)%8)*16, (math.floor(MilliSeconds%100/80))*16, 16, 16)
-	djui_hud_render_texture_tile(get_texture_info("bowser_inside_story_small_numbers"), x + 257, y + 222, 1, 1, ((math.floor(MilliSeconds/100)%10)%8)*16, (math.floor(MilliSeconds%1000/800))*16, 16, 16)
+    local x = (screenWidth - width) / 2.0
+    local y = screenHeight - 16
+
+    djui_hud_render_texture_tile(get_texture_info("bowser_inside_story_small_numbers"), x + 277 - z, y - 2, 1, 1, (math.floor(MilliSeconds%10)%8)*16, (math.floor(MilliSeconds%10/8))*16, 16, 16)
+    djui_hud_render_texture_tile(get_texture_info("bowser_inside_story_small_numbers"), x + 267 - z, y - 2, 1, 1, ((math.floor(MilliSeconds/10)%10)%8)*16, (math.floor(MilliSeconds%100/80))*16, 16, 16)
+	djui_hud_render_texture_tile(get_texture_info("bowser_inside_story_small_numbers"), x + 257 - z, y - 2, 1, 1, ((math.floor(MilliSeconds/100)%10)%8)*16, (math.floor(MilliSeconds%1000/800))*16, 16, 16)
 	
-	djui_hud_render_texture_tile(get_texture_info("bowser_inside_story_small_numbers"), x + 233, y + 222, 1, 1, (math.floor(Seconds%10)%8)*16, (math.floor(Seconds%10/8))*16, 16, 16)
-    djui_hud_render_texture_tile(get_texture_info("bowser_inside_story_small_numbers"), x + 223, y + 222, 1, 1, ((math.floor(Seconds/10)%10)%8)*16, (math.floor(Seconds%100/80))*16, 16, 16)
+	djui_hud_render_texture_tile(get_texture_info("bowser_inside_story_small_numbers"), x + 233 - z, y - 2, 1, 1, (math.floor(Seconds%10)%8)*16, (math.floor(Seconds%10/8))*16, 16, 16)
+    djui_hud_render_texture_tile(get_texture_info("bowser_inside_story_small_numbers"), x + 223 - z, y - 2, 1, 1, ((math.floor(Seconds/10)%10)%8)*16, (math.floor(Seconds%100/80))*16, 16, 16)
 	
-	djui_hud_render_texture_tile(get_texture_info("bowser_inside_story_small_numbers"), x + 199, y + 222, 1, 1, (math.floor(Minutes%10)%8)*16, (math.floor(Minutes%10/8))*16, 16, 16)
-    djui_hud_render_texture_tile(get_texture_info("bowser_inside_story_small_numbers"), x + 189, y + 222, 1, 1, ((math.floor(Minutes/10)%10)%8)*16, (math.floor(Minutes%100/80))*16, 16, 16)
+	djui_hud_render_texture_tile(get_texture_info("bowser_inside_story_small_numbers"), x + 199 - z, y - 2, 1, 1, (math.floor(Minutes%10)%8)*16, (math.floor(Minutes%10/8))*16, 16, 16)
+    djui_hud_render_texture_tile(get_texture_info("bowser_inside_story_small_numbers"), x + 189 - z, y - 2, 1, 1, ((math.floor(Minutes/10)%10)%8)*16, (math.floor(Minutes%100/80))*16, 16, 16)
 	
-	djui_hud_render_texture_tile(get_texture_info("bowser_inside_story_small_numbers"), x + 165, y + 222, 1, 1, (math.floor(Hours%10)%8)*16, (math.floor(Hours%10/8))*16, 16, 16)
+	djui_hud_render_texture_tile(get_texture_info("bowser_inside_story_small_numbers"), x + 165 - z, y - 2, 1, 1, (math.floor(Hours%10)%8)*16, (math.floor(Hours%10/8))*16, 16, 16)
 	
 	if Hours >= 10 then
-    djui_hud_render_texture_tile(get_texture_info("bowser_inside_story_small_numbers"), x + 155, y + 222, 1, 1, ((math.floor(Hours/10)%10)%8)*16, (math.floor(Hours%100/80))*16, 16, 16)
+    djui_hud_render_texture_tile(get_texture_info("bowser_inside_story_small_numbers"), x + 155 - z, y - 2, 1, 1, ((math.floor(Hours/10)%10)%8)*16, (math.floor(Hours%100/80))*16, 16, 16)
 	end
 	
 	local slash_texture = get_texture_info("bowser_inside_story_slash")
-	djui_hud_render_texture(slash_texture, x + 245, y + 222, 1, 1)
-	djui_hud_render_texture(slash_texture, x + 211, y + 222, 1, 1)
-	djui_hud_render_texture(slash_texture, x + 177, y + 222, 1, 1)
+	djui_hud_render_texture(slash_texture, x + 245 - z, y - 2, 1, 1)
+	djui_hud_render_texture(slash_texture, x + 211 - z, y - 2, 1, 1)
+	djui_hud_render_texture(slash_texture, x + 177 - z, y - 2, 1, 1)
 	
 	showNormalCountdown = false
 	showClassicCountdown = false
-	showSm64Countdown = false
 	showNewCountdown = false
 	showMenuCountdown = false
+	showSm64Countdown = false
 	BISFonts = true
 	MPFonts = false
 	MK64Fonts = false
@@ -934,21 +978,29 @@ function mario_party_hud_center_render()
         return
     end
 	
+	local screenWidth = djui_hud_get_screen_width()
+    local screenHeight = djui_hud_get_screen_height()
+    local width = 1 * 1
+
+    local x = (screenWidth - width) / 2.0
+    local y = screenHeight - 16
+	local z = 226
+	
 	if gGlobalSyncTable.startspeedruntime < 10 then
-	djui_hud_render_texture_tile(get_texture_info("mario_party_big_numbers"), x + 203, y + 95, 1.5, 1.5, (math.floor(gGlobalSyncTable.startspeedruntime%10)%8)*32, (math.floor(gGlobalSyncTable.startspeedruntime%10/8))*32, 32, 32)
+	djui_hud_render_texture_tile(get_texture_info("mario_party_big_numbers"), x + 203 - z, y - 127, 1.5, 1.5, (math.floor(gGlobalSyncTable.startspeedruntime%10)%8)*32, (math.floor(gGlobalSyncTable.startspeedruntime%10/8))*32, 32, 32)
 	end
 	if gGlobalSyncTable.startspeedruntime >= 10 then
-	djui_hud_render_texture_tile(get_texture_info("mario_party_big_numbers"), x + 220, y + 95, 1.5, 1.5, (math.floor(gGlobalSyncTable.startspeedruntime%10)%8)*32, (math.floor(gGlobalSyncTable.startspeedruntime%10/8))*32, 32, 32)
-    djui_hud_render_texture_tile(get_texture_info("mario_party_big_numbers"), x + 188, y + 95, 1.5, 1.5, ((math.floor(gGlobalSyncTable.startspeedruntime/10)%10)%8)*32, (math.floor(gGlobalSyncTable.startspeedruntime%100/80))*32, 32, 32)
+	djui_hud_render_texture_tile(get_texture_info("mario_party_big_numbers"), x + 220 - z, y - 127, 1.5, 1.5, (math.floor(gGlobalSyncTable.startspeedruntime%10)%8)*32, (math.floor(gGlobalSyncTable.startspeedruntime%10/8))*32, 32, 32)
+    djui_hud_render_texture_tile(get_texture_info("mario_party_big_numbers"), x + 188 - z, y - 127, 1.5, 1.5, ((math.floor(gGlobalSyncTable.startspeedruntime/10)%10)%8)*32, (math.floor(gGlobalSyncTable.startspeedruntime%100/80))*32, 32, 32)
 	end
 	-- set size
     local size = 1
 	
 	showNormalCountdown = false
 	showClassicCountdown = false
-	showSm64Countdown = false
 	showNewCountdown = false
 	showMenuCountdown = false
+	showSm64Countdown = false
 	BISFonts = false
 	MPFonts = true
 	MK64Fonts = false
@@ -971,15 +1023,23 @@ if gGlobalSyncTable.startspeedruntime <= 0 then
     end
 end
 
+	local screenWidth = djui_hud_get_screen_width()
+    local screenHeight = djui_hud_get_screen_height()
+    local width = 1 * 1
+
+    local x = (screenWidth - width) / 2.0
+    local y = screenHeight - 16
+	local z = 226
+
     -- set text
     local go_texture = get_texture_info("mario_party_go_texture")
-	djui_hud_render_texture(go_texture, x + 180, y + 95, 1.5, 1.5)
+	djui_hud_render_texture(go_texture, x + 180 - z, y - 127, 1.5, 1.5)
 	
 	showNormalCountdown = false
 	showClassicCountdown = false
-	showSm64Countdown = false
 	showNewCountdown = false
 	showMenuCountdown = false
+	showSm64Countdown = false
 	BISFonts = false
 	MPFonts = true
 	MK64Fonts = false
@@ -1005,35 +1065,42 @@ function mario_party_hud_bottom_render()
         Seconds = math.floor(gGlobalSyncTable.startspeedrun/30)%60
         MilliSeconds = math.floor(gGlobalSyncTable.startspeedrun/30%1 * 1000)
     end
+	
+	local screenWidth = djui_hud_get_screen_width()
+    local screenHeight = djui_hud_get_screen_height()
+    local width = 1 * 1
 
-    djui_hud_render_texture_tile(get_texture_info("mario_party_small_numbers"), x + 293, y + 223, 1, 1, (math.floor(MilliSeconds%10)%8)*16, (math.floor(MilliSeconds%10/8))*16, 16, 16)
-    djui_hud_render_texture_tile(get_texture_info("mario_party_small_numbers"), x + 278, y + 223, 1, 1, ((math.floor(MilliSeconds/10)%10)%8)*16, (math.floor(MilliSeconds%100/80))*16, 16, 16)
-	djui_hud_render_texture_tile(get_texture_info("mario_party_small_numbers"), x + 263, y + 223, 1, 1, ((math.floor(MilliSeconds/100)%10)%8)*16, (math.floor(MilliSeconds%1000/800))*16, 16, 16)
+    local x = (screenWidth - width) / 2.0
+    local y = screenHeight - 16
 	
-	djui_hud_render_texture_tile(get_texture_info("mario_party_small_numbers"), x + 234, y + 223, 1, 1, (math.floor(Seconds%10)%8)*16, (math.floor(Seconds%10/8))*16, 16, 16)
-    djui_hud_render_texture_tile(get_texture_info("mario_party_small_numbers"), x + 219, y + 223, 1, 1, ((math.floor(Seconds/10)%10)%8)*16, (math.floor(Seconds%100/80))*16, 16, 16)
+    djui_hud_render_texture_tile(get_texture_info("mario_party_small_numbers"), x + 293 - z, y - 1, 1, 1, (math.floor(MilliSeconds%10)%8)*16, (math.floor(MilliSeconds%10/8))*16, 16, 16)
+    djui_hud_render_texture_tile(get_texture_info("mario_party_small_numbers"), x + 278 - z, y - 1, 1, 1, ((math.floor(MilliSeconds/10)%10)%8)*16, (math.floor(MilliSeconds%100/80))*16, 16, 16)
+	djui_hud_render_texture_tile(get_texture_info("mario_party_small_numbers"), x + 263 - z, y - 1, 1, 1, ((math.floor(MilliSeconds/100)%10)%8)*16, (math.floor(MilliSeconds%1000/800))*16, 16, 16)
 	
-	djui_hud_render_texture_tile(get_texture_info("mario_party_small_numbers"), x + 190, y + 223, 1, 1, (math.floor(Minutes%10)%8)*16, (math.floor(Minutes%10/8))*16, 16, 16)
-    djui_hud_render_texture_tile(get_texture_info("mario_party_small_numbers"), x + 175, y + 223, 1, 1, ((math.floor(Minutes/10)%10)%8)*16, (math.floor(Minutes%100/80))*16, 16, 16)
+	djui_hud_render_texture_tile(get_texture_info("mario_party_small_numbers"), x + 234 - z, y - 1, 1, 1, (math.floor(Seconds%10)%8)*16, (math.floor(Seconds%10/8))*16, 16, 16)
+    djui_hud_render_texture_tile(get_texture_info("mario_party_small_numbers"), x + 219 - z, y - 1, 1, 1, ((math.floor(Seconds/10)%10)%8)*16, (math.floor(Seconds%100/80))*16, 16, 16)
 	
-	djui_hud_render_texture_tile(get_texture_info("mario_party_small_numbers"), x + 153, y + 223, 1, 1, (math.floor(Hours%10)%8)*16, (math.floor(Hours%10/8))*16, 16, 16)
+	djui_hud_render_texture_tile(get_texture_info("mario_party_small_numbers"), x + 190 - z, y - 1, 1, 1, (math.floor(Minutes%10)%8)*16, (math.floor(Minutes%10/8))*16, 16, 16)
+    djui_hud_render_texture_tile(get_texture_info("mario_party_small_numbers"), x + 175 - z, y - 1, 1, 1, ((math.floor(Minutes/10)%10)%8)*16, (math.floor(Minutes%100/80))*16, 16, 16)
+	
+	djui_hud_render_texture_tile(get_texture_info("mario_party_small_numbers"), x + 153 - z, y - 1, 1, 1, (math.floor(Hours%10)%8)*16, (math.floor(Hours%10/8))*16, 16, 16)
 	
 	if Hours >= 10 then
-    djui_hud_render_texture_tile(get_texture_info("mario_party_small_numbers"), x + 138, y + 223, 1, 1, ((math.floor(Hours/10)%10)%8)*16, (math.floor(Hours%100/80))*16, 16, 16)
+    djui_hud_render_texture_tile(get_texture_info("mario_party_small_numbers"), x + 138 - z, y - 1, 1, 1, ((math.floor(Hours/10)%10)%8)*16, (math.floor(Hours%100/80))*16, 16, 16)
 	end
 	
 	local slash_texture = get_texture_info("mario_party_slash")
-	djui_hud_render_texture(slash_texture, x + 248, y + 223, 1, 1)
-	djui_hud_render_texture(slash_texture, x + 255, y + 223, 1, 1)
-	djui_hud_render_texture(slash_texture, x + 211, y + 223, 1, 1)
-	djui_hud_render_texture(slash_texture, x + 204, y + 223, 1, 1)
-	djui_hud_render_texture(slash_texture, x + 167, y + 223, 1, 1)
+	djui_hud_render_texture(slash_texture, x + 248 - z, y - 1, 1, 1)
+	djui_hud_render_texture(slash_texture, x + 255 - z, y - 1, 1, 1)
+	djui_hud_render_texture(slash_texture, x + 211 - z, y - 1, 1, 1)
+	djui_hud_render_texture(slash_texture, x + 204 - z, y - 1, 1, 1)
+	djui_hud_render_texture(slash_texture, x + 167 - z, y - 1, 1, 1)
 	
 	showNormalCountdown = false
 	showClassicCountdown = false
-	showSm64Countdown = false
 	showNewCountdown = false
 	showMenuCountdown = false
+	showSm64Countdown = false
 	BISFonts = false
 	MPFonts = true
 	MK64Fonts = false
@@ -1051,21 +1118,26 @@ function mario_kart_64_hud_center_render()
         return
     end
 	
+	local screenWidth = djui_hud_get_screen_width()
+    local screenHeight = djui_hud_get_screen_height()
+    local width = 1 * 1
+
+    local x = (screenWidth - width) / 2.0
+    local y = screenHeight - 16
+	
 	if gGlobalSyncTable.startspeedruntime < 10 then
-	djui_hud_render_texture_tile(get_texture_info("mario_kart_64_numbers"), x + 210, y + 100, 2, 2, (math.floor(gGlobalSyncTable.startspeedruntime%10)%8)*16, (math.floor(gGlobalSyncTable.startspeedruntime%10/8))*16, 16, 16)
+	djui_hud_render_texture_tile(get_texture_info("mario_kart_64_numbers"), x + 210 - z, y - 120, 2, 2, (math.floor(gGlobalSyncTable.startspeedruntime%10)%8)*16, (math.floor(gGlobalSyncTable.startspeedruntime%10/8))*16, 16, 16)
 	end
 	if gGlobalSyncTable.startspeedruntime >= 10 then
-	djui_hud_render_texture_tile(get_texture_info("mario_kart_64_numbers"), x + 219, y + 100, 2, 2, (math.floor(gGlobalSyncTable.startspeedruntime%10)%8)*16, (math.floor(gGlobalSyncTable.startspeedruntime%10/8))*16, 16, 16)
-    djui_hud_render_texture_tile(get_texture_info("mario_kart_64_numbers"), x + 203, y + 100, 2, 2, ((math.floor(gGlobalSyncTable.startspeedruntime/10)%10)%8)*16, (math.floor(gGlobalSyncTable.startspeedruntime%100/80))*16, 16, 16)
+	djui_hud_render_texture_tile(get_texture_info("mario_kart_64_numbers"), x + 219 - z, y - 120, 2, 2, (math.floor(gGlobalSyncTable.startspeedruntime%10)%8)*16, (math.floor(gGlobalSyncTable.startspeedruntime%10/8))*16, 16, 16)
+    djui_hud_render_texture_tile(get_texture_info("mario_kart_64_numbers"), x + 203 - z, y - 120, 2, 2, ((math.floor(gGlobalSyncTable.startspeedruntime/10)%10)%8)*16, (math.floor(gGlobalSyncTable.startspeedruntime%100/80))*16, 16, 16)
 	end
-	-- set size
-    local size = 1
 	
 	showNormalCountdown = false
 	showClassicCountdown = false
-	showSm64Countdown = false
 	showNewCountdown = false
 	showMenuCountdown = false
+	showSm64Countdown = false
 	BISFonts = false
 	MPFonts = false
 	MK64Fonts = true
@@ -1087,16 +1159,23 @@ if gGlobalSyncTable.startspeedruntime <= 0 then
 	return false
     end
 end
+	
+	local screenWidth = djui_hud_get_screen_width()
+    local screenHeight = djui_hud_get_screen_height()
+    local width = 1 * 1
+
+    local x = (screenWidth - width) / 2.0
+    local y = screenHeight - 16
 
     -- set text
     local go_texture = get_texture_info("mario_kart_64_go_texture")
-	djui_hud_render_texture(go_texture, x + 200, 100, 2, 2)
+	djui_hud_render_texture(go_texture, x + 200 - z, y - 120, 2, 2)
 	
 	showNormalCountdown = false
 	showClassicCountdown = false
-	showSm64Countdown = false
 	showNewCountdown = false
 	showMenuCountdown = false
+	showSm64Countdown = false
 	BISFonts = false
 	MPFonts = false
 	MK64Fonts = true
@@ -1122,40 +1201,48 @@ function mario_kart_64_hud_bottom_render()
         Seconds = math.floor(gGlobalSyncTable.startspeedrun/30)%60
         MilliSeconds = math.floor(gGlobalSyncTable.startspeedrun/30%1 * 1000)
     end
+	
+	local screenWidth = djui_hud_get_screen_width()
+    local screenHeight = djui_hud_get_screen_height()
+    local width = 1 * 1
 
-    djui_hud_render_texture_tile(get_texture_info("mario_kart_64_numbers"), x + 274, y + 222, 1, 1, (math.floor(MilliSeconds%10)%8)*16, (math.floor(MilliSeconds%10/8))*16, 16, 16)
-    djui_hud_render_texture_tile(get_texture_info("mario_kart_64_numbers"), x + 266, y + 222, 1, 1, ((math.floor(MilliSeconds/10)%10)%8)*16, (math.floor(MilliSeconds%100/80))*16, 16, 16)
-	djui_hud_render_texture_tile(get_texture_info("mario_kart_64_numbers"), x + 258, y + 222, 1, 1, ((math.floor(MilliSeconds/100)%10)%8)*16, (math.floor(MilliSeconds%1000/800))*16, 16, 16)
+    local x = (screenWidth - width) / 2.0
+    local y = screenHeight - 16
+	local z = 230
+
+    djui_hud_render_texture_tile(get_texture_info("mario_kart_64_numbers"), x + 274 - z, y - 2, 1, 1, (math.floor(MilliSeconds%10)%8)*16, (math.floor(MilliSeconds%10/8))*16, 16, 16)
+    djui_hud_render_texture_tile(get_texture_info("mario_kart_64_numbers"), x + 266 - z, y - 2, 1, 1, ((math.floor(MilliSeconds/10)%10)%8)*16, (math.floor(MilliSeconds%100/80))*16, 16, 16)
+	djui_hud_render_texture_tile(get_texture_info("mario_kart_64_numbers"), x + 258 - z, y - 2, 1, 1, ((math.floor(MilliSeconds/100)%10)%8)*16, (math.floor(MilliSeconds%1000/800))*16, 16, 16)
 	
-	djui_hud_render_texture_tile(get_texture_info("mario_kart_64_numbers"), x + 242, y + 222, 1, 1, (math.floor(Seconds%10)%8)*16, (math.floor(Seconds%10/8))*16, 16, 16)
-    djui_hud_render_texture_tile(get_texture_info("mario_kart_64_numbers"), x + 234, y + 222, 1, 1, ((math.floor(Seconds/10)%10)%8)*16, (math.floor(Seconds%100/80))*16, 16, 16)
+	djui_hud_render_texture_tile(get_texture_info("mario_kart_64_numbers"), x + 242 - z, y - 2, 1, 1, (math.floor(Seconds%10)%8)*16, (math.floor(Seconds%10/8))*16, 16, 16)
+    djui_hud_render_texture_tile(get_texture_info("mario_kart_64_numbers"), x + 234 - z, y - 2, 1, 1, ((math.floor(Seconds/10)%10)%8)*16, (math.floor(Seconds%100/80))*16, 16, 16)
 	
-	djui_hud_render_texture_tile(get_texture_info("mario_kart_64_numbers"), x + 218, y + 222, 1, 1, (math.floor(Minutes%10)%8)*16, (math.floor(Minutes%10/8))*16, 16, 16)
-    djui_hud_render_texture_tile(get_texture_info("mario_kart_64_numbers"), x + 210, y + 222, 1, 1, ((math.floor(Minutes/10)%10)%8)*16, (math.floor(Minutes%100/80))*16, 16, 16)
+	djui_hud_render_texture_tile(get_texture_info("mario_kart_64_numbers"), x + 218 - z, y - 2, 1, 1, (math.floor(Minutes%10)%8)*16, (math.floor(Minutes%10/8))*16, 16, 16)
+    djui_hud_render_texture_tile(get_texture_info("mario_kart_64_numbers"), x + 210 - z, y - 2, 1, 1, ((math.floor(Minutes/10)%10)%8)*16, (math.floor(Minutes%100/80))*16, 16, 16)
 	
-	djui_hud_render_texture_tile(get_texture_info("mario_kart_64_numbers"), x + 194, y + 222, 1, 1, (math.floor(Hours%10)%8)*16, (math.floor(Hours%10/8))*16, 16, 16)
+	djui_hud_render_texture_tile(get_texture_info("mario_kart_64_numbers"), x + 194 - z, y - 2, 1, 1, (math.floor(Hours%10)%8)*16, (math.floor(Hours%10/8))*16, 16, 16)
 	
 	local time_texture = get_texture_info("mario_kart_64_time_texture")
 	local slash_texture = get_texture_info("mario_kart_64_slash")
 	local slash_2_texture = get_texture_info("mario_kart_64_slash_2")
-	djui_hud_render_texture(slash_2_texture, x + 250, y + 222, 1, 1)
-	djui_hud_render_texture(slash_2_texture, x + 226, y + 222, 1, 1)
-	djui_hud_render_texture(slash_texture, 	 x + 202, y + 221, 1, 1)
+	djui_hud_render_texture(slash_2_texture, x + 250 - z, y - 2, 1, 1)
+	djui_hud_render_texture(slash_2_texture, x + 226 - z, y - 2, 1, 1)
+	djui_hud_render_texture(slash_texture, 	 x + 202 - z, y - 2, 1, 1)
 	
 	if Hours >= 10 then
-    djui_hud_render_texture_tile(get_texture_info("mario_kart_64_numbers"), x + 186, y + 222, 1, 1, ((math.floor(Hours/10)%10)%8)*8, (math.floor(Hours%100/80))*16, 16, 16)
-	djui_hud_render_texture(time_texture, x + 155, y + 222, 1, 1)
+    djui_hud_render_texture_tile(get_texture_info("mario_kart_64_numbers"), x + 186 - z, y - 2, 1, 1, ((math.floor(Hours/10)%10)%8)*8, (math.floor(Hours%100/80))*16, 16, 16)
+	djui_hud_render_texture(time_texture, x + 155 - z, y - 2, 1, 1)
 	end
 	
 	if Hours < 10 then
-	djui_hud_render_texture(time_texture, x + 163, y + 222, 1, 1)
+	djui_hud_render_texture(time_texture, x + 163 - z, y - 2, 1, 1)
 	end
 	
 	showNormalCountdown = false
 	showClassicCountdown = false
-	showSm64Countdown = false
 	showNewCountdown = false
 	showMenuCountdown = false
+	showSm64Countdown = false
 	BISFonts = false
 	MPFonts = false
 	MK64Fonts = true
@@ -1173,18 +1260,26 @@ function mario_64_DS_hud_center_render()
         return
     end
 	
+	local screenWidth = djui_hud_get_screen_width()
+    local screenHeight = djui_hud_get_screen_height()
+    local width = 1 * 1
+
+    local x = (screenWidth - width) / 2.0
+    local y = screenHeight - 16
+	
 	if gGlobalSyncTable.startspeedruntime < 10 then
-	djui_hud_render_texture_tile(get_texture_info("mario_64_DS_big_numbers"), x + 210, y + 100, 2, 2, (math.floor(gGlobalSyncTable.startspeedruntime%10)%8)*16, (math.floor(gGlobalSyncTable.startspeedruntime%10/8))*16, 16, 16)
+	djui_hud_render_texture_tile(get_texture_info("mario_64_DS_big_numbers"), x + 210 - z, y - 120, 2, 2, (math.floor(gGlobalSyncTable.startspeedruntime%10)%8)*16, (math.floor(gGlobalSyncTable.startspeedruntime%10/8))*16, 16, 16)
 	end
 	if gGlobalSyncTable.startspeedruntime >= 10 then
-	djui_hud_render_texture_tile(get_texture_info("mario_64_DS_big_numbers"), x + 225, y + 100, 2, 2, (math.floor(gGlobalSyncTable.startspeedruntime%10)%8)*16, (math.floor(gGlobalSyncTable.startspeedruntime%10/8))*16, 16, 16)
-    djui_hud_render_texture_tile(get_texture_info("mario_64_DS_big_numbers"), x + 195, y + 100, 2, 2, ((math.floor(gGlobalSyncTable.startspeedruntime/10)%10)%8)*16, (math.floor(gGlobalSyncTable.startspeedruntime%100/80))*16, 16, 16)
+	djui_hud_render_texture_tile(get_texture_info("mario_64_DS_big_numbers"), x + 225 - z, y - 120, 2, 2, (math.floor(gGlobalSyncTable.startspeedruntime%10)%8)*16, (math.floor(gGlobalSyncTable.startspeedruntime%10/8))*16, 16, 16)
+    djui_hud_render_texture_tile(get_texture_info("mario_64_DS_big_numbers"), x + 195 - z, y - 120, 2, 2, ((math.floor(gGlobalSyncTable.startspeedruntime/10)%10)%8)*16, (math.floor(gGlobalSyncTable.startspeedruntime%100/80))*16, 16, 16)
 	end
 
 	showNormalCountdown = false
 	showClassicCountdown = false
-	showSm64Countdown = false
+	showNewCountdown = false
 	showMenuCountdown = false
+	showSm64Countdown = false
 	BISFonts = false
 	MPFonts = false
 	MK64Fonts = false
@@ -1207,15 +1302,22 @@ if gGlobalSyncTable.startspeedruntime <= 0 then
     end
 end
 
+	local screenWidth = djui_hud_get_screen_width()
+    local screenHeight = djui_hud_get_screen_height()
+    local width = 1 * 1
+
+    local x = (screenWidth - width) / 2.0
+    local y = screenHeight - 16
+
     -- set text
     local go_texture = get_texture_info("mario_64_DS_go_texture")
-	djui_hud_render_texture(go_texture, x + 165, y + 85, 0.5, 0.5)
+	djui_hud_render_texture(go_texture, x + 165 - z, y - 135, 0.5, 0.5)
 	
 	showNormalCountdown = false
 	showClassicCountdown = false
-	showSm64Countdown = false
 	showNewCountdown = false
 	showMenuCountdown = false
+	showSm64Countdown = false
 	BISFonts = false
 	MPFonts = false
 	MK64Fonts = false
@@ -1241,40 +1343,47 @@ function mario_64_DS_hud_bottom_render()
         Seconds = math.floor(gGlobalSyncTable.startspeedrun/30)%60
         MilliSeconds = math.floor(gGlobalSyncTable.startspeedrun/30%1 * 1000)
     end
+	
+	local screenWidth = djui_hud_get_screen_width()
+    local screenHeight = djui_hud_get_screen_height()
+    local width = 1 * 1
 
-    djui_hud_render_texture_tile(get_texture_info("mario_64_DS_small_numbers"), x + 275, y + 222, 1, 1, (math.floor(MilliSeconds%10)%8)*16, (math.floor(MilliSeconds%10/8))*16, 16, 16)
-    djui_hud_render_texture_tile(get_texture_info("mario_64_DS_small_numbers"), x + 266, y + 222, 1, 1, ((math.floor(MilliSeconds/10)%10)%8)*16, (math.floor(MilliSeconds%100/80))*16, 16, 16)
-	djui_hud_render_texture_tile(get_texture_info("mario_64_DS_small_numbers"), x + 257, y + 222, 1, 1, ((math.floor(MilliSeconds/100)%10)%8)*16, (math.floor(MilliSeconds%1000/800))*16, 16, 16)
+    local x = (screenWidth - width) / 2.0
+    local y = screenHeight - 16
+
+    djui_hud_render_texture_tile(get_texture_info("mario_64_DS_small_numbers"), x + 275 - z, y - 2, 1, 1, (math.floor(MilliSeconds%10)%8)*16, (math.floor(MilliSeconds%10/8))*16, 16, 16)
+    djui_hud_render_texture_tile(get_texture_info("mario_64_DS_small_numbers"), x + 266 - z, y - 2, 1, 1, ((math.floor(MilliSeconds/10)%10)%8)*16, (math.floor(MilliSeconds%100/80))*16, 16, 16)
+	djui_hud_render_texture_tile(get_texture_info("mario_64_DS_small_numbers"), x + 257 - z, y - 2, 1, 1, ((math.floor(MilliSeconds/100)%10)%8)*16, (math.floor(MilliSeconds%1000/800))*16, 16, 16)
 	
-	djui_hud_render_texture_tile(get_texture_info("mario_64_DS_small_numbers"), x + 240.9, y + 222, 1, 1, (math.floor(Seconds%10)%8)*16, (math.floor(Seconds%10/8))*16, 16, 16)
-    djui_hud_render_texture_tile(get_texture_info("mario_64_DS_small_numbers"), x + 232.9, y + 222, 1, 1, ((math.floor(Seconds/10)%10)%8)*16, (math.floor(Seconds%100/80))*16, 16, 16)
+	djui_hud_render_texture_tile(get_texture_info("mario_64_DS_small_numbers"), x + 240.9 - z, y - 2, 1, 1, (math.floor(Seconds%10)%8)*16, (math.floor(Seconds%10/8))*16, 16, 16)
+    djui_hud_render_texture_tile(get_texture_info("mario_64_DS_small_numbers"), x + 232.9 - z, y - 2, 1, 1, ((math.floor(Seconds/10)%10)%8)*16, (math.floor(Seconds%100/80))*16, 16, 16)
 	
-	djui_hud_render_texture_tile(get_texture_info("mario_64_DS_small_numbers"), x + 217, y + 222, 1, 1, (math.floor(Minutes%10)%8)*8, (math.floor(Minutes%10/8))*16, 16, 16)
-    djui_hud_render_texture_tile(get_texture_info("mario_64_DS_small_numbers"), x + 209, y + 222, 1, 1, ((math.floor(Minutes/10)%10)%8)*16, (math.floor(Minutes%100/80))*16, 16, 16)
+	djui_hud_render_texture_tile(get_texture_info("mario_64_DS_small_numbers"), x + 217 - z, y - 2, 1, 1, (math.floor(Minutes%10)%8)*8, (math.floor(Minutes%10/8))*16, 16, 16)
+    djui_hud_render_texture_tile(get_texture_info("mario_64_DS_small_numbers"), x + 209 - z, y - 2, 1, 1, ((math.floor(Minutes/10)%10)%8)*16, (math.floor(Minutes%100/80))*16, 16, 16)
 	
-	djui_hud_render_texture_tile(get_texture_info("mario_64_DS_small_numbers"), x + 194, y + 222, 1, 1, (math.floor(Hours%10)%8)*16, (math.floor(Hours%10/8))*16, 16, 16)
+	djui_hud_render_texture_tile(get_texture_info("mario_64_DS_small_numbers"), x + 194 - z, y - 2, 1, 1, (math.floor(Hours%10)%8)*16, (math.floor(Hours%10/8))*16, 16, 16)
 	
 	local time_texture = get_texture_info("mario_64_DS_time_texture")
 	local slash_texture = get_texture_info("mario_64_DS_slash")
 	local slash_2_texture = get_texture_info("mario_64_DS_slash_2")
-	djui_hud_render_texture(slash_2_texture, x + 250, y + 222, 1, 1)
-	djui_hud_render_texture(slash_2_texture, x + 226, y + 222, 1, 1)
-	djui_hud_render_texture(slash_texture, 	 x + 201, y + 222, 1, 1)
+	djui_hud_render_texture(slash_2_texture, x + 250 - z, y - 2, 1, 1)
+	djui_hud_render_texture(slash_2_texture, x + 226 - z, y - 2, 1, 1)
+	djui_hud_render_texture(slash_texture, 	 x + 201 - z, y - 2, 1, 1)
 	
 	if Hours >= 10 then
-    djui_hud_render_texture_tile(get_texture_info("mario_64_DS_small_numbers"), x + 186, y + 222, 1, 1, ((math.floor(Hours/10)%10)%8)*16, (math.floor(Hours%100/80))*16, 16, 16)
-	djui_hud_render_texture(time_texture, x + 154, y + 222, 1, 1)
+    djui_hud_render_texture_tile(get_texture_info("mario_64_DS_small_numbers"), x + 186 - z, y - 2, 1, 1, ((math.floor(Hours/10)%10)%8)*16, (math.floor(Hours%100/80))*16, 16, 16)
+	djui_hud_render_texture(time_texture, x + 154 - z, y - 2, 1, 1)
 	end
 	
 	if Hours < 10 then
-	djui_hud_render_texture(time_texture, x + 163, y + 222, 1, 1)
+	djui_hud_render_texture(time_texture, x + 163 - z, y - 2, 1, 1)
 	end
 	
 	showNormalCountdown = false
 	showClassicCountdown = false
-	showSm64Countdown = false
 	showNewCountdown = false
 	showMenuCountdown = false
+	showSm64Countdown = false
 	BISFonts = false
 	MPFonts = false
 	MK64Fonts = false
@@ -1292,19 +1401,26 @@ function super_mario_bros_hud_center_render()
         return
     end
 	
+	local screenWidth = djui_hud_get_screen_width()
+    local screenHeight = djui_hud_get_screen_height()
+    local width = 1 * 1
+
+    local x = (screenWidth - width) / 2.0
+    local y = screenHeight - 8
+	
 	if gGlobalSyncTable.startspeedruntime < 10 then
-	djui_hud_render_texture_tile(get_texture_info("super_mario_bros_numbers"), x + 215, y + 105, 3, 3, (math.floor(gGlobalSyncTable.startspeedruntime%10)%8)*8, (math.floor(gGlobalSyncTable.startspeedruntime%10/8))*8, 8, 8)
+	djui_hud_render_texture_tile(get_texture_info("super_mario_bros_numbers"), x + 215 - z, y - 120, 3, 3, (math.floor(gGlobalSyncTable.startspeedruntime%10)%8)*8, (math.floor(gGlobalSyncTable.startspeedruntime%10/8))*8, 8, 8)
 	end
 	if gGlobalSyncTable.startspeedruntime >= 10 then
-	djui_hud_render_texture_tile(get_texture_info("super_mario_bros_numbers"), x + 229, y + 105, 3, 3, (math.floor(gGlobalSyncTable.startspeedruntime%10)%8)*8, (math.floor(gGlobalSyncTable.startspeedruntime%10/8))*8, 8, 8)
-    djui_hud_render_texture_tile(get_texture_info("super_mario_bros_numbers"), x + 205, y + 105, 3, 3, ((math.floor(gGlobalSyncTable.startspeedruntime/10)%10)%8)*8, (math.floor(gGlobalSyncTable.startspeedruntime%100/80))*8, 8, 8)
+	djui_hud_render_texture_tile(get_texture_info("super_mario_bros_numbers"), x + 229 - z, y - 120, 3, 3, (math.floor(gGlobalSyncTable.startspeedruntime%10)%8)*8, (math.floor(gGlobalSyncTable.startspeedruntime%10/8))*8, 8, 8)
+    djui_hud_render_texture_tile(get_texture_info("super_mario_bros_numbers"), x + 205 - z, y - 120, 3, 3, ((math.floor(gGlobalSyncTable.startspeedruntime/10)%10)%8)*8, (math.floor(gGlobalSyncTable.startspeedruntime%100/80))*8, 8, 8)
 	end
 	
 	showNormalCountdown = false
 	showClassicCountdown = false
-	showSm64Countdown = false
 	showNewCountdown = false
 	showMenuCountdown = false
+	showSm64Countdown = false
 	BISFonts = false
 	MPFonts = false
 	MK64Fonts = false
@@ -1327,15 +1443,22 @@ if gGlobalSyncTable.startspeedruntime <= 0 then
     end
 end
 
+	local screenWidth = djui_hud_get_screen_width()
+    local screenHeight = djui_hud_get_screen_height()
+    local width = 1 * 1
+
+    local x = (screenWidth - width) / 2.0
+    local y = screenHeight - 8
+
     -- set text
     local go_texture = get_texture_info("super_mario_bros_go_texture")
-	djui_hud_render_texture(go_texture, x + 195, y + 105, 3, 3)
+	djui_hud_render_texture(go_texture, x + 195 - z, y - 120, 3, 3)
 	
 	showNormalCountdown = false
 	showClassicCountdown = false
-	showSm64Countdown = false
 	showNewCountdown = false
 	showMenuCountdown = false
+	showSm64Countdown = false
 	BISFonts = false
 	MPFonts = false
 	MK64Fonts = false
@@ -1361,39 +1484,46 @@ function super_mario_bros_hud_bottom_render()
         Seconds = math.floor(gGlobalSyncTable.startspeedrun/30)%60
         MilliSeconds = math.floor(gGlobalSyncTable.startspeedrun/30%1 * 1000)
     end
+	
+	local screenWidth = djui_hud_get_screen_width()
+    local screenHeight = djui_hud_get_screen_height()
+    local width = 1 * 1
 
-    djui_hud_render_texture_tile(get_texture_info("super_mario_bros_numbers"), x + 292, y + 223, 2, 2, (math.floor(MilliSeconds%10)%8)*8, (math.floor(MilliSeconds%10/8))*8, 8, 8)
-    djui_hud_render_texture_tile(get_texture_info("super_mario_bros_numbers"), x + 275, y + 223, 2, 2, ((math.floor(MilliSeconds/10)%10)%8)*8, (math.floor(MilliSeconds%100/80))*8, 8, 8)
-	djui_hud_render_texture_tile(get_texture_info("super_mario_bros_numbers"), x + 258, y + 223, 2, 2, ((math.floor(MilliSeconds/100)%10)%8)*8, (math.floor(MilliSeconds%1000/800))*8, 8, 8)
+    local x = (screenWidth - width) / 2.0
+    local y = screenHeight - 8
+
+    djui_hud_render_texture_tile(get_texture_info("super_mario_bros_numbers"), x + 292 - z, y - 8, 2, 2, (math.floor(MilliSeconds%10)%8)*8, (math.floor(MilliSeconds%10/8))*8, 8, 8)
+    djui_hud_render_texture_tile(get_texture_info("super_mario_bros_numbers"), x + 275 - z, y - 8, 2, 2, ((math.floor(MilliSeconds/10)%10)%8)*8, (math.floor(MilliSeconds%100/80))*8, 8, 8)
+	djui_hud_render_texture_tile(get_texture_info("super_mario_bros_numbers"), x + 258 - z, y - 8, 2, 2, ((math.floor(MilliSeconds/100)%10)%8)*8, (math.floor(MilliSeconds%1000/800))*8, 8, 8)
 	
-	djui_hud_render_texture_tile(get_texture_info("super_mario_bros_numbers"), x + 232, y + 223, 2, 2, (math.floor(Seconds%10)%8)*8, (math.floor(Seconds%10/8))*8, 8, 8)
-    djui_hud_render_texture_tile(get_texture_info("super_mario_bros_numbers"), x + 215, y + 223, 2, 2, ((math.floor(Seconds/10)%10)%8)*8, (math.floor(Seconds%100/80))*8, 8, 8)
+	djui_hud_render_texture_tile(get_texture_info("super_mario_bros_numbers"), x + 232 - z, y - 8, 2, 2, (math.floor(Seconds%10)%8)*8, (math.floor(Seconds%10/8))*8, 8, 8)
+    djui_hud_render_texture_tile(get_texture_info("super_mario_bros_numbers"), x + 215 - z, y - 8, 2, 2, ((math.floor(Seconds/10)%10)%8)*8, (math.floor(Seconds%100/80))*8, 8, 8)
 	
-	djui_hud_render_texture_tile(get_texture_info("super_mario_bros_numbers"), x + 189, y + 223, 2, 2, (math.floor(Minutes%10)%8)*8, (math.floor(Minutes%10/8))*8, 8, 8)
-    djui_hud_render_texture_tile(get_texture_info("super_mario_bros_numbers"), x + 172, y + 223, 2, 2, ((math.floor(Minutes/10)%10)%8)*8, (math.floor(Minutes%100/80))*8, 8, 8)
+	djui_hud_render_texture_tile(get_texture_info("super_mario_bros_numbers"), x + 189 - z, y - 8, 2, 2, (math.floor(Minutes%10)%8)*8, (math.floor(Minutes%10/8))*8, 8, 8)
+    djui_hud_render_texture_tile(get_texture_info("super_mario_bros_numbers"), x + 172 - z, y - 8, 2, 2, ((math.floor(Minutes/10)%10)%8)*8, (math.floor(Minutes%100/80))*8, 8, 8)
 	
-	djui_hud_render_texture_tile(get_texture_info("super_mario_bros_numbers"), x + 144, y + 223, 2, 2, (math.floor(Hours%10)%8)*8, (math.floor(Hours%10/8))*8, 8, 8)
+	djui_hud_render_texture_tile(get_texture_info("super_mario_bros_numbers"), x + 144 - z, y - 8, 2, 2, (math.floor(Hours%10)%8)*8, (math.floor(Hours%10/8))*8, 8, 8)
 	
 	local time_texture = get_texture_info("super_mario_bros_time_texture")
 	local slash_texture = get_texture_info("super_mario_bros_slash")
-	djui_hud_render_texture(slash_texture, x + 157, y + 223, 2, 2)
-	djui_hud_render_texture(slash_texture, x + 201, y + 223, 2, 2)
-	djui_hud_render_texture(slash_texture, x + 244, y + 223, 2, 2)
+	djui_hud_render_texture(slash_texture, x + 157 - z, y - 8, 2, 2)
+	djui_hud_render_texture(slash_texture, x + 201 - z, y - 8, 2, 2)
+	djui_hud_render_texture(slash_texture, x + 244 - z, y - 8, 2, 2)
 	
 	if Hours >= 10 then
-    djui_hud_render_texture_tile(get_texture_info("super_mario_bros_numbers"), x + 127, y + 223, 2, 2, ((math.floor(Hours/10)%10)%8)*8, (math.floor(Hours%100/80))*8, 8, 8)
-	djui_hud_render_texture(time_texture, x + 126, y + 215, 1, 1)
+    djui_hud_render_texture_tile(get_texture_info("super_mario_bros_numbers"), x + 127 - z, y - 8, 2, 2, ((math.floor(Hours/10)%10)%8)*8, (math.floor(Hours%100/80))*8, 8, 8)
+	djui_hud_render_texture(time_texture, x + 126 - z, y - 16, 1, 1)
 	end
 	
 	if Hours < 10 then
-	djui_hud_render_texture(time_texture, x + 143, y + 215, 1, 1)
+	djui_hud_render_texture(time_texture, x + 143 - z, y - 16, 1, 1)
 	end
 	
 	showNormalCountdown = false
 	showClassicCountdown = false
-	showSm64Countdown = false
 	showNewCountdown = false
 	showMenuCountdown = false
+	showSm64Countdown = false
 	BISFonts = false
 	MPFonts = false
 	MK64Fonts = false
@@ -1411,19 +1541,26 @@ function mario_party_DS_hud_center_render()
         return
     end
 	
+	local screenWidth = djui_hud_get_screen_width()
+    local screenHeight = djui_hud_get_screen_height()
+    local width = 1 * 1
+
+    local x = (screenWidth - width) / 2.0
+    local y = screenHeight - 16
+	
 	if gGlobalSyncTable.startspeedruntime < 10 then
-	djui_hud_render_texture_tile(get_texture_info("mario_party_DS_big_numbers"), x + 211, y + 85, 4, 2, (math.floor(gGlobalSyncTable.startspeedruntime%10)%8)*16, (math.floor(gGlobalSyncTable.startspeedruntime%10/8))*32, 16, 32)
+	djui_hud_render_texture_tile(get_texture_info("mario_party_DS_big_numbers"), x + 211 - z, y - 135, 4, 2, (math.floor(gGlobalSyncTable.startspeedruntime%10)%8)*16, (math.floor(gGlobalSyncTable.startspeedruntime%10/8))*32, 16, 32)
 	end
 	if gGlobalSyncTable.startspeedruntime >= 10 then
-	djui_hud_render_texture_tile(get_texture_info("mario_party_DS_big_numbers"), x + 227, y + 85, 4, 2, (math.floor(gGlobalSyncTable.startspeedruntime%10)%8)*16, (math.floor(gGlobalSyncTable.startspeedruntime%10/8))*32, 16, 32)
-    djui_hud_render_texture_tile(get_texture_info("mario_party_DS_big_numbers"), x + 197, y + 85, 4, 2, ((math.floor(gGlobalSyncTable.startspeedruntime/10)%10)%8)*16, (math.floor(gGlobalSyncTable.startspeedruntime%100/80))*32, 16, 32)
+	djui_hud_render_texture_tile(get_texture_info("mario_party_DS_big_numbers"), x + 227 - z, y - 135, 4, 2, (math.floor(gGlobalSyncTable.startspeedruntime%10)%8)*16, (math.floor(gGlobalSyncTable.startspeedruntime%10/8))*32, 16, 32)
+    djui_hud_render_texture_tile(get_texture_info("mario_party_DS_big_numbers"), x + 197 - z, y - 135, 4, 2, ((math.floor(gGlobalSyncTable.startspeedruntime/10)%10)%8)*16, (math.floor(gGlobalSyncTable.startspeedruntime%100/80))*32, 16, 32)
 	end
 	
 	showNormalCountdown = false
 	showClassicCountdown = false
-	showSm64Countdown = false
 	showNewCountdown = false
 	showMenuCountdown = false
+	showSm64Countdown = false
 	BISFonts = false
 	MPFonts = false
 	MK64Fonts = false
@@ -1446,15 +1583,22 @@ if gGlobalSyncTable.startspeedruntime <= 0 then
     end
 end
 
+	local screenWidth = djui_hud_get_screen_width()
+    local screenHeight = djui_hud_get_screen_height()
+    local width = 1 * 1
+
+    local x = (screenWidth - width) / 2.0
+    local y = screenHeight - 16
+	
     -- set text
     local go_texture = get_texture_info("mario_party_DS_go_texture")
-	djui_hud_render_texture(go_texture, x + 165, y + 105, 1, 1)
+	djui_hud_render_texture(go_texture, x + 165 - z, y - 115, 1, 1)
 	
 	showNormalCountdown = false
 	showClassicCountdown = false
-	showSm64Countdown = false
 	showNewCountdown = false
 	showMenuCountdown = false
+	showSm64Countdown = false
 	BISFonts = false
 	MPFonts = false
 	MK64Fonts = false
@@ -1481,32 +1625,39 @@ function mario_party_DS_hud_bottom_render()
         MilliSeconds = math.floor(gGlobalSyncTable.startspeedrun/30%1 * 1000)
     end
 
-    djui_hud_render_texture_tile(get_texture_info("mario_party_DS_small_numbers"), x + 272, y + 222, 1, 1, (math.floor(MilliSeconds%10)%8)*16, (math.floor(MilliSeconds%10/8))*16, 16, 16)
-    djui_hud_render_texture_tile(get_texture_info("mario_party_DS_small_numbers"), x + 261, y + 222, 1, 1, ((math.floor(MilliSeconds/10)%10)%8)*16, (math.floor(MilliSeconds%100/80))*16, 16, 16)
-	djui_hud_render_texture_tile(get_texture_info("mario_party_DS_small_numbers"), x + 250, y + 222, 1, 1, ((math.floor(MilliSeconds/100)%10)%8)*16, (math.floor(MilliSeconds%1000/800))*16, 16, 16)
+	local screenWidth = djui_hud_get_screen_width()
+    local screenHeight = djui_hud_get_screen_height()
+    local width = 1 * 1
+
+    local x = (screenWidth - width) / 2.0
+    local y = screenHeight - 16
+
+    djui_hud_render_texture_tile(get_texture_info("mario_party_DS_small_numbers"), x + 272 - z, y - 2, 1, 1, (math.floor(MilliSeconds%10)%8)*16, (math.floor(MilliSeconds%10/8))*16, 16, 16)
+    djui_hud_render_texture_tile(get_texture_info("mario_party_DS_small_numbers"), x + 261 - z, y - 2, 1, 1, ((math.floor(MilliSeconds/10)%10)%8)*16, (math.floor(MilliSeconds%100/80))*16, 16, 16)
+	djui_hud_render_texture_tile(get_texture_info("mario_party_DS_small_numbers"), x + 250 - z, y - 2, 1, 1, ((math.floor(MilliSeconds/100)%10)%8)*16, (math.floor(MilliSeconds%1000/800))*16, 16, 16)
 	
-	djui_hud_render_texture_tile(get_texture_info("mario_party_DS_small_numbers"), x + 232, y + 222, 1, 1, (math.floor(Seconds%10)%8)*16, (math.floor(Seconds%10/8))*16, 16, 16)
-    djui_hud_render_texture_tile(get_texture_info("mario_party_DS_small_numbers"), x + 221, y + 222, 1, 1, ((math.floor(Seconds/10)%10)%8)*16, (math.floor(Seconds%100/80))*16, 16, 16)
+	djui_hud_render_texture_tile(get_texture_info("mario_party_DS_small_numbers"), x + 232 - z, y - 2, 1, 1, (math.floor(Seconds%10)%8)*16, (math.floor(Seconds%10/8))*16, 16, 16)
+    djui_hud_render_texture_tile(get_texture_info("mario_party_DS_small_numbers"), x + 221 - z, y - 2, 1, 1, ((math.floor(Seconds/10)%10)%8)*16, (math.floor(Seconds%100/80))*16, 16, 16)
 	
-	djui_hud_render_texture_tile(get_texture_info("mario_party_DS_small_numbers"), x + 203, y + 222, 1, 1, (math.floor(Minutes%10)%8)*16, (math.floor(Minutes%10/8))*16, 16, 16)
-    djui_hud_render_texture_tile(get_texture_info("mario_party_DS_small_numbers"), x + 192, y + 222, 1, 1, ((math.floor(Minutes/10)%10)%8)*16, (math.floor(Minutes%100/80))*16, 16, 16)
+	djui_hud_render_texture_tile(get_texture_info("mario_party_DS_small_numbers"), x + 203 - z, y - 2, 1, 1, (math.floor(Minutes%10)%8)*16, (math.floor(Minutes%10/8))*16, 16, 16)
+    djui_hud_render_texture_tile(get_texture_info("mario_party_DS_small_numbers"), x + 192 - z, y - 2, 1, 1, ((math.floor(Minutes/10)%10)%8)*16, (math.floor(Minutes%100/80))*16, 16, 16)
 	
-	djui_hud_render_texture_tile(get_texture_info("mario_party_DS_small_numbers"), x + 174, y + 222, 1, 1, (math.floor(Hours%10)%8)*16, (math.floor(Hours%10/8))*16, 16, 16)
+	djui_hud_render_texture_tile(get_texture_info("mario_party_DS_small_numbers"), x + 174 - z, y - 2, 1, 1, (math.floor(Hours%10)%8)*16, (math.floor(Hours%10/8))*16, 16, 16)
 	
 	if Hours >= 10 then
-    djui_hud_render_texture_tile(get_texture_info("mario_party_DS_small_numbers"), x + 163, y + 222, 1, 1, ((math.floor(Hours/10)%10)%8)*32, (math.floor(Hours%100/80))*32, 32, 32)
+    djui_hud_render_texture_tile(get_texture_info("mario_party_DS_small_numbers"), x + 163 - z, y - 2, 1, 1, ((math.floor(Hours/10)%10)%8)*32, (math.floor(Hours%100/80))*32, 32, 32)
 	end
 	
 	local slash_texture = get_texture_info("mario_party_DS_slash")
-	djui_hud_render_texture(slash_texture, x + 183, y + 222, 1, 1)
-	djui_hud_render_texture(slash_texture, x + 212, y + 222, 1, 1)
-	djui_hud_render_texture(slash_texture, x + 241, y + 222, 1, 1)
+	djui_hud_render_texture(slash_texture, x + 183 - z, y - 2, 1, 1)
+	djui_hud_render_texture(slash_texture, x + 212 - z, y - 2, 1, 1)
+	djui_hud_render_texture(slash_texture, x + 241 - z, y - 2, 1, 1)
 	
 	showNormalCountdown = false
 	showClassicCountdown = false
-	showSm64Countdown = false
 	showNewCountdown = false
 	showMenuCountdown = false
+	showSm64Countdown = false
 	BISFonts = false
 	MPFonts = false
 	MK64Fonts = false
@@ -1681,41 +1832,12 @@ end
 
 -- Display different fonts to make things nicer
 function different_fonts_command(msg)
-	if msg == "FORCE_4:3" then
-	force_4by3 = true
-	full_screen = false
-	windowed = false
-	mod_storage_save("force_4by3", tostring(force_4by3))
-	mod_storage_save("full_screen", tostring(full_screen))
-	mod_storage_save("windowed", tostring(windowed))
-	djui_popup_create("Start with Force 4:3 Position", 2)
-	return true
-	elseif msg == "FULL_SCREEN" then
-	force_4by3 = false
-	full_screen = true
-	windowed = false
-	mod_storage_save("force_4by3", tostring(force_4by3))
-	mod_storage_save("full_screen", tostring(full_screen))
-	mod_storage_save("windowed", tostring(windowed))
-	djui_popup_create("Start with Full Screen Position", 2)
-	return true
-	elseif msg == "WINDOWED" then
-	force_4by3 = false
-	full_screen = false
-	windowed = true
-	mod_storage_save("force_4by3", tostring(force_4by3))
-	mod_storage_save("full_screen", tostring(full_screen))
-	mod_storage_save("windowed", tostring(windowed))
-	djui_popup_create("Start with Windowed Position", 2)
-	return true
-	end
-	
 	if msg == "NORMAL" then
 	showNormalCountdown = true
 	showClassicCountdown = false
-	showSm64Countdown = false
 	showNewCountdown = false
 	showMenuCountdown = false
+	showSm64Countdown = false
 	BISFonts = false
 	MPFonts = false
 	MK64Fonts = false
@@ -1738,9 +1860,9 @@ function different_fonts_command(msg)
 	elseif msg == "ORIGINAL" or msg == "CLASSIC" then
 	showNormalCountdown = false
 	showClassicCountdown = true
-	showSm64Countdown = false
 	showNewCountdown = false
 	showMenuCountdown = false
+	showSm64Countdown = false
 	BISFonts = false
 	MPFonts = false
 	MK64Fonts = false
@@ -1760,37 +1882,12 @@ function different_fonts_command(msg)
 	mod_storage_save("MPDSFonts", tostring(MPDSFonts))
 	djui_popup_create('Start with Original Super Mario 64 Text Fonts!', 2)
 	return true
-	elseif msg == "SM64" then
-	showNormalCountdown = false
-	showClassicCountdown = false
-	showSm64Countdown = true
-	showNewCountdown = false
-	showMenuCountdown = false
-	BISFonts = false
-	MPFonts = false
-	MK64Fonts = false
-	SM64DSFonts = false
-	SMBFonts = false
-	MPDSFonts = false
-	mod_storage_save("showNormalCountdown", tostring(showNormalCountdown))
-	mod_storage_save("showClassicCountdown", tostring(showClassicCountdown))
-	mod_storage_save("showSm64Countdown", tostring(showSm64Countdown))
-	mod_storage_save("showNewCountdown", tostring(showNewCountdown))
-	mod_storage_save("showMenuCountdown", tostring(showMenuCountdown))
-	mod_storage_save("BISFonts", tostring(BISFonts))
-	mod_storage_save("MPFonts", tostring(MPFonts))
-	mod_storage_save("MK64Fonts", tostring(MK64Fonts))
-	mod_storage_save("SM64DSFonts", tostring(SM64DSFonts))
-	mod_storage_save("SMBFonts", tostring(SMBFonts))
-	mod_storage_save("MPDSFonts", tostring(MPDSFonts))
-	djui_popup_create('Start with SM64 Fonts! (Custom Font)', 2)
-	return true
 	elseif msg == "SM64_BUILT" then
 	showNormalCountdown = false
 	showClassicCountdown = false
-	showSm64Countdown = false
 	showNewCountdown = true
 	showMenuCountdown = false
+	showSm64Countdown = false
 	BISFonts = false
 	MPFonts = false
 	MK64Fonts = false
@@ -1813,9 +1910,9 @@ function different_fonts_command(msg)
 	elseif msg == "DJUI" then
 	showNormalCountdown = false
 	showClassicCountdown = false
-	showSm64Countdown = false
 	showNewCountdown = false
 	showMenuCountdown = true
+	showSm64Countdown = false
 	BISFonts = false
 	MPFonts = false
 	MK64Fonts = false
@@ -1835,12 +1932,37 @@ function different_fonts_command(msg)
 	mod_storage_save("MPDSFonts", tostring(MPDSFonts))
 	djui_popup_create('Start with DJUI Fonts!', 2)
 	return true
+	elseif msg == "SM64" then
+	showNormalCountdown = false
+	showClassicCountdown = false
+	showNewCountdown = false
+	showMenuCountdown = false
+	showSm64Countdown = true
+	BISFonts = false
+	MPFonts = false
+	MK64Fonts = false
+	SM64DSFonts = false
+	SMBFonts = false
+	MPDSFonts = false
+	mod_storage_save("showNormalCountdown", tostring(showNormalCountdown))
+	mod_storage_save("showClassicCountdown", tostring(showClassicCountdown))
+	mod_storage_save("showSm64Countdown", tostring(showSm64Countdown))
+	mod_storage_save("showNewCountdown", tostring(showNewCountdown))
+	mod_storage_save("showMenuCountdown", tostring(showMenuCountdown))
+	mod_storage_save("BISFonts", tostring(BISFonts))
+	mod_storage_save("MPFonts", tostring(MPFonts))
+	mod_storage_save("MK64Fonts", tostring(MK64Fonts))
+	mod_storage_save("SM64DSFonts", tostring(SM64DSFonts))
+	mod_storage_save("SMBFonts", tostring(SMBFonts))
+	mod_storage_save("MPDSFonts", tostring(MPDSFonts))
+	djui_popup_create('Start with SM64 Fonts! (Custom Font)', 2)
+	return true
 	elseif msg == 'MLBIS' or msg == 'BIS' then
 	showNormalCountdown = false
 	showClassicCountdown = false
-	showSm64Countdown = false
 	showNewCountdown = false
 	showMenuCountdown = false
+	showSm64Countdown = false
 	BISFonts = true
 	MPFonts = false
 	MK64Fonts = false
@@ -1863,9 +1985,9 @@ function different_fonts_command(msg)
 	elseif msg == 'MP' or msg == 'MP1' or msg == 'MP2' or msg == 'MP3' then
 	showNormalCountdown = false
 	showClassicCountdown = false
-	showSm64Countdown = false
 	showNewCountdown = false
 	showMenuCountdown = false
+	showSm64Countdown = false
 	BISFonts = false
 	MPFonts = true
 	MK64Fonts = false
@@ -1888,9 +2010,9 @@ function different_fonts_command(msg)
 	elseif msg == 'MK64' then
 	showNormalCountdown = false
 	showClassicCountdown = false
-	showSm64Countdown = false
 	showNewCountdown = false
 	showMenuCountdown = false
+	showSm64Countdown = false
 	BISFonts = false
 	MPFonts = false
 	MK64Fonts = true
@@ -1913,9 +2035,9 @@ function different_fonts_command(msg)
 	elseif msg == 'SM64DS' then
 	showNormalCountdown = false
 	showClassicCountdown = false
-	showSm64Countdown = false
 	showNewCountdown = false
 	showMenuCountdown = false
+	showSm64Countdown = false
 	BISFonts = false
 	MPFonts = false
 	MK64Fonts = false
@@ -1938,9 +2060,9 @@ function different_fonts_command(msg)
 	elseif msg == 'SMB' then
 	showNormalCountdown = false
 	showClassicCountdown = false
-	showSm64Countdown = false
 	showNewCountdown = false
 	showMenuCountdown = false
+	showSm64Countdown = false
 	BISFonts = false
 	MPFonts = false
 	MK64Fonts = false
@@ -1963,9 +2085,9 @@ function different_fonts_command(msg)
 	elseif msg == 'MPDS' then
 	showNormalCountdown = false
 	showClassicCountdown = false
-	showSm64Countdown = false
 	showNewCountdown = false
 	showMenuCountdown = false
+	showSm64Countdown = false
 	BISFonts = false
 	MPFonts = false
 	MK64Fonts = false
@@ -1987,7 +2109,7 @@ function different_fonts_command(msg)
 	return true
 	end
 	
-	djui_chat_message_create("/str_config fonts \n[force_4:3|full_screen|windowed] \nor \n[normal|original|sm64_built|djui] \n[sm64|mlbis|mp|mk64|sm64ds|smb|mpds]")
+	djui_chat_message_create("/str_config fonts \n[normal|original|sm64_built|djui] \n[sm64|mlbis|mp|mk64|sm64ds|smb|mpds]")
 	return true
 end
 

@@ -233,7 +233,7 @@ function displaycredits(m)
         },
 		{
 		
-			"Anti-BLJ by mjcox24",
+			"Rules Mod by Kaje",
             0,
             100,
             globalFont,
@@ -242,7 +242,7 @@ function displaycredits(m)
         },
 		{
 		
-			"Rules Mod by Kaje",
+			"Update Chat Command Choice by Vanilla and Squishy",
             0,
             200,
             globalFont,
@@ -251,7 +251,7 @@ function displaycredits(m)
         },
 		{
 		
-			"Update Chat Command Choice by Vanilla and Squishy",
+			"Bingo Mod by Blocky and Skeltan",
             0,
             300,
             globalFont,
@@ -260,7 +260,7 @@ function displaycredits(m)
         },
 		{
 		
-			"Bingo Mod by Blocky and Skeltan",
+			"And Everyone Who help Test This Mod",
             0,
             400,
             globalFont,
@@ -385,7 +385,7 @@ function displaycredits(m)
         },
 		{
 		
-			"When Having OMM Rebirth, KRB2, SR1, ZA2, LATFR and TGJ will now set to classic to prevent softlocks for those levels",
+			"When Having OMM Rebirth, KRB2, SR1, LATFR and TGJ will now set to classic to prevent softlocks from those romhacks",
             0,
 			150,
             globalFont,

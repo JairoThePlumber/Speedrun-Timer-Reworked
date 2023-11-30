@@ -277,13 +277,7 @@ function speedrun_command(msg)
 		return true
 	end
 	
-	if StarRoad_Check == false then
-	djui_popup_create("\\#ff0000\\Woah There!! You need to choose a Run before you start the Speedrun", 2)
-	return true
-	elseif Lugs_Delightful_Dioramas_Check == false then
-	djui_popup_create("\\#ff0000\\Woah There!! You need to choose a Run before you start the Speedrun", 2)
-	return true
-	elseif Ztar_Attack_2_Check == false then
+	if StarRoad_Check == false or Lugs_Delightful_Dioramas_Check == false or Ztar_Attack_2_Check == false then
 	djui_popup_create("\\#ff0000\\Woah There!! You need to choose a Run before you start the Speedrun", 2)
 	return true
 	end
@@ -364,13 +358,7 @@ function restart_speedrun_command(msg)
 		return true
 	end
 	
-	if StarRoad_Check == false then
-	djui_popup_create("\\#ff0000\\Woah There!! You need to choose a Run before you start the Speedrun", 2)
-	return true
-	elseif Lugs_Delightful_Dioramas_Check == false then
-	djui_popup_create("\\#ff0000\\Woah There!! You need to choose a Run before you start the Speedrun", 2)
-	return true
-	elseif Ztar_Attack_2_Check == false then
+	if StarRoad_Check == false or Lugs_Delightful_Dioramas_Check == false or Ztar_Attack_2_Check == false then
 	djui_popup_create("\\#ff0000\\Woah There!! You need to choose a Run before you start the Speedrun", 2)
 	return true
 	end
