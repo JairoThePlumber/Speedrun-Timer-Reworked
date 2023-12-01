@@ -1358,7 +1358,7 @@ function mario_64_DS_hud_bottom_render()
 	djui_hud_render_texture_tile(get_texture_info("mario_64_DS_small_numbers"), x + 240.9 - z, y - 2, 1, 1, (math.floor(Seconds%10)%8)*16, (math.floor(Seconds%10/8))*16, 16, 16)
     djui_hud_render_texture_tile(get_texture_info("mario_64_DS_small_numbers"), x + 232.9 - z, y - 2, 1, 1, ((math.floor(Seconds/10)%10)%8)*16, (math.floor(Seconds%100/80))*16, 16, 16)
 	
-	djui_hud_render_texture_tile(get_texture_info("mario_64_DS_small_numbers"), x + 217 - z, y - 2, 1, 1, (math.floor(Minutes%10)%8)*8, (math.floor(Minutes%10/8))*16, 16, 16)
+	djui_hud_render_texture_tile(get_texture_info("mario_64_DS_small_numbers"), x + 217 - z, y - 2, 1, 1, (math.floor(Minutes%10)%8)*16, (math.floor(Minutes%10/8))*16, 16, 16)
     djui_hud_render_texture_tile(get_texture_info("mario_64_DS_small_numbers"), x + 209 - z, y - 2, 1, 1, ((math.floor(Minutes/10)%10)%8)*16, (math.floor(Minutes%100/80))*16, 16, 16)
 	
 	djui_hud_render_texture_tile(get_texture_info("mario_64_DS_small_numbers"), x + 194 - z, y - 2, 1, 1, (math.floor(Hours%10)%8)*16, (math.floor(Hours%10/8))*16, 16, 16)
