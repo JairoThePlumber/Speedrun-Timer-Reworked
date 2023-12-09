@@ -1,5 +1,101 @@
 if gamemodes_is_checked or notallowedmods or no_cheats then return end
 
+if mod_storage_load("commandsonly") == nil or mod_storage_load("commandsonly") == "true" then
+	commandsonly = true
+else
+	commandsonly = false
+end
+
+if mod_storage_load("buttonsonly") == nil or mod_storage_load("buttonsonly") == "false" then
+	buttonsonly = false
+else
+	buttonsonly = true
+end
+
+if mod_storage_load("showSpeedrunTimer") == nil or mod_storage_load("showSpeedrunTimer") == "true" then
+	showSpeedrunTimer = true
+else
+	showSpeedrunTimer = false
+end
+
+if mod_storage_load("showNormalCountdown") == nil or mod_storage_load("showNormalCountdown") == "true" then
+	showNormalCountdown = true
+else
+	showNormalCountdown = false
+end
+
+if mod_storage_load("showClassicCountdown") == nil or mod_storage_load("showClassicCountdown") == "false" then
+	showClassicCountdown = false
+else
+	showClassicCountdown = true
+end
+
+if mod_storage_load("showNewCountdown") == nil or mod_storage_load("showNewCountdown") == "false" then
+	showNewCountdown = false
+else
+	showNewCountdown = true
+end
+
+if mod_storage_load("showMenuCountdown") == nil or mod_storage_load("showMenuCountdown") == "false" then
+	showMenuCountdown = false
+else
+	showMenuCountdown = true
+end
+
+if mod_storage_load("showSm64Countdown") == nil or mod_storage_load("showSm64Countdown") == "false" then
+	showSm64Countdown = false
+else
+	showSm64Countdown = true
+end
+
+if mod_storage_load("BISFonts") == nil or mod_storage_load("BISFonts") == "false" then
+	BISFonts = false
+else
+	BISFonts = true
+end
+
+if mod_storage_load("MPFonts") == nil or mod_storage_load("MPFonts") == "false" then
+	MPFonts = false
+else
+	MPFonts = true
+end
+
+if mod_storage_load("MK64Fonts") == nil or mod_storage_load("MK64Fonts") == "false" then
+	MK64Fonts = false
+else
+	MK64Fonts = true
+end
+
+if mod_storage_load("SM64DSFonts") == nil or mod_storage_load("SM64DSFonts") == "false" then
+	SM64DSFonts = false
+else
+	SM64DSFonts = true
+end
+
+if mod_storage_load("SMBFonts") == nil or mod_storage_load("SMBFonts") == "false" then
+	SMBFonts = false
+else
+	SMBFonts = true
+end
+
+if mod_storage_load("MPDSFonts") == nil or mod_storage_load("MPDSFonts") == "false" then
+	MPDSFonts = false
+else
+	MPDSFonts = true
+end
+
+if mod_storage_load("Rules_Display") == nil or mod_storage_load("Rules_Display") == "true" then
+	Rules_Display = true
+else
+	Rules_Display = false
+end
+
+if mod_storage_load("CasualTimer") == nil or mod_storage_load("CasualTimer") == "false" then
+	casualTimer = false
+else
+	casualTimer = true
+end
+
 -- This is just for SM64, to keep it separate from the romhacks
 function Set_SM64_Position(x, y, z, level, area, act)
 	if gGlobalSyncTable.startingpoint then
@@ -27,6 +123,43 @@ local function Set_Romhack_Position(xpos, ypos, zpos, romhacklevel, romhackarea,
 	currActNum = romhackact
 if gGlobalSyncTable.CompatibleRomhacks then
 if gGlobalSyncTable.startspeedruntime > 0 then
+    gMarioStates[0].pos.x = xpos
+	gMarioStates[0].pos.y = ypos
+	gMarioStates[0].pos.z = zpos
+	end
+end
+if gGlobalSyncTable.startspeedrun < 0.1 and gNetworkPlayers[0].currLevelNum ~= romhacklevel then
+	warp_to_level(romhacklevel, romhackarea, romhackact)
+	end
+end
+
+-- This is only for Only Up, I also make sure that you don't have to make the positions as a option
+function Set_Only_Up_64_Position(xpos, ypos, zpos, romhacklevel, romhackarea, romhackact, CompatibleRomhackscheck)
+	gGlobalSyncTable.EndPicture = false
+	gGlobalSyncTable.CompatibleRomhacks = CompatibleRomhackscheck
+	currLevelNum = romhacklevel
+	currAreaIndex = romhackarea
+	currActNum = romhackact
+if gGlobalSyncTable.CompatibleRomhacks then
+if gGlobalSyncTable.startspeedruntime > 0 then
+    gMarioStates[0].pos.x = xpos
+	gMarioStates[0].pos.y = ypos
+	gMarioStates[0].pos.z = zpos
+	end
+end
+if gGlobalSyncTable.startspeedrun < 0.1 and gNetworkPlayers[0].currAreaIndex ~= romhackarea then
+	warp_to_level(romhacklevel, romhackarea, romhackact)
+	end
+end
+
+function Set_Underworld_Position(xpos, ypos, zpos, romhacklevel, romhackarea, romhackact, CompatibleRomhackscheck)
+	gGlobalSyncTable.EndPicture = false
+	gGlobalSyncTable.CompatibleRomhacks = CompatibleRomhackscheck
+	currLevelNum = romhacklevel
+	currAreaIndex = romhackarea
+	currActNum = romhackact
+if gGlobalSyncTable.CompatibleRomhacks then
+if gGlobalSyncTable.startspeedrun < 0.1 then
     gMarioStates[0].pos.x = xpos
 	gMarioStates[0].pos.y = ypos
 	gMarioStates[0].pos.z = zpos
@@ -168,7 +301,8 @@ teams_update(m)
 reworked_config_command_description(m)
 on_romhack_speedrun_check(m)
 on_teams_update(m)
-save_files_no_teams_sm74(m)
+save_files_no_teams_sm74ee(m)
+on_eternal_realm_interact(m)
 romhack_positions(m)
 unsupported_romhacks(m)
 star_road_stars(m)
@@ -187,6 +321,8 @@ speedrun_commands_update()
 teams_character_update()
 on_romhack_interact_end_picture()
 on_king_boo_interact()
+on_only_up_64_interact()
+timer_check()
 end
 
 function all_hook_interact(m, o, intee, interacted)
@@ -210,7 +346,6 @@ on_timer_hud_render()
 on_save_file_hud_render()
 krb2_timer_check()
 displaycredits(m)
-displaycontrols(m)
 displayrules(m)
 displayrules_starroad(m)
 displayrules_74(m)
@@ -235,6 +370,12 @@ displayrules_hidden_stars(m)
 displayrules_galactic_journey(m)
 displayrules_star_takeover_redone(m)
 displayrules_forest_ruins(m)
+displayrules_thousand_year_door_64(m)
+displayrules_the_mushroom_cup(m)
+displayrules_eternal_realm(m)
+displayrules_despair_mario_gambit(m)
+displayrules_super_retro_land(m)
+displayrules_katze_64(m)
 end
 
 -- All Hooks in hook_event order

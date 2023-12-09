@@ -1,14 +1,6 @@
 if gamemodes_is_checked or notallowedmods or no_cheats then return end
 
-SM64Rulesonly = false
 SM64Rules = false
-Rules_is_closed_for_intro = false
-
-if mod_storage_load("Rules_Display") == nil or mod_storage_load("Rules_Display") == "true" then
-	Rules_Display = true
-else
-	Rules_Display = false
-end
 
 function speedrun_rules_display()
 	Rules_Display = not Rules_Display
@@ -23,10 +15,8 @@ end
 
 function SM64_rules(m)
 SM64Rules = true
-SM64Rulesonly = true
 for sm64_rules in pairs(gActiveMods) do
 if (gActiveMods[sm64_rules].incompatible ~= nil and gActiveMods[sm64_rules].incompatible:find("romhack")) then
-SM64Rulesonly = false
 SM64Rules = false
 	end
 	end
@@ -73,7 +63,7 @@ function displaycredits(m)
 
 	versiontext = {
 		{
-            "Speedrun Timer Reworked V1.0.0",
+            "Speedrun Timer Reworked V1.1",
             800,
             -430,
             globalFont,
@@ -107,74 +97,29 @@ function displaycredits(m)
             creditcolor
         },
         {
-            "A New Name for this Mod",
+            "Added Eight Romhacks",
             0,
-            -300,
+            -100,
             globalFont,
-            creditscale + 0.5,
+            creditscale + 2,
             creditcolor
         },
         {
 		
-			"Added Custom Fonts (More Coming Soon)",
-            0,
-            -200,
-            globalFont,
-            creditscale + 0.5,
-            creditcolor
-        },
-		{
-		
-			"Added Stars Commands for ZA2",
-            0,
-            -100,
-            globalFont,
-            creditscale + 0.5,
-            creditcolor
-        },
-		{
-		
-			"Added a Saving Function",
-            0,
-            0,
-            globalFont,
-            creditscale + 0.5,
-            creditcolor
-        },
-		{
-		
-			"Added A Version Display on the top right in /str_config info",
+			'Added a "Extras" Command',
             0,
             100,
             globalFont,
-            creditscale + 0.5,
+            creditscale + 2,
             creditcolor
         },
 		{
 		
-			"Added Teams (Thanks to Blocky)",
-            0,
-            200,
-            globalFont,
-			creditscale + 0.5,
-            creditcolor
-        },
-		{
-		
-			"Added a Warp Command",
+			'Added Controls to the Info display',
             0,
             300,
             globalFont,
-            creditscale + 0.5,
-            creditcolor
-        },
-		{
-		
-			"Added Compatible and Incompatible Mods",
-            0,
-            400,
-            globalFont,
-            creditscale + 0.5,
+            creditscale + 2,
             creditcolor
         },
 		{
@@ -185,6 +130,14 @@ function displaycredits(m)
             creditscale,
             creditcolor
         },
+		{
+            "Left D-Pad: Controls",
+            -800,
+            520,
+            globalFont,
+            creditscale,
+            creditcolor
+        }
 	}
 	
     creditstexts = {
@@ -295,146 +248,74 @@ function displaycredits(m)
             creditcolor
         },
         {
-            "Revamp The Commands, so now it's stacks to each other",
+            "Removed /str controls since controls is now display on /str_config info",
             0,
-            -350,
+            -300,
             globalFont,
-            creditscale,
+            creditscale + 0.5,
             creditcolor
         },
         {
 		
-			"Made it so rules Kinda appear if you're not in act select (unless you spam the A Button)",
-            0,
-            -300,
-            globalFont,
-            creditscale,
-            creditcolor
-        },
-		{
-		
-			"Now Romhacks that ends with a end picture now stop the timer",
-            0,
-            -250,
-            globalFont,
-            creditscale,
-            creditcolor
-        },
-		{
-		
-			"Better Countdown Command (Now you can put to 0 - 50 instead of 0 - 30)",
+			"Changes 90 stars to 91 stars for Ztar Attack 2",
             0,
             -200,
             globalFont,
-            creditscale,
+            creditscale + 0.5,
             creditcolor
         },
 		{
 		
-			"Better Buttons Command (so now it's enables if you're not using a moveset mod)",
-            0,
-            -150,
-            globalFont,
-			creditscale,
-            creditcolor
-        },
-		{
-		
-			"Other Moveset Mods like Pasta Castle or Sonic Character: Reworked are Compatible",
+			"Now you can set the timer to Casual or Single",
             0,
             -100,
             globalFont,
-            creditscale,
+            creditscale + 0.5,
             creditcolor
         },
 		{
 		
-			"Every Romhack Now has it's own Speedrun Rules instead of only SM64 (You can ask me to correct the stars to collect)",
+			"Now the info display can loop now",
             0,
-            -50,
+            0,
             globalFont,
-            creditscale,
+            creditscale + 0.5,
             creditcolor
         },
 		{
 		
-			"Better Stop Timer Command (so it's doesn't share with beated game function)",
+			"Save Function For Buttons Set to off by Default",
             0,
+             100,
+            globalFont,
+			creditscale + 0.5,
+            creditcolor
+        },
+		{
+		
+			"Super Mario 64: The Underworld and Only Up won't have rules display",
 			0,
+             200,
             globalFont,
-            creditscale,
+            creditscale + 0.5,
             creditcolor
         },
 		{
 		
-			"Rules Closes itself when the speedrun starts",
+			"Removed Some Unnecessary Code",
             0,
-			50,
+             300,
             globalFont,
-            creditscale,
+            creditscale + 0.5,
             creditcolor
         },
 		{
 		
-			"Made it so now Lives won't change after dying if the timer didn't start",
+			"Change /set stars to commands to /set runs to",
             0,
-			100,
+             400,
             globalFont,
-            creditscale,
-            creditcolor
-        },
-		{
-		
-			"When Having OMM Rebirth, KRB2, SR1, LATFR and TGJ will now set to classic to prevent softlocks from those romhacks",
-            0,
-			150,
-            globalFont,
-            creditscale,
-            creditcolor
-        },
-		{
-		
-			"Now you need to have 0 stars before starting",
-            0,
-			200,
-            globalFont,
-            creditscale,
-            creditcolor
-        },
-		{
-		
-			"Removed Stars Commands for LDD:GG and Removed AntiBLJ 50 Command",
-            0,
-			250,
-            globalFont,
-            creditscale,
-            creditcolor
-        },
-		{
-		
-			"Now you won't go to a different level until you start the speedrun (to avoid people cheating)",
-            0,
-			300,
-            globalFont,
-            creditscale,
-            creditcolor
-        },
-		{
-		
-			"Now Stars Commands now shows what you choose without having to check again",
-            0,
-			350,
-            globalFont,
-            creditscale,
-            creditcolor
-        },
-		{
-		
-			"Rules can now be toggle by doing /str_config rules",
-            0,
-			400,
-            globalFont,
-            creditscale,
+            creditscale + 0.5,
             creditcolor
         },
 		{
@@ -859,7 +740,7 @@ function displaycredits(m)
         },
 		{
 		
-			"Super Mario 64: The Green Stars (New)",
+			"Super Mario 64: The Green Stars",
             -230,
 			100,
             globalFont,
@@ -868,7 +749,7 @@ function displaycredits(m)
         },
 		{
 		
-			"Super Mario 64 Sapphire (New)",
+			"Super Mario 64 Sapphire",
             -230,
 			150,
             globalFont,
@@ -877,7 +758,7 @@ function displaycredits(m)
         },
 		{
 		
-			"The Phantom's Call (New)",
+			"The Phantom's Call",
             -230,
 			200,
             globalFont,
@@ -886,7 +767,7 @@ function displaycredits(m)
         },
 		{
 		
-			"Star Revenge 1: Star Takeover (New)",
+			"Star Revenge 1: Star Takeover",
             -230,
 			250,
             globalFont,
@@ -895,7 +776,7 @@ function displaycredits(m)
         },
 		{
 		
-			"Star Revenge 2: Night of Doom (New)",
+			"Star Revenge 2: Night of Doom",
             -230,
 			300,
             globalFont,
@@ -904,7 +785,7 @@ function displaycredits(m)
         },
 		{
 		
-			"Star Revenge 6.5 (New)",
+			"Star Revenge 6.5",
             -230,
 			350,
             globalFont,
@@ -913,7 +794,7 @@ function displaycredits(m)
         },
 		{
 		
-			"SM64 - Twisted Adventures (New)",
+			"SM64 - Twisted Adventures",
             -230,
 			400,
             globalFont,
@@ -921,7 +802,7 @@ function displaycredits(m)
             creditcolor
         },
 		{
-            "Luigi's Mansion 64 (New)",
+            "Luigi's Mansion 64",
 			 230,
             -350,
             globalFont,
@@ -930,7 +811,7 @@ function displaycredits(m)
         },
         {
 		
-			"Luigi's Mansion 64.5 [EM + SPM] (New)",
+			"Luigi's Mansion 64.5 [EM + SPM]",
              230,
             -300,
             globalFont,
@@ -939,7 +820,7 @@ function displaycredits(m)
         },
 		{
 		
-			"SM64 Paradise Island (New)",
+			"SM64 Paradise Island",
              230,
             -250,
             globalFont,
@@ -948,7 +829,7 @@ function displaycredits(m)
         },
 		{
 		
-			"Ztar Attack 2 (New)",
+			"Ztar Attack 2",
              230,
             -200,
             globalFont,
@@ -957,7 +838,7 @@ function displaycredits(m)
         },
 		{
 		
-			"Super Mario 64: Hidden Stars (New)",
+			"Super Mario 64: Hidden Stars",
              230,
             -150,
             globalFont,
@@ -966,8 +847,8 @@ function displaycredits(m)
         },
 		{
 		
-			"Super Mario 64: The Galactic Journey (New)",
-             250,
+			"Super Mario 64: The Galactic Journey",
+             230,
             -100,
             globalFont,
             creditscale,
@@ -975,8 +856,8 @@ function displaycredits(m)
         },
 		{
 		
-			"Star Revenge 1.5: Star Takeover Redone (New)",
-             250,
+			"Star Revenge 1.5: Star Takeover Redone",
+             230,
             -50,
             globalFont,
             creditscale,
@@ -984,9 +865,81 @@ function displaycredits(m)
         },
 		{
 		
-			"Luigi and the Forest Ruins (New)",
-             250,
-            -0,
+			"Luigi and the Forest Ruins",
+             230,
+            0,
+            globalFont,
+            creditscale,
+            creditcolor
+        },
+		{
+		
+			"Only Up 64 (New)",
+             230,
+			50,
+            globalFont,
+            creditscale,
+            creditcolor
+        },
+		{
+		
+			"Thousand Year Door 64 (New)",
+            230,
+			100,
+            globalFont,
+            creditscale,
+            creditcolor
+        },
+		{
+		
+			"SM64: The Mushroom Cup (New)",
+            230,
+			150,
+            globalFont,
+            creditscale,
+            creditcolor
+        },
+		{
+		
+			"Eternal Realm (New)",
+            230,
+			200,
+            globalFont,
+            creditscale,
+            creditcolor
+        },
+		{
+		
+			"Despair Mario's Gambit (New)",
+            230,
+			250,
+            globalFont,
+            creditscale,
+            creditcolor
+        },
+		{
+		
+			"Super Retro Land (New)",
+            230,
+			300,
+            globalFont,
+            creditscale,
+            creditcolor
+        },
+		{
+		
+			"Super Mario 64: The Underworld (New)",
+            230,
+			350,
+            globalFont,
+            creditscale,
+            creditcolor
+        },
+		{
+		
+			"Katze Stuck in the Toilet 64 (New)",
+            230,
+			400,
             globalFont,
             creditscale,
             creditcolor
@@ -1018,145 +971,18 @@ function displaycredits(m)
             creditscale + 1,
             creditcolor
         },
-        {
-            "Fixed description from getting cutoff",
+		{
+            "No Bugs were Reported",
             0,
-            -350,
+            70,
             globalFont,
-            creditscale,
-            creditcolor
-        },
-        {
-		
-			"Fixed Better Interaction System (For Real This Time)",
-            0,
-            -300,
-            globalFont,
-            creditscale,
+            creditscale + 1,
             creditcolor
         },
 		{
-		
-			"Fixed SM74 and SM74EE Position",
-            0,
-            -250,
-            globalFont,
-            creditscale,
-            creditcolor
-        },
-		{
-		
-			"Fixed fall damage from a great height when the countdown starts, Somehow?",
-            0,
-            -200,
-            globalFont,
-            creditscale,
-            creditcolor
-        },
-		{
-		
-			"Fixed Start Intro Command",
-            0,
-            -150,
-            globalFont,
-			creditscale,
-            creditcolor
-        },
-		{
-		
-			"Fixed Restart Position",
-            0,
-            -100,
-            globalFont,
-            creditscale,
-            creditcolor
-        },
-		{
-		
-			"Fixed Countdown Sounds For other players",
-            0,
-            -50,
-            globalFont,
-            creditscale,
-            creditcolor
-        },
-		{
-		
-			"Fixed SM74 Ten Year After Position",
-            0,
-			0,
-            globalFont,
-            creditscale,
-            creditcolor
-        },
-		{
-		
-			"Fixed Health Check (Thanks to Vanilla for Pointing it out)",
-            0,
-			50,
-            globalFont,
-            creditscale,
-            creditcolor
-        },
-		{
-		
-			"Fixed Restart Speedrun Command",
-            0,
-			100,
-            globalFont,
-            creditscale,
-            creditcolor
-        },
-		{
-		
-			"Fixed Countdown Sounds being shared with the buttons commands",
-            0,
-			150,
-            globalFont,
-            creditscale,
-            creditcolor
-        },
-		{
-		
-			"Fixed Beated Game Function (So it's fully stops when a run finishes)",
-            0,
-			200,
-            globalFont,
-            creditscale,
-            creditcolor
-        },
-		{
-		
-			"Fixed Start Timer Button (So Now it's doesn't interrupt the Restart Button)",
-            0,
-			250,
-            globalFont,
-            creditscale,
-            creditcolor
-        },
-		{
-		
-			"Fixed Star Road Command That Doesn't hide from other players who isn't the host",
-            0,
-			300,
-            globalFont,
-            creditscale,
-            creditcolor
-        },
-		{
-		
-			"Fixed SM64 Rules getting overlapped by other rules",
-            0,
-			350,
-            globalFont,
-            creditscale,
-            creditcolor
-        },
-		{
-		
-			"Fixed Other Bugs That weren't noticeable",
-            0,
-			400,
+            "Right D-Pad: Controls",
+            800,
+            520,
             globalFont,
             creditscale,
             creditcolor
@@ -1170,6 +996,263 @@ function displaycredits(m)
             creditcolor
         }
     }
+	
+	controlstexts = {
+	{
+            "Controls",
+            0,
+            -370,
+            globalFont,
+            creditscale + 1,
+            creditcolor
+        },
+        {
+            "Command Controls:",
+            -400,
+            -330,
+            globalFont,
+            creditscale,
+            creditcolor
+        },
+        {
+		
+			"/str start speedrun/timer",
+            -650,
+            -280,
+            globalFont,
+            creditscale,
+            creditcolor
+        },
+		{
+		
+			"(Start The Speedrun)",
+            -650,
+            -230,
+            globalFont,
+            creditscale,
+            creditcolor
+        },
+		{
+		
+			"/str start intro",
+            -650,
+            -180,
+            globalFont,
+            creditscale,
+            creditcolor
+        },
+		{
+		
+			"(Starts with an Intro)",
+            -650,
+            -130,
+            globalFont,
+            creditscale,
+            creditcolor
+        },
+		{
+		
+			"/str stop timer",
+            -650,
+             -80,
+            globalFont,
+            creditscale,
+            creditcolor
+        },
+		{
+		
+			"(Stop the Timer)",
+            -650,
+             -30,
+            globalFont,
+            creditscale,
+            creditcolor
+        },
+		{
+		
+			"/str stop speedrun",
+            -650,
+			  20,
+            globalFont,
+            creditscale,
+            creditcolor
+        },
+		{
+		
+			"(Stop the Speedrun)",
+            -650,
+			  70,
+            globalFont,
+            creditscale,
+            creditcolor
+        },
+		{
+		
+			"/str restart timer",
+            -650,
+			 120,
+            globalFont,
+            creditscale,
+            creditcolor
+        },
+		{
+		
+			"(Restart the Timer 'only for a backup savefile')",
+            -650,
+			 170,
+            globalFont,
+            creditscale,
+            creditcolor
+        },
+		{
+		
+			"/str restart speedrun",
+            -650,
+			 220,
+            globalFont,
+            creditscale,
+            creditcolor
+        },
+		{
+		
+			"(Restart the Speedrun 'only for a backup savefile')",
+            -630,
+			 270,
+            globalFont,
+            creditscale,
+            creditcolor
+        },
+		{
+		
+			"/str countdown 0-50",
+            -200,
+            -280,
+            globalFont,
+            creditscale,
+            creditcolor
+        },
+		{
+		
+			"(Changes the countdown from 0 to 50)",
+            -200,
+            -230,
+            globalFont,
+            creditscale,
+            creditcolor
+        },
+		{
+		
+			"/str options buttons/commands",
+            -200,
+            -180,
+            globalFont,
+            creditscale,
+            creditcolor
+        },
+		{
+		
+			"(changes the options of how you start the run)",
+            -200,
+            -130,
+            globalFont,
+            creditscale,
+            creditcolor
+        },
+		{
+            "Buttons Controls:",
+            500,
+            -330,
+            globalFont,
+            creditscale,
+            creditcolor
+        },
+        {
+		
+			"X Button:",
+            500,
+            -280,
+            globalFont,
+            creditscale,
+            creditcolor
+        },
+		{
+		
+			"(Start the Speedrun)",
+            500,
+            -230,
+            globalFont,
+            creditscale,
+            creditcolor
+        },
+		{
+		
+			"Y Button:",
+            500,
+            -180,
+            globalFont,
+            creditscale,
+            creditcolor
+        },
+		{
+		
+			"(Restarting the Speedrun)",
+            500,
+            -130,
+            globalFont,
+            creditscale,
+            creditcolor
+        },
+		{
+            "Z + D-Pad Down + Start Button:",
+            500,
+            -80,
+            globalFont,
+            creditscale,
+            creditcolor
+        },
+		{
+            "(Starts the an Intro)",
+            500,
+            -30,
+            globalFont,
+            creditscale,
+            creditcolor
+        },
+        {
+		
+		    "L Trigger:",
+            500,
+            20,
+            globalFont,
+            creditscale,
+            creditcolor
+        },
+		{
+		
+			"(Stopped the timer, but you can cancel it by pressing X)",
+            500,
+			70,
+            globalFont,
+            creditscale,
+            creditcolor
+        },
+		{
+            "Right D-Pad: What's New?",
+            800,
+            520,
+            globalFont,
+            creditscale,
+            creditcolor
+        },
+        {
+            "Left D-Pad: Fixed Bugs",
+            -800,
+            520,
+            globalFont,
+            creditscale,
+            creditcolor
+        }
+	}
 
 
     -----------------------------------------
@@ -1222,6 +1305,12 @@ function displaycredits(m)
             printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
 			end
 		end
+		
+		if buttonispressed == 6 then
+		for _, v in ipairs(controlstexts) do
+            printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
+			end
+		end
 
         -- get relative coordinates of OK text
         local xd = returnX("OK", scale, globalFont)
@@ -1261,9 +1350,18 @@ function displaycredits(m)
 		elseif (m.controller.buttonPressed & R_JPAD) ~= 0 and buttonispressed == 4 then
 			buttonispressed = buttonispressed + 1
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
+		elseif (m.controller.buttonPressed & R_JPAD) ~= 0 and buttonispressed == 5 then
+			buttonispressed = buttonispressed + 1
+            play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
+		elseif (m.controller.buttonPressed & R_JPAD) ~= 0 and buttonispressed == 6 then
+			buttonispressed = buttonispressed - 6
+            play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 		end
 			
-		if (m.controller.buttonPressed & L_JPAD) ~= 0 and buttonispressed == 1 then
+		if (m.controller.buttonPressed & L_JPAD) ~= 0 and buttonispressed == 0 then
+			buttonispressed = buttonispressed + 6
+            play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)	
+		elseif (m.controller.buttonPressed & L_JPAD) ~= 0 and buttonispressed == 1 then
 			buttonispressed = buttonispressed - 1
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 		elseif (m.controller.buttonPressed & L_JPAD) ~= 0 and buttonispressed == 2 then
@@ -1276,6 +1374,9 @@ function displaycredits(m)
 			buttonispressed = buttonispressed - 1
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 		elseif (m.controller.buttonPressed & L_JPAD) ~= 0 and buttonispressed == 5 then
+			buttonispressed = buttonispressed - 1
+            play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
+		elseif (m.controller.buttonPressed & L_JPAD) ~= 0 and buttonispressed == 6 then
 			buttonispressed = buttonispressed - 1
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 		end
@@ -1296,358 +1397,6 @@ function displaycredits(m)
 		if (creditshasConfirmed == false) then
 			set_mario_action(m, ACT_INTRO_CUTSCENE, 0)
 			creditshasConfirmed = true
-
-		end
-		end
-	end
-	end
-end
-
-local controlsswitched = false
-local controlshasConfirmed = false
-function displaycontrols(m)
-    hostnum = network_local_index_from_global(0)
-    host = gNetworkPlayers[hostnum]
-
-    -- texts are written inside here.
-    --[[ format: 
-    {
-        string, 
-        x, 
-        y, 
-        font, 
-        scale, 
-        color (color in "#xxxxxx" format pls)
-    }
---]]
-    texts = {
-		{
-            "Controls For Commands and Buttons",
-            0,
-            -400,
-            globalFont,
-            scale,
-            color
-        },
-        {
-            "Command Controls:",
-            -400,
-            -330,
-            globalFont,
-            scale,
-            color
-        },
-        {
-		
-			"/str start speedrun/timer",
-            -650,
-            -280,
-            globalFont,
-            scale,
-            color
-        },
-		{
-		
-			"(Start The Speedrun)",
-            -650,
-            -230,
-            globalFont,
-            scale,
-            color
-        },
-		{
-		
-			"/str start intro",
-            -650,
-            -180,
-            globalFont,
-            scale,
-            color
-        },
-		{
-		
-			"(Starts with an Intro)",
-            -650,
-            -130,
-            globalFont,
-            scale,
-            color
-        },
-		{
-		
-			"/str stop timer",
-            -650,
-             -80,
-            globalFont,
-            scale,
-            color
-        },
-		{
-		
-			"(Stop the Timer)",
-            -650,
-             -30,
-            globalFont,
-            scale,
-            color
-        },
-		{
-		
-			"/str stop speedrun",
-            -650,
-			  20,
-            globalFont,
-            scale,
-            color
-        },
-		{
-		
-			"(Stop the Speedrun)",
-            -650,
-			  70,
-            globalFont,
-            scale,
-            color
-        },
-		{
-		
-			"/str restart timer",
-            -650,
-			 120,
-            globalFont,
-            scale,
-            color
-        },
-		{
-		
-			"(Restart the Timer 'only for a backup savefile')",
-            -650,
-			 170,
-            globalFont,
-            scale,
-            color
-        },
-		{
-		
-			"/str restart speedrun",
-            -650,
-			 220,
-            globalFont,
-            scale,
-            color
-        },
-		{
-		
-			"(Restart the Speedrun 'only for a backup savefile')",
-            -630,
-			 270,
-            globalFont,
-            scale,
-            color
-        },
-		{
-		
-			"/str countdown 0-50",
-            -200,
-            -280,
-            globalFont,
-            scale,
-            color
-        },
-		{
-		
-			"(Changes the countdown from 0 to 50)",
-            -200,
-            -230,
-            globalFont,
-            scale,
-            color
-        },
-		{
-		
-			"/str options buttons/commands",
-            -200,
-            -180,
-            globalFont,
-            scale,
-            color
-        },
-		{
-		
-			"(changes the options of how you start the run)",
-            -200,
-            -130,
-            globalFont,
-            scale,
-            color
-        },
-		{
-		
-			"/str controls",
-            -200,
-             -80,
-            globalFont,
-            scale,
-            color
-        },
-		{
-		
-			"(It's displays the controls that is showing now)",
-            -200,
-             -30,
-            globalFont,
-            scale,
-            color
-        },
-		{
-            "Buttons Controls:",
-            500,
-            -330,
-            globalFont,
-            scale,
-            color
-        },
-        {
-		
-			"X Button:",
-            500,
-            -280,
-            globalFont,
-            scale,
-            color
-        },
-		{
-		
-			"(Start the Speedrun)",
-            500,
-            -230,
-            globalFont,
-            scale,
-            color
-        },
-		{
-		
-			"Y Button:",
-            500,
-            -180,
-            globalFont,
-            scale,
-            color
-        },
-		{
-		
-			"(Restarting the Speedrun)",
-            500,
-            -130,
-            globalFont,
-            scale,
-            color
-        },
-		{
-            "Z + D-Pad Down + Start Button:",
-            500,
-            -80,
-            globalFont,
-            scale,
-            color
-        },
-		{
-            "(Starts the an Intro)",
-            500,
-            -30,
-            globalFont,
-            scale,
-            color
-        },
-        {
-		
-		    "L Trigger:",
-            500,
-            20,
-            globalFont,
-            scale,
-            color
-        },
-		{
-		
-			"(Stopped the timer, but you can cancel it by pressing X)",
-            500,
-			70,
-            globalFont,
-            scale,
-            color
-        },
-        {
-            "Press A to proceed,",
-            0,
-            400,
-            globalFont,
-            scale,
-            color
-        },
-        {
-            "OK",
-            0,
-            440,
-            FONT_MENU,
-            scale,
-            "#ff0000"
-        }
-    }
-
-    -----------------------------------------
-    -- Main code:
-    if (controlsswitched == true) then
-        if (controlshasConfirmed == false) then
-            set_mario_action(m, ACT_READING_AUTOMATIC_DIALOG, 0)
-        end
-        -- render the rectangle.
-        renderRect(190, 120, FONT_MENU, 2000, 2000, "#ffffff")
-
-        -- print all texts
-        for _, v in ipairs(texts) do
-            printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
-        end
-
-        -- get relative coordinates of OK text
-        local xd = returnX("OK", scale, globalFont)
-        local yd = returnY("OK", scale, globalFont) + 360
-
-        -- get mouse_x and mouse_y coordinates
-        local mousex = djui_hud_get_mouse_x()
-        local mousey = djui_hud_get_mouse_y()
-
-        -- calculate distance between button and mouse
-        -- if player presses D_PAD Down or (if mouse_hover is activated) hovers over the OK text,
-        -- the window closes.
-        local dist = math.sqrt(((xd - mousex) ^ 2) + (((yd + 40) - mousey) ^ 2))
-        if (CLOSE_ON_MOUSE_HOVER) then
-            if (dist < 40) then
-                controlsswitched = false
-                play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
-                if (controlshasConfirmed == false) then
-                    set_mario_action(m, ACT_IDLE, 0)
-                    controlshasConfirmed = true
-                end
-            end
-        end
-
-        if (m.controller.buttonPressed & A_BUTTON) ~= 0 then
-            controlsswitched = false
-            play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
-            if (controlshasConfirmed == false) then
-                set_mario_action(m, ACT_IDLE, 0)
-                controlshasConfirmed = true	
-			end
-		end
-	if gGlobalSyncTable.startIntro then
-		if gGlobalSyncTable.warptointro then 
-			set_mario_action(m, ACT_INTRO_CUTSCENE, 0)
-			gGlobalSyncTable.warptointro = false
-			controlsswitched = false
-		if (controlshasConfirmed == false) then
-			set_mario_action(m, ACT_INTRO_CUTSCENE, 0)
-			controlshasConfirmed = true
 		end
 		end
 	end
@@ -2104,8 +1853,8 @@ function displayrules(m)
     }
 
     -----------------------------------------
-    -- Main code:
-	if SM64Rules and gNetworkPlayers[0].currLevelNum == LEVEL_CASTLE_GROUNDS then
+    -- Main code:	
+	if SM64Rules and not obj_get_first_with_behavior_id(id_bhvActSelector) then
     if (switched == true) then
         if (hasConfirmed == false) then
             set_mario_action(m, ACT_READING_AUTOMATIC_DIALOG, 0)
@@ -2154,20 +1903,16 @@ function displayrules(m)
                 end
             end
         end
-
+		
         if (m.controller.buttonPressed & A_BUTTON) ~= 0 then
             switched = false
+			if not (m.controller.buttonDown & L_TRIG) ~= 0 and hasConfirmed == false then
             play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+			end
             if (hasConfirmed == false) then
                 set_mario_action(m, ACT_IDLE, 0)
                 hasConfirmed = true	
 				Rules_is_closed_for_intro = true
-			end
-		elseif gNetworkPlayers[0].currLevelNum ~= LEVEL_CASTLE_GROUNDS then
-		switched = false
-		if (hasConfirmed == false) then
-                set_mario_action(m, ACT_IDLE, 0)
-				hasConfirmed = true
 			end
 		end
 	if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun then
@@ -2206,6 +1951,13 @@ function displayrules(m)
 		end
 		end
 	end
+	
+	if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then return end
+	if (m.controller.buttonDown & L_TRIG) ~= 0 and Rules_Display then
+       switched = true
+	elseif not (m.controller.buttonDown & L_TRIG) ~= 0 and hasConfirmed == true then
+       switched = false
+	   end
 	end
 end
 
@@ -2399,7 +2151,7 @@ function displayrules_starroad(m)
             color
         },
 		{
-            "For SR: /set stars to [any|80|130], For SRTRC: /set stars to [any|80|130|150]",
+            "For SR: /set run to [any|20|80|130], For SRTRC: /set run to [any|20|80|130|150]",
             0,
             400,
             globalFont,
@@ -2428,7 +2180,7 @@ function displayrules_starroad(m)
     -- Main code:
 	for sr_only in pairs(gActiveMods) do
 	if gActiveMods[sr_only].name:find("Star Road") or gActiveMods[sr_only].name:find("Star Road: The Replica Comet") then
-	if gNetworkPlayers[0].currLevelNum == LEVEL_CASTLE_GROUNDS then
+	if not obj_get_first_with_behavior_id(id_bhvActSelector) then
     if (srswitched == true) then
         if (srhasConfirmed == false) then
             set_mario_action(m, ACT_READING_AUTOMATIC_DIALOG, 0)
@@ -2466,18 +2218,14 @@ function displayrules_starroad(m)
 
         if (m.controller.buttonPressed & A_BUTTON) ~= 0 then
             srswitched = false
+            if not (m.controller.buttonDown & L_TRIG) ~= 0 and srhasConfirmed == false then
             play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+			end
             if (srhasConfirmed == false) then
                 set_mario_action(m, ACT_IDLE, 0)
                 srhasConfirmed = true	
 			end
-		elseif gNetworkPlayers[0].currLevelNum ~= LEVEL_CASTLE_GROUNDS then
-		srswitched = false
-			if (srhasConfirmed == false) then
-                set_mario_action(m, ACT_IDLE, 0)
-                srhasConfirmed = true	
-				end
-			end
+		end
 if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then
 	srswitched = false
 	if (srhasConfirmed == false) then
@@ -2495,6 +2243,12 @@ if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyn
 			end
 		end
 		end
+	if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then return end
+	if (m.controller.buttonDown & L_TRIG) ~= 0 and Rules_Display then
+       srswitched = true
+	elseif not (m.controller.buttonDown & L_TRIG) ~= 0 and srhasConfirmed == true then
+       srswitched = false
+	   end
 	end
 	end
 end
@@ -2845,7 +2599,8 @@ function displayrules_74(m)
     -----------------------------------------
     -- Main code:
 	for sm74only in pairs(gActiveMods) do
-	if (gActiveMods[sm74only].name:find("Super Mario 74") and gActiveMods[sm74only].name:find("(+EE)")) and gNetworkPlayers[0].currLevelNum == LEVEL_CASTLE_COURTYARD and gNetworkPlayers[0].currAreaIndex == 1 then
+	if (gActiveMods[sm74only].name:find("Super Mario 74") and gActiveMods[sm74only].name:find("(+EE)")) and gNetworkPlayers[0].currAreaIndex == 1 then
+	if not obj_get_first_with_behavior_id(id_bhvActSelector) then
     if (switched74 == true) then
         if (hasConfirmed74 == false) and Rules_Display then
 			m.pos.x = -6558
@@ -2902,16 +2657,12 @@ function displayrules_74(m)
 
         if (m.controller.buttonPressed & A_BUTTON) ~= 0 then
             switched74 = false
+            if not (m.controller.buttonDown & L_TRIG) ~= 0 and hasConfirmed74 == false then
             play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+			end
             if (hasConfirmed74 == false) then
                 set_mario_action(m, ACT_IDLE, 0)
                 hasConfirmed74 = true	
-			end
-		elseif not gNetworkPlayers[0].currAreaIndex == 1 then
-		switched74 = false
-		if (hasConfirmed74 == false) then
-        set_mario_action(m, ACT_IDLE, 0)
-        hasConfirmed74 = true	
 			end
 			end
 	if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then
@@ -2930,6 +2681,13 @@ function displayrules_74(m)
 			end
 		end
 		end
+	if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then return end
+	if (m.controller.buttonDown & L_TRIG) ~= 0 and Rules_Display then
+       switched74 = true
+	elseif not (m.controller.buttonDown & L_TRIG) ~= 0 and hasConfirmed74 == true then
+       switched74 = false
+	   end
+	end
 	end
 end
 
@@ -3253,7 +3011,8 @@ function displayrules_74ee(m)
     -----------------------------------------
     -- Main code:
 	for sm74eeonly in pairs(gActiveMods) do
-	if (gActiveMods[sm74eeonly].name:find("Super Mario 74") and gActiveMods[sm74eeonly].name:find("(+EE)")) and gNetworkPlayers[0].currLevelNum == LEVEL_CASTLE_COURTYARD and gNetworkPlayers[0].currAreaIndex == 2 then
+	if (gActiveMods[sm74eeonly].name:find("Super Mario 74") and gActiveMods[sm74eeonly].name:find("(+EE)")) and gNetworkPlayers[0].currAreaIndex == 2 then
+	if not obj_get_first_with_behavior_id(id_bhvActSelector) then
     if (switched74ee == true) then
         if (hasConfirmed74ee == false) and Rules_Display then
 			m.pos.x = 5481
@@ -3310,16 +3069,12 @@ function displayrules_74ee(m)
 
         if (m.controller.buttonPressed & A_BUTTON) ~= 0 then
             switched74ee = false
+            if not (m.controller.buttonDown & L_TRIG) ~= 0 and hasConfirmed74ee == false then
             play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+			end
             if (hasConfirmed74ee == false) then
                 set_mario_action(m, ACT_IDLE, 0)
                 hasConfirmed74ee = true	
-			end
-		elseif gNetworkPlayers[0].currLevelNum ~= LEVEL_CASTLE_COURTYARD then
-		switched74ee = false
-		if (hasConfirmed74ee == false) then
-            set_mario_action(m, ACT_IDLE, 0)
-            hasConfirmed74ee = true	
 			end
 		end
 if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then
@@ -3337,8 +3092,15 @@ if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyn
             hasConfirmed74ee = true	
 			end
 			end
+			end
 		end
-		end
+	if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then return end
+	if (m.controller.buttonDown & L_TRIG) ~= 0 and Rules_Display then
+       switched74ee = true
+	elseif not (m.controller.buttonDown & L_TRIG) ~= 0 and hasConfirmed74ee == true then
+       switched74ee = false
+	   end
+	end
 	end
 end
 
@@ -3610,7 +3372,7 @@ function displayrules_74ty(m)
     -----------------------------------------
     -- Main code:
 	for sm74tyonly in pairs(gActiveMods) do
-	if gActiveMods[sm74tyonly].name:find("Ten Years After") and gNetworkPlayers[0].currLevelNum == LEVEL_CASTLE_COURTYARD then
+	if gActiveMods[sm74tyonly].name:find("Ten Years After") and not obj_get_first_with_behavior_id(id_bhvActSelector) then
     if (switched74ty == true) then
         if (hasConfirmed74ty == false) and Rules_Display then
         	m.pos.x = -5097
@@ -3667,16 +3429,12 @@ function displayrules_74ty(m)
 
         if (m.controller.buttonPressed & A_BUTTON) ~= 0 then
             switched74ty = false
+            if not (m.controller.buttonDown & L_TRIG) ~= 0 and hasConfirmed74ty == false then
             play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+			end
             if (hasConfirmed74ty == false) then
                 set_mario_action(m, ACT_IDLE, 0)
                 hasConfirmed74ty = true	
-			end
-		elseif gNetworkPlayers[0].currLevelNum ~= LEVEL_CASTLE_COURTYARD then
-		switched74ty = false
-		if (hasConfirmed74ty == false) then
-            set_mario_action(m, ACT_IDLE, 0)
-            hasConfirmed74ty = true	
 			end
 		end
 if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then
@@ -3695,7 +3453,13 @@ if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyn
 			end
 			end
 		end
-		end
+	if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then return end
+	if (m.controller.buttonDown & L_TRIG) ~= 0 and Rules_Display then
+       switched74ty = true
+	elseif not (m.controller.buttonDown & L_TRIG) ~= 0 and hasConfirmed74ty == true then
+       switched74ty = false
+	   end
+	end
 	end
 end
 
@@ -3733,7 +3497,7 @@ function displayrules_ms(m)
         },
         {
 		
-		    "31 Star: Get 31 Stars",
+		    "31 Moon: Get 31 Moons",
             0,
             -140,
             globalFont,
@@ -3742,7 +3506,7 @@ function displayrules_ms(m)
         },
         {
 		
-		    "Collect 31 Stars in this Romhack",
+		    "Collect 31 Moons in this Romhack",
             0,
             -90,
             globalFont,
@@ -3750,7 +3514,7 @@ function displayrules_ms(m)
             color
         },
 		{
-			"50 Star: Get 50 Stars",
+			"50 Moon: Get 50 Moons",
             0,
             -20,
             globalFont,
@@ -3759,7 +3523,7 @@ function displayrules_ms(m)
         },
 		{
 		
-			"Grab All 50 Stars in this Romhack",
+			"Grab All 50 Moons in this Romhack",
             0,
             20,
             globalFont,
@@ -3820,7 +3584,7 @@ function displayrules_ms(m)
     -----------------------------------------
     -- Main code:
 	for msonly in pairs(gActiveMods) do
-	if gActiveMods[msonly].name:find("Super Mario 64 Moonshine") and gNetworkPlayers[0].currLevelNum == LEVEL_CASTLE then
+	if gActiveMods[msonly].name:find("Super Mario 64 Moonshine") and not obj_get_first_with_behavior_id(id_bhvActSelector) then
     if (msswitched == true) then
         if (mshasConfirmed == false) and Rules_Display then
             m.pos.x = 5
@@ -3863,16 +3627,12 @@ function displayrules_ms(m)
 
         if (m.controller.buttonPressed & A_BUTTON) ~= 0 then
             msswitched = false
+            if not (m.controller.buttonDown & L_TRIG) ~= 0 and mshasConfirmed == false then
             play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+			end
             if (mshasConfirmed == false) then
                 set_mario_action(m, ACT_IDLE, 0)
                 mshasConfirmed = true	
-			end
-		elseif gNetworkPlayers[0].currLevelNum ~= LEVEL_CASTLE then
-		msswitched = false
-		if (mshasConfirmed == false) then
-			set_mario_action(m, ACT_IDLE, 0)
-			mshasConfirmed = true	
 			end
 		end
 if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then
@@ -3891,7 +3651,13 @@ if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyn
 			end
 			end
 		end
-		end
+	if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then return end
+	if (m.controller.buttonDown & L_TRIG) ~= 0 and Rules_Display then
+       msswitched = true
+	elseif not (m.controller.buttonDown & L_TRIG) ~= 0 and mshasConfirmed == true then
+       msswitched = false
+	   end
+	end
 	end
 end
 
@@ -4051,7 +3817,7 @@ function displayrules_kbr2(m)
     -----------------------------------------
     -- Main code:
 	for kbr2only in pairs(gActiveMods) do
-	if gActiveMods[kbr2only].name:find("King Boo's Revenge 2") and gNetworkPlayers[0].currLevelNum == LEVEL_CASTLE_GROUNDS then
+	if gActiveMods[kbr2only].name:find("King Boo's Revenge 2") and not obj_get_first_with_behavior_id(id_bhvActSelector) then
     if (switchedkbr2 == true) then
         if (hasConfirmedkbr2 == false) and Rules_Display then
             m.pos.x = 7710
@@ -4094,16 +3860,12 @@ function displayrules_kbr2(m)
 
         if (m.controller.buttonPressed & A_BUTTON) ~= 0 then
             switchedkbr2 = false
+            if not (m.controller.buttonDown & L_TRIG) ~= 0 and hasConfirmedkbr2 == false then
             play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+			end
             if (hasConfirmedkbr2 == false) then
                 set_mario_action(m, ACT_IDLE, 0)
                 hasConfirmedkbr2 = true	
-			end
-		elseif gNetworkPlayers[0].currLevelNum ~= LEVEL_CASTLE_GROUNDS then
-		switchedkbr2 = false
-		if (hasConfirmedkbr2 == false) then
-		    set_mario_action(m, ACT_IDLE, 0)
-            hasConfirmedkbr2 = true	
 			end
 			end	
 if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then
@@ -4122,7 +3884,13 @@ if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyn
 			end
 			end
 		end
-		end
+	if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then return end
+	if (m.controller.buttonDown & L_TRIG) ~= 0 and Rules_Display then
+       switchedkbr2 = true
+	elseif not (m.controller.buttonDown & L_TRIG) ~= 0 and hasConfirmedkbr2 == true then
+       switchedkbr2 = false
+	   end
+	end
 	end
 end
 
@@ -4213,7 +3981,7 @@ function displayrules_lug(m)
         },
         {
 		
-		    "80 Star: Get 80 Stars",
+		    "80 Green Star: Get 80 Green Stars",
             0,
             90,
             globalFont,
@@ -4263,7 +4031,7 @@ function displayrules_lug(m)
             color
         },
 		{
-            "For LDD: /set stars to [64|74], For LDDGG: stops on the chair in sweet delight",
+            "For LDD: /set run to [64|74], For LDDGG: stops on the chair in sweet delight",
             0,
             400,
             globalFont,
@@ -4292,7 +4060,7 @@ function displayrules_lug(m)
     -- Main code:
 	for lugdd_only in pairs(gActiveMods) do
 	if gActiveMods[lugdd_only].name:find("Lug's Delightful Dioramas") or gActiveMods[lugdd_only].name:find("Lug's Delightful Dioramas Green Comet") then
-	if gNetworkPlayers[0].currLevelNum == LEVEL_CASTLE then
+	if not obj_get_first_with_behavior_id(id_bhvActSelector) then
     if (lugswitched == true) then
         if (lughasConfirmed == false) then
             set_mario_action(m, ACT_READING_AUTOMATIC_DIALOG, 0)
@@ -4328,9 +4096,11 @@ function displayrules_lug(m)
             end
         end
 
-        if (m.controller.buttonPressed & A_BUTTON) ~= 0 or gNetworkPlayers[0].currLevelNum ~= LEVEL_CASTLE then
+        if (m.controller.buttonPressed & A_BUTTON) ~= 0 then
             lugswitched = false
+			if not (m.controller.buttonDown & L_TRIG) ~= 0 and lughasConfirmed == false then
             play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+			end
             if (lughasConfirmed == false) then
                 set_mario_action(m, ACT_IDLE, 0)
                 lughasConfirmed = true	
@@ -4353,6 +4123,12 @@ if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyn
 			end
 		end
 		end
+	if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then return end
+	if (m.controller.buttonDown & L_TRIG) ~= 0 and Rules_Display then
+       lugswitched = true
+	elseif not (m.controller.buttonDown & L_TRIG) ~= 0 and lughasConfirmed == true then
+       lugswitched = false
+	   end
 	end
 	end
 end
@@ -4486,7 +4262,7 @@ function displayrules_green_star(m)
     -----------------------------------------
     -- Main code:
 	for gsonly in pairs(gActiveMods) do
-	if gActiveMods[gsonly].name:find("SM64: The Green Stars") and gNetworkPlayers[0].currLevelNum == LEVEL_CASTLE_GROUNDS then
+	if gActiveMods[gsonly].name:find("SM64: The Green Stars") and not obj_get_first_with_behavior_id(id_bhvActSelector) then
     if (gsswitched == true) then
         if (gshasConfirmed == false) then
             set_mario_action(m, ACT_READING_AUTOMATIC_DIALOG, 0)
@@ -4524,16 +4300,12 @@ function displayrules_green_star(m)
 
         if (m.controller.buttonPressed & A_BUTTON) ~= 0 then
             gsswitched = false
+            if not (m.controller.buttonDown & L_TRIG) ~= 0 and gshasConfirmed == false then
             play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+			end
             if (gshasConfirmed == false) then
                 set_mario_action(m, ACT_IDLE, 0)
                 gshasConfirmed = true	
-			end
-		elseif gNetworkPlayers[0].currLevelNum ~= LEVEL_CASTLE_GROUNDS then
-		gsswitched = false
-		if (gshasConfirmed == false) then
-            set_mario_action(m, ACT_IDLE, 0)
-            gshasConfirmed = true	
 			end
 			end	
 if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then
@@ -4552,7 +4324,13 @@ if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyn
 			end
 			end
 		end
-		end
+	if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then return end
+	if (m.controller.buttonDown & L_TRIG) ~= 0 and Rules_Display then
+       gsswitched = true
+	elseif not (m.controller.buttonDown & L_TRIG) ~= 0 and gshasConfirmed == true then
+       gsswitched = false
+	   end
+	end
 	end
 end
 
@@ -4677,7 +4455,7 @@ function displayrules_sapphire(m)
     -----------------------------------------
     -- Main code:
 	for sapphireonly in pairs(gActiveMods) do
-	if gActiveMods[sapphireonly].name:find("SM64 \\#0f52ba\\Sapphire\\#ffffff\\") and gNetworkPlayers[0].currLevelNum == LEVEL_CASTLE then
+	if gActiveMods[sapphireonly].name:find("SM64 \\#0f52ba\\Sapphire\\#ffffff\\") and not obj_get_first_with_behavior_id(id_bhvActSelector) then
     if (switchedsapphire == true) then
         if (hasConfirmedsapphire == false) then
             set_mario_action(m, ACT_READING_AUTOMATIC_DIALOG, 0)
@@ -4715,16 +4493,12 @@ function displayrules_sapphire(m)
 
         if (m.controller.buttonPressed & A_BUTTON) ~= 0 then
             switchedsapphire = false
+            if not (m.controller.buttonDown & L_TRIG) ~= 0 and hasConfirmedsapphire == false then
             play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+			end
             if (hasConfirmedsapphire == false) then
                 set_mario_action(m, ACT_IDLE, 0)
                 hasConfirmedsapphire = true	
-			end
-		elseif gNetworkPlayers[0].currLevelNum ~= LEVEL_CASTLE then
-		switchedsapphire = false
-		if (hasConfirmedsapphire == false) then
-            set_mario_action(m, ACT_IDLE, 0)
-            hasConfirmedsapphire = true	
 			end
 			end	
 if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then
@@ -4743,7 +4517,13 @@ if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyn
 			end
 			end
 		end
-		end
+	if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then return end
+	if (m.controller.buttonDown & L_TRIG) ~= 0 and Rules_Display then
+       switchedsapphire = true
+	elseif not (m.controller.buttonDown & L_TRIG) ~= 0 and hasConfirmedsapphire == true then
+       switchedsapphire = false
+	   end
+	end
 	end
 end
 
@@ -4970,7 +4750,7 @@ function displayrules_tpc(m)
     -----------------------------------------
     -- Main code:
 	for tpconly in pairs(gActiveMods) do
-	if gActiveMods[tpconly].name:find("The Phantom's Call") and gNetworkPlayers[0].currLevelNum == LEVEL_CASTLE_GROUNDS then
+	if gActiveMods[tpconly].name:find("The Phantom's Call") and not obj_get_first_with_behavior_id(id_bhvActSelector) then
     if (tpcswitched == true) then
         if (tpchasConfirmed == false) then
             set_mario_action(m, ACT_READING_AUTOMATIC_DIALOG, 0)
@@ -5022,16 +4802,12 @@ function displayrules_tpc(m)
 
         if (m.controller.buttonPressed & A_BUTTON) ~= 0 then
             tpcswitched = false
+            if not (m.controller.buttonDown & L_TRIG) ~= 0 and tpchasConfirmed == false then
             play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+			end
             if (tpchasConfirmed == false) then
                 set_mario_action(m, ACT_IDLE, 0)
                 tpchasConfirmed = true	
-			end
-		elseif gNetworkPlayers[0].currLevelNum ~= LEVEL_CASTLE_GROUNDS then
-		tpcswitched = false
-		if (tpchasConfirmed == false) then
-            set_mario_action(m, ACT_IDLE, 0)
-            tpchasConfirmed = true	
 			end
 			end
 if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then
@@ -5050,7 +4826,13 @@ if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyn
 			end
 			end
 		end
-		end
+	if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then return end
+	if (m.controller.buttonDown & L_TRIG) ~= 0 and Rules_Display then
+       tpcswitched = true
+	elseif not (m.controller.buttonDown & L_TRIG) ~= 0 and tpchasConfirmed == true then
+       tpcswitched = false
+	   end
+	end
 	end
 end
 
@@ -5183,7 +4965,7 @@ function displayrules_star_takeover(m)
     -----------------------------------------
     -- Main code:
 	for sto_only in pairs(gActiveMods) do
-	if gActiveMods[sto_only].name:find("Star Revenge 1: Star Takeover") and gNetworkPlayers[0].currLevelNum == LEVEL_CASTLE_COURTYARD then
+	if gActiveMods[sto_only].name:find("Star Revenge 1: Star Takeover") and not obj_get_first_with_behavior_id(id_bhvActSelector) then
     if (stoswitched == true) then
         if (stohasConfirmed == false) and Rules_Display then
 			m.pos.x = 8120
@@ -5226,16 +5008,12 @@ function displayrules_star_takeover(m)
 
         if (m.controller.buttonPressed & A_BUTTON) ~= 0 then
             stoswitched = false
+            if not (m.controller.buttonDown & L_TRIG) ~= 0 and stohasConfirmed == false then
             play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+			end
             if (stohasConfirmed == false) then
                 set_mario_action(m, ACT_IDLE, 0)
                 stohasConfirmed = true	
-			end
-		elseif gNetworkPlayers[0].currLevelNum ~= LEVEL_CASTLE_COURTYARD then
-		stoswitched = false
-		if (stohasConfirmed == false) then
-            set_mario_action(m, ACT_IDLE, 0)
-            stohasConfirmed = true	
 			end
 			end
 if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then
@@ -5254,7 +5032,13 @@ if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyn
 			end
 			end
 		end
-		end
+	if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then return end
+	if (m.controller.buttonDown & L_TRIG) ~= 0 and Rules_Display then
+       stoswitched = true
+	elseif not (m.controller.buttonDown & L_TRIG) ~= 0 and stohasConfirmed == true then
+       stoswitched = false
+	   end
+	end
 	end
 end
 
@@ -5387,7 +5171,7 @@ function displayrules_night_of_doom(m)
     -----------------------------------------
     -- Main code:
 	for nod_only in pairs(gActiveMods) do
-	if gActiveMods[nod_only].name:find("Star Revenge 2: Night of Doom") and gNetworkPlayers[0].currLevelNum == LEVEL_CASTLE_COURTYARD then
+	if gActiveMods[nod_only].name:find("Star Revenge 2: Night of Doom") and not obj_get_first_with_behavior_id(id_bhvActSelector) then
     if (nodswitched == true) then
         if (nodhasConfirmed == false) and Rules_Display then
             m.pos.x = 5843
@@ -5420,7 +5204,9 @@ function displayrules_night_of_doom(m)
         if (CLOSE_ON_MOUSE_HOVER) then
             if (dist < 40) then
                 nodswitched = false
-                play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+                if not (m.controller.buttonDown & L_TRIG) ~= 0 and nodhasConfirmed == false then
+				play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+				end
                 if (nodhasConfirmed == false) then
                     set_mario_action(m, ACT_IDLE, 0)
                     nodhasConfirmed = true
@@ -5434,12 +5220,6 @@ function displayrules_night_of_doom(m)
             if (nodhasConfirmed == false) then
                 set_mario_action(m, ACT_IDLE, 0)
                 nodhasConfirmed = true	
-			end
-		elseif gNetworkPlayers[0].currLevelNum ~= LEVEL_CASTLE_COURTYARD then
-		nodswitched = false
-		if (nodhasConfirmed == false) then
-            set_mario_action(m, ACT_IDLE, 0)
-            nodhasConfirmed = true	
 			end
 			end	
 if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then
@@ -5458,7 +5238,13 @@ if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyn
 			end
 			end
 		end
-		end
+	if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then return end
+	if (m.controller.buttonDown & L_TRIG) ~= 0 and Rules_Display then
+       nodswitched = true
+	elseif not (m.controller.buttonDown & L_TRIG) ~= 0 and nodhasConfirmed == true then
+       nodswitched = false
+	   end
+	end
 	end
 end
 
@@ -5677,7 +5463,7 @@ function displayrules_sr65(m)
     -----------------------------------------
     -- Main code:
 	for sr65only in pairs(gActiveMods) do
-	if gActiveMods[sr65only].name:find("Star Revenge 6.5") and gNetworkPlayers[0].currLevelNum == LEVEL_CASTLE_GROUNDS then
+	if gActiveMods[sr65only].name:find("Star Revenge 6.5") and not obj_get_first_with_behavior_id(id_bhvActSelector) then
     if (sr65switched == true) then
         if (sr65hasConfirmed == false) and Rules_Display then
             m.pos.x = -14341
@@ -5734,16 +5520,12 @@ function displayrules_sr65(m)
 
         if (m.controller.buttonPressed & A_BUTTON) ~= 0 then
             sr65switched = false
-            play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+            if not (m.controller.buttonDown & L_TRIG) ~= 0 and sr65hasConfirmed == false then
+			play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+			end
             if (sr65hasConfirmed == false) then
                 set_mario_action(m, ACT_IDLE, 0)
                 sr65hasConfirmed = true	
-			end
-		elseif gNetworkPlayers[0].currLevelNum ~= LEVEL_CASTLE_GROUNDS then
-		sr65switched = false
-		if (sr65hasConfirmed == false) then
-            set_mario_action(m, ACT_IDLE, 0)
-            sr65hasConfirmed = true	
 			end
 			end	
 if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then
@@ -5762,7 +5544,13 @@ if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyn
 			end
 			end
 		end
-		end
+	if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then return end
+	if (m.controller.buttonDown & L_TRIG) ~= 0 and Rules_Display then
+       sr65switched = true
+	elseif not (m.controller.buttonDown & L_TRIG) ~= 0 and sr65hasConfirmed == true then
+       sr65switched = false
+	   end
+	end
 	end
 end
 
@@ -5931,7 +5719,7 @@ function displayrules_ta(m)
     -----------------------------------------
     -- Main code:
 	for ta_only in pairs(gActiveMods) do
-	if gActiveMods[ta_only].name:find("Twisted Adventures") and gNetworkPlayers[0].currLevelNum == LEVEL_CASTLE_COURTYARD then
+	if gActiveMods[ta_only].name:find("Twisted Adventures") and not obj_get_first_with_behavior_id(id_bhvActSelector) then
     if (taswitched == true) then
         if (tahasConfirmed == false) then
             set_mario_action(m, ACT_READING_AUTOMATIC_DIALOG, 0)
@@ -5969,16 +5757,12 @@ function displayrules_ta(m)
 
         if (m.controller.buttonPressed & A_BUTTON) ~= 0 then
             taswitched = false
-            play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+            if not (m.controller.buttonDown & L_TRIG) ~= 0 and tahasConfirmed == false then
+			play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+			end
             if (tahasConfirmed == false) then
                 set_mario_action(m, ACT_IDLE, 0)
                 tahasConfirmed = true	
-			end
-		elseif gNetworkPlayers[0].currLevelNum ~= LEVEL_CASTLE_COURTYARD then
-		taswitched = false
-		if (tahasConfirmed == false) then
-            set_mario_action(m, ACT_IDLE, 0)
-            tahasConfirmed = true	
 			end
 			end	
 if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then
@@ -5997,7 +5781,13 @@ if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyn
 			end
 			end
 		end
-		end
+	if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then return end
+	if (m.controller.buttonDown & L_TRIG) ~= 0 and Rules_Display then
+       taswitched = true
+	elseif not (m.controller.buttonDown & L_TRIG) ~= 0 and tahasConfirmed == true then
+       taswitched = false
+	   end
+	end
 	end
 end
 
@@ -6166,7 +5956,7 @@ function displayrules_lm64(m)
     -----------------------------------------
     -- Main code:
 	for lm_only in pairs(gActiveMods) do
-	if gActiveMods[lm_only].name:find("Luigi's Mansion 64") and gNetworkPlayers[0].currLevelNum == LEVEL_CASTLE_GROUNDS then
+	if gActiveMods[lm_only].name:find("Luigi's Mansion 64") and not obj_get_first_with_behavior_id(id_bhvActSelector) then
 	if not Rules_Display or Rules_is_closed_for_intro then
 	if gGlobalSyncTable.startIntro then
 	if gGlobalSyncTable.warptointro then 
@@ -6212,19 +6002,15 @@ function displayrules_lm64(m)
 
         if (m.controller.buttonPressed & A_BUTTON) ~= 0 then
             lmswitched = false
-            play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+            if not (m.controller.buttonDown & L_TRIG) ~= 0 and lmhasConfirmed == false then
+			play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+			end
             if (lmhasConfirmed == false) then
                 set_mario_action(m, ACT_IDLE, 0)
                 lmhasConfirmed = true
 				Rules_is_closed_for_intro = true
 			end
-		elseif gNetworkPlayers[0].currLevelNum ~= LEVEL_CASTLE_GROUNDS then
-		lmswitched = false
-		if (lmhasConfirmed == false) then
-            set_mario_action(m, ACT_IDLE, 0)
-            lmhasConfirmed = true	
-		end
-	end	
+			end	
 if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun then
 	lmswitched = false
 	if (lmhasConfirmed == false) then
@@ -6256,6 +6042,12 @@ if gGlobalSyncTable.startIntro then
 		end
 		end
 		end
+	if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then return end
+	if (m.controller.buttonDown & L_TRIG) ~= 0 and Rules_Display then
+       lmswitched = true
+	elseif not (m.controller.buttonDown & L_TRIG) ~= 0 and lmhasConfirmed == true then
+       lmswitched = false
+	   end
 	end
 	end
 end
@@ -6372,7 +6164,7 @@ function displayrules_lm65(m)
     -----------------------------------------
     -- Main code:
 	for lm65_only in pairs(gActiveMods) do
-	if gActiveMods[lm65_only].name:find("Luigi's Mansion 64.5") and gNetworkPlayers[0].currLevelNum == LEVEL_CASTLE_GROUNDS then 
+	if gActiveMods[lm65_only].name:find("Luigi's Mansion 64.5") and not obj_get_first_with_behavior_id(id_bhvActSelector) then 
 	if not Rules_Display or Rules_is_closed_for_intro then
 	if gGlobalSyncTable.startIntro then
 	if gGlobalSyncTable.warptointro then 
@@ -6418,19 +6210,15 @@ function displayrules_lm65(m)
 
         if (m.controller.buttonPressed & A_BUTTON) ~= 0 then
             lm65switched = false
-            play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+            if not (m.controller.buttonDown & L_TRIG) ~= 0 and lm65hasConfirmed == false then
+			play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+			end
             if (lm65hasConfirmed == false) then
                 set_mario_action(m, ACT_IDLE, 0)
                 lm65hasConfirmed = true	
 				Rules_is_closed_for_intro = true
 			end
-		elseif gNetworkPlayers[0].currLevelNum ~= LEVEL_CASTLE_GROUNDS then
-		lm65switched = false
-		if (lm65hasConfirmed == false) then
-            set_mario_action(m, ACT_IDLE, 0)
-            lm65hasConfirmed = true
-		end
-	end	
+			end	
 if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun then
 	lm65switched = false
 	if (lm65hasConfirmed == false) then
@@ -6462,7 +6250,13 @@ if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun then
 			end
 			end
 		end
-		end
+	if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then return end
+	if (m.controller.buttonDown & L_TRIG) ~= 0 and Rules_Display then
+       lm65switched = true
+	elseif not (m.controller.buttonDown & L_TRIG) ~= 0 and lm65hasConfirmed == true then
+       lm65switched = false
+	   end
+	end
 	end
 end
 
@@ -6587,7 +6381,7 @@ function displayrules_paradise_island(m)
     -----------------------------------------
     -- Main code:
 	for paradiseonly in pairs(gActiveMods) do
-	if gActiveMods[paradiseonly].name:find("SM64 Paradise Island") and gNetworkPlayers[0].currLevelNum == LEVEL_CASTLE_GROUNDS then
+	if gActiveMods[paradiseonly].name:find("SM64 Paradise Island") and not obj_get_first_with_behavior_id(id_bhvActSelector) then
     if (PIswitched == true) then
         if (PIhasConfirmed == false) and Rules_Display then
             m.pos.x = 3255
@@ -6630,16 +6424,12 @@ function displayrules_paradise_island(m)
 
         if (m.controller.buttonPressed & A_BUTTON) ~= 0 then
             PIswitched = false
-            play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+            if not (m.controller.buttonDown & L_TRIG) ~= 0 and PIhasConfirmed == false then
+			play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+			end
             if (PIhasConfirmed == false) then
                 set_mario_action(m, ACT_IDLE, 0)
                 PIhasConfirmed = true	
-			end
-		elseif gNetworkPlayers[0].currLevelNum ~= LEVEL_CASTLE_GROUNDS then
-		PIswitched = false
-		if (PIhasConfirmed == false) then
-            set_mario_action(m, ACT_IDLE, 0)
-            PIhasConfirmed = true	
 			end
 		end
 if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then
@@ -6658,7 +6448,13 @@ if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyn
 			end
 			end
 		end
-		end
+	if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then return end
+	if (m.controller.buttonDown & L_TRIG) ~= 0 and Rules_Display then
+       PIswitched = true
+	elseif not (m.controller.buttonDown & L_TRIG) ~= 0 and PIhasConfirmed == true then
+       PIswitched = false
+	   end
+	end
 	end
 end
 
@@ -6697,7 +6493,7 @@ function displayrules_ztar_attack_2(m)
             color
         },
 		{
-            "Any%: Get Any Stars",
+            "Any%: Get Any Time Stars",
             0,
             -280,
             globalFont,
@@ -6723,7 +6519,7 @@ function displayrules_ztar_attack_2(m)
             color
         },
 		{
-            "Warpless Any%: Get Any Stars Warpless",
+            "Warpless Any%: Get Any Time Stars Warpless",
             0,
             -140,
             globalFont,
@@ -6750,7 +6546,7 @@ function displayrules_ztar_attack_2(m)
         },
         {
 		
-            "81 Star: Get 81 Stars",
+            "81 Time Star: Get 81 Time Stars",
             0,
             0,
             globalFont,
@@ -6776,7 +6572,7 @@ function displayrules_ztar_attack_2(m)
             color
         },
         {
-            "90 Star: Get 90 Stars",
+            "91 Time Star: Get 91 Time Stars",
             0,
             140,
             globalFont,
@@ -6827,7 +6623,7 @@ function displayrules_ztar_attack_2(m)
             color
         },
 		{
-            "if you want to set up the time stars, type /set time stars to [any|warpless|81|90|bosses]",
+            "if you want to set up the time stars, type /set run to [any|warpless|81|91|bosses]",
             0,
             410,
             globalFont,
@@ -6855,7 +6651,7 @@ function displayrules_ztar_attack_2(m)
     -----------------------------------------
     -- Main code:
 	for ZA2only in pairs(gActiveMods) do
-	if gActiveMods[ZA2only].name:find("\\#0c33c2\\Ztar Attack \\#c20c0c\\2") and gNetworkPlayers[0].currLevelNum == LEVEL_CASTLE_GROUNDS then
+	if gActiveMods[ZA2only].name:find("\\#0c33c2\\Ztar Attack \\#c20c0c\\2") and not obj_get_first_with_behavior_id(id_bhvActSelector) then
     if (ZA2switched == true) then
         if (ZA2hasConfirmed == false) and Rules_Display then
             m.pos.x = -1226
@@ -6898,16 +6694,12 @@ function displayrules_ztar_attack_2(m)
 
         if (m.controller.buttonPressed & A_BUTTON) ~= 0 then
             ZA2switched = false
-            play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+            if not (m.controller.buttonDown & L_TRIG) ~= 0 and ZA2hasConfirmed == false then
+			play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+			end
             if (ZA2hasConfirmed == false) then
                 set_mario_action(m, ACT_IDLE, 0)
                 ZA2hasConfirmed = true	
-			end
-		elseif gNetworkPlayers[0].currLevelNum ~= LEVEL_CASTLE_GROUNDS then
-		ZA2switched = false
-		if (ZA2hasConfirmed == false) then
-			set_mario_action(m, ACT_IDLE, 0)
-			ZA2hasConfirmed = true	
 			end
 		end
 if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then
@@ -6926,7 +6718,13 @@ if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyn
 			end
 			end
 		end
-		end
+	if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then return end
+	if (m.controller.buttonDown & L_TRIG) ~= 0 and Rules_Display then
+       ZA2switched = true
+	elseif not (m.controller.buttonDown & L_TRIG) ~= 0 and ZA2hasConfirmed == true then
+       ZA2switched = false
+	   end
+	end
 	end
 end
 
@@ -7147,7 +6945,7 @@ function displayrules_pink_star(m)
     -----------------------------------------
     -- Main code:
 	for pinkstar_only in pairs(gActiveMods) do
-	if gActiveMods[pinkstar_only].name:find("pink star") and gNetworkPlayers[0].currLevelNum == LEVEL_CASTLE_GROUNDS then
+	if gActiveMods[pinkstar_only].name:find("pink star") and not obj_get_first_with_behavior_id(id_bhvActSelector) then
     if (switchedpinkstar == true) then
         if (hasConfirmedpinkstar == false) and Rules_Display then
         	m.pos.x = -426
@@ -7204,16 +7002,12 @@ function displayrules_pink_star(m)
 
         if (m.controller.buttonPressed & A_BUTTON) ~= 0 then
             switchedpinkstar = false
-            play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+            if not (m.controller.buttonDown & L_TRIG) ~= 0 and hasConfirmedpinkstar == false then
+			play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+			end
             if (hasConfirmedpinkstar == false) then
                 set_mario_action(m, ACT_IDLE, 0)
                 hasConfirmedpinkstar = true	
-			end
-		elseif gNetworkPlayers[0].currLevelNum ~= LEVEL_CASTLE_GROUNDS then
-		switchedpinkstar = false
-		if (hasConfirmedpinkstar == false) then
-            set_mario_action(m, ACT_IDLE, 0)
-            hasConfirmedpinkstar = true	
 			end
 			end
 if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then
@@ -7232,7 +7026,13 @@ if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyn
 			end
 			end
 		end
-		end
+	if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then return end
+	if (m.controller.buttonDown & L_TRIG) ~= 0 and Rules_Display then
+       PIswitched = true
+	elseif not (m.controller.buttonDown & L_TRIG) ~= 0 and hasConfirmedpinkstar == true then
+       PIswitched = false
+	   end
+	end
 	end
 end
 
@@ -7558,7 +7358,7 @@ function displayrules_hidden_stars(m)
     -----------------------------------------
     -- Main code:
 	for hs_only in pairs(gActiveMods) do
-	if gActiveMods[hs_only].name:find("SM 64 Hidden Stars") and gNetworkPlayers[0].currLevelNum == LEVEL_CASTLE_GROUNDS then
+	if gActiveMods[hs_only].name:find("SM 64 Hidden Stars") and not obj_get_first_with_behavior_id(id_bhvActSelector) then
 	if not Rules_Display or Rules_is_closed_for_intro then
 	if gGlobalSyncTable.startIntro then
 	if gGlobalSyncTable.warptointro then 
@@ -7626,17 +7426,13 @@ function displayrules_hidden_stars(m)
 
         if (m.controller.buttonPressed & A_BUTTON) ~= 0 then
             HSswitched = false
-            play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+            if not (m.controller.buttonDown & L_TRIG) ~= 0 and HShasConfirmed == false then
+			play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+			end
             if (HShasConfirmed == false) then
                 set_mario_action(m, ACT_IDLE, 0)
                 HShasConfirmed = true	
 				Rules_is_closed_for_intro = true
-			end
-		elseif gNetworkPlayers[0].currLevelNum ~= LEVEL_CASTLE_GROUNDS then
-		HSswitched = false
-		if (HShasConfirmed == false) then
-            set_mario_action(m, ACT_IDLE, 0)
-            HShasConfirmed = true	
 			end
 		end
 if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun then
@@ -7658,6 +7454,12 @@ if gGlobalSyncTable.startIntro then
 			end
 		end
 		end
+	if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then return end
+	if (m.controller.buttonDown & L_TRIG) ~= 0 and Rules_Display then
+       HSswitched = true
+	elseif not (m.controller.buttonDown & L_TRIG) ~= 0 and HShasConfirmed == true then
+       HSswitched = false
+	   end
 	end
 	end
 end
@@ -7993,7 +7795,7 @@ function displayrules_galactic_journey(m)
     -----------------------------------------
     -- Main code:
 	for GJ_only in pairs(gActiveMods) do
-	if gActiveMods[GJ_only].name:find("The Galactic Journey") and gNetworkPlayers[0].currLevelNum == LEVEL_CASTLE_GROUNDS then
+	if gActiveMods[GJ_only].name:find("The Galactic Journey") and not obj_get_first_with_behavior_id(id_bhvActSelector) then
     if (GJswitched == true) then
         if (GJhasConfirmed == false) then
             set_mario_action(m, ACT_READING_AUTOMATIC_DIALOG, 0)
@@ -8045,16 +7847,12 @@ function displayrules_galactic_journey(m)
 
         if (m.controller.buttonPressed & A_BUTTON) ~= 0 then
             GJswitched = false
-            play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+            if not (m.controller.buttonDown & L_TRIG) ~= 0 and GJhasConfirmed == false then
+			play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+			end
             if (GJhasConfirmed == false) then
                 set_mario_action(m, ACT_IDLE, 0)
                 GJhasConfirmed = true	
-			end
-		elseif gNetworkPlayers[0].currLevelNum ~= LEVEL_CASTLE_GROUNDS then
-		GJswitched = false
-		if (GJhasConfirmed == false) then
-            set_mario_action(m, ACT_IDLE, 0)
-            GJhasConfirmed = true	
 			end
 		end
 if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then
@@ -8073,7 +7871,13 @@ if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyn
 			end
 			end
 		end
-		end
+	if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then return end
+	if (m.controller.buttonDown & L_TRIG) ~= 0 and Rules_Display then
+       GJswitched = true
+	elseif not (m.controller.buttonDown & L_TRIG) ~= 0 and GJhasConfirmed == true then
+       GJswitched = false
+	   end
+	end
 	end
 end
 
@@ -8208,7 +8012,7 @@ function displayrules_star_takeover_redone(m)
     -----------------------------------------
     -- Main code:
 	for stor_only in pairs(gActiveMods) do
-	if gActiveMods[stor_only].name:find("Star Takeover Redone") and gNetworkPlayers[0].currLevelNum == LEVEL_CASTLE_COURTYARD then
+	if gActiveMods[stor_only].name:find("Star Takeover Redone") and not obj_get_first_with_behavior_id(id_bhvActSelector) then
     if (storswitched == true) then
         if (storhasConfirmed == false) and Rules_Display then
         	m.pos.x = -3782
@@ -8251,16 +8055,12 @@ function displayrules_star_takeover_redone(m)
 
         if (m.controller.buttonPressed & A_BUTTON) ~= 0 then
             storswitched = false
-            play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+            if not (m.controller.buttonDown & L_TRIG) ~= 0 and storhasConfirmed == false then
+			play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+			end
             if (storhasConfirmed == false) then
                 set_mario_action(m, ACT_IDLE, 0)
                 storhasConfirmed = true	
-			end
-		elseif gNetworkPlayers[0].currLevelNum ~= LEVEL_CASTLE_COURTYARD then
-		storswitched = false
-		if (storhasConfirmed == false) then
-            set_mario_action(m, ACT_IDLE, 0)
-            storhasConfirmed = true	
 			end
 			end
 if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then
@@ -8279,7 +8079,12 @@ if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyn
 			end
 			end
 		end
-		end
+	if (m.controller.buttonDown & L_TRIG) ~= 0 and Rules_Display then
+       storswitched = true
+	elseif not (m.controller.buttonDown & L_TRIG) ~= 0 and storhasConfirmed == true then
+       storswitched = false
+	   end
+	end
 	end
 end
 
@@ -8300,7 +8105,8 @@ function displayrules_forest_ruins(m)
         color (color in "#xxxxxx" format pls)
     }
 --]]
-    texts = {
+
+	texts = {
         {
             "Hello, Welcome to the Speedrun server!",
             0,
@@ -8319,7 +8125,7 @@ function displayrules_forest_ruins(m)
         },
         {
 		
-		    "21 Star: Get 21 Stars",
+		    "21 Star: Get 0 Stars",
             0,
             -140,
             globalFont,
@@ -8406,7 +8212,7 @@ function displayrules_forest_ruins(m)
     -----------------------------------------
     -- Main code:
 	for FRonly in pairs(gActiveMods) do
-	if gActiveMods[FRonly].name:find("\\#074916\\Luigi and the Forest Ruins\\#ffffff\\") and gNetworkPlayers[0].currLevelNum == LEVEL_CASTLE_GROUNDS then
+	if gActiveMods[FRonly].name:find("\\#074916\\Luigi and the Forest Ruins\\#ffffff\\") and not obj_get_first_with_behavior_id(id_bhvActSelector) then
     if (FRswitched == true) then
         if (FRhasConfirmed == false) and Rules_Display then
         	m.pos.x = -4268
@@ -8449,16 +8255,12 @@ function displayrules_forest_ruins(m)
 
         if (m.controller.buttonPressed & A_BUTTON) ~= 0 then
             FRswitched = false
-            play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+            if not (m.controller.buttonDown & L_TRIG) ~= 0 and FRhasConfirmed == false then
+			play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+			end
             if (FRhasConfirmed == false) then
                 set_mario_action(m, ACT_IDLE, 0)
                 FRhasConfirmed = true	
-			end
-		elseif gNetworkPlayers[0].currLevelNum ~= LEVEL_CASTLE_GROUNDS then
-		FRswitched = false
-		if (FRhasConfirmed == false) then
-			set_mario_action(m, ACT_IDLE, 0)
-			FRhasConfirmed = true	
 			end
 		end
 if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then
@@ -8477,7 +8279,2052 @@ if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyn
 			end
 			end
 		end
+	if (m.controller.buttonDown & L_TRIG) ~= 0 and Rules_Display then
+       FRswitched = true
+	elseif not (m.controller.buttonDown & L_TRIG) ~= 0 and FRhasConfirmed == true then
+       FRswitched = false
+	   end
+	end
+	end
+end
+
+local TYD64switched = true
+local TYD64hasConfirmed = false
+function displayrules_thousand_year_door_64(m)
+    hostnum = network_local_index_from_global(0)
+    host = gNetworkPlayers[hostnum]
+
+    -- texts are written inside here.
+    --[[ format: 
+    {
+        string, 
+        x, 
+        y, 
+        font, 
+        scale, 
+        color (color in "#xxxxxx" format pls)
+    }
+--]]
+    texts = {
+        {
+            "Hello, Welcome to the Speedrun server!",
+            0,
+            -400,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "Rules:",
+            0,
+            -330,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+            "0 Star: Get 0 Stars",
+            0,
+            -250,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+		    "BLJ on a Pillar and then enter the warp",
+            0,
+            -200,
+            globalFont,
+            scale,
+            color
+        },
+		{
+		
+			"(All Glitches are allowed)",
+            0,
+            -150,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "30 Star: Get 30 Stars",
+            0,
+            -50,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+		    "Grab 30 Stars and then enter the warp",
+            0,
+            0,
+            globalFont,
+            scale,
+            color
+        },
+		{
+		
+			"(Skipping the 30 Star door is Banned)",
+            0,
+            50,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+		    "80 Star: Get 80 Stars",
+            0,
+            140,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+		    "Grab All 80 Stars and then Enter the Warp inside the 30 star door",
+            0,
+            200,
+            globalFont,
+            scale,
+            color
+        },
+		{
+			"(All Glitches are allowed)",
+            0,
+            260,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "These are the rules of what to do in a speedrun",
+            0,
+            320,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "Breaking the rules will result the run as a invalid",
+            0,
+            360,
+            globalFont,
+            scale,
+            color
+        },
+		{
+            "the Timer will Stops on the end picture",
+            0,
+            400,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "Press A to proceed,",
+            0,
+            460,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "OK",
+            0,
+            500,
+            FONT_MENU,
+            scale,
+            "#ff0000"
+        }
+    }
+	
+	ommtexts = {
+        {
+            "Hello, Welcome to the OMM Rebirth Speedrun server!",
+            0,
+			-360,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "Rules:",
+            0,
+            -280,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "30 Star: Get 30 Stars",
+            0,
+            -200,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+		    "Grab 30 Stars and then enter the warp",
+            0,
+            -150,
+            globalFont,
+            scale,
+            color
+        },
+		{
+		
+			"(Skipping the 30 Star door is Banned)",
+            0,
+            -90,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+		    "80 Star: Get 80 Stars",
+            0,
+            20,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+		    "Grab All 80 Stars and then Enter the Warp inside the 30 star door",
+            0,
+            80,
+            globalFont,
+            scale,
+            color
+        },
+		{
+			"(All Glitches are allowed)",
+            0,
+            140,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "These are the rules of what to do in a speedrun",
+            0,
+            240,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "Breaking the rules will result the run as a invalid",
+            0,
+            280,
+            globalFont,
+            scale,
+            color
+        },
+		{
+            "These rules are for OMM Rebirth, To avoid confusion of what run to do",
+            0,
+            320,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "Press A to proceed,",
+            0,
+            430,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "OK",
+            0,
+            480,
+            FONT_MENU,
+            scale,
+            "#ff0000"
+        }
+    }
+
+    -----------------------------------------
+    -- Main code:
+	for TYD64only in pairs(gActiveMods) do
+	if gActiveMods[TYD64only].name:find("Thousand") and gActiveMods[TYD64only].name:find("Year Door 64") and not obj_get_first_with_behavior_id(id_bhvActSelector) then
+    if (TYD64switched == true) then
+        if (TYD64hasConfirmed == false) and Rules_Display then
+			m.pos.x = -1722
+			m.pos.y = 120
+			m.pos.z = -4331
+		if m.action ~= ACT_READING_NPC_DIALOG then
+			set_mario_action(m, ACT_READING_NPC_DIALOG, 0)
+			end
+        end
+        -- render the rectangle.
+		if not OmmEnabled then
+        renderRect(190, 120, FONT_MENU, 1000, 1000, "#ffffff")
 		end
+		
+		if OmmEnabled then
+        renderRect(190, 120, FONT_MENU, 1000, 950, "#ffffff")
+		end
+
+        -- print all texts
+		if not OmmEnabled then
+        for _, v in ipairs(texts) do
+            printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
+			end
+        end
+		
+		-- print all texts
+		if OmmEnabled then
+        for _, v in ipairs(ommtexts) do
+            printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
+			end
+        end
+
+        -- get relative coordinates of OK text
+        local xd = returnX("OK", scale, globalFont)
+        local yd = returnY("OK", scale, globalFont) + 360
+
+        -- get mouse_x and mouse_y coordinates
+        local mousex = djui_hud_get_mouse_x()
+        local mousey = djui_hud_get_mouse_y()
+
+        -- calculate distance between button and mouse
+        -- if player presses D_PAD Down or (if mouse_hover is activated) hovers over the OK text,
+        -- the window closes.
+        local dist = math.sqrt(((xd - mousex) ^ 2) + (((yd + 40) - mousey) ^ 2))
+        if (CLOSE_ON_MOUSE_HOVER) then
+            if (dist < 40) then
+                TYD64switched = false
+                play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+                if (TYD64hasConfirmed == false) then
+                    set_mario_action(m, ACT_IDLE, 0)
+                    TYD64hasConfirmed = true
+                end
+            end
+        end
+
+        if (m.controller.buttonPressed & A_BUTTON) ~= 0 then
+            TYD64switched = false
+            if not (m.controller.buttonDown & L_TRIG) ~= 0 and TYD64hasConfirmed == false then
+			play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+			end
+            if (TYD64hasConfirmed == false) then
+                set_mario_action(m, ACT_IDLE, 0)
+                TYD64hasConfirmed = true	
+			end
+		end
+if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then
+	TYD64switched = false
+	if (TYD64hasConfirmed == false) then
+		set_mario_action(m, ACT_IDLE, 0)
+		TYD64hasConfirmed = true
+		gGlobalSyncTable.warptointro = false
+			end
+		end
+	if not Rules_Display then
+		TYD64switched = false
+		if (TYD64hasConfirmed == false) then
+			set_mario_action(m, ACT_IDLE, 0)
+			TYD64hasConfirmed = true	
+			end
+			end
+		end
+	if (m.controller.buttonDown & L_TRIG) ~= 0 and Rules_Display then
+       TYD64switched = true
+	elseif not (m.controller.buttonDown & L_TRIG) ~= 0 and TYD64hasConfirmed == true then
+       TYD64switched = false
+	   end
+	end
+	end
+end
+
+local TMCswitched = true
+local TMChasConfirmed = false
+function displayrules_the_mushroom_cup(m)
+    hostnum = network_local_index_from_global(0)
+    host = gNetworkPlayers[hostnum]
+
+    -- texts are written inside here.
+    --[[ format: 
+    {
+        string, 
+        x, 
+        y, 
+        font, 
+        scale, 
+        color (color in "#xxxxxx" format pls)
+    }
+--]]
+    texts = {
+        {
+            "Hello, Welcome to the Speedrun server!",
+            0,
+            -400,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "Rules:",
+            0,
+            -330,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+            "16 Star: Get 16 Stars",
+            0,
+            -250,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+		    "Get 16 Stars and Beat Bowser",
+            0,
+            -200,
+            globalFont,
+            scale,
+            color
+        },
+		{
+		
+			"(All Glitches are allowed)",
+            0,
+            -150,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "100 Star: Get 100 Stars",
+            0,
+            -50,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+		    "Grab 100 and get the Shrine Ending",
+            0,
+            0,
+            globalFont,
+            scale,
+            color
+        },
+		{
+		
+			"(You need to collect the Shrine Star after getting 99 Stars)",
+            0,
+            50,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+		    "130 Star: Get 130 Stars",
+            0,
+            140,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+		    "Grab All 130 Stars and get the Shrine Ending",
+            0,
+            200,
+            globalFont,
+            scale,
+            color
+        },
+		{
+			"(All Glitches are allowed)",
+            0,
+            260,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "These are the rules of what to do in a speedrun",
+            0,
+            320,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "Breaking the rules will result the run as a invalid",
+            0,
+            360,
+            globalFont,
+            scale,
+            color
+        },
+		{
+            "This Romhack has two ending, which is interesting",
+            0,
+            400,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "Press A to proceed,",
+            0,
+            460,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "OK",
+            0,
+            500,
+            FONT_MENU,
+            scale,
+            "#ff0000"
+        }
+    }
+	
+	ommtexts = {
+        {
+            "Hello, Welcome to the Speedrun server!",
+            0,
+            -400,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "Rules:",
+            0,
+            -330,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "0 Star: Get 0 Stars",
+            -400,
+            -280,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+		    "Climb You're way to Bowser and Grab the Grand Star",
+            -400,
+            -240,
+            globalFont,
+            scale,
+            color
+        },
+		{
+		
+			"(All Glitches are allowed)",
+            -400,
+            -200,
+            globalFont,
+            scale,
+            color
+        },
+		{
+            "1 Star: Get 1 star",
+			 380,
+            -280,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+		    "Grab a Star in Shrine of the Mushroom and enter the Shrine",
+             380,
+            -240,
+            globalFont,
+            scale,
+            color
+        },
+		{
+		
+			"(All Glitches are allowed)",
+             380,
+            -200,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+            "16 Star: Get 16 Stars",
+            0,
+            -140,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+		    "Get 16 Stars and Beat Bowser",
+            0,
+            -100,
+            globalFont,
+            scale,
+            color
+        },
+		{
+		
+			"(BLJs are Banned)",
+            0,
+            -60,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "100 Star: Get 100 Stars",
+            0,
+            0,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+		    "You need to collect the Shrine Star after getting 99 Stars",
+            0,
+            40,
+            globalFont,
+            scale,
+            color
+        },
+		{
+		
+			"(All Glitches are allowed, I guess)",
+            0,
+            80,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+		    "130 Star: Get 130 Stars",
+            0,
+            140,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+		    "Grab All 130 Stars and get the Shrine Ending",
+            0,
+            180,
+            globalFont,
+            scale,
+            color
+        },
+		{
+			"(All Glitches are allowed)",
+            0,
+            220,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "These are the rules of what to do in a speedrun",
+            0,
+            320,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "Breaking the rules will result the run as a invalid",
+            0,
+            360,
+            globalFont,
+            scale,
+            color
+        },
+		{
+            "These rules are for OMM Rebirth, To avoid confusion of what run to do",
+            0,
+            400,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "Press A to proceed,",
+            0,
+            460,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "OK",
+            0,
+            500,
+            FONT_MENU,
+            scale,
+            "#ff0000"
+        }
+    }
+
+    -----------------------------------------
+    -- Main code:
+	for TMConly in pairs(gActiveMods) do
+	if gActiveMods[TMConly].name:find("\\#ff2b1c\\The \\#636363\\Mushroom \\#ffb742\\Cup") and not obj_get_first_with_behavior_id(id_bhvActSelector) then
+    if (TMCswitched == true) then
+        if (TMChasConfirmed == false) then
+            set_mario_action(m, ACT_READING_AUTOMATIC_DIALOG, 0)
+        end
+        -- render the rectangle.
+		if not OmmEnabled then
+        renderRect(190, 120, FONT_MENU, 1000, 1000, "#ffffff")
+		end
+		
+		if OmmEnabled then
+        renderRect(190, 120, FONT_MENU, 1550, 1000, "#ffffff")
+		end
+
+        -- print all texts
+		if not OmmEnabled then
+        for _, v in ipairs(texts) do
+            printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
+			end
+        end
+		
+		-- print all texts
+		if OmmEnabled then
+        for _, v in ipairs(ommtexts) do
+            printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
+			end
+        end
+
+        -- get relative coordinates of OK text
+        local xd = returnX("OK", scale, globalFont)
+        local yd = returnY("OK", scale, globalFont) + 360
+
+        -- get mouse_x and mouse_y coordinates
+        local mousex = djui_hud_get_mouse_x()
+        local mousey = djui_hud_get_mouse_y()
+
+        -- calculate distance between button and mouse
+        -- if player presses D_PAD Down or (if mouse_hover is activated) hovers over the OK text,
+        -- the window closes.
+        local dist = math.sqrt(((xd - mousex) ^ 2) + (((yd + 40) - mousey) ^ 2))
+        if (CLOSE_ON_MOUSE_HOVER) then
+            if (dist < 40) then
+                TMCswitched = false
+                play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+                if (TMChasConfirmed == false) then
+                    set_mario_action(m, ACT_IDLE, 0)
+                    TMChasConfirmed = true
+                end
+            end
+        end
+
+        if (m.controller.buttonPressed & A_BUTTON) ~= 0 then
+            TMCswitched = false
+            if not (m.controller.buttonDown & L_TRIG) ~= 0 and TMChasConfirmed == false then
+			play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+			end
+            if (TMChasConfirmed == false) then
+                set_mario_action(m, ACT_IDLE, 0)
+                TMChasConfirmed = true	
+			end
+		end
+if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then
+	TMCswitched = false
+	if (TMChasConfirmed == false) then
+		set_mario_action(m, ACT_IDLE, 0)
+		TMChasConfirmed = true
+		gGlobalSyncTable.warptointro = false
+			end
+		end
+	if not Rules_Display then
+		TMCswitched = false
+		if (TMChasConfirmed == false) then
+			set_mario_action(m, ACT_IDLE, 0)
+			TMChasConfirmed = true	
+			end
+			end
+		end
+	if (m.controller.buttonDown & L_TRIG) ~= 0 and Rules_Display then
+       TMCswitched = true
+	elseif not (m.controller.buttonDown & L_TRIG) ~= 0 and TMChasConfirmed == true then
+       TMCswitched = false
+	   end
+	end
+	end
+end
+
+local ERswitched = true
+local ERhasConfirmed = false
+function displayrules_eternal_realm(m)
+    hostnum = network_local_index_from_global(0)
+    host = gNetworkPlayers[hostnum]
+
+    -- texts are written inside here.
+    --[[ format: 
+    {
+        string, 
+        x, 
+        y, 
+        font, 
+        scale, 
+        color (color in "#xxxxxx" format pls)
+    }
+--]]
+    texts = {
+        {
+            "Hello, Welcome to the Speedrun server!",
+            0,
+            -400,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "Rules:",
+            0,
+            -330,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+            "0 Star: Get 0 Stars",
+            0,
+            -250,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+		    "Clip Through the Door and grab the key",
+            0,
+            -200,
+            globalFont,
+            scale,
+            color
+        },
+		{
+		
+			"(Make Sure you get WC and VC before doing so)",
+            0,
+            -150,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "25 Star: Get 25 Stars",
+            0,
+            -50,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+		    "Grab 25 and grab the key",
+            0,
+            0,
+            globalFont,
+            scale,
+            color
+        },
+		{
+		
+			"(Skipping the 25 Star Door is Banned)",
+            0,
+            50,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+		    "47 Star: Get 47 Stars",
+            0,
+            140,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+		    "Grab All 47 Stars and grab the key",
+            0,
+            200,
+            globalFont,
+            scale,
+            color
+        },
+		{
+			"(All Glitches are allowed)",
+            0,
+            260,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "These are the rules of what to do in a speedrun",
+            0,
+            320,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "Breaking the rules will result the run as a invalid",
+            0,
+            360,
+            globalFont,
+            scale,
+            color
+        },
+		{
+            "The Timer Stops once the key is collected",
+            0,
+            400,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "Press A to proceed,",
+            0,
+            460,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "OK",
+            0,
+            500,
+            FONT_MENU,
+            scale,
+            "#ff0000"
+        }
+    }
+
+    -----------------------------------------
+    -- Main code:
+	for ERonly in pairs(gActiveMods) do
+	if gActiveMods[ERonly].name:find("Eternal Realm") and not obj_get_first_with_behavior_id(id_bhvActSelector) then
+    if (ERswitched == true) then
+        if (ERhasConfirmed == false) then
+            set_mario_action(m, ACT_READING_AUTOMATIC_DIALOG, 0)
+        end
+        -- render the rectangle.
+        renderRect(190, 120, FONT_MENU, 1000, 1000, "#ffffff")
+
+        -- print all texts
+		
+        for _, v in ipairs(texts) do
+            printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
+        end
+
+        -- get relative coordinates of OK text
+        local xd = returnX("OK", scale, globalFont)
+        local yd = returnY("OK", scale, globalFont) + 360
+
+        -- get mouse_x and mouse_y coordinates
+        local mousex = djui_hud_get_mouse_x()
+        local mousey = djui_hud_get_mouse_y()
+
+        -- calculate distance between button and mouse
+        -- if player presses D_PAD Down or (if mouse_hover is activated) hovers over the OK text,
+        -- the window closes.
+        local dist = math.sqrt(((xd - mousex) ^ 2) + (((yd + 40) - mousey) ^ 2))
+        if (CLOSE_ON_MOUSE_HOVER) then
+            if (dist < 40) then
+                ERswitched = false
+                play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+                if (ERhasConfirmed == false) then
+                    set_mario_action(m, ACT_IDLE, 0)
+                    ERhasConfirmed = true
+                end
+            end
+        end
+
+        if (m.controller.buttonPressed & A_BUTTON) ~= 0 then
+            ERswitched = false
+            if not (m.controller.buttonDown & L_TRIG) ~= 0 and ERhasConfirmed == false then
+			play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+			end
+            if (ERhasConfirmed == false) then
+                set_mario_action(m, ACT_IDLE, 0)
+                ERhasConfirmed = true	
+			end
+		end
+if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then
+	ERswitched = false
+	if (ERhasConfirmed == false) then
+		set_mario_action(m, ACT_IDLE, 0)
+		ERhasConfirmed = true
+		gGlobalSyncTable.warptointro = false
+			end
+		end
+	if not Rules_Display then
+		ERswitched = false
+		if (ERhasConfirmed == false) then
+			set_mario_action(m, ACT_IDLE, 0)
+			ERhasConfirmed = true	
+			end
+			end
+		end
+	if (m.controller.buttonDown & L_TRIG) ~= 0 and Rules_Display then
+       ERswitched = true
+	elseif not (m.controller.buttonDown & L_TRIG) ~= 0 and ERhasConfirmed == true then
+       ERswitched = false
+	   end
+	end
+	end
+end
+
+local DMGswitched = true
+local DMGhasConfirmed = false
+function displayrules_despair_mario_gambit(m)
+    hostnum = network_local_index_from_global(0)
+    host = gNetworkPlayers[hostnum]
+
+    -- texts are written inside here.
+    --[[ format: 
+    {
+        string, 
+        x, 
+        y, 
+        font, 
+        scale, 
+        color (color in "#xxxxxx" format pls)
+    }
+--]]
+    texts = {
+        {
+            "Hello, Welcome to the Speedrun server!",
+            0,
+            -400,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "Rules:",
+            0,
+            -330,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+            "0 Star: Get 0 Stars",
+            0,
+            -250,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+		    "Clip Through the Doors and then enter the pipe",
+            0,
+            -200,
+            globalFont,
+            scale,
+            color
+        },
+		{
+		
+			"(All Glitches are allowed)",
+            0,
+            -150,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "53 Star: Get 53 Stars",
+            0,
+            -50,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+		    "Grab 53 stars and then enter the pipe",
+            0,
+            0,
+            globalFont,
+            scale,
+            color
+        },
+		{
+		
+			"(Skipping the 53 Star Door is Banned)",
+            0,
+            50,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+		    "120 Star: Get 120 Stars",
+            0,
+            140,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+		    "Grab All 120 Stars and then enter the pipe",
+            0,
+            200,
+            globalFont,
+            scale,
+            color
+        },
+		{
+			"(All Glitches are allowed)",
+            0,
+            260,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "These are the rules of what to do in a speedrun",
+            0,
+            320,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "Breaking the rules will result the run as a invalid",
+            0,
+            360,
+            globalFont,
+            scale,
+            color
+        },
+		{
+            "The Timer Stops once entering the end picture",
+            0,
+            400,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "Press A to proceed,",
+            0,
+            460,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "OK",
+            0,
+            500,
+            FONT_MENU,
+            scale,
+            "#ff0000"
+        }
+    }
+	
+	ommtexts = {
+        {
+            "Hello, Welcome to the OMM Rebirth Speedrun server!",
+            0,
+			-360,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "Rules:",
+            0,
+            -280,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "53 Star: Get 53 Stars",
+            0,
+            -200,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+		    "Grab 53 stars and then enter the pipe",
+            0,
+            -150,
+            globalFont,
+            scale,
+            color
+        },
+		{
+		
+			"(Skipping the 53 Star Door is Banned)",
+            0,
+            -90,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+		    "120 Star: Get 120 Stars",
+            0,
+            20,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+		    "Grab All 120 Stars and then enter the pipe",
+            0,
+            80,
+            globalFont,
+            scale,
+            color
+        },
+		{
+			"(All Glitches are allowed)",
+            0,
+            140,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "These are the rules of what to do in a speedrun",
+            0,
+            240,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "Breaking the rules will result the run as a invalid",
+            0,
+            280,
+            globalFont,
+            scale,
+            color
+        },
+		{
+            "These rules are for OMM Rebirth, To avoid confusion of what run to do",
+            0,
+            320,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "Press A to proceed,",
+            0,
+            430,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "OK",
+            0,
+            480,
+            FONT_MENU,
+            scale,
+            "#ff0000"
+        }
+    }
+
+    -----------------------------------------
+    -- Main code:
+	for DMGonly in pairs(gActiveMods) do
+	if gActiveMods[DMGonly].name:find("Despair Mario's Gambit") and not obj_get_first_with_behavior_id(id_bhvActSelector) then
+    if (DMGswitched == true) then
+        if (DMGhasConfirmed == false) then
+            set_mario_action(m, ACT_READING_AUTOMATIC_DIALOG, 0)
+        end
+        -- render the rectangle.
+		if not OmmEnabled then
+        renderRect(190, 120, FONT_MENU, 1000, 1000, "#ffffff")
+		end
+		
+		if OmmEnabled then
+        renderRect(190, 120, FONT_MENU, 1000, 950, "#ffffff")
+		end
+
+        -- print all texts
+		if not OmmEnabled then
+        for _, v in ipairs(texts) do
+            printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
+			end
+        end
+		
+		if OmmEnabled then
+		for _, v in ipairs(ommtexts) do
+            printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
+			end
+        end
+		
+        -- get relative coordinates of OK text
+        local xd = returnX("OK", scale, globalFont)
+        local yd = returnY("OK", scale, globalFont) + 360
+
+        -- get mouse_x and mouse_y coordinates
+        local mousex = djui_hud_get_mouse_x()
+        local mousey = djui_hud_get_mouse_y()
+
+        -- calculate distance between button and mouse
+        -- if player presses D_PAD Down or (if mouse_hover is activated) hovers over the OK text,
+        -- the window closes.
+        local dist = math.sqrt(((xd - mousex) ^ 2) + (((yd + 40) - mousey) ^ 2))
+        if (CLOSE_ON_MOUSE_HOVER) then
+            if (dist < 40) then
+                DMGswitched = false
+                play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+                if (DMGhasConfirmed == false) then
+                    set_mario_action(m, ACT_IDLE, 0)
+                    DMGhasConfirmed = true
+                end
+            end
+        end
+
+        if (m.controller.buttonPressed & A_BUTTON) ~= 0 then
+            DMGswitched = false
+            if not (m.controller.buttonDown & L_TRIG) ~= 0 and DMGhasConfirmed == false then
+			play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+			end
+            if (DMGhasConfirmed == false) then
+                set_mario_action(m, ACT_IDLE, 0)
+                DMGhasConfirmed = true	
+			end
+		end
+if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then
+	DMGswitched = false
+	if (DMGhasConfirmed == false) then
+		set_mario_action(m, ACT_IDLE, 0)
+		DMGhasConfirmed = true
+		gGlobalSyncTable.warptointro = false
+			end
+		end
+	if not Rules_Display then
+		DMGswitched = false
+		if (DMGhasConfirmed == false) then
+			set_mario_action(m, ACT_IDLE, 0)
+			DMGhasConfirmed = true	
+			end
+			end
+		end
+	if (m.controller.buttonDown & L_TRIG) ~= 0 and Rules_Display then
+       DMGswitched = true
+	elseif not (m.controller.buttonDown & L_TRIG) ~= 0 and DMGhasConfirmed == true then
+       DMGswitched = false
+	   end
+	end
+	end
+end
+
+local SRLswitched = true
+local SRLhasConfirmed = false
+function displayrules_super_retro_land(m)
+
+    -- texts are written inside here.
+    --[[ format: 
+    {
+        string, 
+        x, 
+        y, 
+        font, 
+        scale, 
+        color (color in "#xxxxxx" format pls)
+    }
+--]]
+    texts = {
+        {
+            "Hello, Welcome to the Speedrun server!",
+            0,
+			-280,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "Rules:",
+            0,
+            -200,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+		    "4 Stars: Get 4 Stars",
+            0,
+            -140,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+		    "Grab all 4 Stars and then Grab The Key",
+            0,
+            -90,
+            globalFont,
+            scale,
+            color
+        },
+		{
+			"You Need the key to open Mario's House Door to enter the bed",
+            0,
+            -40,
+            globalFont,
+            scale,
+            color
+        },
+		{
+		
+			"(All Glitches are allowed)",
+            0,
+            10,
+            globalFont,
+            scale,
+            color
+        },
+		{
+            "This is the rules of what to do in a speedrun",
+            0,
+            120,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "Breaking the rules will result the run as a invalid",
+            0,
+            160,
+            globalFont,
+            scale,
+            color
+        },
+		{
+            "The timer will stop once entering the bed",
+            0,
+            200,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "Press A to proceed,",
+            0,
+            270,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "OK",
+            0,
+            360,
+            FONT_MENU,
+            scale,
+            "#ff0000"
+        }
+    }
+	
+	ommtexts = {
+        {
+            "Hello, Welcome to the OMM Rebirth Speedrun server!",
+            0,
+			-360,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "Rules:",
+            0,
+            -280,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "0 Stars: Get 0 Stars",
+            0,
+            -200,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+		    "Grab the key and then enter the bed",
+            0,
+            -150,
+            globalFont,
+            scale,
+            color
+        },
+		{
+		
+			"(All Glitches are allowed)",
+            0,
+            -90,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+		    "4 Stars: Get 4 Stars",
+            0,
+            20,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+		    "Grab all 4 Stars and then enter the bed",
+            0,
+            80,
+            globalFont,
+            scale,
+            color
+        },
+		{
+			"(All Glitches are allowed)",
+            0,
+            140,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "These are the rules of what to do in a speedrun",
+            0,
+            240,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "Breaking the rules will result the run as a invalid",
+            0,
+            280,
+            globalFont,
+            scale,
+            color
+        },
+		{
+            "These rules are for OMM Rebirth, To avoid confusion of what run to do",
+            0,
+            320,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "Press A to proceed,",
+            0,
+            430,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "OK",
+            0,
+            480,
+            FONT_MENU,
+            scale,
+            "#ff0000"
+        }
+    }
+
+    -----------------------------------------
+    -- Main code:
+	for SRLonly in pairs(gActiveMods) do
+	if gActiveMods[SRLonly].name:find("Super Retro Land") and not obj_get_first_with_behavior_id(id_bhvActSelector) then
+    if (SRLswitched == true) then
+        if (SRLhasConfirmed == false) then
+            set_mario_action(m, ACT_READING_AUTOMATIC_DIALOG, 0)
+        end
+        -- render the rectangle.
+		if not OmmEnabled then
+        renderRect(190, 120, FONT_MENU, 790, 800, "#ffffff")
+		end
+
+        if OmmEnabled then
+        renderRect(190, 120, FONT_MENU, 1000, 950, "#ffffff")
+		end
+
+        -- print all texts
+		if not OmmEnabled then
+        for _, v in ipairs(texts) do
+            printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
+			end
+        end
+		
+		if OmmEnabled then
+		for _, v in ipairs(ommtexts) do
+            printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
+			end
+        end
+
+        -- get relative coordinates of OK text
+        local xd = returnX("OK", scale, globalFont)
+        local yd = returnY("OK", scale, globalFont) + 360
+
+        -- get mouse_x and mouse_y coordinates
+        local mousex = djui_hud_get_mouse_x()
+        local mousey = djui_hud_get_mouse_y()
+
+        -- calculate distance between button and mouse
+        -- if player presses D_PAD Down or (if mouse_hover is activated) hovers over the OK text,
+        -- the window closes.
+        local dist = math.sqrt(((xd - mousex) ^ 2) + (((yd + 40) - mousey) ^ 2))
+        if (CLOSE_ON_MOUSE_HOVER) then
+            if (dist < 40) then
+                SRLswitched = false
+                play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+                if (SRLhasConfirmed == false) then
+                    set_mario_action(m, ACT_IDLE, 0)
+                    SRLhasConfirmed = true
+                end
+            end
+        end
+
+        if (m.controller.buttonPressed & A_BUTTON) ~= 0 then
+            SRLswitched = false
+            if not (m.controller.buttonDown & L_TRIG) ~= 0 and SRLhasConfirmed == false then
+			play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+			end
+            if (SRLhasConfirmed == false) then
+                set_mario_action(m, ACT_IDLE, 0)
+                SRLhasConfirmed = true	
+			end
+			end
+if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then
+	SRLswitched = false
+	if (SRLhasConfirmed == false) then
+        set_mario_action(m, ACT_IDLE, 0)
+        SRLhasConfirmed = true
+		gGlobalSyncTable.warptointro = false
+			end
+		end
+	if not Rules_Display then
+		SRLswitched = false
+		if (SRLhasConfirmed == false) then
+			set_mario_action(m, ACT_IDLE, 0)
+			SRLhasConfirmed = true
+			end
+			end
+		end
+	if (m.controller.buttonDown & L_TRIG) ~= 0 and Rules_Display then
+       SRLswitched = true
+	elseif not (m.controller.buttonDown & L_TRIG) ~= 0 and SRLhasConfirmed == true then
+       SRLswitched = false
+	   end
+	end
+	end
+end
+
+local Katzeswitched = true
+local KatzehasConfirmed = false
+function displayrules_katze_64(m)
+    hostnum = network_local_index_from_global(0)
+    host = gNetworkPlayers[hostnum]
+
+    -- texts are written inside here.
+    --[[ format: 
+    {
+        string, 
+        x, 
+        y, 
+        font, 
+        scale, 
+        color (color in "#xxxxxx" format pls)
+    }
+--]]
+    texts = {
+        {
+            "Hello, Welcome to the Speedrun server!",
+            0,
+            -400,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "Rules:",
+            0,
+            -330,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+            "0 Burger: Get 0 Burgers",
+            0,
+            -250,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+		    "Clip Through the Doors and then enter the warp",
+            0,
+            -200,
+            globalFont,
+            scale,
+            color
+        },
+		{
+		
+			"(All Glitches are allowed)",
+            0,
+            -150,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "30 Burger: Get 30 Burgers",
+            0,
+            -50,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+		    "Grab 30 burgers and then enter the warp",
+            0,
+            0,
+            globalFont,
+            scale,
+            color
+        },
+		{
+		
+			"(Skipping the 30 burger door is Banned)",
+            0,
+            50,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+		    "40 Burger: Get 40 Burgers",
+            0,
+            140,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+		    "Grab All 40 burgers and then enter the warp",
+            0,
+            200,
+            globalFont,
+            scale,
+            color
+        },
+		{
+			"(All Glitches are allowed)",
+            0,
+            260,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "These are the rules of what to do in a speedrun",
+            0,
+            320,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "Breaking the rules will result the run as a invalid",
+            0,
+            360,
+            globalFont,
+            scale,
+            color
+        },
+		{
+            "The Timer Stops once entering the end picture",
+            0,
+            400,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "Press A to proceed,",
+            0,
+            460,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "OK",
+            0,
+            500,
+            FONT_MENU,
+            scale,
+            "#ff0000"
+        }
+    }
+	
+	ommtexts = {
+        {
+            "Hello, Welcome to the OMM Rebirth Speedrun server!",
+            0,
+			-360,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "Rules:",
+            0,
+            -280,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "30 Burger: Get 30 Burgers",
+            0,
+            -200,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+		    "Grab 30 burgers and then enter the warp",
+            0,
+            -150,
+            globalFont,
+            scale,
+            color
+        },
+		{
+		
+			"(Skipping the 30 burger door is Banned)",
+            0,
+            -90,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+		    "40 Burger: Get 40 Burgers",
+            0,
+            20,
+            globalFont,
+            scale,
+            color
+        },
+        {
+		
+		    "Grab All 40 burgers and then enter the warp",
+            0,
+            80,
+            globalFont,
+            scale,
+            color
+        },
+		{
+			"(All Glitches are allowed)",
+            0,
+            140,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "These are the rules of what to do in a speedrun",
+            0,
+            240,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "Breaking the rules will result the run as a invalid",
+            0,
+            280,
+            globalFont,
+            scale,
+            color
+        },
+		{
+            "These rules are for OMM Rebirth, To avoid confusion of what run to do",
+            0,
+            320,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "Press A to proceed,",
+            0,
+            430,
+            globalFont,
+            scale,
+            color
+        },
+        {
+            "OK",
+            0,
+            480,
+            FONT_MENU,
+            scale,
+            "#ff0000"
+        }
+    }
+
+    -----------------------------------------
+    -- Main code:
+	for Katzeonly in pairs(gActiveMods) do
+	if gActiveMods[Katzeonly].name:find("Katze Stuck in the Toilet 64") and not obj_get_first_with_behavior_id(id_bhvActSelector) then
+    if (Katzeswitched == true) then
+        if (KatzehasConfirmed == false) then
+            set_mario_action(m, ACT_READING_AUTOMATIC_DIALOG, 0)
+        end
+        -- render the rectangle.
+		if not OmmEnabled then
+        renderRect(190, 120, FONT_MENU, 1000, 1000, "#ffffff")
+		end
+		
+		if OmmEnabled then
+        renderRect(190, 120, FONT_MENU, 1000, 950, "#ffffff")
+		end
+
+        -- print all texts
+		if not OmmEnabled then
+        for _, v in ipairs(texts) do
+            printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
+			end
+        end
+		
+		if OmmEnabled then
+		for _, v in ipairs(ommtexts) do
+            printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
+			end
+        end
+		
+        -- get relative coordinates of OK text
+        local xd = returnX("OK", scale, globalFont)
+        local yd = returnY("OK", scale, globalFont) + 360
+
+        -- get mouse_x and mouse_y coordinates
+        local mousex = djui_hud_get_mouse_x()
+        local mousey = djui_hud_get_mouse_y()
+
+        -- calculate distance between button and mouse
+        -- if player presses D_PAD Down or (if mouse_hover is activated) hovers over the OK text,
+        -- the window closes.
+        local dist = math.sqrt(((xd - mousex) ^ 2) + (((yd + 40) - mousey) ^ 2))
+        if (CLOSE_ON_MOUSE_HOVER) then
+            if (dist < 40) then
+                Katzeswitched = false
+                play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+                if (KatzehasConfirmed == false) then
+                    set_mario_action(m, ACT_IDLE, 0)
+                    KatzehasConfirmed = true
+                end
+            end
+        end
+
+        if (m.controller.buttonPressed & A_BUTTON) ~= 0 then
+            Katzeswitched = false
+            if not (m.controller.buttonDown & L_TRIG) ~= 0 and KatzehasConfirmed == false then
+			play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
+			end
+            if (KatzehasConfirmed == false) then
+                set_mario_action(m, ACT_IDLE, 0)
+                KatzehasConfirmed = true	
+			end
+		end
+if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then
+	Katzeswitched = false
+	if (KatzehasConfirmed == false) then
+		set_mario_action(m, ACT_IDLE, 0)
+		KatzehasConfirmed = true
+		gGlobalSyncTable.warptointro = false
+			end
+		end
+	if not Rules_Display then
+		Katzeswitched = false
+		if (KatzehasConfirmed == false) then
+			set_mario_action(m, ACT_IDLE, 0)
+			KatzehasConfirmed = true	
+			end
+			end
+		end
+	if (m.controller.buttonDown & L_TRIG) ~= 0 and Rules_Display then
+       Katzeswitched = true
+	elseif not (m.controller.buttonDown & L_TRIG) ~= 0 and KatzehasConfirmed == true then
+       Katzeswitched = false
+	   end
+	end
 	end
 end
 
@@ -8489,371 +10336,4 @@ function displaycredits2()
     creditsswitched = true
 	creditshasConfirmed = false
 	return true
-end
-
-function displaycontrols2()
-    if (controlsswitched) then
-        djui_chat_message_create("The window has already been opened. Please close it first.")
-        return true
-    end
-    controlsswitched = true
-	return true
-end
-
-function displayrules2()
-    if (switched) then
-        djui_chat_message_create("The window has already been opened. Please close it first.")
-        return true
-    end
-    switched = true
-    return true
-end
-
-function displayrules2_starroad()
-    if (srswitched) then
-        djui_chat_message_create("The window has already been opened. Please close it first.")
-        return true
-    end
-    srswitched = true
-    return true
-end
-
-function displayrules2_74()
-    if (switched74) then
-        djui_chat_message_create("The window has already been opened. Please close it first.")
-        return true
-    end
-    switched74 = true
-    return true
-end
-
-function displayrules2_74ee()
-    if (switched74ee) then
-        djui_chat_message_create("The window has already been opened. Please close it first.")
-        return true
-    end
-    switched74ee = true
-    return true
-end
-
-function displayrules2_74ty()
-    if (switched74ty) then
-        djui_chat_message_create("The window has already been opened. Please close it first.")
-        return true
-    end
-    switched74ty = true
-    return true
-end
-
-function displayrules2_ms()
-    if (msswitched) then
-        djui_chat_message_create("The window has already been opened. Please close it first.")
-        return true
-    end
-    msswitched = true
-    return true
-end
-
-function displayrules2_kbr2()
-    if (switchedkbr2) then
-        djui_chat_message_create("The window has already been opened. Please close it first.")
-        return true
-    end
-    switchedkbr2 = true
-    return true
-end
-
-function displayrules2_lug()
-    if (lugswitched) then
-        djui_chat_message_create("The window has already been opened. Please close it first.")
-        return true
-    end
-    lugswitched = true
-    return true
-end
-
-function displayrules2_green_stars()
-    if (gsswitched) then
-        djui_chat_message_create("The window has already been opened. Please close it first.")
-        return true
-    end
-    gsswitched = true
-    return true
-end
-
-function displayrules2_sapphire()
-    if (switchedsapphire) then
-        djui_chat_message_create("The window has already been opened. Please close it first.")
-        return true
-    end
-    switchedsapphire = true
-    return true
-end
-
-function displayrules2_tpc()
-    if (tpcswitched) then
-        djui_chat_message_create("The window has already been opened. Please close it first.")
-        return true
-    end
-    tpcswitched = true
-    return true
-end
-
-function displayrules2_star_takeover()
-    if (stoswitched) then
-        djui_chat_message_create("The window has already been opened. Please close it first.")
-        return true
-    end
-    stoswitched = true
-    return true
-end
-
-function displayrules2_night_of_doom()
-    if (nodswitched) then
-        djui_chat_message_create("The window has already been opened. Please close it first.")
-        return true
-    end
-    nodswitched = true
-    return true
-end
-
-function displayrules2_sr65()
-    if (sr65switched) then
-        djui_chat_message_create("The window has already been opened. Please close it first.")
-        return true
-    end
-    sr65switched = true
-    return true
-end
-
-function displayrules2_ta()
-    if (taswitched) then
-        djui_chat_message_create("The window has already been opened. Please close it first.")
-        return true
-    end
-    taswitched = true
-    return true
-end
-
-function displayrules2_lm64()
-    if (lmswitched) then
-        djui_chat_message_create("The window has already been opened. Please close it first.")
-        return true
-    end
-    lmswitched = true
-    return true
-end
-
-function displayrules2_lm65()
-    if (lm65switched) then
-        djui_chat_message_create("The window has already been opened. Please close it first.")
-        return true
-    end
-    lm65switched = true
-    return true
-end
-
-function displayrules2_paradise_island()
-    if (PIswitched) then
-        djui_chat_message_create("The window has already been opened. Please close it first.")
-        return true
-    end
-    PIswitched = true
-    return true
-end
-
-function displayrules2_ztar_attack_2()
-    if (ZA2switched) then
-        djui_chat_message_create("The window has already been opened. Please close it first.")
-        return true
-    end
-    ZA2switched = true
-    return true
-end
-
-function displayrules2_pink_star()
-    if (switchedpinkstar) then
-        djui_chat_message_create("The window has already been opened. Please close it first.")
-        return true
-    end
-    switchedpinkstar = true
-    return true
-end
-
-function displayrules2_hidden_stars()
-    if (HSswitched) then
-        djui_chat_message_create("The window has already been opened. Please close it first.")
-        return true
-    end
-    HSswitched = true
-    return true
-end
-
-function displayrules2_galactic_journey()
-    if (GJswitched) then
-        djui_chat_message_create("The window has already been opened. Please close it first.")
-        return true
-    end
-    GJswitched = true
-    return true
-end
-
-function displayrules2_star_takeover_redone()
-    if (storswitched) then
-        djui_chat_message_create("The window has already been opened. Please close it first.")
-        return true
-    end
-    storswitched = true
-    return true
-end
-
-function displayrules2_forest_ruins()
-    if (FRswitched) then
-        djui_chat_message_create("The window has already been opened. Please close it first.")
-        return true
-    end
-    FRswitched = true
-    return true
-end
-
-if not SM64Rulesonly and Rules_Display then
-hook_chat_command("sm64 rules", "displays the rules of this server", displayrules2)
-end
-
-for star_road_rules in pairs(gActiveMods) do
-if Rules_Display and gActiveMods[star_road_rules].name:find("Star Road") or gActiveMods[star_road_rules].name:find("Star Road: The Replica Comet") then
-hook_chat_command("star road rules", "displays star road rules of this server", displayrules2_starroad)
-	end
-end
-
-for sm74_rules in pairs(gActiveMods) do
-if Rules_Display and (gActiveMods[sm74_rules].name:find("Super Mario 74") and not gActiveMods[sm74_rules].name:find("Ten Years After")) then
-hook_chat_command("sm74 rules", "displays super mario 74 rules of this server", displayrules2_74)
-	end
-end
-
-for sm74ee_rules in pairs(gActiveMods) do
-if Rules_Display and gActiveMods[sm74ee_rules].name:find("Super Mario 74") and gNetworkPlayers[0].currAreaIndex ~= 1 then
-hook_chat_command("sm74ee rules", "displays super mario 74 extreme edition rules of this server", displayrules2_74ee)
-	end
-end
-
-for sm74ty_rules in pairs(gActiveMods) do
-if Rules_Display and gActiveMods[sm74ty_rules].name:find("Ten Years After") then
-hook_chat_command("sm74ty rules", "displays super mario 74 ten years after rules of this server", displayrules2_74ty)
-	end
-end
-
-for moonshine_rules in pairs(gActiveMods) do
-if Rules_Display and gActiveMods[moonshine_rules].name:find("Super Mario 64 Moonshine") then
-hook_chat_command("moonshine rules", "displays super mario 64 moonshine rules of this server", displayrules2_ms)
-	end
-end
-
-for kbr2_rules in pairs(gActiveMods) do
-if Rules_Display and gActiveMods[kbr2_rules].name:find("King Boo's Revenge 2") then
-hook_chat_command("kbr2 rules", "displays king boo's revenge 2 rules of this server", displayrules2_kbr2)
-	end
-end
-
-for lug_rules in pairs(gActiveMods) do
-if Rules_Display and gActiveMods[lug_rules].name:find("Lug's Delightful Dioramas") or gActiveMods[lug_rules].name:find("Lug's Delightful Dioramas Green Comet") then
-hook_chat_command("lug rules", "displays lug's delightful dioramas rules of this server", displayrules2_lug)
-	end
-end
-
-for green_stars_rules in pairs(gActiveMods) do
-if Rules_Display and gActiveMods[green_stars_rules].name:find("SM64: The Green Stars") then
-hook_chat_command("green stars rules", "displays super mario 64 the green stars of this server", displayrules2_green_stars)
-	end
-end
-
-for sapphire_rules in pairs(gActiveMods) do
-if Rules_Display and gActiveMods[sapphire_rules].name:find("SM64 \\#0f52ba\\Sapphire\\#ffffff\\") then
-hook_chat_command("sapphire rules", "displays super mario 64 sapphire rules of this server", displayrules2_ms)
-	end
-end
-
-for phantom_rules in pairs(gActiveMods) do
-if Rules_Display and gActiveMods[phantom_rules].name:find("The Phantom's Call") then
-hook_chat_command("phantom rules", "displays phantom's call rules of this server", displayrules2_tpc)
-	end
-end
-
-for star_takeover_rules in pairs(gActiveMods) do
-if Rules_Display and gActiveMods[star_takeover_rules].name:find("Star Revenge 1: Star Takeover") then
-hook_chat_command("star takeover rules", "displays SR1: Star Takeover rules of this server", displayrules2_star_takeover)
-	end
-end
-
-for night_of_doom_rules in pairs(gActiveMods) do
-if Rules_Display and gActiveMods[night_of_doom_rules].name:find("Star Revenge 2: Night of Doom") then
-hook_chat_command("night of doom rules", "displays SR2: Night of Doom rules of this server", displayrules2_night_of_doom)
-	end
-end
-
-for sr65_rules in pairs(gActiveMods) do
-if Rules_Display and gActiveMods[sr65_rules].name:find("Star Revenge 6.5") then
-hook_chat_command("sr6.5 rules", "displays star revenge 6.5 rules of this server", displayrules2_sr65)
-	end
-end
-
-for ta_rules in pairs(gActiveMods) do
-if Rules_Display and gActiveMods[ta_rules].name:find("Twisted Adventures") then
-hook_chat_command("ta rules", "displays sm64 twisted adventures rules of this server", displayrules2_ta)
-	end
-end
-
-for lm64_rules in pairs(gActiveMods) do
-if Rules_Display and (gActiveMods[lm64_rules].name:find("Luigi's Mansion 64") and not gActiveMods[lm64_rules].name:find("Luigi's Mansion 64.5")) then
-hook_chat_command("lm64 rules", "displays luigi's mansion 64 rules of this server", displayrules2_lm64)
-	end
-end
-
-for lm65_rules in pairs(gActiveMods) do
-if Rules_Display and gActiveMods[lm65_rules].name:find("Luigi's Mansion 64.5") then
-hook_chat_command("lm64.5 rules", "displays luigi's mansion 64 (easy and super players) rules of this server", displayrules2_lm65)
-	end
-end
-
-for paradise_rules in pairs(gActiveMods) do
-if Rules_Display and gActiveMods[paradise_rules].name:find("SM64 Paradise Island") then
-hook_chat_command("PI rules", "displays sm64 paradise island rules of this server", displayrules2_paradise_island)
-	end
-end
-
-for ztar_attack_2_rules in pairs(gActiveMods) do
-if Rules_Display and gActiveMods[ztar_attack_2_rules].name:find("\\#0c33c2\\Ztar Attack \\#c20c0c\\2") then
-hook_chat_command("ztar attack 2 rules", "displays Ztar Attack 2 rules of this server", displayrules2_ztar_attack_2)
-	end
-end
-
-for pink_stars_rules in pairs(gActiveMods) do
-if Rules_Display and gActiveMods[pink_stars_rules].name:find("pink star") then
-hook_chat_command("pink stars rules", "displays SM64 Peach and the pink star rules of this server", displayrules2_pink_star)
-	end
-end
-
-for hidden_stars_rules in pairs(gActiveMods) do
-if Rules_Display and gActiveMods[hidden_stars_rules].name:find("SM 64 Hidden Stars") then
-hook_chat_command("hidden stars rules", "displays SM 64 Hidden Stars rules of this server", displayrules2_pink_star)
-	end
-end
-
-for galactic_journey_rules in pairs(gActiveMods) do
-if Rules_Display and gActiveMods[galactic_journey_rules].name:find("The Galactic Journey") then
-hook_chat_command("galactic journey rules", "displays Super Mario The Galactic Journey rules of this server", displayrules2_galactic_journey)
-	end
-end
-
-for star_takeover_redone_rules in pairs(gActiveMods) do
-if Rules_Display and gActiveMods[star_takeover_redone_rules].name:find("Star Takeover Redone") then
-hook_chat_command("star takeover redone rules", "displays SR1: Star Takeover Redone rules of this server", displayrules2_star_takeover_redone)
-	end
-end
-
-for forest_ruins_rules in pairs(gActiveMods) do
-if Rules_Display and gActiveMods[forest_ruins_rules].name:find("\\#074916\\Luigi and the Forest Ruins\\#ffffff\\") then
-hook_chat_command("forest ruins rules", "displays Luigi and the Forest Ruins rules of this server", displayrules2_forest_ruins)
-	end
 end

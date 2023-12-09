@@ -1,77 +1,5 @@
 if gamemodes_is_checked or notallowedmods or no_cheats then return end
 
-if mod_storage_load("showSpeedrunTimer") == nil or mod_storage_load("showSpeedrunTimer") == "true" then
-	showSpeedrunTimer = true
-else
-	showSpeedrunTimer = false
-end
-
-if mod_storage_load("showNormalCountdown") == nil or mod_storage_load("showNormalCountdown") == "true" then
-	showNormalCountdown = true
-else
-	showNormalCountdown = false
-end
-
-if mod_storage_load("showClassicCountdown") == nil or mod_storage_load("showClassicCountdown") == "true" then
-	showClassicCountdown = true
-else
-	showClassicCountdown = false
-end
-
-if mod_storage_load("showNewCountdown") == nil or mod_storage_load("showNewCountdown") == "true" then
-	showNewCountdown = true
-else
-	showNewCountdown = false
-end
-
-if mod_storage_load("showMenuCountdown") == nil or mod_storage_load("showMenuCountdown") == "true" then
-	showMenuCountdown = true
-else
-	showMenuCountdown = false
-end
-
-if mod_storage_load("showSm64Countdown") == nil or mod_storage_load("showSm64Countdown") == "true" then
-	showSm64Countdown = true
-else
-	showSm64Countdown = false
-end
-
-if mod_storage_load("BISFonts") == nil or mod_storage_load("BISFonts") == "true" then
-	BISFonts = true
-else
-	BISFonts = false
-end
-
-if mod_storage_load("MPFonts") == nil or mod_storage_load("MPFonts") == "true" then
-	MPFonts = true
-else
-	MPFonts = false
-end
-
-if mod_storage_load("MK64Fonts") == nil or mod_storage_load("MK64Fonts") == "true" then
-	MK64Fonts = true
-else
-	MK64Fonts = false
-end
-
-if mod_storage_load("SM64DSFonts") == nil or mod_storage_load("SM64DSFonts") == "true" then
-	SM64DSFonts = true
-else
-	SM64DSFonts = false
-end
-
-if mod_storage_load("SMBFonts") == nil or mod_storage_load("SMBFonts") == "true" then
-	SMBFonts = true
-else
-	SMBFonts = false
-end
-
-if mod_storage_load("MPDSFonts") == nil or mod_storage_load("MPDSFonts") == "true" then
-	MPDSFonts = true
-else
-	MPDSFonts = false
-end
-
 -- Don't remove this, otherwise an error will appear
 local x = 0
 local y = 0
@@ -124,18 +52,6 @@ function normal_hud_center_render()
 
     djui_hud_set_color(255, 255, 255, 255);
     djui_hud_print_text(text, x, y, size);
-	
-	showNormalCountdown = true
-	showClassicCountdown = false
-	showNewCountdown = false
-	showMenuCountdown = false
-	showSm64Countdown = false
-	BISFonts = false
-	MPFonts = false
-	MK64Fonts = false
-	SM64DSFonts = false
-	SMBFonts = false
-	MPDSFonts = false
 end
 
 -- Display the Go after the countdown timer ends
@@ -173,18 +89,6 @@ end
 
     djui_hud_set_color(255, 255, 255, 255);
     djui_hud_print_text(text, x, y, size);
-	
-	showNormalCountdown = true
-	showClassicCountdown = false
-	showNewCountdown = false
-	showMenuCountdown = false
-	showSm64Countdown = false
-	BISFonts = false
-	MPFonts = false
-	MK64Fonts = false
-	SM64DSFonts = false
-	SMBFonts = false
-	MPDSFonts = false
 	end
 end
 
@@ -225,18 +129,6 @@ function normal_hud_bottom_render()
 
     djui_hud_set_color(255, 255, 255, 255);
     djui_hud_print_text(text, x, y, size);
-	
-	showNormalCountdown = true
-	showClassicCountdown = false
-	showNewCountdown = false
-	showMenuCountdown = false
-	showSm64Countdown = false
-	BISFonts = false
-	MPFonts = false
-	MK64Fonts = false
-	SM64DSFonts = false
-	SMBFonts = false
-	MPDSFonts = false
 end
 
 -- Display the countdown timer with normal font
@@ -269,18 +161,6 @@ function classic_hud_center_render()
 
     djui_hud_set_color(255, 255, 255, 255);
     djui_hud_print_text(text, x, y, size);
-	
-	showNormalCountdown = false
-	showClassicCountdown = true
-	showNewCountdown = false
-	showMenuCountdown = false
-	showSm64Countdown = false
-	BISFonts = false
-	MPFonts = false
-	MK64Fonts = false
-	SM64DSFonts = false
-	SMBFonts = false
-	MPDSFonts = false
 end
 
 -- Display the Go after the countdown timer ends
@@ -318,18 +198,6 @@ end
 
     djui_hud_set_color(255, 255, 255, 255);
     djui_hud_print_text(text, x, y, size);
-	
-	showNormalCountdown = false
-	showClassicCountdown = true
-	showNewCountdown = false
-	showMenuCountdown = false
-	showSm64Countdown = false
-	BISFonts = false
-	MPFonts = false
-	MK64Fonts = false
-	SM64DSFonts = false
-	SMBFonts = false
-	MPDSFonts = false
 	end
 end
 
@@ -370,18 +238,6 @@ function classic_hud_bottom_render()
 
     djui_hud_set_color(255, 255, 255, 255);
     djui_hud_print_text(text, x, y, size);
-	
-	showNormalCountdown = false
-	showClassicCountdown = true
-	showNewCountdown = false
-	showMenuCountdown = false
-	showSm64Countdown = false
-	BISFonts = false
-	MPFonts = false
-	MK64Fonts = false
-	SM64DSFonts = false
-	SMBFonts = false
-	MPDSFonts = false
 end
 
 -- Display the countdown timer with hud font
@@ -410,18 +266,6 @@ function font_hud_center_render()
 	
     djui_hud_set_color(255, 255, 255, 255);
     djui_hud_print_text(text, x - 3, y, size);
-	
-	showNormalCountdown = false
-	showClassicCountdown = false
-	showNewCountdown = true
-	showMenuCountdown = false
-	showSm64Countdown = false
-	BISFonts = false
-	MPFonts = false
-	MK64Fonts = false
-	SM64DSFonts = false
-	SMBFonts = false
-	MPDSFonts = false
 end
 
 -- Display the Go after the countdown timer ends
@@ -455,18 +299,6 @@ end
 	
     djui_hud_set_color(255, 255, 255, 255);
     djui_hud_print_text(text, x + 7, y, size);
-	
-	showNormalCountdown = false
-	showClassicCountdown = false
-	showNewCountdown = true
-	showMenuCountdown = false
-	showSm64Countdown = false
-	BISFonts = false
-	MPFonts = false
-	MK64Fonts = false
-	SM64DSFonts = false
-	SMBFonts = false
-	MPDSFonts = false
 	end
 end
 
@@ -543,18 +375,6 @@ function font_hud_bottom_render()
 	
 	djui_hud_set_color(255, 255, 255, 255);
     djui_hud_print_text(alsotext, x + 21, y - 10, size);
-	
-	showNormalCountdown = false
-	showClassicCountdown = false
-	showNewCountdown = true
-	showMenuCountdown = false
-	showSm64Countdown = false
-	BISFonts = false
-	MPFonts = false
-	MK64Fonts = false
-	SM64DSFonts = false
-	SMBFonts = false
-	MPDSFonts = false
 end
 
 -- Display the countdown timer with djui font
@@ -583,18 +403,6 @@ function font_menu_hud_center_render()
 	
     djui_hud_set_color(255, 255, 255, 255);
     djui_hud_print_text(text, x, y, size);
-	
-	showNormalCountdown = false
-	showClassicCountdown = false
-	showNewCountdown = false
-	showMenuCountdown = true
-	showSm64Countdown = false
-	BISFonts = false
-	MPFonts = false
-	MK64Fonts = false
-	SM64DSFonts = false
-	SMBFonts = false
-	MPDSFonts = false
 end
 
 -- Display the Go after the countdown timer ends
@@ -629,18 +437,6 @@ end
     -- render
     djui_hud_set_color(255, 255, 255, 255);
     djui_hud_print_text(text, x, y, size);
-	
-	showNormalCountdown = false
-	showClassicCountdown = false
-	showNewCountdown = false
-	showMenuCountdown = true
-	showSm64Countdown = false
-	BISFonts = false
-	MPFonts = false
-	MK64Fonts = false
-	SM64DSFonts = false
-	SMBFonts = false
-	MPDSFonts = false
 	end
 end
 
@@ -679,18 +475,6 @@ function font_menu_hud_bottom_render()
     -- render
     djui_hud_set_color(255, 255, 255, 255);
     djui_hud_print_text(text, x, y, size);
-	
-	showNormalCountdown = false
-	showClassicCountdown = false
-	showNewCountdown = false
-	showMenuCountdown = true
-	showSm64Countdown = false
-	BISFonts = false
-	MPFonts = false
-	MK64Fonts = false
-	SM64DSFonts = false
-	SMBFonts = false
-	MPDSFonts = false
 end
 
 -- Display the countdown timer with hud font
@@ -718,18 +502,6 @@ function sm64_hud_center_render()
     djui_hud_render_texture_tile(get_texture_info("mario_64_numbers"), x - 27, y, 2, 2, ((math.floor(gGlobalSyncTable.startspeedruntime/10)%10)%8)*16, (math.floor(gGlobalSyncTable.startspeedruntime%100/80))*16, 16, 16)
 	djui_hud_render_texture_tile(get_texture_info("mario_64_numbers"), x - 3, y, 2, 2, (math.floor(gGlobalSyncTable.startspeedruntime%10)%8)*16, (math.floor(gGlobalSyncTable.startspeedruntime%10/8))*16, 16, 16)
 	end
-	
-	showNormalCountdown = false
-	showClassicCountdown = false
-	showNewCountdown = false
-	showMenuCountdown = false
-	showSm64Countdown = true
-	BISFonts = false
-	MPFonts = false
-	MK64Fonts = false
-	SM64DSFonts = false
-	SMBFonts = false
-	MPDSFonts = false
 end
 
 -- Display the Go after the countdown timer ends
@@ -758,18 +530,6 @@ end
 	-- set text
     local go_texture = get_texture_info("mario_64_go_texture")
 	djui_hud_render_texture(go_texture, x, y, 2, 2)
-	
-	showNormalCountdown = false
-	showClassicCountdown = false
-	showNewCountdown = false
-	showMenuCountdown = false
-	showSm64Countdown = true
-	BISFonts = false
-	MPFonts = false
-	MK64Fonts = false
-	SM64DSFonts = false
-	SMBFonts = false
-	MPDSFonts = false
 	end
 end
 
@@ -824,18 +584,6 @@ function sm64_hud_bottom_render()
 	djui_hud_render_texture_tile(get_texture_info("mario_64_numbers"), x + 30, y - 2, 1, 1, ((math.floor(MilliSeconds/100)%10)%8)*16, (math.floor(MilliSeconds%1000/800))*16, 16, 16)
 	djui_hud_render_texture_tile(get_texture_info("mario_64_numbers"), x + 42, y - 2, 1, 1, ((math.floor(MilliSeconds/10)%10)%8)*16, (math.floor(MilliSeconds%100/80))*16, 16, 16)
 	djui_hud_render_texture_tile(get_texture_info("mario_64_numbers"), x + 54, y - 2, 1, 1, (math.floor(MilliSeconds%10)%8)*16, (math.floor(MilliSeconds%10/8))*16, 16, 16)
-	
-	showNormalCountdown = false
-	showClassicCountdown = false
-	showNewCountdown = false
-	showMenuCountdown = false
-	showSm64Countdown = true
-	BISFonts = false
-	MPFonts = false
-	MK64Fonts = false
-	SM64DSFonts = false
-	SMBFonts = false
-	MPDSFonts = false
 end
 
 -- Display the countdown timer with MLBIS font
@@ -860,18 +608,6 @@ function bowser_inside_story_hud_center_render()
 	djui_hud_render_texture_tile(get_texture_info("bowser_inside_story_big_numbers"), x + 220 - z, y - 120, 2, 2, (math.floor(gGlobalSyncTable.startspeedruntime%10)%8)*16, (math.floor(gGlobalSyncTable.startspeedruntime%10/8))*16, 16, 16)
     djui_hud_render_texture_tile(get_texture_info("bowser_inside_story_big_numbers"), x + 200 - z, y - 120, 2, 2, ((math.floor(gGlobalSyncTable.startspeedruntime/10)%10)%8)*16, (math.floor(gGlobalSyncTable.startspeedruntime%100/80))*16, 16, 16)
 	end
-	
-	showNormalCountdown = false
-	showClassicCountdown = false
-	showNewCountdown = false
-	showMenuCountdown = false
-	showSm64Countdown = false
-	BISFonts = true
-	MPFonts = false
-	MK64Fonts = false
-	SM64DSFonts = false
-	SMBFonts = false
-	MPDSFonts = false
 end
 
 -- Display the Go after the countdown timer ends
@@ -897,18 +633,6 @@ end
     -- set text
     local go_texture = get_texture_info("bowser_inside_story_go_texture")
 	djui_hud_render_texture(go_texture, x + 165 - z, y - 140, 2, 2)
-	
-	showNormalCountdown = false
-	showClassicCountdown = false
-	showNewCountdown = false
-	showMenuCountdown = false
-	showSm64Countdown = false
-	BISFonts = true
-	MPFonts = false
-	MK64Fonts = false
-	SM64DSFonts = false
-	SMBFonts = false
-	MPDSFonts = false
 	end
 end
 
@@ -955,18 +679,6 @@ function bowser_inside_story_hud_bottom_render()
 	djui_hud_render_texture(slash_texture, x + 245 - z, y - 2, 1, 1)
 	djui_hud_render_texture(slash_texture, x + 211 - z, y - 2, 1, 1)
 	djui_hud_render_texture(slash_texture, x + 177 - z, y - 2, 1, 1)
-	
-	showNormalCountdown = false
-	showClassicCountdown = false
-	showNewCountdown = false
-	showMenuCountdown = false
-	showSm64Countdown = false
-	BISFonts = true
-	MPFonts = false
-	MK64Fonts = false
-	SM64DSFonts = false
-	SMBFonts = false
-	MPDSFonts = false
 end
 
 -- Display the countdown timer with MP/1/2/3 font
@@ -993,20 +705,6 @@ function mario_party_hud_center_render()
 	djui_hud_render_texture_tile(get_texture_info("mario_party_big_numbers"), x + 220 - z, y - 127, 1.5, 1.5, (math.floor(gGlobalSyncTable.startspeedruntime%10)%8)*32, (math.floor(gGlobalSyncTable.startspeedruntime%10/8))*32, 32, 32)
     djui_hud_render_texture_tile(get_texture_info("mario_party_big_numbers"), x + 188 - z, y - 127, 1.5, 1.5, ((math.floor(gGlobalSyncTable.startspeedruntime/10)%10)%8)*32, (math.floor(gGlobalSyncTable.startspeedruntime%100/80))*32, 32, 32)
 	end
-	-- set size
-    local size = 1
-	
-	showNormalCountdown = false
-	showClassicCountdown = false
-	showNewCountdown = false
-	showMenuCountdown = false
-	showSm64Countdown = false
-	BISFonts = false
-	MPFonts = true
-	MK64Fonts = false
-	SM64DSFonts = false
-	SMBFonts = false
-	MPDSFonts = false
 end
 
 -- Display the Go after the countdown timer ends
@@ -1034,18 +732,6 @@ end
     -- set text
     local go_texture = get_texture_info("mario_party_go_texture")
 	djui_hud_render_texture(go_texture, x + 180 - z, y - 127, 1.5, 1.5)
-	
-	showNormalCountdown = false
-	showClassicCountdown = false
-	showNewCountdown = false
-	showMenuCountdown = false
-	showSm64Countdown = false
-	BISFonts = false
-	MPFonts = true
-	MK64Fonts = false
-	SM64DSFonts = false
-	SMBFonts = false
-	MPDSFonts = false
 	end
 end
 
@@ -1095,18 +781,6 @@ function mario_party_hud_bottom_render()
 	djui_hud_render_texture(slash_texture, x + 211 - z, y - 1, 1, 1)
 	djui_hud_render_texture(slash_texture, x + 204 - z, y - 1, 1, 1)
 	djui_hud_render_texture(slash_texture, x + 167 - z, y - 1, 1, 1)
-	
-	showNormalCountdown = false
-	showClassicCountdown = false
-	showNewCountdown = false
-	showMenuCountdown = false
-	showSm64Countdown = false
-	BISFonts = false
-	MPFonts = true
-	MK64Fonts = false
-	SM64DSFonts = false
-	SMBFonts = false
-	MPDSFonts = false
 end
 
 -- Display the countdown timer with MK64 font
@@ -1132,18 +806,6 @@ function mario_kart_64_hud_center_render()
 	djui_hud_render_texture_tile(get_texture_info("mario_kart_64_numbers"), x + 219 - z, y - 120, 2, 2, (math.floor(gGlobalSyncTable.startspeedruntime%10)%8)*16, (math.floor(gGlobalSyncTable.startspeedruntime%10/8))*16, 16, 16)
     djui_hud_render_texture_tile(get_texture_info("mario_kart_64_numbers"), x + 203 - z, y - 120, 2, 2, ((math.floor(gGlobalSyncTable.startspeedruntime/10)%10)%8)*16, (math.floor(gGlobalSyncTable.startspeedruntime%100/80))*16, 16, 16)
 	end
-	
-	showNormalCountdown = false
-	showClassicCountdown = false
-	showNewCountdown = false
-	showMenuCountdown = false
-	showSm64Countdown = false
-	BISFonts = false
-	MPFonts = false
-	MK64Fonts = true
-	SM64DSFonts = false
-	SMBFonts = false
-	MPDSFonts = false
 end
 
 -- Display the Go after the countdown timer ends
@@ -1170,18 +832,6 @@ end
     -- set text
     local go_texture = get_texture_info("mario_kart_64_go_texture")
 	djui_hud_render_texture(go_texture, x + 200 - z, y - 120, 2, 2)
-	
-	showNormalCountdown = false
-	showClassicCountdown = false
-	showNewCountdown = false
-	showMenuCountdown = false
-	showSm64Countdown = false
-	BISFonts = false
-	MPFonts = false
-	MK64Fonts = true
-	SM64DSFonts = false
-	SMBFonts = false
-	MPDSFonts = false
 	end
 end
 
@@ -1237,18 +887,6 @@ function mario_kart_64_hud_bottom_render()
 	if Hours < 10 then
 	djui_hud_render_texture(time_texture, x + 163 - z, y - 2, 1, 1)
 	end
-	
-	showNormalCountdown = false
-	showClassicCountdown = false
-	showNewCountdown = false
-	showMenuCountdown = false
-	showSm64Countdown = false
-	BISFonts = false
-	MPFonts = false
-	MK64Fonts = true
-	SM64DSFonts = false
-	SMBFonts = false
-	MPDSFonts = false
 end
 
 -- Display the countdown timer with SM64DS font
@@ -1274,18 +912,6 @@ function mario_64_DS_hud_center_render()
 	djui_hud_render_texture_tile(get_texture_info("mario_64_DS_big_numbers"), x + 225 - z, y - 120, 2, 2, (math.floor(gGlobalSyncTable.startspeedruntime%10)%8)*16, (math.floor(gGlobalSyncTable.startspeedruntime%10/8))*16, 16, 16)
     djui_hud_render_texture_tile(get_texture_info("mario_64_DS_big_numbers"), x + 195 - z, y - 120, 2, 2, ((math.floor(gGlobalSyncTable.startspeedruntime/10)%10)%8)*16, (math.floor(gGlobalSyncTable.startspeedruntime%100/80))*16, 16, 16)
 	end
-
-	showNormalCountdown = false
-	showClassicCountdown = false
-	showNewCountdown = false
-	showMenuCountdown = false
-	showSm64Countdown = false
-	BISFonts = false
-	MPFonts = false
-	MK64Fonts = false
-	SM64DSFonts = true
-	SMBFonts = false
-	MPDSFonts = false
 end
 
 -- Display the Go after the countdown timer ends
@@ -1312,18 +938,6 @@ end
     -- set text
     local go_texture = get_texture_info("mario_64_DS_go_texture")
 	djui_hud_render_texture(go_texture, x + 165 - z, y - 135, 0.5, 0.5)
-	
-	showNormalCountdown = false
-	showClassicCountdown = false
-	showNewCountdown = false
-	showMenuCountdown = false
-	showSm64Countdown = false
-	BISFonts = false
-	MPFonts = false
-	MK64Fonts = false
-	SM64DSFonts = true
-	SMBFonts = false
-	MPDSFonts = false
 	end
 end
 
@@ -1378,18 +992,6 @@ function mario_64_DS_hud_bottom_render()
 	if Hours < 10 then
 	djui_hud_render_texture(time_texture, x + 163 - z, y - 2, 1, 1)
 	end
-	
-	showNormalCountdown = false
-	showClassicCountdown = false
-	showNewCountdown = false
-	showMenuCountdown = false
-	showSm64Countdown = false
-	BISFonts = false
-	MPFonts = false
-	MK64Fonts = false
-	SM64DSFonts = true
-	SMBFonts = false
-	MPDSFonts = false
 end
 
 -- Display the countdown timer with SMB font
@@ -1415,18 +1017,6 @@ function super_mario_bros_hud_center_render()
 	djui_hud_render_texture_tile(get_texture_info("super_mario_bros_numbers"), x + 229 - z, y - 120, 3, 3, (math.floor(gGlobalSyncTable.startspeedruntime%10)%8)*8, (math.floor(gGlobalSyncTable.startspeedruntime%10/8))*8, 8, 8)
     djui_hud_render_texture_tile(get_texture_info("super_mario_bros_numbers"), x + 205 - z, y - 120, 3, 3, ((math.floor(gGlobalSyncTable.startspeedruntime/10)%10)%8)*8, (math.floor(gGlobalSyncTable.startspeedruntime%100/80))*8, 8, 8)
 	end
-	
-	showNormalCountdown = false
-	showClassicCountdown = false
-	showNewCountdown = false
-	showMenuCountdown = false
-	showSm64Countdown = false
-	BISFonts = false
-	MPFonts = false
-	MK64Fonts = false
-	SM64DSFonts = false
-	SMBFonts = true
-	MPDSFonts = false
 end
 
 -- Display the Go after the countdown timer ends
@@ -1453,18 +1043,6 @@ end
     -- set text
     local go_texture = get_texture_info("super_mario_bros_go_texture")
 	djui_hud_render_texture(go_texture, x + 195 - z, y - 120, 3, 3)
-	
-	showNormalCountdown = false
-	showClassicCountdown = false
-	showNewCountdown = false
-	showMenuCountdown = false
-	showSm64Countdown = false
-	BISFonts = false
-	MPFonts = false
-	MK64Fonts = false
-	SM64DSFonts = false
-	SMBFonts = true
-	MPDSFonts = false
 	end
 end
 
@@ -1506,9 +1084,10 @@ function super_mario_bros_hud_bottom_render()
 	
 	local time_texture = get_texture_info("super_mario_bros_time_texture")
 	local slash_texture = get_texture_info("super_mario_bros_slash")
+	local dot_texture = get_texture_info("super_mario_bros_dot")
 	djui_hud_render_texture(slash_texture, x + 157 - z, y - 8, 2, 2)
 	djui_hud_render_texture(slash_texture, x + 201 - z, y - 8, 2, 2)
-	djui_hud_render_texture(slash_texture, x + 244 - z, y - 8, 2, 2)
+	djui_hud_render_texture(dot_texture, x + 244 - z, y - 8, 2, 2)
 	
 	if Hours >= 10 then
     djui_hud_render_texture_tile(get_texture_info("super_mario_bros_numbers"), x + 127 - z, y - 8, 2, 2, ((math.floor(Hours/10)%10)%8)*8, (math.floor(Hours%100/80))*8, 8, 8)
@@ -1518,18 +1097,6 @@ function super_mario_bros_hud_bottom_render()
 	if Hours < 10 then
 	djui_hud_render_texture(time_texture, x + 143 - z, y - 16, 1, 1)
 	end
-	
-	showNormalCountdown = false
-	showClassicCountdown = false
-	showNewCountdown = false
-	showMenuCountdown = false
-	showSm64Countdown = false
-	BISFonts = false
-	MPFonts = false
-	MK64Fonts = false
-	SM64DSFonts = false
-	SMBFonts = true
-	MPDSFonts = false
 end
 
 -- Display the countdown timer with MPDS font
@@ -1555,18 +1122,6 @@ function mario_party_DS_hud_center_render()
 	djui_hud_render_texture_tile(get_texture_info("mario_party_DS_big_numbers"), x + 227 - z, y - 135, 4, 2, (math.floor(gGlobalSyncTable.startspeedruntime%10)%8)*16, (math.floor(gGlobalSyncTable.startspeedruntime%10/8))*32, 16, 32)
     djui_hud_render_texture_tile(get_texture_info("mario_party_DS_big_numbers"), x + 197 - z, y - 135, 4, 2, ((math.floor(gGlobalSyncTable.startspeedruntime/10)%10)%8)*16, (math.floor(gGlobalSyncTable.startspeedruntime%100/80))*32, 16, 32)
 	end
-	
-	showNormalCountdown = false
-	showClassicCountdown = false
-	showNewCountdown = false
-	showMenuCountdown = false
-	showSm64Countdown = false
-	BISFonts = false
-	MPFonts = false
-	MK64Fonts = false
-	SM64DSFonts = false
-	SMBFonts = false
-	MPDSFonts = true
 end
 
 -- Display the Go after the countdown timer ends
@@ -1593,18 +1148,6 @@ end
     -- set text
     local go_texture = get_texture_info("mario_party_DS_go_texture")
 	djui_hud_render_texture(go_texture, x + 165 - z, y - 115, 1, 1)
-	
-	showNormalCountdown = false
-	showClassicCountdown = false
-	showNewCountdown = false
-	showMenuCountdown = false
-	showSm64Countdown = false
-	BISFonts = false
-	MPFonts = false
-	MK64Fonts = false
-	SM64DSFonts = false
-	SMBFonts = false
-	MPDSFonts = true
 	end
 end
 
@@ -1649,21 +1192,10 @@ function mario_party_DS_hud_bottom_render()
 	end
 	
 	local slash_texture = get_texture_info("mario_party_DS_slash")
+	local dot_texture = get_texture_info("mario_party_DS_dot")
 	djui_hud_render_texture(slash_texture, x + 183 - z, y - 2, 1, 1)
 	djui_hud_render_texture(slash_texture, x + 212 - z, y - 2, 1, 1)
-	djui_hud_render_texture(slash_texture, x + 241 - z, y - 2, 1, 1)
-	
-	showNormalCountdown = false
-	showClassicCountdown = false
-	showNewCountdown = false
-	showMenuCountdown = false
-	showSm64Countdown = false
-	BISFonts = false
-	MPFonts = false
-	MK64Fonts = false
-	SM64DSFonts = false
-	SMBFonts = false
-	MPDSFonts = true
+	djui_hud_render_texture(dot_texture, x + 241 - z, y - 2, 1, 1)
 end
 
 -- This prevents people for forgetting to make a fresh savefile

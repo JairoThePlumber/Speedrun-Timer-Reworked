@@ -19,7 +19,8 @@ gGlobalSyncTable.notags = false
 gGlobalSyncTable.TeamRedsavefile = false
 gGlobalSyncTable.TeamBluesavefile = false
 gGlobalSyncTable.SuperMario64 = false
-AntiBLJ50_check = true
+gGlobalSyncTable.casualTimer = false
+gGlobalSyncTable.singlestars = false
 
 SpeedrunTeams = false
 SpeedrunRedTeam = 1
@@ -46,21 +47,10 @@ for vanilla_mario_64 in pairs(gActiveMods) do
 	end
 end
 
-if mod_storage_load("commandsonly") == nil or mod_storage_load("commandsonly") == "true" then
-	commandsonly = true
-else
-	commandsonly = false
-end
-
-if mod_storage_load("buttonsonly") == nil or mod_storage_load("buttonsonly") == "true" then
-	buttonsonly = true
-else
-	buttonsonly = false
-end
-
-if commandsonly then 
-	buttonsonly = false
-	mod_storage_save("buttonsonly", tostring(buttonsonly))
+function timer_check()
+if casualTimer then
+gGlobalSyncTable.casualTimer = true
+	end
 end
 
 --- @param m MarioState
@@ -233,6 +223,12 @@ function speedrun_commands_update()
                 gGlobalSyncTable.startspeedrun = gGlobalSyncTable.startspeedrun + 1
 			end
 		return true
+        end
+    end
+	-- This Start the Timer everytime you make a room
+    if gGlobalSyncTable.casualTimer then
+	if not gGlobalSyncTable.beatedGame then
+	gGlobalSyncTable.startspeedrun = gGlobalSyncTable.startspeedrun + 1
         end
     end
 end
@@ -460,12 +456,31 @@ end
 function reworked_command_description(m)
 	if not network_is_server() then return end
 	if not buttonsonly and not moveset_is_check and not other_moveset_mods and commandsonly then
-		update_chat_command_description("str", "[start|stop|restart|countdown|options|controls|teams]")
+		update_chat_command_description("str", "[start|stop|restart|countdown|options|teams|extras]")
     elseif buttonsonly and not moveset_is_check and not other_moveset_mods and not commandsonly then
-        update_chat_command_description("str", "[options|controls|teams]")
+        update_chat_command_description("str", "[options|teams|extras]")
 	elseif moveset_is_check or other_moveset_mods and commandsonly then
-		update_chat_command_description("str", "[start|stop|restart|countdown|controls|teams]")
+		update_chat_command_description("str", "[start|stop|restart|countdown|teams|extras]")
 	end
+end
+
+function extras_commands(msg)
+	if msg == 'CASUAL TIMER' or msg == 'CASUAL' then
+		djui_popup_create("The Timer now starts Everytime you make a room!", 2)
+		casualTimer = true
+		singlestars = false
+		mod_storage_save("CasualTimer", tostring(casualTimer))
+		return true
+	elseif msg == 'SPEEDRUN TIMER' or msg == 'SPEEDRUN' then
+		djui_popup_create("The Timer now stops until you start the Command", 2)
+		casualTimer = false
+		singlestars = false
+		gGlobalSyncTable.startspeedrun = 0
+		mod_storage_save("CasualTimer", tostring(casualTimer))
+		return true
+	end
+	djui_chat_message_create("/str extras [casual|speedrun]")
+	return true
 end
 
 -- First Set of Commands to use
@@ -483,27 +498,27 @@ function reworked_command(msg)
 		return countdown_command(args[2])
 	elseif args[1] == "OPTIONS" then
 		return button_speedrun_command(args[2])
-	elseif args[1] == "CONTROLS" then
-		return displaycontrols2(args[2])
 	elseif args[1] == "TEAMS" then
 		return teams_command_update(args[2]) 
+	elseif args[1] == "EXTRAS" then
+		return extras_commands(args[2])
 	end
 	
 	if not buttonsonly and commandsonly then
-	djui_chat_message_create("/str [start|stop|restart|countdown|options|controls|teams]")
+	djui_chat_message_create("/str [start|stop|restart|countdown|options|teams|extras]")
 	return true
 	elseif buttonsonly and not moveset_is_check and not other_moveset_mods and not commandsonly then
-	djui_chat_message_create("/str [options|controls|teams]")
+	djui_chat_message_create("/str [options|teams|extras]")
 	return true
 	elseif moveset_is_check or other_moveset_mods and commandsonly then
-	djui_chat_message_create("/str [start|stop|restart|countdown|controls|teams]")
+	djui_chat_message_create("/str [start|stop|restart|countdown|teams|extras]")
 	return true
 	end
 end
 
 -- Making sure that the command is only for the host
 if network_is_server() then
-hook_chat_command('str', "[start|stop|restart|countdown|options|controls|teams]", reworked_command)
+hook_chat_command('str', "[start|stop|restart|countdown|options|teams]", reworked_command)
 end
 
 -- This plays the countdown sounds effects when starting the timer
@@ -660,8 +675,10 @@ function teams_character_update()
             network_player_set_description(gNetworkPlayers[i], "Red Team", 249, 3, 3, 255)
         elseif SpeedrunTeams and gPlayerSyncTable[i].TeamColors == SpeedrunBlueTeam and gGlobalSyncTable.notags then
             network_player_set_description(gNetworkPlayers[i], "Blue Team", 57, 3, 255, 255)
-		elseif gGlobalSyncTable.SpeedrunTeams ~= true and not indicatormods then
+		elseif gGlobalSyncTable.SpeedrunTeams ~= true and not gGlobalSyncTable.casualTimer and not indicatormods then
 			network_player_set_description(gNetworkPlayers[i], "Speedrun", 255, 255, 255, 255)
+		elseif gGlobalSyncTable.SpeedrunTeams ~= true and gGlobalSyncTable.casualTimer and not indicatormods then
+			network_player_set_description(gNetworkPlayers[i], "Casual", 255, 255, 255, 255)
 		end
     end
 end

@@ -15,7 +15,7 @@ gGlobalSyncTable.star74 = false
 gGlobalSyncTable.timestarany = false
 gGlobalSyncTable.timestarwarplessany = false
 gGlobalSyncTable.timestar81 = false
-gGlobalSyncTable.timestar90 = false
+gGlobalSyncTable.timestar91 = false
 gGlobalSyncTable.timestarallbosses = false
 
 -- Warpless Functions
@@ -42,8 +42,6 @@ gGlobalSyncTable.RomhacksWarning = false
 gGlobalSyncTable.TeamsCheck = false
 krb2timer = 21
 Rules_is_closed_for_intro = false
-gGlobalSyncTable.savefile = false
-gGlobalSyncTable.SM74savefile = false
 gGlobalSyncTable.SM74EEsavefile = false
 
 -- This makes sure that you have to put a run before starting the speedrun
@@ -55,12 +53,6 @@ for speedruncheck in pairs(gActiveMods) do
 	StarRoad_Check = true
 	end
 	
-	if gActiveMods[speedruncheck].name:find("Project Reimagined") then
-    ProjectReimagined_Check = false
-	elseif gGlobalSyncTable.star100 or gGlobalSyncTable.star170 or gGlobalSyncTable.PRchallenges or gGlobalSyncTable.PRDS then
-	ProjectReimagined_Check = true
-	end
-	
 	if (gActiveMods[speedruncheck].name:find("Lug's Delightful Dioramas") and not gActiveMods[speedruncheck].name:find("Green Comet")) then
     Lugs_Delightful_Dioramas_Check = false
 	elseif gGlobalSyncTable.star64 or gGlobalSyncTable.star74 then
@@ -69,7 +61,7 @@ for speedruncheck in pairs(gActiveMods) do
 	
 	if gActiveMods[speedruncheck].name:find("\\#0c33c2\\Ztar Attack \\#c20c0c\\2") then
     Ztar_Attack_2_Check = false
-	elseif gGlobalSyncTable.timestarany or gGlobalSyncTable.timestarwarplessany or gGlobalSyncTable.timestar81 or gGlobalSyncTable.timestar90 or gGlobalSyncTable.timestarallbosses then
+	elseif gGlobalSyncTable.timestarany or gGlobalSyncTable.timestarwarplessany or gGlobalSyncTable.timestar81 or gGlobalSyncTable.timestar91 or gGlobalSyncTable.timestarallbosses then
 	Ztar_Attack_2_Check = true
 	end
     end
@@ -112,27 +104,16 @@ function on_teams_update(m)
 	end
 end
 
--- This should fixed the teams command for SM74
-function save_files_no_teams_sm74(m)
+-- This should fixed the teams command for SM74EE
+function save_files_no_teams_sm74ee(m)
 if not SpeedrunTeams then
 for sm74_savefile in pairs(gActiveMods) do
-if gActiveMods[sm74_savefile].name:find("Super Mario 74") and gNetworkPlayers[0].currAreaIndex ~= 2 and not gActiveMods[sm74_savefile].name:find("Ten Years After") then
-gGlobalSyncTable.SM74savefile = true
-gGlobalSyncTable.SM74EEsavefile = false
-gGlobalSyncTable.savefile = false
-if gGlobalSyncTable.SM74savefile then
-	save_file_set_using_backup_slot(false)
-	end
-end
-
-if gActiveMods[sm74_savefile].name:find("Super Mario 74") and gNetworkPlayers[0].currAreaIndex ~= 1 then
-	gGlobalSyncTable.SM74savefile = false
+if gActiveMods[sm74_savefile].name:find("Super Mario 74") and gActiveMods[sm74_savefile].name:find("(+EE)") and gNetworkPlayers[0].currAreaIndex ~= 1 then
 	gGlobalSyncTable.SM74EEsavefile = true
-	gGlobalSyncTable.savefile = false
 	if gGlobalSyncTable.SM74EEsavefile then
 	save_file_set_using_backup_slot(true)
 	else
-	save_file_set_using_backup_slot(true)	
+	save_file_set_using_backup_slot(false)	
 		end
 		end
 	end
@@ -199,6 +180,30 @@ function on_galactic_journey_interact(m, o, interactType)
 for galactic_journey_interaction_only in pairs(gActiveMods) do
 if gActiveMods[galactic_journey_interaction_only].name:find("The Galactic Journey") then
     if interactType == INTERACT_STAR_OR_KEY and gNetworkPlayers[0].currLevelNum == LEVEL_TOTWC then
+        gGlobalSyncTable.beatedGame = true
+		end
+	end
+    end
+end
+
+-- stops on the ending level of only up
+function on_only_up_64_interact()
+for only_up_interaction_only in pairs(gActiveMods) do
+if gActiveMods[only_up_interaction_only].name:find("Only Up 64") then
+   if gMarioStates[0].action == ACT_SPAWN_SPIN_AIRBORNE then
+	if gMarioStates[0].pos.y < 1900 and gMarioStates[0].pos.y > -100 then
+        gGlobalSyncTable.beatedGame = true
+		end
+		end
+	end
+    end
+end
+
+-- stops on the collecting the key in eternal realm
+function on_eternal_realm_interact(m)
+for eternal_realm_interaction_only in pairs(gActiveMods) do
+if gActiveMods[eternal_realm_interaction_only].name:find("Eternal Realm") then
+   if save_file_get_flags() & SAVE_FLAG_HAVE_KEY_1 ~= 0 then
         gGlobalSyncTable.beatedGame = true
 		end
 	end
@@ -316,6 +321,43 @@ Set_Romhack_Position(-6400, 371, 392, LEVEL_CASTLE_GROUNDS, 1, 0, true, true)
 if OmmEnabled then
 _G.OmmApi.omm_force_setting("stars", 0)
 end
+-- Only Up 64
+elseif gActiveMods[romhacks].name:find("Only Up 64") then
+Set_Only_Up_64_Position(5706, -16259, -5594, LEVEL_CASTLE_GROUNDS, 1, 0, true)
+
+-- Thousand Year Door 64 
+elseif gActiveMods[romhacks].name:find("Thousand") and gActiveMods[romhacks].name:find("Year Door 64") then
+Set_Romhack_Position(-1722, 120, -4331, LEVEL_CASTLE_GROUNDS, 1, 0, true, true)
+if OmmEnabled then
+_G.OmmApi.omm_disable_feature("trueNonStop", true)
+end
+
+-- SM64: The Mushroom Cup
+elseif gActiveMods[romhacks].name:find("\\#ff2b1c\\The \\#636363\\Mushroom \\#ffb742\\Cup") then
+Set_Romhack_Position(0, 28, 0, LEVEL_CASTLE_GROUNDS, 1, 0, true, true)
+
+-- Eternal Realm
+elseif gActiveMods[romhacks].name:find("Eternal Realm") then
+Set_Romhack_Position(-784, -1741, 2590, LEVEL_CASTLE_GROUNDS, 1, 0, false, true)
+
+-- Despair Mario's Gambit 
+elseif gActiveMods[romhacks].name:find("Despair Mario's Gambit") then
+Set_Romhack_Position(-1727, 112, -710, LEVEL_CASTLE_GROUNDS, 1, 0, true, true)
+
+-- Super Retro Land 
+elseif gActiveMods[romhacks].name:find("Super Retro Land") then
+Set_Romhack_Position(1364, -333, -1313, LEVEL_CASTLE_GROUNDS, 1, 0, true, true)
+
+-- Super Mario 64: The Underworld
+elseif gActiveMods[romhacks].name:find("The Underworld") then
+Set_Underworld_Position(-1328, 260, 4664, LEVEL_CASTLE_GROUNDS, 1, 0, true)
+
+-- Katze Stuck in the Toilet 64 
+elseif gActiveMods[romhacks].name:find("Katze Stuck in the Toilet 64") then
+Set_Romhack_Position(0, 2000, 0, LEVEL_CASTLE_GROUNDS, 2, 0, true, true)
+if OmmEnabled then
+_G.OmmApi.omm_force_setting("stars", 0)
+end
 		end
 	end
 end
@@ -426,7 +468,7 @@ end
 -- This command only appear when setting if you have Star Road
 for star_road_only in pairs(gActiveMods) do
 if network_is_server() and gActiveMods[star_road_only].name:find("Star Road") then
-hook_chat_command('set stars to', "[any|20|80|130|150] to stop the timer on what star you going to get", on_star_road_stars_command)
+hook_chat_command('set run to', "[any|20|80|130|150]", on_star_road_stars_command)
 	end
 end
 
@@ -469,7 +511,7 @@ end
 -- This command only appear when setting if you have Lug's Delightful Dioramas
 for ldd_only in pairs(gActiveMods) do
 if network_is_server() and (gActiveMods[ldd_only].name:find("Lug's Delightful Dioramas") and not gActiveMods[ldd_only].name:find("Green Comet")) then
-hook_chat_command('set stars to', "[64|74] to stop the timer on what stars you going to get", on_ldd_stars_command)
+hook_chat_command('set run to', "[64|74]", on_ldd_stars_command)
 	end
 end
 
@@ -518,9 +560,9 @@ if gActiveMods[ztar_attack_2_stars_only].name:find("\\#0c33c2\\Ztar Attack \\#c2
 			end
 		end
 	end
-	if gGlobalSyncTable.timestar90 and Ztar_Attack_2_Check then
+	if gGlobalSyncTable.timestar91 and Ztar_Attack_2_Check then
 	 if gGlobalSyncTable.startTimer or gGlobalSyncTable.restartSpeedrun or gGlobalSyncTable.startIntro then
-		if save_file_get_flags() & SAVE_FLAG_COLLECTED_MIPS_STAR_1 ~= 0 then
+		if m.numStars > 90 and save_file_get_flags() & SAVE_FLAG_COLLECTED_MIPS_STAR_1 ~= 0 then
 	   gGlobalSyncTable.beatedGame = true
 			end
 		end
@@ -585,7 +627,7 @@ function on_ztar_attack_2_stars_command(msg)
 		gGlobalSyncTable.timestarany = true
 		gGlobalSyncTable.timestarwarplessany = false
 		gGlobalSyncTable.timestar81 = false
-		gGlobalSyncTable.timestar90 = false
+		gGlobalSyncTable.timestar91 = false
 		gGlobalSyncTable.timestarallbosses = false
 		djui_popup_create_global('Any% Run', 1)
 		return true
@@ -593,7 +635,7 @@ function on_ztar_attack_2_stars_command(msg)
         gGlobalSyncTable.timestarany = false
 		gGlobalSyncTable.timestarwarplessany = true
 		gGlobalSyncTable.timestar81 = false
-		gGlobalSyncTable.timestar90 = false
+		gGlobalSyncTable.timestar91 = false
 		gGlobalSyncTable.timestarallbosses = false
         djui_popup_create_global('Warpless Any% Run', 1)
         return true
@@ -601,23 +643,23 @@ function on_ztar_attack_2_stars_command(msg)
         gGlobalSyncTable.timestarany = false
 		gGlobalSyncTable.timestarwarplessany = false
 		gGlobalSyncTable.timestar81 = true
-		gGlobalSyncTable.timestar90 = false
+		gGlobalSyncTable.timestar91 = false
 		gGlobalSyncTable.timestarallbosses = false
-		djui_popup_create_global('81 Stars Run', 1)
+		djui_popup_create_global('81 Time Stars Run', 1)
         return true
-	elseif string.lower(msg) == '90' then
+	elseif string.lower(msg) == '91' then
         gGlobalSyncTable.timestarany = false
 		gGlobalSyncTable.timestarwarplessany = false
 		gGlobalSyncTable.timestar81 = false
-		gGlobalSyncTable.timestar90 = true
+		gGlobalSyncTable.timestar91 = true
 		gGlobalSyncTable.timestarallbosses = false
-		djui_popup_create_global('90 Stars Run', 1)
+		djui_popup_create_global('91 Time Stars Run', 1)
 		return true
 	elseif string.lower(msg) == 'bosses' or string.lower(msg) == 'all bosses' then
         gGlobalSyncTable.timestarany = false
 		gGlobalSyncTable.timestarwarplessany = false
 		gGlobalSyncTable.timestar81 = false
-		gGlobalSyncTable.timestar90 = false
+		gGlobalSyncTable.timestar91 = false
 		gGlobalSyncTable.timestarallbosses = true
 		djui_popup_create_global('All Bosses Run', 1)
         return true
@@ -628,7 +670,7 @@ end
 -- This command only appear when setting if you have Ztak Attack 2
 for ztar_attack_2_only in pairs(gActiveMods) do
 if network_is_server() and gActiveMods[ztar_attack_2_only].name:find("\\#0c33c2\\Ztar Attack \\#c20c0c\\2") then
-hook_chat_command('set time stars to', "[Any|Warpless|81|90|Bosses] to stop the timer on what time stars you going to get", on_ztar_attack_2_stars_command)
+hook_chat_command('set run to', "[Any|Warpless|81|91|Bosses]", on_ztar_attack_2_stars_command)
 	end
 end
 
@@ -668,7 +710,7 @@ if gActiveMods[star_road_description_stars].name:find("Star Road") or gActiveMod
 	end
 	
 	
-	update_chat_command_description('set stars to', "[" .. SRStarAny_Name .. "|" .. SRStar20_Name .. "|" .. SRStar80_Name .. "|" .. SRStar130_Name .. "|" .. SRStar150_Name .. "] to stop the timer on what star you going to get")
+	update_chat_command_description('set run to', "[" .. SRStarAny_Name .. "|" .. SRStar20_Name .. "|" .. SRStar80_Name .. "|" .. SRStar130_Name .. "|" .. SRStar150_Name .. "]")
 		end
 	end
 end
@@ -690,7 +732,7 @@ if (gActiveMods[ldd_description_stars].name:find("Lug's Delightful Dioramas") an
 	LDDStar74_Name = '\\#ff0000\\74\\#FFFFFF\\'
 	end
 	
-	update_chat_command_description('set stars to', "[" .. LDDStar64_Name .. "|" .. LDDStar74_Name .. "] to stop the timer on what stars you going to get")
+	update_chat_command_description('set run to', "[" .. LDDStar64_Name .. "|" .. LDDStar74_Name .. "]")
 		end
 	end
 end
@@ -715,13 +757,13 @@ if gActiveMods[ztar_attack_2_description_stars].name:find("\\#0c33c2\\Ztar Attac
 	if gGlobalSyncTable.timestar81 then
 	ZA2Star81_Name = '\\#00ff00\\81\\#FFFFFF\\'
 	else
-	ZA2Star81_Name = '\\#ff0000\\80\\#FFFFFF\\'
+	ZA2Star81_Name = '\\#ff0000\\81\\#FFFFFF\\'
 	end
 	
-	if gGlobalSyncTable.timestar90 then
-	ZA2Star90_Name = '\\#00ff00\\91\\#FFFFFF\\'
+	if gGlobalSyncTable.timestar91 then
+	ZA2Star91_Name = '\\#00ff00\\91\\#FFFFFF\\'
 	else
-	ZA2Star90_Name = '\\#ff0000\\91\\#FFFFFF\\'
+	ZA2Star91_Name = '\\#ff0000\\91\\#FFFFFF\\'
 	end
 	
 	if gGlobalSyncTable.timestarallbosses then
@@ -730,7 +772,7 @@ if gActiveMods[ztar_attack_2_description_stars].name:find("\\#0c33c2\\Ztar Attac
 	ZA2Bosses_Name = '\\#ff0000\\Bosses\\#FFFFFF\\'
 	end
 	
-	update_chat_command_description('set time stars to', "[" .. ZA2Any_Name .. "|" .. ZA2Warpless_Name .. "|" .. ZA2Star81_Name .. "|" .. ZA2Star90_Name .. "|" .. ZA2Bosses_Name .. "] to stop the timer on what time stars you going to get")
+	update_chat_command_description('set run to', "[" .. ZA2Any_Name .. "|" .. ZA2Warpless_Name .. "|" .. ZA2Star81_Name .. "|" .. ZA2Star91_Name .. "|" .. ZA2Bosses_Name .. "]")
 		end
 	end
 end

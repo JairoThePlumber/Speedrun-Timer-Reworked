@@ -27,7 +27,8 @@ for other_moveset_mods_is_on in pairs(gActiveMods) do
 	or gActiveMods[other_moveset_mods_is_on].name:find("Minecraft") or gActiveMods[other_moveset_mods_is_on].name:find("Mari0") or gActiveMods[other_moveset_mods_is_on].name:find("Smash Brothers")
 	or gActiveMods[other_moveset_mods_is_on].name:find("Yoshi moveset") or gActiveMods[other_moveset_mods_is_on].name:find("\\#FFFF00\\Lum\\#00FFFF\\oves") 
 	or gActiveMods[other_moveset_mods_is_on].name:find("\\#de04fa\\Milne the Crystal Fox") or gActiveMods[other_moveset_mods_is_on].name:find("\\#ad5fb7\\Hat Kid") 
-	or gActiveMods[other_moveset_mods_is_on].name:find("\\#c0e36f\\Boyo!\\#c0e36f\\") or gActiveMods[other_moveset_mods_is_on].name:find("Sonic Character")  then
+	or gActiveMods[other_moveset_mods_is_on].name:find("\\#c0e36f\\Boyo!\\#c0e36f\\") or gActiveMods[other_moveset_mods_is_on].name:find("Sonic Character") 
+	or gActiveMods[other_moveset_mods_is_on].name:find("Only Up 64 Plugin") then
         other_moveset_mods = true
     end
 end
