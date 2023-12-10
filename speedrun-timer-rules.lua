@@ -1159,6 +1159,24 @@ function displaycredits(m)
             creditcolor
         },
 		{
+		
+			"/str extras casual/speedrun",
+            -200,
+            -80,
+            globalFont,
+            creditscale,
+            creditcolor
+        },
+		{
+		
+			"(making the timer start automatically once changing it)",
+            -200,
+            -30,
+            globalFont,
+            creditscale,
+            creditcolor
+        },
+		{
             "Buttons Controls:",
             500,
             -330,
