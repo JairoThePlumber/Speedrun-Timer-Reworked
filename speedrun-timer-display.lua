@@ -964,6 +964,7 @@ function mario_64_DS_hud_bottom_render()
 
     local x = (screenWidth - width) / 2.0
     local y = screenHeight - 16
+	local z = 230
 
     djui_hud_render_texture_tile(get_texture_info("mario_64_DS_small_numbers"), x + 275 - z, y - 2, 1, 1, (math.floor(MilliSeconds%10)%8)*16, (math.floor(MilliSeconds%10/8))*16, 16, 16)
     djui_hud_render_texture_tile(get_texture_info("mario_64_DS_small_numbers"), x + 266 - z, y - 2, 1, 1, ((math.floor(MilliSeconds/10)%10)%8)*16, (math.floor(MilliSeconds%100/80))*16, 16, 16)
