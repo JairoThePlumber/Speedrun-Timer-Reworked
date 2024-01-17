@@ -378,13 +378,20 @@ displayrules_super_retro_land(m)
 displayrules_katze_64(m)
 end
 
+-- This fixes the pipes for OMM Rebirth
+function allowinteract()
+    if gGlobalSyncTable.startspeedrun < 0.1 then
+		return false
+	end
+end
+
 -- All Hooks in hook_event order
 hook_event(HOOK_UPDATE, 	    	   all_hook_update)
 hook_event(HOOK_MARIO_UPDATE,   	   all_hook_mario_update)
 hook_event(HOOK_ON_INTERACT,    	   all_hook_interact)
 hook_event(HOOK_ON_INTERACT,    	   all_hook_interact_2)
 hook_event(HOOK_ON_HUD_RENDER_BEHIND,  all_hook_hud_render)
-hook_event(HOOK_ALLOW_INTERACT, function () return gGlobalSyncTable.startspeedrun > 0.1 end)
+hook_event(HOOK_ALLOW_INTERACT, allowinteract)
 
 local mod_storage_load = mod_storage_load
 local mod_storage_save = mod_storage_save
