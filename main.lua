@@ -1,3 +1,3 @@
--- name: Speedrun Timer Reworked
--- description: An Modified Version for EmeraldLockdown's Speedrun Timer, This mod is competition legal and for the People who like to Speedrun. \nRomhacks are compatible as well but if a romhack didn't been added to this mod, Ask me to add some more in different romhacks! \n\ntype /str controls to display the controls to speedrun \n\nOriginal by EmeraldLockdown \n\nModified by JairoThePlumber \n\nResources by Mr.Needlemouse, Sunk, Kaje, Vanilla, Squishy, Blocky, Skeltan and You're Truly
--- incompatible: cheats
+-- name: Speedrun Timer \\#ffff00\\Reworked
+-- description: An Modified Version for EmeraldLockdown's Speedrun Timer\n\nThis mod is competition legal and for the People who like to Speedrun. \n\nRomhacks are compatible as well but if a romhack didn't been added to this mod, Ask me to add some more in different romhacks! \n\nPress L Trig + R Trig + D-Pad Right to Display the Main Menu \n\nOriginal by EmeraldLockdown \n\nModified by JairoThePlumber \n\nResources by Mr.Needlemouse, Sunk, Kaje, EmilyEmmi, Blocky, Skeltan and You're Truly
+-- deluxe: true

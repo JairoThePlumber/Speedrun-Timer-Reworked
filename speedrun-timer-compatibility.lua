@@ -8,7 +8,7 @@ indicatormods = false
 no_cheats = false
 
 for cheats_is_on in pairs(gActiveMods) do
-    if gActiveMods[cheats_is_on].name:find("Cheats") then
+    if gActiveMods[cheats_is_on].name:find("Cheats") or gServerSettings.enableCheats ~= 0 then
         no_cheats = true
 		djui_popup_create("\\#ff0000\\Cheats is not allowed! Rehost the Server without Cheats!", 2)
 		break
@@ -57,14 +57,15 @@ end
 -- These are the mods that are not allowed in a speedrun
 for no_allowed_mods in pairs(gActiveMods) do
 if gActiveMods[no_allowed_mods].name:find("Wega Jumpscare") or gActiveMods[no_allowed_mods].name:find("Random Wega Jumpscare") 
-   or gActiveMods[no_allowed_mods].name:find("Object Spawner") or gActiveMods[no_allowed_mods].name:find("Faster Bubble Speed V4")
+   or gActiveMods[no_allowed_mods].name:find("Object Spawner") or gActiveMods[no_allowed_mods].name:find("Beard's Mod") 
+   or gActiveMods[no_allowed_mods].name:find("Faster Bubble Speed V4") or gActiveMods[no_allowed_mods].name:find("No Lives")
    or gActiveMods[no_allowed_mods].name:find("Anti-Instakills v1.0.3") or gActiveMods[no_allowed_mods].name:find("Instakills")
    or gActiveMods[no_allowed_mods].name:find("Remove Star Spawn Cutscenes") or gActiveMods[no_allowed_mods].name:find("Faster Swimming")
    or gActiveMods[no_allowed_mods].name:find("Death Crash") or gActiveMods[no_allowed_mods].name:find("Random Objects") 
    or gActiveMods[no_allowed_mods].name:find("Clones") or gActiveMods[no_allowed_mods].name:find("Falling Bombs")
    or gActiveMods[no_allowed_mods].name:find("Door Bust") or gActiveMods[no_allowed_mods].name:find("Complete Save")
    or gActiveMods[no_allowed_mods].name:find("WIND") or gActiveMods[no_allowed_mods].name:find("Savestates")
-   or gActiveMods[no_allowed_mods].name:find("Save and Load Position") then
+   or gActiveMods[no_allowed_mods].name:find("Save and Load Position") or gActiveMods[no_allowed_mods].name:find("Noclip") then
 	djui_popup_create("\\#ff0000\\".. gActiveMods[no_allowed_mods].name .. " \\#ff0000\\is not Allowed For Speedrunning, Please Remove it!", 2)
 	notallowedmods = true
     end
