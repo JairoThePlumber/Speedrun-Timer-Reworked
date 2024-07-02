@@ -41,7 +41,6 @@ CDNumbers = 4
 StrOption = 0
 ArrowsMovement = 0
 CountdownMovement = 0
-RunsSlots = 0
 RunsArrowsLR = 0
 RunsArrowsUD = 0
 RunsSlotColor1 = "#7a7a7a"
@@ -201,7 +200,7 @@ end
 function displaystrmenu(m)
 	if not SwitchingMenus == 1 then return end
 	
-	if RunsSlots ~= 0 and Romhack_Runs_Option == true then
+	if gGlobalSyncTable.RunsSlots ~= 0 and Romhack_Runs_Option == true then
 	DisableCommands = true
 	end
 	
@@ -231,79 +230,79 @@ function displaystrmenu(m)
 	
 	
 	if StrOption == 6 then
-	if RunsSlotsName1 ~= "Empty Slot 1" and RunsSlots ~= 1 then 
+	if RunsSlotsName1 ~= "Empty Slot 1" and gGlobalSyncTable.RunsSlots ~= 1 then 
 		RunsSlotColor1 = "#FFFFFF"
-	elseif RunsSlotsName1 ~= "Empty Slot 1" and RunsSlots == 1 then 
+	elseif RunsSlotsName1 ~= "Empty Slot 1" and gGlobalSyncTable.RunsSlots == 1 then 
 		RunsSlotColor1 = "#00FF00"
 	end	
 	
-	if RunsSlotsName2 ~= "Empty Slot 2" and RunsSlots ~= 2 then 
+	if RunsSlotsName2 ~= "Empty Slot 2" and gGlobalSyncTable.RunsSlots ~= 2 then 
 		RunsSlotColor2 = "#FFFFFF"
-	elseif RunsSlotsName2 ~= "Empty Slot 2" and RunsSlots == 2 then 
+	elseif RunsSlotsName2 ~= "Empty Slot 2" and gGlobalSyncTable.RunsSlots == 2 then 
 		RunsSlotColor2 = "#00FF00"
 	else
 		RunsSlotColor2 = "#7a7a7a"
 	end	
 	
-	if RunsSlotsName3 ~= "Empty Slot 3" and RunsSlots ~= 3 then 
+	if RunsSlotsName3 ~= "Empty Slot 3" and gGlobalSyncTable.RunsSlots ~= 3 then 
 		RunsSlotColor3 = "#FFFFFF"
-	elseif RunsSlotsName3 ~= "Empty Slot 3" and RunsSlots == 3 then 
+	elseif RunsSlotsName3 ~= "Empty Slot 3" and gGlobalSyncTable.RunsSlots == 3 then 
 		RunsSlotColor3= "#00FF00"
 	else
 		RunsSlotColor3 = "#7a7a7a"
 	end	
 	
-	if RunsSlotsName4 ~= "Empty Slot 4" and RunsSlots ~= 4 then 
+	if RunsSlotsName4 ~= "Empty Slot 4" and gGlobalSyncTable.RunsSlots ~= 4 then 
 		RunsSlotColor4 = "#FFFFFF"
-	elseif RunsSlotsName4 ~= "Empty Slot 4" and RunsSlots == 4 then 
+	elseif RunsSlotsName4 ~= "Empty Slot 4" and gGlobalSyncTable.RunsSlots == 4 then 
 		RunsSlotColor4 = "#00FF00"
 	else
 		RunsSlotColor4 = "#7a7a7a"
 	end	
 	
-	if RunsSlotsName5 ~= "Empty Slot 5" and RunsSlots ~= 5 then 
+	if RunsSlotsName5 ~= "Empty Slot 5" and gGlobalSyncTable.RunsSlots ~= 5 then 
 		RunsSlotColor5 = "#FFFFFF"
-	elseif RunsSlotsName5 ~= "Empty Slot 5" and RunsSlots == 5 then 
+	elseif RunsSlotsName5 ~= "Empty Slot 5" and gGlobalSyncTable.RunsSlots == 5 then 
 		RunsSlotColor5 = "#00FF00"
 	else
 		RunsSlotColor5 = "#7a7a7a"
 	end	
 	
-	if RunsSlotsName6 ~= "Empty Slot 6" and RunsSlots ~= 6 then 
+	if RunsSlotsName6 ~= "Empty Slot 6" and gGlobalSyncTable.RunsSlots ~= 6 then 
 		RunsSlotColor6 = "#FFFFFF"
-	elseif RunsSlotsName6 ~= "Empty Slot 6" and RunsSlots == 6 then 
+	elseif RunsSlotsName6 ~= "Empty Slot 6" and gGlobalSyncTable.RunsSlots == 6 then 
 		RunsSlotColor6 = "#00FF00"
 	else
 		RunsSlotColor6 = "#7a7a7a"
 	end	
 	
-	if RunsSlotsName7 ~= "Empty Slot 7" and RunsSlots ~= 7 then 
+	if RunsSlotsName7 ~= "Empty Slot 7" and gGlobalSyncTable.RunsSlots ~= 7 then 
 		RunsSlotColor7 = "#FFFFFF"
-	elseif RunsSlotsName7 ~= "Empty Slot 7" and RunsSlots == 7 then 
+	elseif RunsSlotsName7 ~= "Empty Slot 7" and gGlobalSyncTable.RunsSlots == 7 then 
 		RunsSlotColor7 = "#00FF00"
 	else
 		RunsSlotColor7 = "#7a7a7a"
 	end	
 	
-	if RunsSlotsName8 ~= "Empty Slot 8" and RunsSlots ~= 8 then 
+	if RunsSlotsName8 ~= "Empty Slot 8" and gGlobalSyncTable.RunsSlots ~= 8 then 
 		RunsSlotColor8 = "#FFFFFF"
-	elseif RunsSlotsName8 ~= "Empty Slot 8" and RunsSlots == 8 then 
+	elseif RunsSlotsName8 ~= "Empty Slot 8" and gGlobalSyncTable.RunsSlots == 8 then 
 		RunsSlotColor8 = "#00FF00"
 	else
 		RunsSlotColor8 = "#7a7a7a"
 	end	
 	
-	if RunsSlotsName9 ~= "Empty Slot 9" and RunsSlots ~= 9 then 
+	if RunsSlotsName9 ~= "Empty Slot 9" and gGlobalSyncTable.RunsSlots ~= 9 then 
 		RunsSlotColor9 = "#FFFFFF"
-	elseif RunsSlotsName9 ~= "Empty Slot 9" and RunsSlots == 9 then 
+	elseif RunsSlotsName9 ~= "Empty Slot 9" and gGlobalSyncTable.RunsSlots == 9 then 
 		RunsSlotColor9 = "#00FF00"
 	else
 		RunsSlotColor9 = "#7a7a7a"
 	end	
 	
-	if RunsSlotsName10 ~= "Empty Slot 10" and RunsSlots ~= 10 then 
+	if RunsSlotsName10 ~= "Empty Slot 10" and gGlobalSyncTable.RunsSlots ~= 10 then 
 		RunsSlotColor10 = "#FFFFFF"
-	elseif RunsSlotsName10 ~= "Empty Slot 10" and RunsSlots == 10 then 
+	elseif RunsSlotsName10 ~= "Empty Slot 10" and gGlobalSyncTable.RunsSlots == 10 then 
 		RunsSlotColor10 = "#00FF00"
 	else
 		RunsSlotColor10 = "#7a7a7a"
@@ -311,7 +310,7 @@ function displaystrmenu(m)
 end	
 	
 	if MainOptions == 1 then
-		ArrowPositionLRUp = -131
+		ArrowPositionLRUp = -130
 		ArrowPositionUp = -90
 		elseif MainOptions == 2 then
 		ArrowPositionLRUp = -91
@@ -320,16 +319,16 @@ end
 		ArrowPositionLRUp = -51
 		ArrowPositionUp = -90
 		elseif MainOptions == 4 then
-		ArrowPositionLRUp = -1
+		ArrowPositionLRUp = 0
 		ArrowPositionUp = -90
 		elseif MainOptions == 5 then
 		ArrowPositionLRUp = 47
 		ArrowPositionUp = -90
 		elseif MainOptions == 6 then
-		ArrowPositionLRUp = 88
+		ArrowPositionLRUp = 89
 		ArrowPositionUp = -90
 		elseif MainOptions == 7 then
-		ArrowPositionLRUp = 127
+		ArrowPositionLRUp = 128
 		ArrowPositionUp = -90
 		end
 		
@@ -363,7 +362,7 @@ end
 		ArrowPositionRight = -110
 		elseif RunsArrowsLR == 2 then 
 		ArrowPositionLeft = 108
-		ArrowPositionRight = 10
+		ArrowPositionRight = 7
 		end
 		if RunsArrowsUD == 1 then 
 		ArrowPositionUDLeft = -175
@@ -385,52 +384,52 @@ end
 		
 		if StrOption == 1 and ArrowsMovement == 1 then
 		ArrowPositionLeft = -74
-		ArrowPositionRight = -110
+		ArrowPositionRight = -113
 		ArrowPositionUDRight = -103
 		ArrowPositionUDLeft = -103
 		elseif StrOption == 1 and ArrowsMovement == 2 then
 		ArrowPositionLeft = -68
-		ArrowPositionRight =  -115
+		ArrowPositionRight =  -118
 		ArrowPositionUDRight = -88
 		ArrowPositionUDLeft = -88
 		elseif StrOption == 2 and ArrowsMovement == 1 then
-		ArrowPositionLeft = -34
-		ArrowPositionRight = -70
+		ArrowPositionLeft = -33
+		ArrowPositionRight = -74
 		ArrowPositionUDRight = -103
 		ArrowPositionUDLeft = -103
 		elseif StrOption == 2 and ArrowsMovement == 2 then
-		ArrowPositionLeft = -28
-		ArrowPositionRight =  -75
+		ArrowPositionLeft = -29
+		ArrowPositionRight =  -78
 		ArrowPositionUDRight = -88
 		ArrowPositionUDLeft = -88
 		elseif StrOption == 2 and ArrowsMovement == 3 then
-		ArrowPositionLeft = -28
-		ArrowPositionRight = -75
+		ArrowPositionLeft = -30
+		ArrowPositionRight = -79
 		ArrowPositionUDRight = -73
 		ArrowPositionUDLeft = -73
 		elseif StrOption == 3 then
-		ArrowPositionLeft = -20
-		ArrowPositionRight =  18
+		ArrowPositionLeft = -16
+		ArrowPositionRight = 10
 		ArrowPositionUDRight = -103
 		ArrowPositionUDLeft = -103
 		elseif StrOption == 4 and ArrowsMovement == 1 then
-		ArrowPositionLeft = 67
-		ArrowPositionRight = 26
+		ArrowPositionLeft = 68
+		ArrowPositionRight = 22
 		ArrowPositionUDRight = -103
 		ArrowPositionUDLeft = -103
 		elseif StrOption == 4 and ArrowsMovement == 2 then
 		ArrowPositionLeft = 63
-		ArrowPositionRight = 30
+		ArrowPositionRight = 26
 		ArrowPositionUDRight = -88
 		ArrowPositionUDLeft = -88
 		elseif StrOption == 5 and ArrowsMovement == 1 then
 		ArrowPositionLeft = 107
-		ArrowPositionRight = 70
+		ArrowPositionRight = 67
 		ArrowPositionUDRight = -103
 		ArrowPositionUDLeft = -103
 		elseif StrOption == 5 and ArrowsMovement == 2 then
 		ArrowPositionLeft = 108
-		ArrowPositionRight = 69
+		ArrowPositionRight = 65
 		ArrowPositionUDRight = -88
 		ArrowPositionUDLeft = -88
 		end
@@ -1429,102 +1428,102 @@ end
 		
 		if (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 1 and RunsSlotsName1 == "Empty Slot 1" then
 		djui_popup_create("\\#ff0000\\There's nothing on that Slot\nChoose a different one", 2)
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 1 and RunsSlots == 0 then
+		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 1 and gGlobalSyncTable.RunsSlots == 0 then
 		djui_popup_create_global("The Run Has Been Chosen:\n" .. RunsSlotsName1 .. ' Run', 2)
-        RunsSlots = 1
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 1 and RunsSlots == 1 then
+        gGlobalSyncTable.RunsSlots = 1
+		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 1 and gGlobalSyncTable.RunsSlots == 1 then
 		play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
-		RunsSlots = 0
+		gGlobalSyncTable.RunsSlots = 0
 		end
 		
 		if (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 2 and RunsSlotsName2 == "Empty Slot 2" then
 		djui_popup_create("\\#ff0000\\There's nothing on that Slot\nChoose a different one", 2)
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 2 and RunsSlots == 0 then
+		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 2 and gGlobalSyncTable.RunsSlots == 0 then
 		djui_popup_create_global("The Run Has Been Chosen:\n" .. RunsSlotsName2 .. ' Run', 2)
-        RunsSlots = 2
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 2 and RunsSlots == 2 then
+        gGlobalSyncTable.RunsSlots = 2
+		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 2 and gGlobalSyncTable.RunsSlots == 2 then
 		play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
-		RunsSlots = 0
+		gGlobalSyncTable.RunsSlots = 0
 		end
 		
 		if (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 3 and RunsSlotsName3 == "Empty Slot 3" then
 		djui_popup_create("\\#ff0000\\There's nothing on that Slot\nChoose a different one", 2)
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 3 and RunsSlots == 0 then
+		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 3 and gGlobalSyncTable.RunsSlots == 0 then
 		djui_popup_create_global("The Run Has Been Chosen:\n" .. RunsSlotsName3 .. ' Run', 2)
-        RunsSlots = 3
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 3 and RunsSlots == 3 then
+        gGlobalSyncTable.RunsSlots = 3
+		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 3 and gGlobalSyncTable.RunsSlots == 3 then
 		play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
-		RunsSlots = 0
+		gGlobalSyncTable.RunsSlots = 0
 		end
 		
 		if (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 4 and RunsSlotsName4 == "Empty Slot 4" then
 		djui_popup_create("\\#ff0000\\There's nothing on that Slot\nChoose a different one", 2)
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 4 and RunsSlots == 0 then
+		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 4 and gGlobalSyncTable.RunsSlots == 0 then
 		djui_popup_create_global("The Run Has Been Chosen:\n" .. RunsSlotsName4 .. ' Run', 2)
-        RunsSlots = 4
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 4 and RunsSlots == 4 then
+        gGlobalSyncTable.RunsSlots = 4
+		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 4 and gGlobalSyncTable.RunsSlots == 4 then
 		play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
-		RunsSlots = 0
+		gGlobalSyncTable.RunsSlots = 0
 		end
 		
 		if (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 5 and RunsSlotsName5 == "Empty Slot 5" then
 		djui_popup_create("\\#ff0000\\There's nothing on that Slot\nChoose a different one", 2)
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 5 and RunsSlots == 0 then
+		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 5 and gGlobalSyncTable.RunsSlots == 0 then
 		djui_popup_create_global("The Run Has Been Chosen:\n" .. RunsSlotsName5 .. ' Run', 2)
-        RunsSlots = 5
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 5 and RunsSlots == 5 then
+        gGlobalSyncTable.RunsSlots = 5
+		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 5 and gGlobalSyncTable.RunsSlots == 5 then
 		play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
-		RunsSlots = 0
+		gGlobalSyncTable.RunsSlots = 0
 		end
 		
 		if (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 1 and RunsSlotsName6 == "Empty Slot 6" then
 		djui_popup_create("\\#ff0000\\There's nothing on that Slot\nChoose a different one", 2)
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 1 and RunsSlots == 0 then
+		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 1 and gGlobalSyncTable.RunsSlots == 0 then
 		djui_popup_create_global("The Run Has Been Chosen:\n" .. RunsSlotsName6 .. ' Run', 2)
-        RunsSlots = 6
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 1 and RunsSlots == 6 then
+        gGlobalSyncTable.RunsSlots = 6
+		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 1 and gGlobalSyncTable.RunsSlots == 6 then
 		play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
-		RunsSlots = 0
+		gGlobalSyncTable.RunsSlots = 0
 		end
 		
 		if (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 2 and RunsSlotsName7 == "Empty Slot 7" then
 		djui_popup_create("\\#ff0000\\There's nothing on that Slot\nChoose a different one", 2)
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 2 and RunsSlots == 0 then
+		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 2 and gGlobalSyncTable.RunsSlots == 0 then
 		djui_popup_create_global("The Run Has Been Chosen:\n" .. RunsSlotsName7 .. ' Run', 2)
-        RunsSlots = 7
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 2 and RunsSlots == 7 then
+        gGlobalSyncTable.RunsSlots = 7
+		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 2 and gGlobalSyncTable.RunsSlots == 7 then
 		play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
-		RunsSlots = 0
+		gGlobalSyncTable.RunsSlots = 0
 		end
 		
 		if (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 3 and RunsSlotsName8 == "Empty Slot 8" then
 		djui_popup_create("\\#ff0000\\There's nothing on that Slot\nChoose a different one", 2)
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 3 and RunsSlots == 0 then
+		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 3 and gGlobalSyncTable.RunsSlots == 0 then
 		djui_popup_create_global("The Run Has Been Chosen:\n" .. RunsSlotsName8 .. ' Run', 2)
-        RunsSlots = 8
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 3 and RunsSlots == 8 then
+        gGlobalSyncTable.RunsSlots = 8
+		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 3 and gGlobalSyncTable.RunsSlots == 8 then
 		play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
-		RunsSlots = 0
+		gGlobalSyncTable.RunsSlots = 0
 		end
 		
 		if (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 4 and RunsSlotsName9 == "Empty Slot 9" then
 		djui_popup_create("\\#ff0000\\There's nothing on that Slot\nChoose a different one", 2)
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 4 and RunsSlots == 0 then
+		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 4 and gGlobalSyncTable.RunsSlots == 0 then
 		djui_popup_create_global("The Run Has Been Chosen:\n" .. RunsSlotsName9 .. ' Run', 2)
-        RunsSlots = 9
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 4 and RunsSlots == 9 then
+        gGlobalSyncTable.RunsSlots = 9
+		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 4 and gGlobalSyncTable.RunsSlots == 9 then
 		play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
-		RunsSlots = 0
+		gGlobalSyncTable.RunsSlots = 0
 		end
 		
 		if (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 5 and RunsSlotsName10 == "Empty Slot 10" then
 		djui_popup_create("\\#ff0000\\There's nothing on that Slot\nChoose a different one", 2)
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 5 and RunsSlots == 0 then
+		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 5 and gGlobalSyncTable.RunsSlots == 0 then
 		djui_popup_create_global("The Run Has Been Chosen:\n" .. RunsSlotsName10 .. ' Run', 2)
-        RunsSlots = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 5 and RunsSlots == 10 then
+        gGlobalSyncTable.RunsSlots = 10
+		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 5 and gGlobalSyncTable.RunsSlots == 10 then
 		play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
-		RunsSlots = 0
+		gGlobalSyncTable.RunsSlots = 0
 			end
 		end
 		

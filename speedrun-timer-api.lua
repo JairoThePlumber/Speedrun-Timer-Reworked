@@ -211,7 +211,7 @@ function custom_romhack_run_names(Slot1, Slot2, Slot3, Slot4, Slot5, Slot6, Slot
 end
 
 function custom_romhack_run_functions(Number, Function)
-	if RunsSlots == Number then
+	if gGlobalSyncTable.RunsSlots == Number then
 	if Function == true then
 	gGlobalSyncTable.beatedGame = true
 	end

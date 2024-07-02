@@ -8,7 +8,7 @@ indicatormods = false
 no_cheats = false
 
 for cheats_is_on in pairs(gActiveMods) do
-    if gActiveMods[cheats_is_on].name:find("Cheats") or gServerSettings.enableCheats ~= 0 then
+    if gActiveMods[cheats_is_on].name:find("Cheats") then
         no_cheats = true
 		djui_popup_create("\\#ff0000\\Cheats is not allowed! Rehost the Server without Cheats!", 2)
 		break

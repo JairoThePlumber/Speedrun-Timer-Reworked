@@ -1,6 +1,7 @@
 if gamemodes_is_checked or notallowedmods or no_cheats then return end
 
 -- Main Functions
+gGlobalSyncTable.RunsSlots = 0
 gGlobalSyncTable.StarRoadRuns = 0
 gGlobalSyncTable.MoonShineRuns = 0
 gGlobalSyncTable.DelightfulDioramasRuns = 0
@@ -31,21 +32,21 @@ for speedruncheck in pairs(gActiveMods) do
 	RunsSlotsName4 = "80 Stars"
 	RunsSlotsName5 = "130 Stars"
 	
-	if RunsSlots == 1 then
+	if gGlobalSyncTable.RunsSlots == 1 then
 	gGlobalSyncTable.StarRoadRuns = 1
-	elseif RunsSlots == 2 then
+	elseif gGlobalSyncTable.RunsSlots == 2 then
 	gGlobalSyncTable.StarRoadRuns = 2
-	elseif RunsSlots == 3 then
+	elseif gGlobalSyncTable.RunsSlots == 3 then
 	gGlobalSyncTable.StarRoadRuns = 3
-	elseif RunsSlots == 4 then
+	elseif gGlobalSyncTable.RunsSlots == 4 then
 	gGlobalSyncTable.StarRoadRuns = 4
-	elseif RunsSlots == 5 then
+	elseif gGlobalSyncTable.RunsSlots == 5 then
 	gGlobalSyncTable.StarRoadRuns = 5
 	end
 	
 	if gActiveMods[speedruncheck].name:find("Star Road: The Replica Comet") then
 	RunsSlotsName6 = "150 Star"
-	if RunsSlots == 6 then
+	if gGlobalSyncTable.RunsSlots == 6 then
 	gGlobalSyncTable.StarRoadRuns = 6
 	end
 	end
@@ -58,9 +59,9 @@ for speedruncheck in pairs(gActiveMods) do
     Romhack_Runs_Check = -1
 	RunsSlotsName1 = "31 Stars"
 	RunsSlotsName2 = "50 Stars"
-	if RunsSlots == 1 then
+	if gGlobalSyncTable.RunsSlots == 1 then
 	gGlobalSyncTable.MoonShineRuns = 1
-	elseif RunsSlots == 2 then
+	elseif gGlobalSyncTable.RunsSlots == 2 then
 	gGlobalSyncTable.MoonShineRuns = 2
 	end
 	elseif gGlobalSyncTable.MoonShineRuns >= 1 then
@@ -71,9 +72,9 @@ for speedruncheck in pairs(gActiveMods) do
     Romhack_Runs_Check = -1
 	RunsSlotsName1 = "64 Stars"
 	RunsSlotsName2 = "74 Stars"
-	if RunsSlots == 1 then
+	if gGlobalSyncTable.RunsSlots == 1 then
 	gGlobalSyncTable.DelightfulDioramasRuns = 1
-	elseif RunsSlots == 2 then
+	elseif gGlobalSyncTable.RunsSlots == 2 then
 	gGlobalSyncTable.DelightfulDioramasRuns = 2
 	end
 	elseif gGlobalSyncTable.DelightfulDioramasRuns >= 1 then
@@ -87,15 +88,15 @@ for speedruncheck in pairs(gActiveMods) do
 	RunsSlotsName3 = "81 Time Stars"
 	RunsSlotsName4 = "91 Time Stars"
 	RunsSlotsName5 = "All Bosses"
-	if RunsSlots == 1 then
+	if gGlobalSyncTable.RunsSlots == 1 then
 	gGlobalSyncTable.ZtarAttack2Runs = 1
-	elseif RunsSlots == 2 then
+	elseif gGlobalSyncTable.RunsSlots == 2 then
 	gGlobalSyncTable.ZtarAttack2Runs = 2
-	elseif RunsSlots == 3 then
+	elseif gGlobalSyncTable.RunsSlots == 3 then
 	gGlobalSyncTable.ZtarAttack2Runs = 3
-	elseif RunsSlots == 4 then
+	elseif gGlobalSyncTable.RunsSlots == 4 then
 	gGlobalSyncTable.ZtarAttack2Runs = 4
-	elseif RunsSlots == 5 then
+	elseif gGlobalSyncTable.RunsSlots == 5 then
 	gGlobalSyncTable.ZtarAttack2Runs = 5
 	end
 	elseif gGlobalSyncTable.ZtarAttack2Runs >= 1 then
@@ -107,11 +108,11 @@ for speedruncheck in pairs(gActiveMods) do
 	RunsSlotsName1 = "1 Star"
 	RunsSlotsName2 = "36 Stars"
 	RunsSlotsName3 = "65 Stars"
-	if RunsSlots == 1 then
+	if gGlobalSyncTable.RunsSlots == 1 then
 	gGlobalSyncTable.StarRevenge3Runs = 1
-	elseif RunsSlots == 2 then
+	elseif gGlobalSyncTable.RunsSlots == 2 then
 	gGlobalSyncTable.StarRevenge3Runs = 2
-	elseif RunsSlots == 3 then
+	elseif gGlobalSyncTable.RunsSlots == 3 then
 	gGlobalSyncTable.StarRevenge3Runs = 3
 	end
 	elseif gGlobalSyncTable.StarRevenge3Runs >= 1 then
@@ -122,9 +123,9 @@ for speedruncheck in pairs(gActiveMods) do
     Romhack_Runs_Check = -1
 	RunsSlotsName1 = "54 Stars"
 	RunsSlotsName2 = "60 Stars"
-	if RunsSlots == 1 then
+	if gGlobalSyncTable.RunsSlots == 1 then
 	gGlobalSyncTable.RainbowRoadRuns = 1
-	elseif RunsSlots == 2 then
+	elseif gGlobalSyncTable.RunsSlots == 2 then
 	gGlobalSyncTable.RainbowRoadRuns = 2
 	end
 	elseif gGlobalSyncTable.RainbowRoadRuns >= 1 then
@@ -134,9 +135,9 @@ for speedruncheck in pairs(gActiveMods) do
     Romhack_Runs_Check = -1
 	RunsSlotsName1 = "1 Star"
 	RunsSlotsName2 = "3 Stars"
-	if RunsSlots == 1 then
+	if gGlobalSyncTable.RunsSlots == 1 then
 	gGlobalSyncTable.SonicAdventure64Runs = 1
-	elseif RunsSlots == 2 then
+	elseif gGlobalSyncTable.RunsSlots == 2 then
 	gGlobalSyncTable.SonicAdventure64Runs = 2
 	end
 	elseif gGlobalSyncTable.SonicAdventure64Runs >= 1 then
@@ -150,7 +151,7 @@ function on_romhack_interact(m, o, interactType)
 for romhacksgrandstar in pairs(gActiveMods) do
 	if gActiveMods[romhacksgrandstar].incompatible ~= nil and gActiveMods[romhacksgrandstar].incompatible:find("romhack") then
 	if gGlobalSyncTable.GrandStar then
-    if get_id_from_behavior(o.behavior) == id_bhvGrandStar and Romhack_Runs_Check == 0 then
+    if get_id_from_behavior(o.behavior) == id_bhvGrandStar and gGlobalSyncTable.RunsSlots == 0 then
         gGlobalSyncTable.beatedGame = true
 		end
 		end
@@ -163,7 +164,7 @@ function on_romhack_interact_end_picture()
 for romhacksendpicture in pairs(gActiveMods) do
 	if gActiveMods[romhacksendpicture].incompatible ~= nil and gActiveMods[romhacksendpicture].incompatible:find("romhack") then
 	if gGlobalSyncTable.EndPicture then
-    if gNetworkPlayers[0].currLevelNum == LEVEL_ENDING and Romhack_Runs_Check == 0 then
+    if gNetworkPlayers[0].currLevelNum == LEVEL_ENDING and gGlobalSyncTable.RunsSlots == 0 then
         gGlobalSyncTable.beatedGame = true
 		end
 		end
