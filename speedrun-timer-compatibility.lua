@@ -41,7 +41,8 @@ for gamemodes_is_on in pairs(gActiveMods) do
 end
 	
     if (gActiveMods[gamemodes_is_on].incompatible ~= nil and gActiveMods[gamemodes_is_on].incompatible:find("gamemode")) and not 
-	(gActiveMods[gamemodes_is_on].name:find("Personal Star Counter") or gActiveMods[gamemodes_is_on].name:find("Verbose Notifications")) then
+	(gActiveMods[gamemodes_is_on].name:find("Personal Star Counter") or gActiveMods[gamemodes_is_on].name:find("Verbose Notifications") or
+	gActiveMods[gamemodes_is_on].name:find("The Underworld")) then
             gamemodes_is_checked = true
             djui_popup_create("\\#ff0000\\".. gActiveMods[gamemodes_is_on].name .. " \\#ff0000\\is not Compatible for Speedrun Timer Reworked", 2)
 		break

@@ -1,9 +1,6 @@
 if gamemodes_is_checked or notallowedmods or no_cheats then return end
 
 -- Rewrite Save Functions with Numbers to make SM64-Coop Deluxe Possible
-_G.FontsSelect = tonumber(mod_storage_load("Fonts")) or 1
-_G.CustomFontsSelect = tonumber(mod_storage_load("CustomFonts")) or 1
-_G.SwitchFonts = tonumber(mod_storage_load("SwitchFonts")) or 0
 showSpeedrunTimer = tonumber(mod_storage_load("DisplayTimer")) or 1
 Rules_Display = tonumber(mod_storage_load("DisplayRules")) or 1
 buttonsonly = tonumber(mod_storage_load("Buttons")) or 0
@@ -22,28 +19,9 @@ GreenColorRect = tonumber(mod_storage_load("GreenRect")) or 0
 VisableRect = tonumber(mod_storage_load("VisableRect")) or 128
 CustomXPos = tonumber(mod_storage_load("XPos")) or 0
 CustomYPos = tonumber(mod_storage_load("YPos")) or 0
-CustomFontsDisplay = CustomFontsDisplay
-font_number = font_number
-
--- This make sure to switch back to the built in fonts once if you don't have a custom fonts (because Idk how to save it like how the Character Select does it)
-function no_custom_fonts()
-if CustomFontsDisplay == nil then
-return custom_font_set_how_many_fonts(0)
-end
-if _G.SwitchFonts == 1 and _G.CustomFontsSelect ~= 0 and font_number <= 0 then
-_G.FontsSelect = _G.FontsSelect
-_G.SwitchFonts = 0
-end
-if font_number ~= 0 then
-_G.CustomFontsSelect = _G.CustomFontsSelect
-elseif font_number ~= 0 and _G.SwitchFonts == 0 then
-_G.SwitchFonts = 1 
-	end
-end
 
 -- This is just for SM64, to keep it separate from the romhacks
 function Set_SM64_Position(x, y, z, level, area, act)
-	if gGlobalSyncTable.startingpoint then
 	gGlobalSyncTable.EndPicture = false
 	gGlobalSyncTable.set_warp = true
 	currLevelNum = level
@@ -68,33 +46,85 @@ if gGlobalSyncTable.startspeedrun < 0.1 and gNetworkPlayers[0].currLevelNum ~= l
 	set_warp_check = true
 		end
 	end
-	end
 end
 
 -- This is for Romhacks Only, I also added a warp to the right location
-function Set_Romhack_Position(xpos, ypos, zpos, romhacklevel, romhackarea, romhackact, romhackgrandstar, romhackendpicture, warp, runs_check)
-	gGlobalSyncTable.GrandStar = romhackgrandstar
-	gGlobalSyncTable.EndPicture = romhackendpicture
+function Set_Romhack_Position(xpos, ypos, zpos, romhacklevel, romhackarea, romhackact, Forced_Level, Custom_Lock, Custom_Warp, Condition)
 	gGlobalSyncTable.CompatibleRomhacks = true
-	gGlobalSyncTable.set_warp = warp
-	gGlobalSyncTable.different_areas = romhackarea
-	DisableCommands = runs_check
-	if DisableCommands == true then
-	Romhack_Runs_Option = false
-	else
-	Romhack_Runs_Option = true
-	end
 	currLevelNum = romhacklevel
 	currAreaIndex = romhackarea
 	currActNum = romhackact
-if gGlobalSyncTable.Intermission and gGlobalSyncTable.startspeedrun < 0.1 then
+	
+	if Condition ~= "Custom Runs" then
+	Romhack_Runs_Option = false
+	elseif Condition == "Custom Runs" then
+	Romhack_Runs_Option = true
+	end
+	
+	if Forced_Level == "Force Level" then
+	if gGlobalSyncTable.startspeedrun < 0.1 and gNetworkPlayers[0].currLevelNum ~= romhacklevel then
+	warp_to_level(romhacklevel, romhackarea, romhackact)
+		end
+	end
+	if Forced_Level == "Force Area" then
+	if gGlobalSyncTable.startspeedrun < 0.1 and gNetworkPlayers[0].currAreaIndex ~= romhackarea then
+	warp_to_level(romhacklevel, romhackarea, romhackact)
+		end
+	end
+	if Forced_Level == "Force Act" then
+	if gGlobalSyncTable.startspeedrun < 0.1 and gNetworkPlayers[0].currAreaIndex ~= romhackact then
+	warp_to_level(romhacklevel, romhackarea, romhackact)
+		end
+	end
+	
+	if Condition == "Grand Star" then
+	gGlobalSyncTable.GrandStar = true
+	else
+	gGlobalSyncTable.GrandStar = false
+	end
+	if Condition == "End Picture" then
+	gGlobalSyncTable.EndPicture = true
+	else
+	gGlobalSyncTable.EndPicture = false
+	end
+	if Condition == "Custom Runs" then
+	DisableCommands = false
+	else
+	DisableCommands = true
+	end
+	if Condition == "Grand Star and End Picture" then
+	gGlobalSyncTable.GrandStar = true
+	gGlobalSyncTable.EndPicture = true
+	else
+	gGlobalSyncTable.GrandStar = false
+	gGlobalSyncTable.EndPicture = false
+	end
+	if Condition == "None" then
+	gGlobalSyncTable.GrandStar = false
+	gGlobalSyncTable.EndPicture = false
+	DisableCommands = true
+	end
+	
+if Custom_Lock == "Lock" then
+	if gGlobalSyncTable.startspeedrun < 0.1 then
     gMarioStates[0].pos.x = xpos
 	gMarioStates[0].pos.y = ypos
 	gMarioStates[0].pos.z = zpos
+	end
+	elseif Custom_Lock == "No Lock" then
+	if gGlobalSyncTable.Intermission and gGlobalSyncTable.startspeedrun < 0.1 then
+    gMarioStates[0].pos.x = xpos
+	gMarioStates[0].pos.y = ypos
+	gMarioStates[0].pos.z = zpos
+	end
 end
-if gGlobalSyncTable.startspeedrun < 0.1 and gNetworkPlayers[0].currLevelNum ~= romhacklevel then
-	warp_to_level(romhacklevel, romhackarea, romhackact)
-end
+	if Custom_Warp == "Disable" then
+		DisableWarps = true
+		gGlobalSyncTable.set_warp = false
+	end
+	
+	if Custom_Warp == "Level Warp" then
+	gGlobalSyncTable.set_warp = true
 	if set_warp_position then
 		warp_to_level(gLevelValues.entryLevel, romhackarea, romhackact)
 		set_warp_position = false
@@ -104,20 +134,17 @@ end
 	if gGlobalSyncTable.set_warp and not set_warp_check then
 	warp_to_level(gLevelValues.entryLevel, romhackarea, romhackact)
 	set_warp_check = true
+			end
 		end
 	end
-end
-
--- This is only for Incompatible Romhacks, So The Warp Command Doesn't Break
-function Set_Warp_For_Incompatible_Romhacks(romhackarea, romhackact)
-	currAreaIndex = romhackarea
-	currActNum = romhackact
-if gGlobalSyncTable.CompatibleRomhacks == false and gGlobalSyncTable.SuperMario64 == false then
+	
+	if Custom_Warp == "Start Warp" then
+	gGlobalSyncTable.set_warp = true
 	if set_warp_position then
-		warp_to_level(gLevelValues.entryLevel, romhackarea, romhackact)
+		warp_to_start_level()
 		set_warp_position = false
 		return true
-		end
+	end
 	if gGlobalSyncTable.Intermission then
 	if gGlobalSyncTable.set_warp and not set_warp_check then
 	warp_to_start_level()
@@ -127,72 +154,23 @@ if gGlobalSyncTable.CompatibleRomhacks == false and gGlobalSyncTable.SuperMario6
 	end
 end
 
--- This is only for Only Up, so I have to make sure to use the area instead of the level
-function Set_Only_Up_64_Position(xpos, ypos, zpos, romhacklevel, romhackarea, romhackact)
-	switched = false
-	gGlobalSyncTable.GrandStar = false
-	gGlobalSyncTable.EndPicture = false
-	gGlobalSyncTable.CompatibleRomhacks = true
-	gGlobalSyncTable.different_areas = romhackarea
-	currLevelNum = romhacklevel
+-- This is only for Incompatible Romhacks, So The Warp Command Doesn't Break
+function Set_Warp_For_Incompatible_Romhacks(romhackarea, romhackact)
 	currAreaIndex = romhackarea
 	currActNum = romhackact
-if gGlobalSyncTable.Intermission and gGlobalSyncTable.startspeedrun < 0.1 then
-    gMarioStates[0].pos.x = xpos
-	gMarioStates[0].pos.y = ypos
-	gMarioStates[0].pos.z = zpos
-end
-if gGlobalSyncTable.startspeedrun < 0.1 and gNetworkPlayers[0].currAreaIndex ~= romhackarea then
-	warp_to_level(romhacklevel, romhackarea, romhackact)
-	end
+	gGlobalSyncTable.set_warp = true
+if gGlobalSyncTable.CompatibleRomhacks == false then
 	if set_warp_position then
 		warp_to_level(gLevelValues.entryLevel, romhackarea, romhackact)
 		set_warp_position = false
 		return true
 	end
-end
-
--- This is only for The Underworld, this make sure that people won't enter the cutscene once joining
-function Set_Underworld_Position(xpos, ypos, zpos, romhacklevel, romhackarea, romhackact)
-	switched = false
-	gGlobalSyncTable.GrandStar = true
-	gGlobalSyncTable.EndPicture = false
-	gGlobalSyncTable.CompatibleRomhacks = true
-	gGlobalSyncTable.different_areas = romhackarea
-	currLevelNum = romhacklevel
-	currAreaIndex = romhackarea
-	currActNum = romhackact
-if gGlobalSyncTable.startspeedrun < 0.1 then
-    gMarioStates[0].pos.x = xpos
-	gMarioStates[0].pos.y = ypos
-	gMarioStates[0].pos.z = zpos
-end
-if gGlobalSyncTable.startspeedrun < 0.1 and gNetworkPlayers[0].currLevelNum ~= romhacklevel then
-	warp_to_level(romhacklevel, romhackarea, romhackact)
-	end
-	if set_warp_position then
-		warp_to_level(gLevelValues.entryLevel, romhackarea, romhackact)
-		set_warp_position = false
-		return true
-	end
-end
-
--- This is only for Luigi & The Violet Stars, for some reason it's breaks the wraps so I have to remove them
-function Set_Violet_Stars_Position(xpos, ypos, zpos)
-	gGlobalSyncTable.GrandStar = true
-	violet_stars = true
-	gGlobalSyncTable.CompatibleRomhacks = true
-if gGlobalSyncTable.startspeedrun < 0.1 then
-    gMarioStates[0].pos.x = xpos
-	gMarioStates[0].pos.y = ypos
-	gMarioStates[0].pos.z = zpos
-end
-	if violet_stars then
-	if set_violet_stars_warp then
-		djui_popup_create("\\#FF0000\\Warps are disabled for this romhack, Because warping doesn't work for some reason, I can't fix it sadly", 2)
-		set_violet_stars_warp = false
-		return true
+	if gGlobalSyncTable.Intermission then
+	if gGlobalSyncTable.set_warp and not set_warp_check then
+	warp_to_start_level()
+	set_warp_check = true
 		end
+	end
 	end
 end
 
@@ -293,6 +271,17 @@ function checkColorFormat(rgbhex)
     end
 end
 
+function reset_savefile()
+-- From EmilyEmmi
+file = get_current_save_file_num() - 1
+for course = 0, 25 do
+save_file_remove_star_flags(file, course - 1, 0xFF)
+end
+save_file_clear_flags(0xFFFFFFFF) -- ALL OF THEM
+save_file_do_save(file, 1)
+gMarioStates[0].numStars = save_file_get_total_star_count(get_current_save_file_num() - 1, COURSE_MIN - 1, COURSE_MAX - 1)
+end
+
 function all_hook_mario_update(m)
 if m.playerIndex ~= 0 then return end
 sm64_check(m)
@@ -313,7 +302,6 @@ function all_hook_update()
 local m = gMarioStates[0]
 if m.playerIndex ~= 0 then return end
 freeze_players_update()
-no_custom_fonts()
 speedrun_commands_update()
 teams_character_update()
 on_romhack_interact_end_picture()
@@ -331,15 +319,16 @@ on_romhack_interact(m, o, interactType)
 romhack_stars_interaction(m, o, interactType)
 end
 
-function all_hook_hud_render_behind()
+local function all_hook_hud_render_behind()
 local m = gMarioStates[0]
 if m.playerIndex ~= 0 then return end
 on_timer_hud_render()
 krb2_timer_check()
 end
 
-function all_hook_hud_render()
+local function all_hook_hud_render()
 local m = gMarioStates[0]
+if is_game_paused() then return end
 if m.playerIndex ~= 0 then return end
 displaystrmenu(m)
 displaymenu(m)

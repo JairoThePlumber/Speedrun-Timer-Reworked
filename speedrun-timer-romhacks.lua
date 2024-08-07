@@ -1,7 +1,6 @@
 if gamemodes_is_checked or notallowedmods or no_cheats then return end
 
--- Main Functions
-gGlobalSyncTable.RunsSlots = 0
+-- Romhack Runs
 gGlobalSyncTable.StarRoadRuns = 0
 gGlobalSyncTable.MoonShineRuns = 0
 gGlobalSyncTable.DelightfulDioramasRuns = 0
@@ -9,7 +8,11 @@ gGlobalSyncTable.ZtarAttack2Runs = 0
 gGlobalSyncTable.StarRevenge3Runs = 0
 gGlobalSyncTable.RainbowRoadRuns = 0
 gGlobalSyncTable.SonicAdventure64Runs = 0
+Romhack_Runs_Check = 0
+krb2timer = 21
 
+-- Main Functions
+gGlobalSyncTable.RunsSlots = 0
 gGlobalSyncTable.GrandStar = false
 gGlobalSyncTable.EndPicture = true
 gGlobalSyncTable.CompatibleRomhacks = false
@@ -17,9 +20,88 @@ gGlobalSyncTable.RomhacksWarning = false
 gGlobalSyncTable.TeamsCheck = false
 DisableCommands = true
 Romhack_Runs_Option = false
-Romhack_Runs_Check = 0
-krb2timer = 21
 gGlobalSyncTable.SM74EEsavefile = false
+
+-- pretty much how the timer stop when touching the grand star (only works for fighting final bowser)
+function on_romhack_interact(m, o, interactType)
+for romhacksgrandstar in pairs(gActiveMods) do
+	if gActiveMods[romhacksgrandstar].incompatible ~= nil and gActiveMods[romhacksgrandstar].incompatible:find("romhack") then
+	if gGlobalSyncTable.GrandStar then
+    if get_id_from_behavior(o.behavior) == id_bhvGrandStar and gGlobalSyncTable.RunsSlots == 0 then
+        gGlobalSyncTable.beatedGame = true
+		end
+		end
+	end
+    end
+end
+
+-- stops when someone enter the end picture
+function on_romhack_interact_end_picture()
+for romhacksendpicture in pairs(gActiveMods) do
+	if gActiveMods[romhacksendpicture].incompatible ~= nil and gActiveMods[romhacksendpicture].incompatible:find("romhack") then
+	if gGlobalSyncTable.EndPicture then
+    if gNetworkPlayers[0].currLevelNum == LEVEL_ENDING and gGlobalSyncTable.RunsSlots == 0 then
+        gGlobalSyncTable.beatedGame = true
+		end
+		end
+	end
+    end
+end
+
+-- this checks if one of the teams finish the run
+function on_teams_update(m)
+	if gGlobalSyncTable.SpeedrunTeams then
+	if gGlobalSyncTable.beatedGame and gPlayerSyncTable[0].TeamColors == SpeedrunRedTeam and gGlobalSyncTable.notags and not gGlobalSyncTable.TeamsCheck then
+	djui_popup_create_global('\\#f90303\\Red Team \\#FFFF00\\Wins!!\\#FFFFFF\\', 2)
+	gGlobalSyncTable.TeamsCheck = true
+	elseif gGlobalSyncTable.beatedGame and gPlayerSyncTable[0].TeamColors == SpeedrunBlueTeam and gGlobalSyncTable.notags and not gGlobalSyncTable.TeamsCheck then
+	djui_popup_create_global('\\#3903ff\\Blue Team \\#FFFF00\\Wins!!\\#FFFFFF\\', 2)
+	gGlobalSyncTable.TeamsCheck = true
+		end
+	end
+end
+
+-- This should fixed the teams command for SM74EE
+function save_files_no_teams_sm74ee(m)
+if not gGlobalSyncTable.SpeedrunTeams then
+for sm74_savefile in pairs(gActiveMods) do
+if gActiveMods[sm74_savefile].name:find("Super Mario 74") and gActiveMods[sm74_savefile].name:find("(+EE)") and gNetworkPlayers[0].currAreaIndex ~= 1 then
+	gGlobalSyncTable.SM74EEsavefile = true
+	gGlobalSyncTable.NormalSaveFile = false
+	if gGlobalSyncTable.SM74EEsavefile then
+	save_file_set_using_backup_slot(true)
+	m.numStars = save_file_get_total_star_count(get_current_save_file_num() - 1, COURSE_MIN - 1, COURSE_MAX - 1)
+	else
+	save_file_set_using_backup_slot(false)
+		end
+		end
+	end
+	end
+end
+
+-- This is for romhack that isn't compatible, so this will set the positions to the start position
+function unsupported_romhacks(m)
+for unsupportedromhacks in pairs(gActiveMods) do
+	if gActiveMods[unsupportedromhacks].incompatible ~= nil and gActiveMods[unsupportedromhacks].incompatible:find("romhack") then
+	if gGlobalSyncTable.CompatibleRomhacks == false and not gGlobalSyncTable.RomhacksWarning then
+	gGlobalSyncTable.RomhacksWarning = true
+	djui_popup_create("\\#ff0000\\\nWarning:\nThere's some Romhacks that won't stop the timer or will stop, but isn't complete.\nBe aware of those and report them if it happens!", 5)
+	end
+	if (gGlobalSyncTable.CompatibleRomhacks == false) then
+	switched = false
+	if gNetworkPlayers[0].currAreaIndex == 1 then
+	Set_Warp_For_Incompatible_Romhacks(1, 0)
+	elseif gNetworkPlayers[0].currAreaIndex == 2 then
+	Set_Warp_For_Incompatible_Romhacks(2, 0)
+	elseif gNetworkPlayers[0].currAreaIndex == 3 then
+	Set_Warp_For_Incompatible_Romhacks(3, 0)
+	elseif gNetworkPlayers[0].currAreaIndex == 4 then
+	Set_Warp_For_Incompatible_Romhacks(4, 0)
+				end
+			end
+		end
+	end
+end
 
 -- This makes sure that you have to put a run before starting the speedrun
 function on_romhack_speedrun_check(m)
@@ -146,63 +228,6 @@ for speedruncheck in pairs(gActiveMods) do
 	end
 end
 
--- pretty much how the timer stop when touching the grand star (only works for fighting final bowser)
-function on_romhack_interact(m, o, interactType)
-for romhacksgrandstar in pairs(gActiveMods) do
-	if gActiveMods[romhacksgrandstar].incompatible ~= nil and gActiveMods[romhacksgrandstar].incompatible:find("romhack") then
-	if gGlobalSyncTable.GrandStar then
-    if get_id_from_behavior(o.behavior) == id_bhvGrandStar and gGlobalSyncTable.RunsSlots == 0 then
-        gGlobalSyncTable.beatedGame = true
-		end
-		end
-	end
-    end
-end
-
--- stops when someone enter the end picture
-function on_romhack_interact_end_picture()
-for romhacksendpicture in pairs(gActiveMods) do
-	if gActiveMods[romhacksendpicture].incompatible ~= nil and gActiveMods[romhacksendpicture].incompatible:find("romhack") then
-	if gGlobalSyncTable.EndPicture then
-    if gNetworkPlayers[0].currLevelNum == LEVEL_ENDING and gGlobalSyncTable.RunsSlots == 0 then
-        gGlobalSyncTable.beatedGame = true
-		end
-		end
-	end
-    end
-end
-
--- this checks if one of the teams finish the run
-function on_teams_update(m)
-	if gGlobalSyncTable.SpeedrunTeams then
-	if gGlobalSyncTable.beatedGame and gPlayerSyncTable[0].TeamColors == SpeedrunRedTeam and gGlobalSyncTable.notags and not gGlobalSyncTable.TeamsCheck then
-	djui_popup_create_global('\\#f90303\\Red Team \\#FFFF00\\Wins!!\\#FFFFFF\\', 2)
-	gGlobalSyncTable.TeamsCheck = true
-	elseif gGlobalSyncTable.beatedGame and gPlayerSyncTable[0].TeamColors == SpeedrunBlueTeam and gGlobalSyncTable.notags and not gGlobalSyncTable.TeamsCheck then
-	djui_popup_create_global('\\#3903ff\\Blue Team \\#FFFF00\\Wins!!\\#FFFFFF\\', 2)
-	gGlobalSyncTable.TeamsCheck = true
-		end
-	end
-end
-
--- This should fixed the teams command for SM74EE
-function save_files_no_teams_sm74ee(m)
-if not gGlobalSyncTable.SpeedrunTeams then
-for sm74_savefile in pairs(gActiveMods) do
-if gActiveMods[sm74_savefile].name:find("Super Mario 74") and gActiveMods[sm74_savefile].name:find("(+EE)") and gNetworkPlayers[0].currAreaIndex ~= 1 then
-	gGlobalSyncTable.SM74EEsavefile = true
-	gGlobalSyncTable.NormalSaveFile = false
-	if gGlobalSyncTable.SM74EEsavefile then
-	save_file_set_using_backup_slot(true)
-	m.numStars = save_file_get_total_star_count(get_current_save_file_num() - 1, COURSE_MIN - 1, COURSE_MAX - 1)
-	else
-	save_file_set_using_backup_slot(false)
-		end
-		end
-	end
-	end
-end
-
 -- stops on when entering a pipe
 function on_king_boo_interact()
 for king_boo_interaction_only in pairs(gActiveMods) do
@@ -246,270 +271,241 @@ if gActiveMods[only_up_interaction_only].name:find("Only Up 64") then
 end
 
 -- These are some romhacks that are compatible with the speedrun timer
--- Set_Romhack_Position(x, y, z, level, area, act, grandstar, endpicture, resetlevel)
 function romhack_positions(m)
 -- Super Mario 64
-if gGlobalSyncTable.SuperMario64 then
+if gGlobalSyncTable.SuperMario64 == true then
 Set_SM64_Position(-1328, 260, 4664, LEVEL_CASTLE_GROUNDS, 1, 0)
 end
 
 for romhacks in pairs(gActiveMods) do
 -- Super Mario Star Road and Star Road: The Replica Comet
 if gActiveMods[romhacks].name:find("Star Road") or gActiveMods[romhacks].name:find("Star Road: The Replica Comet") then
-Set_Romhack_Position(-6797, 1831, 2710, LEVEL_CASTLE_GROUNDS, 1, 0, false, false, true, false)
+Set_Romhack_Position(-6797, 1831, 2710, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Level Warp", "Custom Runs")
 
 -- Super Mario 74
-elseif gActiveMods[romhacks].name:find("Super Mario 74") and gActiveMods[romhacks].name:find("(+EE)") 
-and gNetworkPlayers[0].currAreaIndex ~= 2 then
-Set_Romhack_Position(-6558, -578, 6464, LEVEL_CASTLE_COURTYARD, 1, 0, true, false, true, true)
+elseif gActiveMods[romhacks].name:find("Super Mario 74") and gActiveMods[romhacks].name:find("(+EE)") and gNetworkPlayers[0].currAreaIndex ~= 2 then
+Set_Romhack_Position(-6558, -578, 6464, LEVEL_CASTLE_COURTYARD, 1, 0, "Force Level", "No Lock", "Level Warp", "Grand Star")
 
 -- Super Mario 74: Extreme Edition
-elseif gActiveMods[romhacks].name:find("Super Mario 74") and gActiveMods[romhacks].name:find("(+EE)") 
-and gNetworkPlayers[0].currAreaIndex ~= 1 then
-Set_Romhack_Position(5481, -922, 6320, LEVEL_CASTLE_COURTYARD, 2, 0, true, false, true, true)
+elseif gActiveMods[romhacks].name:find("Super Mario 74") and gActiveMods[romhacks].name:find("(+EE)") and gNetworkPlayers[0].currAreaIndex ~= 1 then
+Set_Romhack_Position(5481, -922, 6320, LEVEL_CASTLE_COURTYARD, 2, 0, "Force Level", "No Lock", "Level Warp", "Grand Star")
 
 -- Super Mario 74: Ten Years After
 elseif gActiveMods[romhacks].name:find("Ten Years After") then
-Set_Romhack_Position(-5097, -157, 6235, LEVEL_CASTLE_COURTYARD, 1, 0, true, false, true, true)
+Set_Romhack_Position(-5097, -157, 6235, LEVEL_CASTLE_COURTYARD, 1, 0, "Force Level", "No Lock", "Level Warp", "Grand Star")
 
 -- Super Mario 64 Moonshine
 elseif gActiveMods[romhacks].name:find("Super Mario 64 Moonshine") then
-Set_Romhack_Position(5, -2794, 2082, LEVEL_CASTLE, 1, 0, false, false, true, false)
+Set_Romhack_Position(5, -2794, 2082, LEVEL_CASTLE, 1, 0, "Force Level", "No Lock", "Level Warp", "Custom Runs")
 
 -- King Boo's Revenge 2
 elseif gActiveMods[romhacks].name:find("King Boo's Revenge 2") then
-Set_Romhack_Position(7710, 1575, 6682, LEVEL_CASTLE_GROUNDS, 1, 0, false, false, true, true)
+Set_Romhack_Position(7710, 1575, 6682, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Level Warp", "None")
 if OmmEnabled then
 _G.OmmApi.omm_force_setting("stars", 0)
 end
 
 -- Lug's Delightful Dioramas
 elseif gActiveMods[romhacks].name:find("Lug's Delightful Dioramas") and not gActiveMods[romhacks].name:find("Green Comet") then
-Set_Romhack_Position(-200, 64, -991, LEVEL_CASTLE, 1, 0, false, false, false, false)
+Set_Romhack_Position(-200, 64, -991, LEVEL_CASTLE, 1, 0, "Force Level", "No Lock", "Level Warp", "Custom Runs")
 
 -- Lug's Delightful Dioramas Green Comet
 elseif gActiveMods[romhacks].name:find("Lug's Delightful Dioramas") and gActiveMods[romhacks].name:find("Green Comet") then
-Set_Romhack_Position(-200, 64, -991, LEVEL_CASTLE, 1, 0, false, true, false, true)
+Set_Romhack_Position(-200, 64, -991, LEVEL_CASTLE, 1, 0, "Force Level", "No Lock", "Level Warp", "End Picture")
 
 -- Super Mario 64: The Green Stars
 elseif gActiveMods[romhacks].name:find("SM64: The Green Stars") then
-Set_Romhack_Position(-1500, -509, 2102, LEVEL_CASTLE_GROUNDS, 1, 0, true, false, false, true)
+Set_Romhack_Position(-1500, -509, 2102, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Level Warp", "Grand Star")
 
 -- Super Mario 64 Sapphire and Super Mario 64 Sapphire Green Comet
-elseif gActiveMods[romhacks].name:find("SM64 \\#0f52ba\\Sapphire\\#ffffff\\") 
-or gActiveMods[romhacks].name:find("SM64 \\#0f52ba\\Sapphire \\#00FF00\\Green Comet\\dcdcdc\\") then
-Set_Romhack_Position(0, -0, 650, LEVEL_CASTLE, 1, 0, false, true, false, true)
+elseif gActiveMods[romhacks].name:find("SM64 \\#0f52ba\\Sapphire\\#ffffff\\") or gActiveMods[romhacks].name:find("SM64 \\#0f52ba\\Sapphire \\#00FF00\\Green Comet\\dcdcdc\\") then
+Set_Romhack_Position(0, -0, 650, LEVEL_CASTLE, 1, 0, "Force Level", "No Lock", "Level Warp", "End Picture")
 
 -- The Phantom's Call
 elseif gActiveMods[romhacks].name:find("The Phantom's Call") then
-Set_Romhack_Position(147, -727, -395, LEVEL_CASTLE_GROUNDS, 1, 0, false, true, false, true)
+Set_Romhack_Position(147, -727, -395, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Level Warp", "End Picture")
 
 -- Star Revenge 1: Star Takeover
 elseif gActiveMods[romhacks].name:find("Star Revenge 1: Star Takeover") then
-Set_Romhack_Position(8120, -1991, -9473, LEVEL_CASTLE_COURTYARD, 1, 0, false, true, true, true)
+Set_Romhack_Position(8120, -1991, -9473, LEVEL_CASTLE_COURTYARD, 1, 0, "Force Level", "No Lock", "Level Warp", "End Picture")
 if OmmEnabled then
 _G.OmmApi.omm_force_setting("stars", 0)
 end
 
 -- Star Revenge 2: Night of Doom
 elseif gActiveMods[romhacks].name:find("Star Revenge 2: Night of Doom") then
-Set_Romhack_Position(5843, -936, 3985, LEVEL_CASTLE_COURTYARD, 1, 0, true, false, true, true)
+Set_Romhack_Position(5843, -936, 3985, LEVEL_CASTLE_COURTYARD, 1, 0, "Force Level", "No Lock", "Level Warp", "Grand Star")
 
 -- Star Revenge 6.5
 elseif (gActiveMods[romhacks].name:find("Star Revenge 6") and gActiveMods[romhacks].name:find(".5")) then
-Set_Romhack_Position(-14341, -552, -9602, LEVEL_CASTLE_GROUNDS, 1, 0, false, false, true, true)
+Set_Romhack_Position(-14341, -552, -9602, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Level Warp", "None")
 
 -- SM64 - Twisted Adventures
 elseif gActiveMods[romhacks].name:find("Twisted Adventures") then
-Set_Romhack_Position(2255, -1215, -695, LEVEL_CASTLE_COURTYARD, 1, 0, true, false, true, true)
+Set_Romhack_Position(2255, -1215, -695, LEVEL_CASTLE_COURTYARD, 1, 0, "Force Level", "No Lock", "Level Warp", "Grand Star")
 
 -- Luigi's Mansion 64 and Luigi's Mansion 64.5
 elseif gActiveMods[romhacks].name:find("Luigi's Mansion 64") or gActiveMods[romhacks].name:find("Luigi's Mansion 64.5") then
-Set_Romhack_Position(-1328, 260, 4664, LEVEL_CASTLE_GROUNDS, 1, 0, true, false, false, true)
+Set_Romhack_Position(-1328, 260, 4664, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Level Warp", "Grand Star")
 
 -- Super Mario 64 Paradise Island
 elseif gActiveMods[romhacks].name:find("SM64 Paradise Island") then
-Set_Romhack_Position(3255, 190, -4806, LEVEL_CASTLE_GROUNDS, 1, 0, true, false, false, true)
+Set_Romhack_Position(3255, 190, -4806, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Level Warp", "Grand Star")
 
 -- Ztar Attack 2
 elseif gActiveMods[romhacks].name:find("\\#0c33c2\\Ztar Attack \\#c20c0c\\2") then
-Set_Romhack_Position(-1226, -1823, 515, LEVEL_CASTLE_GROUNDS, 1, 0, false, false, true, false)
-custom_lives = true
+Set_Romhack_Position(-1226, -1823, 515, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Level Warp", "Custom Runs")
+gGlobalSyncTable.custom_lives = true
 
 -- SM64 Peach and The Pink Star
 elseif gActiveMods[romhacks].name:find("pink star") then
-Set_Romhack_Position(-426, 1243, -161, LEVEL_CASTLE_GROUNDS, 1, 0, true, false, true, true)
+Set_Romhack_Position(-426, 1243, -161, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Start Warp", "Grand Star")
 
 -- Super Mario 64: Hidden Stars
 elseif gActiveMods[romhacks].name:find("SM 64 Hidden Stars") then
-Set_Romhack_Position(-1328, 260, 4664, LEVEL_CASTLE_GROUNDS, 1, 0, false, true, true, true)
+Set_Romhack_Position(-1328, 260, 4664, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Level Warp", "End Picture")
 
 -- Super Mario The Galactic Journey
 elseif gActiveMods[romhacks].name:find("The Galactic Journey") then
-Set_Romhack_Position(-343, 944, 1154, LEVEL_CASTLE_GROUNDS, 1, 0, false, false, false, true)
+Set_Romhack_Position(-343, 944, 1154, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Level Warp", "None")
 if OmmEnabled then
 _G.OmmApi.omm_force_setting("stars", 0)
 end
 
 -- Star Revenge 1.5: Star Takeover Redone
 elseif gActiveMods[romhacks].name:find("Star Takeover Redone") then
-Set_Romhack_Position(-3782, -2537, -2770, LEVEL_CASTLE_COURTYARD, 1, 0, true, false, true, true)
+Set_Romhack_Position(-3782, -2537, -2770, LEVEL_CASTLE_COURTYARD, 1, 0, "Force Level", "No Lock", "Level Warp", "Grand Star")
 
 -- Luigi and the Forest Ruins
 elseif gActiveMods[romhacks].name:find("\\#074916\\Luigi and the Forest Ruins\\#ffffff\\") then
-Set_Romhack_Position(-6400, 371, 392, LEVEL_CASTLE_GROUNDS, 1, 0, false, true, false, true)
+Set_Romhack_Position(-6400, 371, 392, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Level Warp", "End Picture")
 if OmmEnabled then
 _G.OmmApi.omm_force_setting("stars", 0)
 end
 
 -- Only Up 64
 elseif gActiveMods[romhacks].name:find("Only Up 64") then
-Set_Only_Up_64_Position(5706, -16259, -5594, LEVEL_CASTLE_GROUNDS, 1, 0)
+Set_Romhack_Position(5706, -16259, -5594, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Area", "No Lock", "Level Warp", "None")
 
 -- Thousand-Year Door 64 
 elseif gActiveMods[romhacks].name:find("Thousand") and gActiveMods[romhacks].name:find("Year Door 64") then
-Set_Romhack_Position(-1722, 120, -4331, LEVEL_CASTLE_GROUNDS, 1, 0, false, true, false, true)
+Set_Romhack_Position(-1722, 120, -4331, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Level Warp", "End Picture")
 if OmmEnabled then
 _G.OmmApi.omm_disable_feature("trueNonStop", true)
 end
 
 -- Super Mario 64: The Mushroom Cup
 elseif gActiveMods[romhacks].name:find("\\#ff2b1c\\The \\#636363\\Mushroom \\#ffb742\\Cup") then
-Set_Romhack_Position(0, 28, 0, LEVEL_CASTLE_GROUNDS, 1, 0, true, true, true, true)
+Set_Romhack_Position(0, 28, 0, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Level Warp", "Grand Star and End Picture")
 
 -- Eternal Realm
 elseif gActiveMods[romhacks].name:find("Eternal Realm") then
-Set_Romhack_Position(-784, -1741, 2590, LEVEL_CASTLE_GROUNDS, 1, 0, false, false, true, true)
+Set_Romhack_Position(-784, -1741, 2590, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Level Warp", "None")
 
 -- Despair Mario's Gambit 
 elseif gActiveMods[romhacks].name:find("Despair Mario's Gambit") then
-Set_Romhack_Position(-1727, 112, -710, LEVEL_CASTLE_GROUNDS, 1, 0, false, true, true, true)
+Set_Romhack_Position(-1727, 112, -710, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Level Warp", "End Picture")
 
 -- Super Retro Land 
 elseif gActiveMods[romhacks].name:find("Super Retro Land") then
-Set_Romhack_Position(1364, -333, -1313, LEVEL_CASTLE_GROUNDS, 1, 0, false, true, true, true)
+Set_Romhack_Position(1364, -333, -1313, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Level Warp", "End Picture")
 
 -- Super Mario 64: The Underworld
 elseif gActiveMods[romhacks].name:find("The Underworld") then
-Set_Underworld_Position(-1328, 260, 4664, LEVEL_CASTLE_GROUNDS, 1, 0)
+Set_Romhack_Position(-1328, 260, 4664, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "Lock", "Disable", "Grand Star")
 DisableTeams = true
 
 -- Katze Stuck in the Toilet 64 
 elseif gActiveMods[romhacks].name:find("Katze Stuck in the Toilet 64") then
-Set_Romhack_Position(0, 2000, 0, LEVEL_CASTLE_GROUNDS, 2, 0, false, true, false, true)
+Set_Romhack_Position(0, 2000, 0, LEVEL_CASTLE_GROUNDS, 2, 0, "Force Level", "No Lock", "Level Warp", "End Picture")
 if OmmEnabled then
 _G.OmmApi.omm_force_setting("stars", 0)
 end
 
 -- Super Mario The Power Star Journey
 elseif gActiveMods[romhacks].name:find("The Power Star Journey") then
-Set_Romhack_Position(1094, -2371, 3489, LEVEL_CASTLE_COURTYARD, 1, 0, true, false, true, true)
+Set_Romhack_Position(1094, -2371, 3489, LEVEL_CASTLE_COURTYARD, 1, 0, "Force Level", "No Lock", "Level Warp", "Grand Star")
 
 -- Shining Stars
 elseif gActiveMods[romhacks].name:find("\\#ffffff\\Shining Stars") and not gActiveMods[romhacks].name:find("2 Mirror Madness") then
-Set_Romhack_Position(-469, -1776, 7135, LEVEL_CASTLE_COURTYARD, 1, 0, true, false, true, true)
+Set_Romhack_Position(-469, -1776, 7135, LEVEL_CASTLE_COURTYARD, 1, 0, "Force Level", "Lock", "Level Warp", "Grand Star")
 
 -- Shining Stars 2 Mirror Madness
 elseif gActiveMods[romhacks].name:find("\\#ffffff\\Shining Stars 2 Mirror Madness") then
-Set_Romhack_Position(-4323, -1170, -4375, LEVEL_CASTLE_GROUNDS, 1, 0, true, true, true, true)
+Set_Romhack_Position(-4323, -1170, -4375, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Level Warp", "Grand Star and End Picture")
 
 -- Mario's Treasure Dome - The Revival
 elseif gActiveMods[romhacks].name:find("Mario's Treasure Dome") and gActiveMods[romhacks].name:find("The Revival") then
-Set_Romhack_Position(-489, -557, 2480, LEVEL_CASTLE_GROUNDS, 1, 0, true, true, false, true)
+Set_Romhack_Position(-489, -557, 2480, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Level Warp", "Grand Star and End Picture")
 
 -- Luigi & The Violet Stars
 elseif gActiveMods[romhacks].name:find("\\#66ff82\\Luigi \\#ffffff\\& \\#ff66fa\\The Violet Stars") then
-Set_Violet_Stars_Position(104, -3772, 5000)
+Set_Romhack_Position(104, -3772, 5000, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Start Warp", "Grand Star")
 if OmmEnabled then
 _G.OmmApi.omm_force_setting("stars", 0)
 end
 
 -- SM64 Royal Legacy
 elseif gActiveMods[romhacks].name:find("Royal Legacy") then
-Set_Romhack_Position(1050, -0, -500, LEVEL_CASTLE_GROUNDS, 1, 0, true, true, true, true)
+Set_Romhack_Position(1050, -0, -500, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Level Warp", "Grand Star and End Picture")
 if OmmEnabled then
 _G.OmmApi.omm_disable_feature("trueNonStop", true)
 end
 
 -- SM64 Extra
 elseif gActiveMods[romhacks].name:find("Super Mario 64 \\#ff0000\\Extra") then
-Set_Romhack_Position(-11576, 689, 10706, LEVEL_CASTLE_GROUNDS, 1, 0, false, true, true, true)
+Set_Romhack_Position(-11576, 689, 10706, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Level Warp", "End Picture")
 if OmmEnabled then
 _G.OmmApi.omm_force_setting("stars", 0)
 end
 
 -- Star Revenge 3 - Mario on An Saoire 64
 elseif gActiveMods[romhacks].name:find("Star Revenge 3") and gActiveMods[romhacks].name:find("Mario on An Saoire 64") then
-Set_Romhack_Position(9756, -1120, -4534, LEVEL_CASTLE_GROUNDS, 1, 0, false, false, false, false)
+Set_Romhack_Position(9756, -1120, -4534, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Level Warp", "Custom Runs")
 if OmmEnabled then
 _G.OmmApi.omm_force_setting("stars", 0)
 end
 
 -- Star Revenge 4 - The Kedama Takeover 64
 elseif gActiveMods[romhacks].name:find("Star Revenge 4") and gActiveMods[romhacks].name:find("The Kedama Takeover 64") then
-Set_Romhack_Position(-6171, 1579, 3906, LEVEL_CASTLE_GROUNDS, 1, 0, true, true, true, true)
+Set_Romhack_Position(-6171, 1579, 3906, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Level Warp", "Grand Star and End Picture")
 if OmmEnabled then
 _G.OmmApi.omm_force_setting("stars", 0)
 end
 
 -- Super Mario 64 Trouble Town
 elseif gActiveMods[romhacks].name:find("Super Mario 64 Trouble Town") then
-Set_Romhack_Position(9756, -1120, -4534, LEVEL_CASTLE_GROUNDS, 1, 0, false, false, true, true)
+Set_Romhack_Position(9756, -1120, -4534, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Level Warp", "None")
 
 -- Star Revenge 1.3 - Redone 1.3
 elseif gActiveMods[romhacks].name:find("Star Revenge 1.3") and gActiveMods[romhacks].name:find("Redone 1.3") then
-Set_Romhack_Position(6422, -995, 4707, LEVEL_CASTLE_COURTYARD, 1, 0, true, false, true, true)
+Set_Romhack_Position(6422, -995, 4707, LEVEL_CASTLE_COURTYARD, 1, 0, "Force Level", "No Lock", "Level Warp", "Grand Star")
 if OmmEnabled then
 _G.OmmApi.omm_force_setting("stars", 0)
 end
 
 -- Super Mario 64 Into Bowser's Castle
 elseif gActiveMods[romhacks].name:find("Super Mario 64 Into Bowser's Castle") then
-Set_Romhack_Position(0, -0, 0, LEVEL_CASTLE_GROUNDS, 1, 0, true, false, false, true)
+Set_Romhack_Position(0, -0, 0, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Level Warp", "Grand Star")
 
 -- Green Star Revenge 1
 elseif gActiveMods[romhacks].name:find("Green Star Revenge 1") then
-Set_Romhack_Position(-1328, 260, 4664, LEVEL_CASTLE_GROUNDS, 1, 0, true, false, true, true)
+Set_Romhack_Position(-1328, 260, 4664, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Level Warp", "Grand Star")
 if OmmEnabled then
 _G.OmmApi.omm_disable_feature("trueNonStop", true)
 end
 
 -- Super Mario and the Marvel Adventure
 elseif gActiveMods[romhacks].name:find("Super Mario and the Marvel Adventure") then
-Set_Romhack_Position(-4630, -1309, 1000, LEVEL_CASTLE, 1, 0, false, false, true, true)
+Set_Romhack_Position(-4630, -1309, 1000, LEVEL_CASTLE, 1, 0, "Force Level", "No Lock", "Level Warp", "None")
 
 -- Super Mario Rainbow Road
 elseif gActiveMods[romhacks].name:find("Super Mario Rainbow Road") then
-Set_Romhack_Position(-243, -768, 4858, LEVEL_CASTLE_GROUNDS, 1, 0, false, false, false, false)
+Set_Romhack_Position(-243, -768, 4858, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Level Warp", "Custom Runs")
 
 -- Sonic Adventure 64 DX 
 elseif gActiveMods[romhacks].name:find("Sonic Adventure 64 DX") then
-Set_Romhack_Position(-20140, 675, -25901, LEVEL_CASTLE_GROUNDS, 1, 0, false, false, false, false)
-		end
-	end
-end
-
--- This is for romhack that isn't compatible yet, so this will set the positions to the start position
-function unsupported_romhacks(m)
-for unsupportedromhacks in pairs(gActiveMods) do
-	if gActiveMods[unsupportedromhacks].incompatible ~= nil and gActiveMods[unsupportedromhacks].incompatible:find("romhack") then
-	gGlobalSyncTable.startingpoint = false
-	if gGlobalSyncTable.CompatibleRomhacks == false and gGlobalSyncTable.SuperMario64 == false and not gGlobalSyncTable.RomhacksWarning then
-	gGlobalSyncTable.RomhacksWarning = true
-	djui_popup_create("\\#ff0000\\\nWarning:\nThere's some Romhacks that won't stop the timer or will stop, but isn't complete.\nBe aware of those and report them if it happens!", 5)
-	end
-	if (gGlobalSyncTable.CompatibleRomhacks == false and gGlobalSyncTable.SuperMario64 == false) then
-	switched = false
-	end
-	if gNetworkPlayers[0].currAreaIndex == 1 then
-	Set_Warp_For_Incompatible_Romhacks(1, 0)
-	elseif gNetworkPlayers[0].currAreaIndex == 2 then
-	Set_Warp_For_Incompatible_Romhacks(2, 0)
-	elseif gNetworkPlayers[0].currAreaIndex == 3 then
-	Set_Warp_For_Incompatible_Romhacks(3, 0)
-	elseif gNetworkPlayers[0].currAreaIndex == 4 then
-	Set_Warp_For_Incompatible_Romhacks(4, 0)
-	end
+Set_Romhack_Position(-20140, 675, -25901, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Level Warp", "Custom Runs")
 		end
 	end
 end
