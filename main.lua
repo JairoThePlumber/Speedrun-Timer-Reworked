@@ -1,4 +1,4 @@
--- name: \\#00FF00\\Speedrun \\#FFFFFF\\Timer \\#ffff00\\Reworked \\[WIP]\\
+-- name: \\#00FF00\\Speedrun \\#FFFFFF\\Timer \\#ffff00\\Reworked
 -- description: An Modified Version for EmeraldLockdown's Speedrun Timer\n\nThis mod is competition legal and for the People who like to Speedrun. \n\nRomhacks are compatible as well but if a romhack didn't been added to this mod, Ask me to add some more in different romhacks! \n\nPress L Trig + R Trig + D-Pad Right to Display the Main Menu \n\nOriginal by EmeraldLockdown \n\nModified by JairoThePlumber \n\nResources by Mr.Needlemouse, Sunk, Kaje, EmilyEmmi, Squishy, Blocky, Skeltan and You're Truly
 -- pausable: false
 -- deluxe: true
