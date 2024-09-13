@@ -1719,7 +1719,7 @@ function displaymenu(m)
         },
 		{
 		
-			"Timer will Now Display Even in Warps",
+			"Removed Display_Custom_Rules_Romhack_Function for being useless now",
             0,
 			-90,
             globalFont,
@@ -1737,7 +1737,7 @@ function displaymenu(m)
         },
 		{
 		
-			"Reworked Custom Runs (It can be Shown in the Intermission Display)",
+			"Fanfare and Go Sounds Play Sooner Now",
             0,
 			-70,
             globalFont,
@@ -1746,7 +1746,7 @@ function displaymenu(m)
         },
 		{
 		
-			"Fanfare and Go Sounds Play Sooner Now",
+			"Now SM64 Font for Romhack Visibility can be changed",
             0,
 			-60,
             globalFont,
@@ -1755,7 +1755,7 @@ function displaymenu(m)
         },
 		{
 		
-			"Now SM64 Font for Romhack Visibility can be changed",
+			"Removed some code that no longer be used",
             0,
 			-50,
             globalFont,
@@ -1764,18 +1764,9 @@ function displaymenu(m)
         },
 		{
 		
-			"Removed some code that no longer be used",
-            0,
-			-40,
-            globalFont,
-            creditscale - 0.75,
-            creditcolor
-        },
-		{
-		
 			"Adjust the Mod Again to Run Better?",
             0,
-			-30,
+			-40,
             globalFont,
             creditscale - 0.75,
             creditcolor
