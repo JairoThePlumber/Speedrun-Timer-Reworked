@@ -16,18 +16,70 @@ CountdownName = "Normal"
 -- Go Sound --
 GoDefault = 1
 GoName = "Normal"
+-- Romhack Fonts --
+RomhackColors = false
+NumbersColors = false
+WordsColors = false
+SingleQuoteColors = false
+DoubleQuotesColors = false
 
 RectFontsOnly = false
 function set_timer_function()
-    if math.floor(gGlobalSyncTable.startspeedrun/30/60) < 0 then
-        Seconds = math.ceil(gGlobalSyncTable.startspeedrun/30)
-        MilliSeconds = (1000 - math.ceil(gGlobalSyncTable.startspeedrun/30%1 * 1000)) % 1000
+    if math.floor(gGlobalSyncTable.startglobaltimer/30/60) < 0 then
+        Seconds = math.ceil(gGlobalSyncTable.startglobaltimer/30)
+        MilliSeconds = (1000 - math.ceil(gGlobalSyncTable.startglobaltimer/30%1 * 1000)) % 1000
     else
-        Hours = math.floor(gGlobalSyncTable.startspeedrun/30/60/60)
-        Minutes = math.floor(gGlobalSyncTable.startspeedrun/30/60%60)
-        Seconds = math.floor(gGlobalSyncTable.startspeedrun/30)%60
-        MilliSeconds = math.floor(gGlobalSyncTable.startspeedrun/30%1 * 1000)
+        Hours = math.floor(gGlobalSyncTable.startglobaltimer/30/60/60)
+        Minutes = math.floor(gGlobalSyncTable.startglobaltimer/30/60%60)
+        Seconds = math.floor(gGlobalSyncTable.startglobaltimer/30)%60
+        MilliSeconds = math.floor(gGlobalSyncTable.startglobaltimer/30%1 * 1000)
     end
+end
+
+function intermission_render()
+	if gGlobalSyncTable.Intercountdown <= 0 then
+        return
+    end
+	
+    -- set text
+    local text = "The Run is Starting in " .. tostring(math.floor(gGlobalSyncTable.Intercountdown))
+
+    -- set scale
+    scale = 0.50
+
+    -- get width of screen and text
+    screenWidth = djui_hud_get_screen_width()
+    screenHeight = djui_hud_get_screen_height()
+    width = djui_hud_measure_text(text) * scale
+    height = 32 * scale
+
+    x = (screenWidth - width) / 2.0
+    y = (screenHeight - height) / 2.0 - 112
+
+    -- render
+    djui_hud_set_color(0, 0, 0, 128);
+    djui_hud_render_rect(x - 6 * scale, y, width + 12 * scale, height);
+
+    djui_hud_set_color(255, 255, 255, 255);
+    djui_hud_print_text(text, x, y, scale);
+	if Romhack_Runs_Option == true then
+	runtext = "Run: " .. SavedRunName
+	
+	-- get width of screen and text
+    runscreenWidth = djui_hud_get_screen_width()
+    runscreenHeight = djui_hud_get_screen_height()
+    runwidth = djui_hud_measure_text(runtext) * scale
+    runheight = 32 * scale
+	
+	runx = (runscreenWidth - runwidth) / 2.0
+	runy = (runscreenHeight - runheight) / 2.0 - 96
+	
+	djui_hud_set_color(0, 0, 0, 128);
+    djui_hud_render_rect(runx - 6 * scale, runy, runwidth + 12 * scale, runheight);
+
+    djui_hud_set_color(255, 255, 255, 255);
+    djui_hud_print_text(runtext, runx, runy, scale);
+	end
 end
 
 function normal_and_aliased_hud_render()
@@ -54,7 +106,7 @@ function normal_and_aliased_hud_render()
     go_x = (screenWidth - go_width) / 2.0
 	
 	-- Countdown Display
-    countdown_text = tostring(math.floor(gGlobalSyncTable.startspeedruntime))
+    countdown_text = tostring(math.floor(gGlobalSyncTable.startcountdown))
 	countdown_width = djui_hud_measure_text(countdown_text) * size
 	countdown_x = (screenWidth - countdown_width) / 2.0
 	
@@ -73,7 +125,7 @@ function normal_and_aliased_hud_render()
     djui_hud_print_text(timer_text, timer_x + CustomXPos, timer_y + CustomYPos, timer_size);
 	end
 	
-if gGlobalSyncTable.startspeedruntime <= 1 then
+if gGlobalSyncTable.startcountdown <= 1 then
     if gGlobalSyncTable.GoTimer <= 0 then
         return true
 	else
@@ -97,7 +149,7 @@ end
 	end
 end
 
-    if countdown_sound_check == 0 and gGlobalSyncTable.startspeedruntime >= 1.01 then
+    if countdown_display_check == 0 and gGlobalSyncTable.startcountdown >= 1.01 then
 
     -- render
 	if DisplayCustomColors == 1 then
@@ -128,6 +180,8 @@ function sm64_hud_render()
 	height = 16 * doublesize
 	y = (screenHeight - height) / 2.5
 	
+	go_text = "GO"
+	
 	if FontTable[DefaultFont].name == "SM64" then
 	go_text = "GO!"
 	end
@@ -150,23 +204,21 @@ function sm64_hud_render()
 	timer_y = screenHeight - 26
 	
 	-- Go Display
+	go_width = djui_hud_measure_text(go_text) * doublesize
 	go_x = (screenWidth - go_width) / 2.0
-    go_width = djui_hud_measure_text(go_text) * doublesize
 	
 	-- Countdown Display
-    countdown_text = tostring(math.floor(gGlobalSyncTable.startspeedruntime))
+    countdown_text = tostring(math.floor(gGlobalSyncTable.startcountdown))
 	countdown_width = djui_hud_measure_text(countdown_text) * doublesize
 	countdown_x = (screenWidth - countdown_width) / 2.0
 	
 	if FontTable[DefaultFont].name == "SM64" then
-	if DisplayCustomColors == 1 then
+	
+	if DisplayCustomColors == 1 and FontTable[DefaultFont].name == "SM64" then
     djui_hud_set_color(RedColorFont, GreenColorFont, BlueColorFont, VisableFont);
 	elseif DisplayCustomColors == 0 then
 	djui_hud_set_color(255, 255, 255, 255);
-		end
 	end
-	
-	if FontTable[DefaultFont].name == "SM64" then
 	
 	if Hours >= 10 then
 	djui_hud_print_text(timetext, timer_x - 125 + CustomXPos, timer_y - 2 + CustomYPos, size);
@@ -196,6 +248,13 @@ function sm64_hud_render()
 	
 	if FontTable[DefaultFont].name == "SM64RH" then
 	
+	if RomhackColors == false then
+	if DisplayCustomColors == 1 then
+    djui_hud_set_color(255, 255, 255, VisableFont);
+	elseif DisplayCustomColors == 0 then
+	djui_hud_set_color(255, 255, 255, 255);
+	end
+	
 	if Hours >= 10 then
 	djui_hud_print_text(timetext, timer_x - 125 + CustomXPos, timer_y + 8 + CustomYPos, size);
 	end
@@ -221,7 +280,59 @@ function sm64_hud_render()
     djui_hud_print_text(Doublequote, timer_x + 21 + CustomXPos, timer_y + CustomYPos, size);
 	end
 	
-if gGlobalSyncTable.startspeedruntime <= 1 then
+	if RomhackColors == true then
+	if WordsColors and DisplayCustomColors == 1 then
+	djui_hud_set_color(RedColorFont, GreenColorFont, BlueColorFont, VisableFont);
+	else
+	djui_hud_set_color(255, 255, 255, VisableFont);
+	end
+	
+	if Hours >= 10 then
+	djui_hud_print_text(timetext, timer_x - 125 + CustomXPos, timer_y + 8 + CustomYPos, size);
+	end
+
+	if Hours < 10 then
+	djui_hud_print_text(timetext, timer_x - 115 + CustomXPos, timer_y + 8 + CustomYPos, size);
+	end
+	
+	if NumbersColors and DisplayCustomColors == 1 then
+	djui_hud_set_color(RedColorFont, GreenColorFont, BlueColorFont, VisableFont);
+	else
+	djui_hud_set_color(255, 255, 255, 255);
+	end
+	
+	if Hours >= 10 then
+    djui_hud_print_text(hours10text, timer_x - 70 + CustomXPos, timer_y + 8 + CustomYPos, size);
+	end
+	
+	if Hours < 10 then
+    djui_hud_print_text(hourstext, timer_x - 58 + CustomXPos, timer_y + 8 + CustomYPos, size);
+	end
+	
+    djui_hud_print_text(Minutestext, timer_x - 38 + CustomXPos, timer_y + 8 + CustomYPos, size);
+    djui_hud_print_text(secondstext, timer_x - 4 + CustomXPos, timer_y + 8 + CustomYPos, size);
+    djui_hud_print_text(millisecondstext, timer_x + 30 + CustomXPos, timer_y + 8 + CustomYPos, size);
+	
+	if SingleQuoteColors and DisplayCustomColors == 1 then
+	djui_hud_set_color(RedColorFont, GreenColorFont, BlueColorFont, VisableFont);
+	else
+	djui_hud_set_color(255, 255, 255, VisableFont);
+	end
+	
+	djui_hud_print_text(singlequote, timer_x - 48 + CustomXPos, timer_y + CustomYPos, size);
+	
+	if DoubleQuotesColors and DisplayCustomColors == 1 then
+	djui_hud_set_color(RedColorFont, GreenColorFont, BlueColorFont, VisableFont);
+	else
+	djui_hud_set_color(255, 255, 255, VisableFont);
+	end
+	
+    djui_hud_print_text(Doublequote, timer_x - 13 + CustomXPos, timer_y + CustomYPos, size);
+    djui_hud_print_text(Doublequote, timer_x + 21 + CustomXPos, timer_y + CustomYPos, size);
+		end
+	end
+	
+if gGlobalSyncTable.startcountdown <= 1 then
     if gGlobalSyncTable.GoTimer <= 0 then
         return true
 	else
@@ -230,12 +341,14 @@ if gGlobalSyncTable.startspeedruntime <= 1 then
     end
 end
 	
-	if FontTable[DefaultFont].name == "SM64" then
-	if DisplayCustomColors == 1 then
+	if DisplayCustomColors == 1 and FontTable[DefaultFont].name == "SM64" then
     djui_hud_set_color(RedColorFont, GreenColorFont, BlueColorFont, VisableFont);
+	elseif DisplayCustomColors == 1 and FontTable[DefaultFont].name == "SM64RH" and RomhackColors == true and WordsColors == true then
+    djui_hud_set_color(RedColorFont, GreenColorFont, BlueColorFont, VisableFont);
+	elseif DisplayCustomColors == 1 and FontTable[DefaultFont].name == "SM64RH" and RomhackColors == false then
+    djui_hud_set_color(255, 255, 255, VisableFont);
 	elseif DisplayCustomColors == 0 then
 	djui_hud_set_color(255, 255, 255, 255);
-		end
 	end
 	
 	if FontTable[DefaultFont].name == "SM64" then
@@ -247,14 +360,16 @@ end
 	end
 end
 
-    if countdown_sound_check == 0 and gGlobalSyncTable.startspeedruntime >= 1.01 then
+    if countdown_display_check == 0 and gGlobalSyncTable.startcountdown >= 1.01 then
 	
-	if FontTable[DefaultFont].name == "SM64" then
-	if DisplayCustomColors == 1 then
+	if DisplayCustomColors == 1 and FontTable[DefaultFont].name == "SM64" then
     djui_hud_set_color(RedColorFont, GreenColorFont, BlueColorFont, VisableFont);
+	elseif DisplayCustomColors == 1 and FontTable[DefaultFont].name == "SM64RH" and RomhackColors == true and NumbersColors == true then
+    djui_hud_set_color(RedColorFont, GreenColorFont, BlueColorFont, VisableFont);
+	elseif DisplayCustomColors == 1 and FontTable[DefaultFont].name == "SM64RH" and RomhackColors == false then
+    djui_hud_set_color(255, 255, 255, VisableFont);
 	elseif DisplayCustomColors == 0 then
 	djui_hud_set_color(255, 255, 255, 255);
-		end
 	end
 	
 	if FontTable[DefaultFont].name == "SM64" then
@@ -291,7 +406,7 @@ function djui_hud_render()
     go_x = (screenWidth - go_width) / 2.0
 	
 	-- Countdown Display
-    countdown_text = tostring(math.floor(gGlobalSyncTable.startspeedruntime))
+    countdown_text = tostring(math.floor(gGlobalSyncTable.startcountdown))
 	countdown_width = djui_hud_measure_text(countdown_text) * size
 	countdown_x = (screenWidth - countdown_width) / 2.04
 	
@@ -304,7 +419,7 @@ function djui_hud_render()
     djui_hud_print_text(timer_text, timer_x + CustomXPos, timer_y + CustomYPos, timer_size);
 	end
 	
-if gGlobalSyncTable.startspeedruntime <= 1 then
+if gGlobalSyncTable.startcountdown <= 1 then
     if gGlobalSyncTable.GoTimer <= 0 then
         return true
 	else
@@ -322,7 +437,7 @@ end
 	end
 end
 
-    if countdown_sound_check == 0 and gGlobalSyncTable.startspeedruntime >= 1.01 then
+    if countdown_display_check == 0 and gGlobalSyncTable.startcountdown >= 1.01 then
 
     -- render
 	if DisplayCustomColors == 1 then
@@ -492,6 +607,11 @@ end
 -- hooks for the huds
 function on_timer_hud_render()
     djui_hud_set_resolution(RESOLUTION_N64)
+	
+	if gGlobalSyncTable.Intermission then
+	djui_hud_set_font(FONT_NORMAL)
+	intermission_render()
+	end
 	
 	-- Normal Text Fonts and Aliased Text Fonts
 	if FontTable[DefaultFont].name == "Normal" then

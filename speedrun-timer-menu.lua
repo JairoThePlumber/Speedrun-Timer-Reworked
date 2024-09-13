@@ -26,6 +26,7 @@ DelayCheck = 10
 
 -- Str Menu
 MainOptions = 1
+StartText = "Start"
 ChangeCasualColor = "#FFFFFF"
 GrayColor = "#FFFFFF"
 RunsColor = "#FFFFFF"
@@ -33,10 +34,10 @@ TimerPositionLR = -90
 TimerPositionUD = -95
 SpeedrunPositionLR = -90
 SpeedrunPositionUD = -80
-StickTimerRight = 2
-StickTimerLeft = 2
-StickTimerUp = 2
-StickTimerDown = 2
+StickTimerRight = 5
+StickTimerLeft = 5
+StickTimerUp = 5
+StickTimerDown = 5
 DpadTimerRight = 3
 DpadTimerLeft = 3
 DpadTimerUp = 3
@@ -46,29 +47,11 @@ CDNumbers = 5
 StrOption = 0
 ArrowsMovement = 0
 CountdownMovement = 0
-RunsArrowsLR = 0
-RunsArrowsUD = 0
-RunsSlotColor1 = "#7a7a7a"
-RunsSlotColor2 = "#7a7a7a"
-RunsSlotColor3 = "#7a7a7a"
-RunsSlotColor4 = "#7a7a7a"
-RunsSlotColor5 = "#7a7a7a"
-RunsSlotColor6 = "#7a7a7a"
-RunsSlotColor7 = "#7a7a7a"
-RunsSlotColor8 = "#7a7a7a"
-RunsSlotColor9 = "#7a7a7a"
-RunsSlotColor10 = "#7a7a7a"
-
-RunsSlotsName1 = "Empty Slot 1"
-RunsSlotsName2 = "Empty Slot 2"
-RunsSlotsName3 = "Empty Slot 3"
-RunsSlotsName4 = "Empty Slot 4"
-RunsSlotsName5 = "Empty Slot 5"
-RunsSlotsName6 = "Empty Slot 6"
-RunsSlotsName7 = "Empty Slot 7"
-RunsSlotsName8 = "Empty Slot 8"
-RunsSlotsName9 = "Empty Slot 9"
-RunsSlotsName10 = "Empty Slot 10"
+RunDefault = 1
+RunsSlotColor = "#FFFFFF"
+RunsName = ""
+SavedRunName = "None"
+RunTable = {}
 openstrmenu = false
 
 -- Config menu
@@ -76,8 +59,6 @@ Fonts_names = ""
 Fanfare_names = ""
 Countdown_names = ""
 Go_names = ""
-Custom_Names = ""
-Set_Custom_Sounds = ""
 Switch_Color_text = ""
 SetColorCheck = "#FFFFFF"
 SetSlotColorCheck = "#FFFFFF"
@@ -125,14 +106,24 @@ hook_event(HOOK_MARIO_UPDATE, function(m)
 	if gGlobalSyncTable.ResetSaveCheck == true then
 	if gGlobalSyncTable.ResetSave >= 1 and network_is_server() then
 	gGlobalSyncTable.ResetSave = gGlobalSyncTable.ResetSave - 1
+	end
 	reset_savefile()
-		end
 	end
 	if gGlobalSyncTable.ResetSave == 0 then
 	gGlobalSyncTable.ResetSaveCheck = false
 	gGlobalSyncTable.ResetSave = 10
 	end
-   
+	
+	if gGlobalSyncTable.ResettingTimer == true then
+	if gGlobalSyncTable.ResetTimer >= 1 and network_is_server() then
+	gGlobalSyncTable.ResetTimer = gGlobalSyncTable.ResetTimer - 1
+	end
+	reset_timer()
+	end
+	if gGlobalSyncTable.ResetTimer == 0 then
+	gGlobalSyncTable.ResettingTimer = false
+	gGlobalSyncTable.ResetTimer = 10
+	end
 end)
 
 hook_event(HOOK_BEFORE_MARIO_UPDATE, function(m)
@@ -140,10 +131,10 @@ hook_event(HOOK_BEFORE_MARIO_UPDATE, function(m)
         return
     end
 
-    if openmenu or openstrmenu and not is_game_paused() then
+    if (openmenu or openstrmenu or hasConfirmed == false) and not is_game_paused() then
 	DelayCheck = 10
 	end
-	if not (openmenu or openstrmenu) and DelayCheck >= 1 then
+	if not (openmenu or openstrmenu or hasConfirmed == false) and DelayCheck >= 1 then
 	DelayCheck = DelayCheck - 1
 	end
 	if DelayCheck >= 1 then
@@ -186,10 +177,6 @@ function SwitchingMenusCheck(m)
 		end
 	end
 	
-	if SwitchingMenus == 2 and Secondstopress >= 1 then
-		Secondstopress = Secondstopress - 1
-	end
-	
 	if Secondstopress == 0 then
 	if (MenuInputCheck & Y_BUTTON) ~= 0 and SwitchingMenus == 2 and Menus == 1 and network_is_server() then
 		play_sound(SOUND_MENU_REVERSE_PAUSE, gMarioStates[0].marioObj.header.gfx.cameraToObject)
@@ -204,26 +191,39 @@ function SwitchingMenusCheck(m)
 	if m.controller.rawStickX > -0 and StickTimerRight >= 1 then
 		StickTimerRight = StickTimerRight - 1
 		else
-		StickTimerRight = 2
+		StickTimerRight = 5
 		end
 		
 		if m.controller.rawStickX < -0 and StickTimerLeft >= 1 then
 		StickTimerLeft = StickTimerLeft - 1
 		else
-		StickTimerLeft = 2
+		StickTimerLeft = 5
 		end
 		
 		if m.controller.rawStickY < -0 and StickTimerUp >= 1 then
 		StickTimerUp = StickTimerUp - 1
 		else
-		StickTimerUp = 2
+		StickTimerUp = 5
 		end
 		
 		if m.controller.rawStickY > -0 and StickTimerDown >= 1 then
 		StickTimerDown = StickTimerDown - 1
 		else
-		StickTimerDown = 2
+		StickTimerDown = 5
 	end
+	
+		if (MenuInputCheck & U_JPAD) ~= 0 then
+		DpadTimerUp = 0
+		end
+		if (MenuInputCheck & D_JPAD) ~= 0 then
+		DpadTimerDown = 0
+		end
+		if (MenuInputCheck & L_JPAD) ~= 0 then
+		DpadTimerLeft = 0
+		end
+		if (MenuInputCheck & R_JPAD) ~= 0 then
+		DpadTimerRight = 0
+		end
 	
 		if DpadTimerRight <= 2 then
 		DpadTimerRight = DpadTimerRight + 1
@@ -240,18 +240,18 @@ function SwitchingMenusCheck(m)
 		if DpadTimerDown <= 2 then
 		DpadTimerDown = DpadTimerDown + 1
 		end
-	switched = false
-	hasConfirmed = true
+		switched = false
+		hasConfirmed = true
 	end
 	
 	if (openmenu or openstrmenu) then return end
 	if network_is_server() then
-	if ((m.controller.buttonDown & L_TRIG) ~= 0) and ((m.controller.buttonDown & R_TRIG) ~= 0) and ((m.controller.buttonDown & R_JPAD) ~= 0) then
+	if ((m.controller.buttonDown & L_TRIG) ~= 0) and ((m.controller.buttonDown & R_JPAD) ~= 0) then
 		openstrmenu = true
 		openmenu = false
 		SwitchingMenus = 1
 		MenuOptions = 1
-	elseif ((m.controller.buttonDown & L_TRIG) ~= 0) and ((m.controller.buttonDown & R_TRIG) ~= 0) and ((m.controller.buttonDown & L_JPAD) ~= 0) then
+	elseif ((m.controller.buttonDown & L_TRIG) ~= 0) and ((m.controller.buttonDown & L_JPAD) ~= 0) then
 		openmenu = true
 		openstrmenu = false
 		SwitchingMenus = 2
@@ -259,15 +259,15 @@ function SwitchingMenusCheck(m)
 	end
 	
 	if not network_is_server() then
-	if ((m.controller.buttonDown & L_TRIG) ~= 0) and ((m.controller.buttonDown & R_TRIG) ~= 0) and ((m.controller.buttonDown & L_JPAD) ~= 0) then
+	if ((m.controller.buttonDown & L_TRIG) ~= 0) and ((m.controller.buttonDown & L_JPAD) ~= 0) then
 		openmenu = true
 		end
 	end
 end
 
 function displaystrmenu(m)
-	if not SwitchingMenus == 1 then return end
-	
+if not openstrmenu then return end
+
 	if gGlobalSyncTable.RunsSlots ~= 0 and Romhack_Runs_Option == true then
 	DisableCommands = true
 	end
@@ -296,212 +296,92 @@ function displaystrmenu(m)
 	RunsColor = "#7a7a7a"
 	end
 	
-	if StrOption == 6 then
-	if RunsSlotsName1 ~= "Empty Slot 1" and gGlobalSyncTable.RunsSlots ~= 1 then 
-		RunsSlotColor1 = "#FFFFFF"
-	elseif RunsSlotsName1 ~= "Empty Slot 1" and gGlobalSyncTable.RunsSlots == 1 then 
-		RunsSlotColor1 = "#00FF00"
-	end	
-	
-	if RunsSlotsName2 ~= "Empty Slot 2" and gGlobalSyncTable.RunsSlots ~= 2 then 
-		RunsSlotColor2 = "#FFFFFF"
-	elseif RunsSlotsName2 ~= "Empty Slot 2" and gGlobalSyncTable.RunsSlots == 2 then 
-		RunsSlotColor2 = "#00FF00"
-	else
-		RunsSlotColor2 = "#7a7a7a"
-	end	
-	
-	if RunsSlotsName3 ~= "Empty Slot 3" and gGlobalSyncTable.RunsSlots ~= 3 then 
-		RunsSlotColor3 = "#FFFFFF"
-	elseif RunsSlotsName3 ~= "Empty Slot 3" and gGlobalSyncTable.RunsSlots == 3 then 
-		RunsSlotColor3= "#00FF00"
-	else
-		RunsSlotColor3 = "#7a7a7a"
-	end	
-	
-	if RunsSlotsName4 ~= "Empty Slot 4" and gGlobalSyncTable.RunsSlots ~= 4 then 
-		RunsSlotColor4 = "#FFFFFF"
-	elseif RunsSlotsName4 ~= "Empty Slot 4" and gGlobalSyncTable.RunsSlots == 4 then 
-		RunsSlotColor4 = "#00FF00"
-	else
-		RunsSlotColor4 = "#7a7a7a"
-	end	
-	
-	if RunsSlotsName5 ~= "Empty Slot 5" and gGlobalSyncTable.RunsSlots ~= 5 then 
-		RunsSlotColor5 = "#FFFFFF"
-	elseif RunsSlotsName5 ~= "Empty Slot 5" and gGlobalSyncTable.RunsSlots == 5 then 
-		RunsSlotColor5 = "#00FF00"
-	else
-		RunsSlotColor5 = "#7a7a7a"
-	end	
-	
-	if RunsSlotsName6 ~= "Empty Slot 6" and gGlobalSyncTable.RunsSlots ~= 6 then 
-		RunsSlotColor6 = "#FFFFFF"
-	elseif RunsSlotsName6 ~= "Empty Slot 6" and gGlobalSyncTable.RunsSlots == 6 then 
-		RunsSlotColor6 = "#00FF00"
-	else
-		RunsSlotColor6 = "#7a7a7a"
-	end	
-	
-	if RunsSlotsName7 ~= "Empty Slot 7" and gGlobalSyncTable.RunsSlots ~= 7 then 
-		RunsSlotColor7 = "#FFFFFF"
-	elseif RunsSlotsName7 ~= "Empty Slot 7" and gGlobalSyncTable.RunsSlots == 7 then 
-		RunsSlotColor7 = "#00FF00"
-	else
-		RunsSlotColor7 = "#7a7a7a"
-	end	
-	
-	if RunsSlotsName8 ~= "Empty Slot 8" and gGlobalSyncTable.RunsSlots ~= 8 then 
-		RunsSlotColor8 = "#FFFFFF"
-	elseif RunsSlotsName8 ~= "Empty Slot 8" and gGlobalSyncTable.RunsSlots == 8 then 
-		RunsSlotColor8 = "#00FF00"
-	else
-		RunsSlotColor8 = "#7a7a7a"
-	end	
-	
-	if RunsSlotsName9 ~= "Empty Slot 9" and gGlobalSyncTable.RunsSlots ~= 9 then 
-		RunsSlotColor9 = "#FFFFFF"
-	elseif RunsSlotsName9 ~= "Empty Slot 9" and gGlobalSyncTable.RunsSlots == 9 then 
-		RunsSlotColor9 = "#00FF00"
-	else
-		RunsSlotColor9 = "#7a7a7a"
-	end	
-	
-	if RunsSlotsName10 ~= "Empty Slot 10" and gGlobalSyncTable.RunsSlots ~= 10 then 
-		RunsSlotColor10 = "#FFFFFF"
-	elseif RunsSlotsName10 ~= "Empty Slot 10" and gGlobalSyncTable.RunsSlots == 10 then 
-		RunsSlotColor10 = "#00FF00"
-	else
-		RunsSlotColor10 = "#7a7a7a"
+	if gGlobalSyncTable.Intermission == false and gGlobalSyncTable.startglobaltimer == 0 then
+	StartText = "Start"
 	end
-end	
+	if gGlobalSyncTable.startglobaltimer ~= 0 then
+	if gGlobalSyncTable.Intermission == true and gGlobalSyncTable.startTimer == false then
+	StartText = "Resume"
+	elseif gGlobalSyncTable.Intermission == true and gGlobalSyncTable.startTimer == true then
+	StartText = "Pause"
+		end
+	end
+	
+	if StrOption == 4 then
+	
+	if RunTable[RunDefault].RunsSlotName == RunTable[RunDefault].RunsSlotName and RunTable[RunDefault].RunsSlotNumber == RunTable[RunDefault].RunsSlotNumber then
+		 RunsName = "" .. RunTable[RunDefault].RunsSlotName .." Run"
+	end
+	
+	if RunTable[RunDefault].RunsSlotName == RunTable[RunDefault].RunsSlotName and RunTable[RunDefault].RunsSlotNumber ~= gGlobalSyncTable.RunsSlots then 
+		RunsSlotColor = "#FFFFFF"
+	elseif RunTable[RunDefault].RunsSlotName == RunTable[RunDefault].RunsSlotName and RunTable[RunDefault].RunsSlotNumber == gGlobalSyncTable.RunsSlots then 
+		RunsSlotColor = "#00FF00"
+		SavedRunName = RunTable[RunDefault].RunsSlotName
+		end
+	end	
 	
 	if MainOptions == 1 then
-		ArrowPositionLRUp = -130
+		ArrowPositionLRUp = -116
 		ArrowPositionUp = -90
 		elseif MainOptions == 2 then
-		ArrowPositionLRUp = -91
+		ArrowPositionLRUp = -79
 		ArrowPositionUp = -90
 		elseif MainOptions == 3 then
-		ArrowPositionLRUp = -51
+		ArrowPositionLRUp = -33
 		ArrowPositionUp = -90
 		elseif MainOptions == 4 then
-		ArrowPositionLRUp = 0
+		ArrowPositionLRUp = 14
 		ArrowPositionUp = -90
 		elseif MainOptions == 5 then
-		ArrowPositionLRUp = 47
+		ArrowPositionLRUp = 53
 		ArrowPositionUp = -90
 		elseif MainOptions == 6 then
-		ArrowPositionLRUp = 89
+		ArrowPositionLRUp = 90
 		ArrowPositionUp = -90
 		elseif MainOptions == 7 then
-		ArrowPositionLRUp = 128
+		ArrowPositionLRUp = 124
 		ArrowPositionUp = -90
+		end
+		
+		if StrOption == 2 then
+		TimerPositionLR = 54
+		SpeedrunPositionLR = 54
+		TimerPositionUD = -95
+		SpeedrunPositionUD = -80
+		elseif StrOption == 3 then
+		TimerPositionLR = 91
+		SpeedrunPositionLR = 91
+		TimerPositionUD = -95
+		SpeedrunPositionUD = -80
 		end
 		
 		if StrOption == 1 then
-		TimerPositionLR = -90
-		SpeedrunPositionLR = -90
-		TimerPositionUD = -95
-		SpeedrunPositionUD = -80
-		elseif StrOption == 2 then
-		TimerPositionLR = -50
-		SpeedrunPositionLR = -50
-		SavefilePositionLR = -50
-		TimerPositionUD = -95
-		SpeedrunPositionUD = -80
-		SavefilePositionUD = -65
-		elseif StrOption == 4 then
-		TimerPositionLR = 48
-		SpeedrunPositionLR = 48
-		TimerPositionUD = -95
-		SpeedrunPositionUD = -80
-		elseif StrOption == 5 then
-		TimerPositionLR = 90
-		SpeedrunPositionLR = 90
-		TimerPositionUD = -95
-		SpeedrunPositionUD = -80
-		end
-		
-		if StrOption == 6 then
-		if RunsArrowsLR == 1 then 
-		ArrowPositionLeft = -14
-		ArrowPositionRight = -114
-		elseif RunsArrowsLR == 2 then 
-		ArrowPositionLeft = 108
-		ArrowPositionRight = 7
-		end
-		if RunsArrowsUD == 1 then 
-		ArrowPositionUDLeft = -175
-		ArrowPositionUDRight = -175
-		elseif RunsArrowsUD == 2 then 
-		ArrowPositionUDLeft = -155
-		ArrowPositionUDRight = -155
-		elseif RunsArrowsUD == 3 then 
-		ArrowPositionUDLeft = -135
-		ArrowPositionUDRight = -135
-		elseif RunsArrowsUD == 4 then 
-		ArrowPositionUDLeft = -115
-		ArrowPositionUDRight = -115
-		elseif RunsArrowsUD == 5 then 
-		ArrowPositionUDLeft = -95
-		ArrowPositionUDRight = -95
-			end
-		end
-		
-		if StrOption == 1 and ArrowsMovement == 1 then
-		ArrowPositionLeft = -74
-		ArrowPositionRight = -113
+		ArrowPositionLeft = -3
+		ArrowPositionRight = 24
 		ArrowPositionUDRight = -103
 		ArrowPositionUDLeft = -103
-		elseif StrOption == 1 and ArrowsMovement == 2 then
-		ArrowPositionLeft = -68
-		ArrowPositionRight =  -118
-		ArrowPositionUDRight = -88
-		ArrowPositionUDLeft = -88
 		elseif StrOption == 2 and ArrowsMovement == 1 then
-		ArrowPositionLeft = -33
-		ArrowPositionRight = -74
+		ArrowPositionLeft = 73
+		ArrowPositionRight = 28
 		ArrowPositionUDRight = -103
 		ArrowPositionUDLeft = -103
 		elseif StrOption == 2 and ArrowsMovement == 2 then
-		ArrowPositionLeft = -29
-		ArrowPositionRight =  -78
+		ArrowPositionLeft = 70
+		ArrowPositionRight = 32
 		ArrowPositionUDRight = -88
 		ArrowPositionUDLeft = -88
-		elseif StrOption == 2 and ArrowsMovement == 3 then
-		ArrowPositionLeft = -30
-		ArrowPositionRight = -79
-		ArrowPositionUDRight = -73
-		ArrowPositionUDLeft = -73
-		elseif StrOption == 3 then
-		ArrowPositionLeft = -16
-		ArrowPositionRight = 10
-		ArrowPositionUDRight = -103
-		ArrowPositionUDLeft = -103
-		elseif StrOption == 4 and ArrowsMovement == 1 then
-		ArrowPositionLeft = 68
-		ArrowPositionRight = 22
-		ArrowPositionUDRight = -103
-		ArrowPositionUDLeft = -103
-		elseif StrOption == 4 and ArrowsMovement == 2 then
-		ArrowPositionLeft = 63
-		ArrowPositionRight = 26
-		ArrowPositionUDRight = -88
-		ArrowPositionUDLeft = -88
-		elseif StrOption == 5 and ArrowsMovement == 1 then
-		ArrowPositionLeft = 107
+		elseif StrOption == 3 and ArrowsMovement == 1 then
+		ArrowPositionLeft = 108
 		ArrowPositionRight = 67
 		ArrowPositionUDRight = -103
 		ArrowPositionUDLeft = -103
-		elseif StrOption == 5 and ArrowsMovement == 2 then
-		ArrowPositionLeft = 108
-		ArrowPositionRight = 65
+		elseif StrOption == 3 and ArrowsMovement == 2 then
+		ArrowPositionLeft = 109
+		ArrowPositionRight = 66
 		ArrowPositionUDRight = -88
 		ArrowPositionUDLeft = -88
 		end
-	
-	if not openstrmenu then return end
 
 	menumaintext = {
 		{
@@ -548,7 +428,7 @@ end
             creditcolor
         },
         {
-            "Select",
+            "Select Run",
             -5,
             -37,
             FONT_MENU,
@@ -557,24 +437,36 @@ end
         }
 	}
 	
-	Start_Text = {
+	runsmenubuttons = {
 		{
-            "Start",
-            -130,
-            -110,
+            "Right: Next Run",
+            52,
+            0,
             globalFont,
-            creditscale - 0.6,
-            GrayColor
+            creditscale - 0.7,
+            creditcolor,
+			false,
+			true
+        },
+		{
+            "Left: Previous Run",
+            8,
+            0,
+            globalFont,
+            creditscale - 0.7,
+            creditcolor,
+			true,
+			false
         }
 	}
 	
-	Stop_Text = {
+	Start_Text = {
 		{
-            "Stop",
-            -90,
+            StartText,
+            -115,
             -110,
             globalFont,
-            creditscale - 0.6,
+            creditscale - 0.65,
             GrayColor
         }
 	}
@@ -582,10 +474,21 @@ end
 	Restart_Text = {
 		{
             "Restart",
-            -50,
+            -78,
             -110,
             globalFont,
-            creditscale - 0.6,
+            creditscale - 0.65,
+            GrayColor
+        }
+	}
+	
+	Reset_Save_Text = {
+		{
+            "Reset Save",
+            -33,
+            -110,
+            globalFont,
+            creditscale - 0.65,
             GrayColor
         }
 	}
@@ -593,10 +496,10 @@ end
 	Countdown_Text = {
 		{
             "Countdown",
-             0,
+             14,
             -110,
             globalFont,
-            creditscale - 0.6,
+            creditscale - 0.65,
             GrayColor
         }
 	}
@@ -604,10 +507,10 @@ end
 	Options_Text = {
 		{
             "Options",
-             48,
+             54,
             -110,
             globalFont,
-            creditscale - 0.6,
+            creditscale - 0.65,
             creditcolor
         }
 	}
@@ -615,10 +518,10 @@ end
 	Extras_Text = {
 		{
             "Extras",
-             90,
+             91,
             -110,
             globalFont,
-            creditscale - 0.6,
+            creditscale - 0.65,
             creditcolor
         }
 	}
@@ -626,44 +529,11 @@ end
 	Runs_Texts = {
 		{
             "Runs",
-             128,
+             124,
             -110,
             globalFont,
-            creditscale - 0.6,
+            creditscale - 0.65,
             RunsColor
-        }
-	}
-	
-	Timer_Text = {
-		{
-            "Timer",
-            TimerPositionLR,
-            TimerPositionUD,
-            globalFont,
-            creditscale - 0.7,
-            creditcolor
-        }
-	}
-	
-	Speedrun_Text = {
-		{
-            "Speedrun",
-            SpeedrunPositionLR,
-            SpeedrunPositionUD,
-            globalFont,
-            creditscale - 0.7,
-            creditcolor
-        }
-	}
-	
-	SaveFile_Text = {
-		{
-            "Save File",
-            SavefilePositionLR,
-            SavefilePositionUD,
-            globalFont,
-            creditscale - 0.7,
-            creditcolor
         }
 	}
 	
@@ -767,21 +637,10 @@ end
         }
 	}
 	
-	Arrow_Down = {
-		{
-            "v",
-            ArrowPositionLRDown,
-            ArrowPositionDown,
-            FONT_MENU,
-            creditscale - 0.6,
-            creditcolor
-        }
-	}
-	
 	Countdown_Numbers = {
 		{
             "(" .. CDNumbers .. ")",
-            0,
+            14,
             -95,
             globalFont,
             creditscale - 0.7,
@@ -789,119 +648,20 @@ end
         }
 	}
 	
-	runslot1 = {
+	RunSlotText = {
 		{
-            RunsSlotsName1,
-            -60,
-            -170,
+            RunsName,
+            0,
+            -120,
             globalFont,
-            creditscale - 0.5,
-            RunsSlotColor1	
-        }
-	}
-	
-	runslot2 = {
-		{
-            RunsSlotsName2,
-            -60,
-            -150,
-            globalFont,
-            creditscale - 0.5,
-			RunsSlotColor2
-        }
-	}
-	
-	runslot3 = {
-		{
-            RunsSlotsName3,
-            -60,
-            -130,
-            globalFont,
-            creditscale - 0.5,
-			RunsSlotColor3
-        }
-	}
-	
-	runslot4 = {
-		{
-            RunsSlotsName4,
-            -60,
-            -110,
-            globalFont,
-            creditscale - 0.5,
-			RunsSlotColor4
-        }
-	}
-	
-	runslot5 = {
-		{
-            RunsSlotsName5,
-            -60,
-            -90,
-            globalFont,
-            creditscale - 0.5,
-			RunsSlotColor5
-        }
-	}
-	
-	runslot6 = {
-		{
-            RunsSlotsName6,
-             60,
-            -170,
-            globalFont,
-            creditscale - 0.5,
-			RunsSlotColor6
-        }
-	}
-	
-	runslot7 = {
-		{
-            RunsSlotsName7,
-             60,
-            -150,
-            globalFont,
-            creditscale - 0.5,
-			RunsSlotColor7
-        }
-	}
-	
-	runslot8 = {
-		{
-            RunsSlotsName8,
-             60,
-            -130,
-            globalFont,
-            creditscale - 0.5,
-			RunsSlotColor8
-        }
-	}
-	
-	runslot9 = {
-		{
-            RunsSlotsName9,
-             60,
-            -110,
-            globalFont,
-            creditscale - 0.5,
-			RunsSlotColor9
-        }
-	}
-	
-	runslot10 = {
-        {
-            RunsSlotsName10,
-             60,
-            -90,
-            globalFont,
-            creditscale - 0.5,
-			RunsSlotColor10
+            creditscale - 0.2,
+            RunsSlotColor
         }
 	}
 
 	if (openstrmenu == true) then
 		renderRect(190, 120, FONT_MENU, 10000, 240, "#000000") 
-		if StrOption ~= 6 then
+		if StrOption ~= 4 then
 		for _, v in ipairs(menumaintext) do
             printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
         end
@@ -914,11 +674,11 @@ end
             printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
         end
 		
-		for _, v in ipairs(Stop_Text) do
+		for _, v in ipairs(Restart_Text) do
             printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
         end
 		
-		for _, v in ipairs(Restart_Text) do
+		for _, v in ipairs(Reset_Save_Text) do
             printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
         end
 		
@@ -938,31 +698,7 @@ end
             printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
         end
 		
-		if (StrOption == 1 or StrOption == 2) then
-		for _, v in ipairs(Timer_Text) do
-            printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
-        end
-		
-		for _, v in ipairs(Speedrun_Text) do
-            printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
-		end
-		
-		for _, v in ipairs(Arrow_Left) do
-            printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
-        end
-		
-		for _, v in ipairs(Arrow_Right) do
-            printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
-			end
-		end
-		
-		if StrOption == 2 then
-		for _, v in ipairs(SaveFile_Text) do
-            printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
-			end
-		end
-		
-		if StrOption == 3 then
+		if StrOption == 1 then
 		for _, v in ipairs(Countdown_Numbers) do
             printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
 		end
@@ -976,7 +712,7 @@ end
 			end
         end
 		
-		if (StrOption == 4) then
+		if (StrOption == 2) then
 		for _, v in ipairs(Buttons_Text) do
             printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
         end
@@ -994,7 +730,7 @@ end
 			end
 		end
 		
-		if (StrOption == 5) then
+		if (StrOption == 3) then
 		for _, v in ipairs(Teams_Text) do
             printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
         end
@@ -1018,66 +754,23 @@ end
 				end
 			end
         end
-		if StrOption == 6 then
+		if StrOption == 4 then
 		for _, v in ipairs(runsmenutext) do
             printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
         end
 		
-		for _, v in ipairs(Arrow_Left) do
+		for _, v in ipairs(RunSlotText) do
             printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
+		end
+		
+		for _, v in ipairs(runsmenubuttons) do
+            printMenuText(v[1], v[2], v[3], v[4], v[5], v[6], v[7], v[8])
         end
 		
-		for _, v in ipairs(Arrow_Right) do
-            printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
 		end
 		
-		for _, v in ipairs(runslot1) do
-            printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
-		end
 		
-		for _, v in ipairs(runslot2) do
-            printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
-		end
-		
-		for _, v in ipairs(runslot3) do
-            printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
-		end
-		
-		for _, v in ipairs(runslot4) do
-            printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
-		end
-		
-		for _, v in ipairs(runslot5) do
-            printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
-		end
-		
-		for _, v in ipairs(runslot6) do
-            printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
-		end
-		
-		for _, v in ipairs(runslot7) do
-            printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
-		end
-		
-		for _, v in ipairs(runslot8) do
-            printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
-		end
-		
-		for _, v in ipairs(runslot9) do
-            printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
-		end
-		
-		for _, v in ipairs(runslot10) do
-            printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
-		end
-		
-		for _, v in ipairs(menubuttons) do
-            printMenuText(v[1], v[2], v[3], v[4], v[5], v[6], v[7], v[8])
-			end
-		end
-		
-		if StrOption ~= 6 then
-		if StrOption ~= 6 and Secondstopress >= 1 then
+		if Secondstopress >= 1 then
 		Secondstopress = Secondstopress - 1
 		end
 		
@@ -1090,186 +783,100 @@ end
 		end
 		
 		if (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions <= 4 and casualTimer == 1 then
-        djui_popup_create("\\#ff0000\\You have to disable the Causal Option if you want to do a speedrun", 2)
+        djui_popup_create("\\#ff0000\\You have to Disable the Causal Option if you want to do a speedrun", 2)
 		Secondstopress = 10 
 		end
+		end
 		
-		if (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 1 and gGlobalSyncTable.stopSpeedrun then
-        djui_popup_create("\\#ff0000\\The Speedrun has Stopped, You can Either Rehost or Restart The Speedrun", 2)
+		if buttonsonly == 0 then
+		if (MenuInputCheck & A_BUTTON) ~= 0 and (MainOptions == 1 or MainOptions == 2) and gGlobalSyncTable.Intermission and gGlobalSyncTable.startglobaltimer == 0 then
+		djui_popup_create("\\#ff0000\\Wait Until The Countdown Ends!", 2)
 		Secondstopress = 10 
-		end
-		
-		if (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 1 and gGlobalSyncTable.stopTimer and gGlobalSyncTable.Intermission then
-		djui_popup_create("The Speedrun has been Unpaused!", 2)
-		gGlobalSyncTable.stopTimer = false
-		openstrmenu = false
-		Secondstopress = 10
-		end
-		
-		if Secondstopress == 0 then
-		if (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 1 and (gGlobalSyncTable.startTimer and gGlobalSyncTable.Intermission and not gGlobalSyncTable.stopTimer and not gGlobalSyncTable.beatedGame) then
-        djui_popup_create("\\#ff0000\\The Speedrun is already running!", 2)
-		Secondstopress = 10
-				end
 			end
 		end
 		
 		if buttonsonly == 0 then
-		if (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 1 and gGlobalSyncTable.restartTimer then
-        djui_popup_create("\\#ff0000\\This Option is disabled when restarting a run", 2)
+		if (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 1 and gGlobalSyncTable.Intermission and gGlobalSyncTable.startTimer and gGlobalSyncTable.startglobaltimer ~= 0 then
+		djui_popup_create("The Speedrun has been Paused!", 2)
+		gGlobalSyncTable.startTimer = false
 		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 1 and casualTimer == 0 and not gGlobalSyncTable.Intermission and not gGlobalSyncTable.stopSpeedrun and DisableCommands == true then
+		elseif (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 1 and gGlobalSyncTable.Intermission and gGlobalSyncTable.startTimer == false and gGlobalSyncTable.startglobaltimer ~= 0 then
+		djui_popup_create("The Speedrun has been Unpaused!", 2)
+		gGlobalSyncTable.startTimer = true
+		openstrmenu = false
+		Secondstopress = 10
+		elseif (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 1 and casualTimer == 0 and not gGlobalSyncTable.Intermission and DisableCommands == true and gGlobalSyncTable.startglobaltimer == 0 and not gGlobalSyncTable.beatedGame then
 		Secondstopress = 10 
 		gGlobalSyncTable.Intermission = true
-		djui_popup_create_global('The Speedrun is Starting!', 2)
 		openstrmenu = false
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 1 and (DisableCommands == false and Romhack_Runs_Option == true) then
+		elseif (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 1 and (DisableCommands == false and Romhack_Runs_Option == true) and gGlobalSyncTable.startglobaltimer == 0 then
 		djui_popup_create("\\#ff0000\\Woah There!! You need to choose a Run before you start the Speedrun", 2)
 		Secondstopress = 10
 			end
 		end
 		
 		if buttonsonly == 0 then
-		if (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 2 and StrOption == 1 and ArrowsMovement == 1 and not gGlobalSyncTable.Intermission then
-		djui_popup_create("\\#ff0000\\You know the timer is not even starting Right?", 2)
+		if (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 2 and not gGlobalSyncTable.Intermission then
+		djui_popup_create("\\#ff0000\\This Option only works if you already Start a Speedrun", 2)
 		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 2 and StrOption == 1 and ArrowsMovement == 1 and gGlobalSyncTable.stopTimer then
-		djui_popup_create("\\#ff0000\\You already paused the timer", 2)
+		elseif (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 2 and gGlobalSyncTable.startglobaltimer ~= 0 then
 		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 2 and StrOption == 1 and ArrowsMovement == 1 and 
-		gGlobalSyncTable.Intermission and gGlobalSyncTable.startTimer then
-		Secondstopress = 10 
-		gGlobalSyncTable.stopTimer = true
-		djui_popup_create_global("\\#ff0000\\The Speedrun is Paused!", 2)
-			end
-		end
-		
-		if buttonsonly == 0 then
-		if (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 2 and StrOption == 1 and ArrowsMovement == 2 and not gGlobalSyncTable.Intermission then
-		djui_popup_create("\\#ff0000\\Why you want to stop the speedrun, if you didn't even start the timer?", 2)
-		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 2 and StrOption == 1 and ArrowsMovement == 2 and gGlobalSyncTable.stopSpeedrun and gGlobalSyncTable.startTimer == false then
-		djui_popup_create("\\#ff0000\\The Speedrun has already Stopped, You can Either Rehost or Restart The Speedrun", 2)
-		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 2 and StrOption == 1 and ArrowsMovement == 2 and 
-		gGlobalSyncTable.Intermission and (gGlobalSyncTable.startTimer or gGlobalSyncTable.restartTimer or gGlobalSyncTable.stopTimer) then
-		Secondstopress = 10 
-		gGlobalSyncTable.stopSpeedrun = true
-		gGlobalSyncTable.stopTimer = false
-		gGlobalSyncTable.startTimer = false
-		gGlobalSyncTable.Intermission = false
-		djui_popup_create_global("\\#ff0000\\The Speedrun has Stopped!", 2)
-			end
-		end
-		
-		
-		if buttonsonly == 0 then
-		if (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 3 and StrOption == 2 and ArrowsMovement == 1 and not gGlobalSyncTable.Intermission then
-		djui_popup_create("\\#ff0000\\You know the timer is not even starting Right?", 2)
-		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 3 and StrOption == 2 and ArrowsMovement == 1 and gGlobalSyncTable.restartTimer then
-		djui_popup_create("\\#ff0000\\You already reset the timer", 2)
-		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 3 and StrOption == 2 and ArrowsMovement == 1 and 
-		gGlobalSyncTable.Intermission and gGlobalSyncTable.startTimer then
-		Secondstopress = 10
-		gGlobalSyncTable.startTimer = false
-		gGlobalSyncTable.beatedGame = false
-		gGlobalSyncTable.restartTimer = true
-		gGlobalSyncTable.stopTimer = false
-		gGlobalSyncTable.Intermission = false
-		gGlobalSyncTable.Intercountdown = 6
-		gGlobalSyncTable.GoTimer = 0
-		gGlobalSyncTable.Cheated = false
+		gGlobalSyncTable.ResettingTimer = true
 		djui_popup_create_global("\\#ff0000\\The Timer is Restarting!", 2)
 			end
 		end
 		
 		if buttonsonly == 0 then
-		if (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 3 and StrOption == 2 and ArrowsMovement == 2 and not gGlobalSyncTable.restartTimer then
-		djui_popup_create("\\#ff0000\\I suggest you restart the timer, before you restart the speedrun", 2)
-		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 3 and StrOption == 2 and ArrowsMovement == 2 and gGlobalSyncTable.startTimer then
-		djui_popup_create("\\#ff0000\\The Speedrun is already running!", 2)
-		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 3 and StrOption == 2 and ArrowsMovement == 2 
-		and (gGlobalSyncTable.startTimer or gGlobalSyncTable.restartTimer or gGlobalSyncTable.stopTimer) then
-		Secondstopress = 10
-		gGlobalSyncTable.Intermission = true
-		gGlobalSyncTable.startTimer = false
-		gGlobalSyncTable.beatedGame = false
-		gGlobalSyncTable.restartTimer = false
-		gGlobalSyncTable.stopSpeedrun = false
-		gGlobalSyncTable.stopTimer = false
-		if CDNumbers ~= nil then
-			CDNumbers = clamp(CDNumbers, 0, 50)
-			startspeedruntime = CDNumbers * 30 + 60 
-		end
-		if not gGlobalSyncTable.set_countdown_numbers then
-		startspeedruntime = 5 * 30
-		end
-		djui_popup_create_global("\\#ff0000\\The Speedrun is Restarting!", 2)
-		openstrmenu = false
-		Secondstopress = 10
-			end
-		end
-		
-		if buttonsonly == 0 then
-		if (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 3 and StrOption == 2 and ArrowsMovement == 3 then
+		if (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 3 then
 		gGlobalSyncTable.ResetSaveCheck = true
 		Secondstopress = 10 
 		djui_popup_create_global("\\#ff0000\\The Save File is Restarting!", 2)
 			end
 		end
 		
-		if (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 5 and StrOption == 4 and ArrowsMovement == 1 and buttonsonly == 1 then
+		if (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 5 and StrOption == 2 and ArrowsMovement == 1 and buttonsonly == 1 then
 		djui_popup_create("\\#ff0000\\You already have the buttons option on", 2)
 		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 5 and StrOption == 4 and ArrowsMovement == 1 then
+		elseif (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 5 and StrOption == 2 and ArrowsMovement == 1 then
 		buttonsonly = 1
 		mod_storage_save("Buttons", tostring(buttonsonly))
 		Secondstopress = 10 
 		djui_popup_create("Button commands! The Original Settings of the Speedrun Timer", 2)
 		end
 		
-		if (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 5 and StrOption == 4 and ArrowsMovement == 2 and buttonsonly == 0 then
+		if (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 5 and StrOption == 2 and ArrowsMovement == 2 and buttonsonly == 0 then
 		djui_popup_create("\\#ff0000\\You already have the menu option on", 2)
 		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 5 and StrOption == 4 and ArrowsMovement == 2 then
+		elseif (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 5 and StrOption == 2 and ArrowsMovement == 2 then
 		buttonsonly = 0
 		Secondstopress = 10 
 		mod_storage_save("Buttons", tostring(buttonsonly))
 		djui_popup_create("Menu Config! The Modern Settings of the Speedrun Timer", 2)
 		end
 		
-		if (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 6 and StrOption == 5 and ArrowsMovement == 1 and DisableTeams then
+		if (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 6 and StrOption == 3 and ArrowsMovement == 1 and DisableTeams then
         djui_popup_create("\\#ff0000\\Teams are Disable in this Romhack", 2)
 		Secondstopress = 10 
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 6 and StrOption == 5 and ArrowsMovement == 1 and not gGlobalSyncTable.SpeedrunTeams and not DisableTeams then
+		elseif (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 6 and StrOption == 3 and ArrowsMovement == 1 and not gGlobalSyncTable.SpeedrunTeams and not DisableTeams then
 		djui_popup_create("Speedrun in Teams is Enabled", 1)
 		gGlobalSyncTable.SpeedrunTeams = true
 		gGlobalSyncTable.notags = true
 		Secondstopress = 10 
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 6 and StrOption == 5 and ArrowsMovement == 1 and gGlobalSyncTable.SpeedrunTeams and not DisableTeams then
+		elseif (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 6 and StrOption == 3 and ArrowsMovement == 1 and gGlobalSyncTable.SpeedrunTeams and not DisableTeams then
 		djui_popup_create("Speedrun in Teams is Disabled", 1)
 		gGlobalSyncTable.SpeedrunTeams = false
 		gGlobalSyncTable.notags = false
-		gPlayerSyncTable[0].TeamColors = SpeedrunNoTeams
 		Secondstopress = 10 
 		end
 		
-		if (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 6 and StrOption == 5 and ArrowsMovement == 2 and casualTimer == 0 then
+		if (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 6 and StrOption == 3 and ArrowsMovement == 2 and casualTimer == 0 then
 		casualTimer = 1
 		Secondstopress = 10 
 		mod_storage_save("Casual", tostring(casualTimer))
 		djui_popup_create("Casual Mode: \nThe Timer will Start everytime you start hosting, Including Rehosting!", 2)
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 6 and StrOption == 5 and ArrowsMovement == 2 and casualTimer == 1 then
+		elseif (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 6 and StrOption == 3 and ArrowsMovement == 2 and casualTimer == 1 then
 		casualTimer = 0
-		gGlobalSyncTable.Intermission = false
-		gGlobalSyncTable.startTimer = false
-		gGlobalSyncTable.Intercountdown = 6
-		gGlobalSyncTable.GoTimer = 0
-		gGlobalSyncTable.startspeedrun = 0
+		gGlobalSyncTable.ResettingTimer = true
 		Secondstopress = 10 
 		djui_popup_create("Speedrun Mode: \nThe Timer will Reset the Timer until you Start The Speedrun!", 2)
 		mod_storage_save("Casual", tostring(casualTimer))
@@ -1281,32 +888,13 @@ end
 		end
 		
 		if buttonsonly == 0 then
-		if (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 2 and ArrowsMovement == 0 and casualTimer == 0 then
-		play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
-        StrOption = 1
-		ArrowsMovement = 1
-		Secondstopress = 10
-		end
-		
-		if (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 3 and ArrowsMovement == 0 and casualTimer == 0 then
-		if (DisableCommands == false and Romhack_Runs_Option == true) then
-		djui_popup_create("\\#ff0000\\Woah There!! You need to choose a Run before you start the Speedrun", 2)
-		Secondstopress = 10
-		else
-		play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
-        StrOption = 2
-		ArrowsMovement = 1
-		Secondstopress = 10
-			end
-		end
-		
 		if (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 4 and CountdownMovement == 0 and casualTimer == 0 then
 		if gGlobalSyncTable.startTimer then
 		Secondstopress = 10 
 		djui_popup_create("\\#ff0000\\This Command is Disabled when a Speedrun is Starting", 2)
 		else
 		play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
-        StrOption = 3
+        StrOption = 1
 		CountdownMovement = 1
 		Secondstopress = 10
 				end
@@ -1319,7 +907,7 @@ end
 		djui_popup_create("\\#ff0000\\This Option is Disabled for Moveset Mods, To Prevent Mods From Breaking", 2)
 		else
 		play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
-        StrOption = 4
+        StrOption = 2
 		ArrowsMovement = 1
 		Secondstopress = 10
 			end
@@ -1327,22 +915,21 @@ end
 		
 		if (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 6 and ArrowsMovement == 0 then
 		play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
-        StrOption = 5
+        StrOption = 3
 		ArrowsMovement = 1
 		Secondstopress = 10
 		end
 		
-		if (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 7 then
+		if (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 7 and StrOption ~= 4 then
 		play_sound(SOUND_MENU_REVERSE_PAUSE, m.marioObj.header.gfx.cameraToObject)
-        StrOption = 6
+        StrOption = 4
 		Secondstopress = 10
-		RunsArrowsLR = 1
-		RunsArrowsUD = 1
+		RunDefault = 1
 		end
 		
 		if (MenuInputCheck & B_BUTTON) ~= 0 and StrOption == 1 then
         StrOption = 0
-		ArrowsMovement = 0
+		CountdownMovement = 0
 	    Secondstopress = 10
 		play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
 		end
@@ -1356,94 +943,50 @@ end
 		
 		if (MenuInputCheck & B_BUTTON) ~= 0 and StrOption == 3 then
         StrOption = 0
-		CountdownMovement = 0
-	    Secondstopress = 10
-		play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
-		end
-		
-		if (MenuInputCheck & B_BUTTON) ~= 0 and StrOption == 4 then
-        StrOption = 0
-		ArrowsMovement = 0
-	    Secondstopress = 10
-		play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
-		end
-		
-		if (MenuInputCheck & B_BUTTON) ~= 0 and StrOption == 5 then
-        StrOption = 0
 		ArrowsMovement = 0
 	    Secondstopress = 10
 		play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
 			end
 		end
 		
-		if (StrOption == 1 or StrOption == 4 or StrOption == 5) then
-		if ((MenuStickY > -0 and StickTimerDown == 2) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) and ArrowsMovement == 2 then
+		if (StrOption == 2 or StrOption == 3) then
+		if ((MenuStickY > -0 and StickTimerDown == 5) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) and ArrowsMovement == 2 then
 			ArrowsMovement = ArrowsMovement - 1
-			DpadTimerUp = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickY > -0 and StickTimerDown == 2) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) then
+		elseif ((MenuStickY > -0 and StickTimerDown == 5) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) then
 			ArrowsMovement = ArrowsMovement + 1
-			DpadTimerUp = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 		end
 		
-		if ((MenuStickY < -0 and StickTimerUp == 2) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) and ArrowsMovement == 1 then
+		if ((MenuStickY < -0 and StickTimerUp == 5) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) and ArrowsMovement == 1 then
 			ArrowsMovement = ArrowsMovement + 1
-			DpadTimerDown = 0
 			play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickY < -0 and StickTimerUp == 2) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) then
+		elseif ((MenuStickY < -0 and StickTimerUp == 5) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) then
 			ArrowsMovement = ArrowsMovement - 1
-			DpadTimerDown = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 			end
 		end
 		
-		if StrOption == 2 then
-		if ((MenuStickY > -0 and StickTimerDown == 2) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) and ArrowsMovement < 2 then
-			ArrowsMovement = 3
-			DpadTimerUp = 0
-            play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickY > -0 and StickTimerDown == 2) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) then
-			ArrowsMovement = ArrowsMovement - 1
-			DpadTimerUp = 0
-            play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		end
-		
-		if ((MenuStickY < -0 and StickTimerUp == 2) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) and ArrowsMovement > 2 then
-			ArrowsMovement = 1
-			DpadTimerDown = 0
-			play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickY < -0 and StickTimerUp == 2) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) then
-			ArrowsMovement = ArrowsMovement + 1
-			DpadTimerDown = 0
-            play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-			end
-		end
-		
-		if StrOption == 3 and CountdownMovement == 1 then
-		if ((MenuStickX > -0 and StickTimerRight == 2) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) and CDNumbers > 49 then
+		if StrOption == 1 and CountdownMovement == 1 then
+		if ((MenuStickX > -0 and StickTimerRight == 5) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) and CDNumbers > 49 then
 			CDNumbers = 0
-			DpadTimerRight = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickX > -0 and StickTimerRight == 2) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) then
+		elseif ((MenuStickX > -0 and StickTimerRight == 5) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) then
 			CDNumbers = CDNumbers + 1
-			DpadTimerRight = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 		end
 		
-		if ((MenuStickX < -0 and StickTimerLeft == 2) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) and CDNumbers < 1 then
+		if ((MenuStickX < -0 and StickTimerLeft == 5) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) and CDNumbers < 1 then
 			CDNumbers = 50
-			DpadTimerLeft = 0
 			play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickX < -0 and StickTimerLeft == 2) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) then
+		elseif ((MenuStickX < -0 and StickTimerLeft == 5) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) then
 			CDNumbers = CDNumbers - 1
-			DpadTimerLeft = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 			end
 		end
 		
 		if Secondstopress == 0 then 
-		if (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 4 and StrOption == 3 and CountdownMovement == 1 then
+		if (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 4 and StrOption == 1 and CountdownMovement == 1 then
 			Secondstopress = 10
 			 if CDNumbers ~= nil then
 				CDNumbers = clamp(CDNumbers, 0, 50)
@@ -1464,7 +1007,7 @@ end
 				elseif CDNumbers > 49 then
 				djui_popup_create_global("\\#FF0000\\Countdown set to " .. CDNumbers .. " Seconds\n(The Max Countdown)", 2)
 			end
-				startspeedruntime = CDNumbers * 30 + 60 
+				gGlobalSyncTable.timercountdown = CDNumbers * 30 + 60 
 				gGlobalSyncTable.set_countdown_numbers = true
 				end
 			end
@@ -1472,45 +1015,37 @@ end
 		
 		if StrOption == 0 then
 		if not Romhack_Runs_Option then
-		if ((MenuStickX > -0 and StickTimerRight == 2) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) and MainOptions > 5 then
+		if ((MenuStickX > -0 and StickTimerRight == 5) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) and MainOptions > 5 then
 			MainOptions = 1
-			DpadTimerRight = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickX > -0 and StickTimerRight == 2) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) then
+		elseif ((MenuStickX > -0 and StickTimerRight == 5) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) then
 			MainOptions = MainOptions + 1
-			DpadTimerRight = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 		end
 		
-		if ((MenuStickX < -0 and StickTimerLeft == 2) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) and MainOptions < 2 then
+		if ((MenuStickX < -0 and StickTimerLeft == 5) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) and MainOptions < 2 then
 			MainOptions = 6
-			DpadTimerLeft = 0
 			play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickX < -0 and StickTimerLeft == 2) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) then
+		elseif ((MenuStickX < -0 and StickTimerLeft == 5) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) then
 			MainOptions = MainOptions - 1
-			DpadTimerLeft = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 			end
 		end
 		
 		if Romhack_Runs_Option then
-		if ((MenuStickX > -0 and StickTimerRight == 2) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) and MainOptions > 6 then
+		if ((MenuStickX > -0 and StickTimerRight == 5) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) and MainOptions > 6 then
 			MainOptions = 1
-			DpadTimerRight = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickX > -0 and StickTimerRight == 2) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) then
+		elseif ((MenuStickX > -0 and StickTimerRight == 5) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) then
 			MainOptions = MainOptions + 1
-			DpadTimerRight = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 		end
 		
-		if ((MenuStickX < -0 and StickTimerLeft == 2) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) and MainOptions < 2 then
+		if ((MenuStickX < -0 and StickTimerLeft == 5) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) and MainOptions < 2 then
 			MainOptions = 7
-			DpadTimerLeft = 0
 			play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickX < -0 and StickTimerLeft == 2) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) then
+		elseif ((MenuStickX < -0 and StickTimerLeft == 5) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) then
 			MainOptions = MainOptions - 1
-			DpadTimerLeft = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 			end
 		end
@@ -1524,231 +1059,55 @@ end
 		end
 	end
 		
-	if StrOption == 6 then
-		
-		if StrOption == 6 and Secondstopress >= 1 then
-		Secondstopress = Secondstopress - 1
-		end		
-		
+	if StrOption == 4 then
+
 		if Secondstopress == 0 then
-		
-		if (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 1 and RunsSlotsName1 == "Empty Slot 1" then
-		djui_popup_create("\\#ff0000\\There's nothing on that Slot\nChoose a Different Slot", 2)
-		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 1 and gGlobalSyncTable.RunsSlots == 0 then
-		djui_popup_create_global("The Run Has Been Chosen:\n" .. RunsSlotsName1 .. ' Run', 2)
-        gGlobalSyncTable.RunsSlots = 1
-		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 1 and gGlobalSyncTable.RunsSlots == 1 then
-		play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
-		gGlobalSyncTable.RunsSlots = 0
-		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 1 and gGlobalSyncTable.RunsSlots ~= 1 then
-		djui_popup_create_global("The Run Has Been Chosen:\n" .. RunsSlotsName1 .. ' Run', 2)
-        gGlobalSyncTable.RunsSlots = 1
-		Secondstopress = 10
+		if #RunTable ~= 1 then
+		if ((MenuStickX > -0 and StickTimerRight == 5) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) and RunDefault > #RunTable - 1 then
+			RunDefault = 1
+            play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
+		elseif ((MenuStickX > -0 and StickTimerRight == 5) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) then
+			RunDefault = RunDefault + 1
+            play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 		end
 		
-		if (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 2 and RunsSlotsName2 == "Empty Slot 2" then
-		djui_popup_create("\\#ff0000\\There's nothing on that Slot\nChoose a Different Slot", 2)
-		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 2 and gGlobalSyncTable.RunsSlots == 0 then
-		djui_popup_create_global("The Run Has Been Chosen:\n" .. RunsSlotsName2 .. ' Run', 2)
-        gGlobalSyncTable.RunsSlots = 2
-		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 2 and gGlobalSyncTable.RunsSlots == 2 then
-		play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
-		gGlobalSyncTable.RunsSlots = 0
-		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 2 and gGlobalSyncTable.RunsSlots ~= 2 then
-		djui_popup_create_global("The Run Has Been Chosen:\n" .. RunsSlotsName2 .. ' Run', 2)
-        gGlobalSyncTable.RunsSlots = 2
-		Secondstopress = 10
-		end
-		
-		if (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 3 and RunsSlotsName3 == "Empty Slot 3" then
-		djui_popup_create("\\#ff0000\\There's nothing on that Slot\nChoose a Different Slot", 2)
-		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 3 and gGlobalSyncTable.RunsSlots == 0 then
-		djui_popup_create_global("The Run Has Been Chosen:\n" .. RunsSlotsName3 .. ' Run', 2)
-        gGlobalSyncTable.RunsSlots = 3
-		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 3 and gGlobalSyncTable.RunsSlots == 3 then
-		play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
-		gGlobalSyncTable.RunsSlots = 0
-		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 3 and gGlobalSyncTable.RunsSlots ~= 3 then
-		djui_popup_create_global("The Run Has Been Chosen:\n" .. RunsSlotsName3 .. ' Run', 2)
-        gGlobalSyncTable.RunsSlots = 3
-		Secondstopress = 10
-		end
-		
-		if (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 4 and RunsSlotsName4 == "Empty Slot 4" then
-		djui_popup_create("\\#ff0000\\There's nothing on that Slot\nChoose a Different Slot", 2)
-		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 4 and gGlobalSyncTable.RunsSlots == 0 then
-		djui_popup_create_global("The Run Has Been Chosen:\n" .. RunsSlotsName4 .. ' Run', 2)
-        gGlobalSyncTable.RunsSlots = 4
-		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 4 and gGlobalSyncTable.RunsSlots == 4 then
-		play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
-		gGlobalSyncTable.RunsSlots = 0
-		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 4 and gGlobalSyncTable.RunsSlots ~= 4 then
-		djui_popup_create_global("The Run Has Been Chosen:\n" .. RunsSlotsName4 .. ' Run', 2)
-        gGlobalSyncTable.RunsSlots = 4
-		Secondstopress = 10
-		end
-		
-		if (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 5 and RunsSlotsName5 == "Empty Slot 5" then
-		djui_popup_create("\\#ff0000\\There's nothing on that Slot\nChoose a Different Slot", 2)
-		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 5 and gGlobalSyncTable.RunsSlots == 0 then
-		djui_popup_create_global("The Run Has Been Chosen:\n" .. RunsSlotsName5 .. ' Run', 2)
-        gGlobalSyncTable.RunsSlots = 5
-		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 5 and gGlobalSyncTable.RunsSlots == 5 then
-		play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
-		gGlobalSyncTable.RunsSlots = 0
-		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 1 and RunsArrowsUD == 5 and gGlobalSyncTable.RunsSlots ~= 5 then
-		djui_popup_create_global("The Run Has Been Chosen:\n" .. RunsSlotsName5 .. ' Run', 2)
-        gGlobalSyncTable.RunsSlots = 5
-		Secondstopress = 10
-		end
-		
-		if (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 1 and RunsSlotsName6 == "Empty Slot 6" then
-		djui_popup_create("\\#ff0000\\There's nothing on that Slot\nChoose a Different Slot", 2)
-		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 1 and gGlobalSyncTable.RunsSlots == 0 then
-		djui_popup_create_global("The Run Has Been Chosen:\n" .. RunsSlotsName6 .. ' Run', 2)
-        gGlobalSyncTable.RunsSlots = 6
-		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 1 and gGlobalSyncTable.RunsSlots == 6 then
-		play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
-		gGlobalSyncTable.RunsSlots = 0
-		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 1 and gGlobalSyncTable.RunsSlots ~= 6 then
-		djui_popup_create_global("The Run Has Been Chosen:\n" .. RunsSlotsName6 .. ' Run', 2)
-        gGlobalSyncTable.RunsSlots = 6
-		Secondstopress = 10
-		end
-		
-		if (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 2 and RunsSlotsName7 == "Empty Slot 7" then
-		djui_popup_create("\\#ff0000\\There's nothing on that Slot\nChoose a Different Slot", 2)
-		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 2 and gGlobalSyncTable.RunsSlots == 0 then
-		djui_popup_create_global("The Run Has Been Chosen:\n" .. RunsSlotsName7 .. ' Run', 2)
-        gGlobalSyncTable.RunsSlots = 7
-		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 2 and gGlobalSyncTable.RunsSlots == 7 then
-		play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
-		gGlobalSyncTable.RunsSlots = 0
-		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 2 and gGlobalSyncTable.RunsSlots ~= 7 then
-		djui_popup_create_global("The Run Has Been Chosen:\n" .. RunsSlotsName7 .. ' Run', 2)
-        gGlobalSyncTable.RunsSlots = 7
-		Secondstopress = 10
-		end
-		
-		if (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 3 and RunsSlotsName8 == "Empty Slot 8" then
-		djui_popup_create("\\#ff0000\\There's nothing on that Slot\nChoose a Different Slot", 2)
-		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 3 and gGlobalSyncTable.RunsSlots == 0 then
-		djui_popup_create_global("The Run Has Been Chosen:\n" .. RunsSlotsName8 .. ' Run', 2)
-        gGlobalSyncTable.RunsSlots = 8
-		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 3 and gGlobalSyncTable.RunsSlots == 8 then
-		play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
-		gGlobalSyncTable.RunsSlots = 0
-		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 3 and gGlobalSyncTable.RunsSlots ~= 8 then
-		djui_popup_create_global("The Run Has Been Chosen:\n" .. RunsSlotsName8 .. ' Run', 2)
-        gGlobalSyncTable.RunsSlots = 8
-		Secondstopress = 10
-		end
-		
-		if (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 4 and RunsSlotsName9 == "Empty Slot 9" then
-		djui_popup_create("\\#ff0000\\There's nothing on that Slot\nChoose a Different Slot", 2)
-		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 4 and gGlobalSyncTable.RunsSlots == 0 then
-		djui_popup_create_global("The Run Has Been Chosen:\n" .. RunsSlotsName9 .. ' Run', 2)
-        gGlobalSyncTable.RunsSlots = 9
-		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 4 and gGlobalSyncTable.RunsSlots == 9 then
-		play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
-		gGlobalSyncTable.RunsSlots = 0
-		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 4 and gGlobalSyncTable.RunsSlots ~= 9 then
-		djui_popup_create_global("The Run Has Been Chosen:\n" .. RunsSlotsName9 .. ' Run', 2)
-        gGlobalSyncTable.RunsSlots = 9
-		Secondstopress = 10
-		end
-		
-		if (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 5 and RunsSlotsName10 == "Empty Slot 10" then
-		djui_popup_create("\\#ff0000\\There's nothing on that Slot\nChoose a Different Slot", 2)
-		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 5 and gGlobalSyncTable.RunsSlots == 0 then
-		djui_popup_create_global("The Run Has Been Chosen:\n" .. RunsSlotsName10 .. ' Run', 2)
-        gGlobalSyncTable.RunsSlots = 10
-		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 5 and gGlobalSyncTable.RunsSlots == 10 then
-		play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
-		gGlobalSyncTable.RunsSlots = 0
-		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and RunsArrowsLR == 2 and RunsArrowsUD == 5 and gGlobalSyncTable.RunsSlots ~= 10 then
-		djui_popup_create_global("The Run Has Been Chosen:\n" .. RunsSlotsName10 .. ' Run', 2)
-        gGlobalSyncTable.RunsSlots = 10
-		Secondstopress = 10
+		if ((MenuStickX < -0 and StickTimerLeft == 5) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) and RunDefault < 2 then
+			RunDefault = #RunTable
+			play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
+		elseif ((MenuStickX < -0 and StickTimerLeft == 5) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) then
+			RunDefault = RunDefault - 1
+            play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 			end
 		end
 		
-		if ((MenuStickY > -0 and StickTimerDown == 2) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) and RunsArrowsUD < 2 then
-			RunsArrowsUD = 5
-			DpadTimerUp = 0
-            play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickY > -0 and StickTimerDown == 2) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) then
-			RunsArrowsUD = RunsArrowsUD - 1 
-			DpadTimerUp = 0
-            play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
+		if #RunTable == 1 then
+		if ((MenuStickX > -0 and StickTimerRight == 5) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) then
+            play_sound(SOUND_MENU_CAMERA_BUZZ, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 		end
 		
-		if ((MenuStickY < -0 and StickTimerUp == 2) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) and RunsArrowsUD > 4 then
-			RunsArrowsUD = 1
-			DpadTimerDown = 0
-			play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickY < -0 and StickTimerUp == 2) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) then
-			RunsArrowsUD = RunsArrowsUD + 1
-			DpadTimerDown = 0
-            play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
+		if ((MenuStickX < -0 and StickTimerLeft == 5) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) then
+			play_sound(SOUND_MENU_CAMERA_BUZZ, gMarioStates[0].marioObj.header.gfx.cameraToObject)
+			end
 		end
 		
-		if ((MenuStickX > -0 and StickTimerRight == 2) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) and RunsArrowsLR == 2 then
-			RunsArrowsLR = RunsArrowsLR - 1
-			DpadTimerRight = 0
-            play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickX > -0 and StickTimerRight == 2) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) then
-			RunsArrowsLR = RunsArrowsLR + 1
-			DpadTimerRight = 0
-            play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
+		if (MenuInputCheck & A_BUTTON) ~= 0 and Secondstopress == 0 and gGlobalSyncTable.RunsSlots ~= RunTable[RunDefault].RunsSlotNumber then
+			Secondstopress = 10
+			gGlobalSyncTable.RunsSlots = RunTable[RunDefault].RunsSlotNumber
+			play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
 		end
 		
-		if ((MenuStickX < -0 and StickTimerLeft == 2) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) and RunsArrowsLR == 1 then
-			RunsArrowsLR = RunsArrowsLR + 1
-			DpadTimerLeft = 0
-			play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickX < -0 and StickTimerLeft == 2) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) then
-			RunsArrowsLR = RunsArrowsLR - 1
-			DpadTimerLeft = 0
-            play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
+		if (MenuInputCheck & A_BUTTON) ~= 0 and Secondstopress == 0 and gGlobalSyncTable.RunsSlots == RunTable[RunDefault].RunsSlotNumber then
+			Secondstopress = 10
+			gGlobalSyncTable.RunsSlots = 0
+			play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
 		end
+	end
 		
 	if (MenuInputCheck & B_BUTTON) ~= 0 and Secondstopress == 0 then
         StrOption = 0
 	    Secondstopress = 10
 		play_sound(SOUND_MENU_CLICK_FILE_SELECT, m.marioObj.header.gfx.cameraToObject)
 		
-		end
 		end
 	end
 	
@@ -1766,7 +1125,8 @@ end
 end
 
 function displaymenu(m)
-	if not SwitchingMenus == 2 then return end
+
+	if not openmenu then return end
 
 	if network_is_server() then
 	PlayersText = "Press A to Select, Press B to Close the Menu, Press Y to Open the Main Menu"
@@ -1886,8 +1246,8 @@ function displaymenu(m)
 	end
 		
 	if FontSettings == 4 then
-		ArrowPositionLeft = -110
-		ArrowPositionRight = 110
+		ArrowPositionLeft = -140
+		ArrowPositionRight = 140
 		if SoundsSettings == 1 then
 		ArrowPositionUDLeft = -175
 		ArrowPositionUDRight = -175
@@ -1938,14 +1298,12 @@ function displaymenu(m)
 		end
 	end
 
-	if not openmenu then return end
-
 	TeamColor = TeamColor
 	
 	modversion = {
 		{
-            "Speedrun Timer Reworked V1.2.1",
-            100,
+            "Speedrun Timer Reworked V1.3",
+            95,
             220,
             globalFont,
             creditscale - 0.7,
@@ -2135,29 +1493,21 @@ function displaymenu(m)
             creditcolor
         },
         {
-            'Added Sounds Settings',
+            'Added Romhack Color Fonts',
             0,
-            -180,
+            -160,
             globalFont,
-            creditscale - 0.1,
+            creditscale,
             creditcolor
         },
 		{
-            'Added Anti Cheat Plugin',
+            'Added Intermission Display',
             0,
-            -130,
+            -100,
             globalFont,
-            creditscale - 0.1,
+            creditscale,
             creditcolor
         },
-		{
-            'Added Back FONT_HUD Font',
-            0,
-            -80,
-            globalFont,
-            creditscale - 0.1,
-            creditcolor
-        }
 	}
 	
     creditstexts = {
@@ -2270,92 +1620,164 @@ function displaymenu(m)
             creditcolor
         },
 		{
-            "Made Some Plugins Easier to use now",
+            "SM64 Only Is Now The Default Mod",
             0,
-            -205,
+            -200,
             globalFont,
-            creditscale - 0.6,
+            creditscale - 0.75,
             creditcolor
         },
         {
 		
-			"Fonts Save Function has been Reworked",
+			"Removed Stop Timer Function",
             0,
-            -188,
+            -190,
             globalFont,
-            creditscale - 0.6,
+            creditscale - 0.75,
             creditcolor
         },
 		{
 		
-			"Now Main and Custom Fonts Shares The Same Slot",
+			"Reworked Restart Timer Function",
+            0,
+            -180,
+            globalFont,
+            creditscale - 0.75,
+            creditcolor
+        },
+		{
+		
+			"Now Start and Pause Function now Merged",
             0,
             -170,
             globalFont,
-            creditscale - 0.6,
+            creditscale - 0.75,
             creditcolor
         },
 		{
 		
-			"Removed Switching to Fonts to Custom Fonts",
+			"Removed Compatible Romhack List (But Will have a Text File Tho)",
+            0,
+            -160,
+            globalFont,
+			creditscale - 0.75,
+            creditcolor
+        },
+		{
+		
+			"Removed 31, 45, and 50 Stars On the SM64 Rules",
             0,
             -150,
             globalFont,
-            creditscale - 0.6,
+            creditscale - 0.75,
             creditcolor
         },
 		{
 		
-			"All Main Fonts are in One Function Now",
+			"Change The Buttons Mapping on How to Open the Menu",
             0,
-            -130,
+            -140,
             globalFont,
-            creditscale - 0.6,
+            creditscale - 0.75,
             creditcolor
         },
 		{
 		
-			"You Can Switch Runs After Selecting a Run",
+			"Made The JoyStick Menu Speed Slower But Easier Now",
             0,
-            -110,
+			-130,
             globalFont,
-			creditscale - 0.6,
+            creditscale - 0.75,
             creditcolor
         },
 		{
 		
-			"Patched Dialog Idle Jump Glitch",
+			"Buttons Controls Mapping Has Been Changed",
             0,
-            -90,
+			-120,
             globalFont,
-			creditscale - 0.6,
+            creditscale - 0.75,
             creditcolor
         },
 		{
 		
-			"Patched Using Menu to Enter Levels Faster",
+			"Now Incompatible Romhacks Warp You Back After Resetting",
             0,
-            -70,
+			-110,
             globalFont,
-            creditscale - 0.6,
+            creditscale - 0.75,
             creditcolor
         },
 		{
 		
-			"Removed Some Unused Code",
+			"Grand Star Function is to True Be Default Now",
             0,
-            -51,
+			-100,
             globalFont,
-            creditscale - 0.6,
+            creditscale - 0.75,
             creditcolor
         },
 		{
 		
-			"Did Adjuestments to the Mod",
+			"Timer will Now Display Even in Warps",
             0,
-            -33,
+			-90,
             globalFont,
-            creditscale - 0.6,
+            creditscale - 0.75,
+            creditcolor
+        },
+		{
+		
+			"Removed Display_Custom_Rules_Romhack_Function for being useless now",
+            0,
+			-80,
+            globalFont,
+            creditscale - 0.75,
+            creditcolor
+        },
+		{
+		
+			"Reworked Custom Runs (It can be Shown in the Intermission Display)",
+            0,
+			-70,
+            globalFont,
+            creditscale - 0.75,
+            creditcolor
+        },
+		{
+		
+			"Fanfare and Go Sounds Play Sooner Now",
+            0,
+			-60,
+            globalFont,
+            creditscale - 0.75,
+            creditcolor
+        },
+		{
+		
+			"Now SM64 Font for Romhack Visibility can be changed",
+            0,
+			-50,
+            globalFont,
+            creditscale - 0.75,
+            creditcolor
+        },
+		{
+		
+			"Removed some code that no longer be used",
+            0,
+			-40,
+            globalFont,
+            creditscale - 0.75,
+            creditcolor
+        },
+		{
+		
+			"Adjust the Mod Again to Run Better?",
+            0,
+			-30,
+            globalFont,
+            creditscale - 0.75,
             creditcolor
         }
     }
@@ -2594,483 +2016,6 @@ function displaymenu(m)
         }
     }
 	
-	romhackstexts = {
-		{
-            "Compatible Romhacks",
-            0,
-            -223,
-            globalFont,
-            creditscale - 0.5,
-            creditcolor
-        },
-        {
-            "Star Road",
-            -120,
-            -200,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-        {
-		
-			"Star Road: The Replica Comet",
-            -120,
-            -190,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"Super Mario 74",
-            -120,
-            -180,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"Super Mario 74: Extreme Edition",
-            -120,
-            -170,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"Super Mario 74: Ten Years After",
-            -120,
-            -160,
-            globalFont,
-			creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"Super Mario 64 Moonshine",
-			-120,
-            -150,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"King Boo's Revenge 2",
-            -120,
-            -140,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"Lug's Delightful Dioramas",
-            -120,
-			-130,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"Lug's Delightful Dioramas: Green Comet",
-            -120,
-			-120,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"Super Mario 64: The Green Stars",
-            -120,
-			-110,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"Super Mario 64 Sapphire",
-            -120,
-			-100,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"The Phantom's Call",
-            -120,
-			-90,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"Star Revenge 1: Star Takeover",
-            -120,
-			-80,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"Star Revenge 2: Night of Doom",
-            -120,
-			-70,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"Star Revenge 6.5",
-            -120,
-			-60,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"SM64: Twisted Adventures",
-            -120,
-			-50,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-            "Luigi's Mansion 64",
-			-120,
-            -40,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-        {
-		
-			"Luigi's Mansion 64.5 [EM + SPM]",
-            -120,
-            -30,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"SM64 Paradise Island",
-            -50,
-            -200,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"Ztar Attack 2",
-            -50,
-            -190,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"SM64: Peach and the Pink Star",
-            -50,
-            -180,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"Super Mario 64: Hidden Stars",
-            -50,
-            -170,
-            globalFont,
-			creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"Super Mario 64: The Galactic Journey",
-            -50,
-            -160,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"Star Revenge 1.5: Star Takeover Redone",
-            -50,
-            -150,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"Luigi and the Forest Ruins",
-            -50,
-            -140,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"Only Up 64",
-            -50,
-			-130,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"Thousand Year Door 64",
-            -50,
-			-120,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"SM64: The Mushroom Cup",
-            -50,
-			-110,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"Eternal Realm",
-            -50,
-			-100,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"Despair Mario's Gambit",
-			-50,
-			-90,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"Super Retro Land",
-            -50,
-			-80,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"Super Mario 64: The Underworld",
-            -50,
-			-70,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"Katze Stuck in the Toilet 64",
-			-50,
-			-60,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"Super Mario The Power Star Journey",
-            -50,
-			-50,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"Shining Stars",
-            -50,
-			-40,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"Shining Stars 2 Mirror Madness",
-            -50,
-			-30,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"Mario's Treasure Dome: The Revival",
-            30,
-			-200,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"Luigi & The Violet Stars",
-            30,
-			-190,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"SM64 Sapphire Green Comet",
-            30,
-			-180,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"SM64 Royal Legacy",
-            30,
-			-170,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"SM64 Extra",
-            30,
-			-160,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"Star Revenge 3: Mario on An Saoire 64",
-            30,
-			-150,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"Star Revenge 4: The Kedama Takeover 64",
-            30,
-			-140,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"Super Mario 64 Trouble Town",
-            30,
-			-130,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"Star Revenge 1.3: Redone 1.3",
-            30,
-			-120,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"Super Mario 64 Into Bowser's Castle",
-            30,
-			-110,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"Green Star Revenge 1",
-            30,
-			-100,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"Super Mario and the Marvel Adventure",
-            30,
-			-90,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"Super Mario Rainbow Road",
-            30,
-			-80,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"Sonic Adventure 64 DX",
-            30,
-			-70,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"",
-            30,
-			-60,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        },
-		{
-		
-			"",
-            30,
-			-50,
-            globalFont,
-            creditscale - 0.83,
-            creditcolor
-        }
-    }
-	
 	fixedtexts = {
 		{
             "Fixed Bugs",
@@ -3081,92 +2026,56 @@ function displaymenu(m)
             creditcolor
         },
 		{
-            "Fix Several Plugins",
+            'Fixed Config Menu Softlock',
             0,
-            -205,
+            -200,
             globalFont,
-            creditscale - 0.6,
+            creditscale - 0.4,
             creditcolor
         },
         {
 		
-			"Fixed Custom Fonts Not Saving After Rehosting",
-            0,
-            -188,
-            globalFont,
-            creditscale - 0.6,
-            creditcolor
-        },
-		{
-		
-			"Fixed Fanfare Sound (Kinda)",
+			'Fixed Being on the Air with Rules On',
             0,
             -170,
             globalFont,
-            creditscale - 0.6,
+            creditscale - 0.4,
             creditcolor
         },
 		{
 		
-			"Fixed Some Issues with Warps in Some Romhacks",
+			"Fixed Restart Timer Not Resetting",
             0,
-            -150,
+            -140,
             globalFont,
-            creditscale - 0.6,
+            creditscale - 0.4,
             creditcolor
         },
 		{
 		
-			"Fixed Incompatible Position Function",
-            0,
-            -130,
-            globalFont,
-            creditscale - 0.6,
-            creditcolor
-        },
-		{
-		
-			"Fixed Grand Star Function (I hope)",
+			"Fixed Some Desync issues",
             0,
             -110,
             globalFont,
-			creditscale - 0.6,
+            creditscale - 0.4,
             creditcolor
         },
 		{
 		
-			"Fixed Reset Save File Function (Kinda)",
+			"Fixed Warp Option when Disabling Warps",
             0,
-            -90,
+            -80,
             globalFont,
-			creditscale - 0.6,
+            creditscale - 0.4,
             creditcolor
         },
 		{
 		
-			"Fixed Underworld not being Compatible",
+			"Fixed Rules Overlay on the Custom Rules",
             0,
-            -70,
+            -50,
             globalFont,
-            creditscale - 0.6,
-            creditcolor
-        },
-		{
-		
-			"Fixed Warps Again",
-            0,
-            -51,
-            globalFont,
-            creditscale - 0.6,
-            creditcolor
-        },
-		{
-		
-			"Fixed Some Coding to Work Better",
-            0,
-            -33,
-            globalFont,
-            creditscale - 0.6,
+            creditscale - 0.4,
             creditcolor
         }
     }
@@ -3182,102 +2091,54 @@ function displaymenu(m)
         },
         {
 		
-			"X Button:",
+			"L Trigger + X Button:",
             0,
-            -200,
+            -180,
             globalFont,
-            creditscale - 0.7,
+            creditscale - 0.5,
             creditcolor
         },
 		{
 		
 			"(Start the Speedrun)",
             0,
-            -185,
+            -160,
             globalFont,
-            creditscale - 0.7,
+            creditscale - 0.5,
             creditcolor
         },
 		{
 		
-			"Y Button:",
+			"L Trigger + Y Button:",
             0,
-            -170,
+            -130,
             globalFont,
-            creditscale - 0.7,
+            creditscale - 0.5,
             creditcolor
         },
 		{
 		
-			"(Pauses the Timer)",
-            0,
-            -155,
-            globalFont,
-            creditscale - 0.7,
-            creditcolor
-        },
-		{
-            "L Trigger + D-Pad:",
-            0,
-            -140,
-            globalFont,
-            creditscale - 0.7,
-            creditcolor
-        },
-		{
-            "(Stops the Speedrun)",
-            0,
-            -125,
-            globalFont,
-            creditscale - 0.7,
-            creditcolor
-        },
-		{
-            "L Trigger + R Trigger + Z Trigger",
+			"(Reset the Timer)",
             0,
             -110,
             globalFont,
-            creditscale - 0.7,
+            creditscale - 0.5,
             creditcolor
         },
 		{
-            "(Resets the Timer)",
-            0,
-            -95,
-            globalFont,
-            creditscale - 0.7,
-            creditcolor
-        },
-		{
-            "L Trigger + R Trigger + X Button",
+            "L Trigger + R Trigger + Start Button:",
             0,
             -80,
             globalFont,
-            creditscale - 0.7,
-            creditcolor
-        },
-		{
-            "(Restarting the Speedrun)",
-            0,
-            -65,
-            globalFont,
-            creditscale - 0.7,
-            creditcolor
-        },
-		{
-            "L Trigger + R Trigger + Start Button",
-            0,
-            -50,
-            globalFont,
-            creditscale - 0.7,
+            creditscale - 0.5,
             creditcolor
         },
 		{
             "(Restarting the Save File)",
             0,
-            -35,
+            -60,
             globalFont,
-            creditscale - 0.7,
+            creditscale - 0.5,
             creditcolor
         }
 	}
@@ -3628,6 +2489,15 @@ function displaymenu(m)
 			"Save and Load Position",
             50,
             -180,
+            globalFont,
+            creditscale - 0.75,
+            creditcolor
+        },
+		{
+		
+			"LiveSplit 64 (Just A Warning)",
+            50,
+            -170,
             globalFont,
             creditscale - 0.75,
             creditcolor
@@ -4235,30 +3105,24 @@ function displaymenu(m)
 		end
 		
 		if buttonispressed == 4 then
-		for _, v in ipairs(romhackstexts) do
-            printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
-			end
-		end
-		
-		if buttonispressed == 5 then
 		for _, v in ipairs(fixedtexts) do
             printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
 			end
 		end
 		
-		if buttonispressed == 6 then
+		if buttonispressed == 5 then
 		for _, v in ipairs(controlstexts) do
             printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
 			end
 		end
 		
-		if buttonispressed == 7 then
+		if buttonispressed == 6 then
 		for _, v in ipairs(compatiblemodstexts) do
             printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
 			end
 		end
 		
-		if buttonispressed == 8 then
+		if buttonispressed == 7 then
 		for _, v in ipairs(incompatiblemodstexts) do
             printColorText(v[1], v[2], v[3], v[4], v[5], v[6])
 			end
@@ -4444,26 +3308,24 @@ function displaymenu(m)
             printMenuText(v[1], v[2], v[3], v[4], v[5], v[6], v[7], v[8])
         end
 	end
+		if Secondstopress >= 1 then
+		Secondstopress = Secondstopress - 1
+		end
 		
 		if Menus == 1 then
-		
-		if ((MenuStickX > -0 and StickTimerRight == 2) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) and MenuOptions > 3 then
+		if ((MenuStickX > -0 and StickTimerRight == 5) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) and MenuOptions > 3 then
 			MenuOptions = 1
-			DpadTimerRight = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickX > -0 and StickTimerRight == 2) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) then
+		elseif ((MenuStickX > -0 and StickTimerRight == 5) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) then
 			MenuOptions = MenuOptions + 1
-			DpadTimerRight = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 		end
 		
-		if ((MenuStickX < -0 and StickTimerLeft == 2) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) and MenuOptions < 2 then
+		if ((MenuStickX < -0 and StickTimerLeft == 5) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) and MenuOptions < 2 then
 			MenuOptions = 4
-			DpadTimerLeft = 0
 			play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickX < -0 and StickTimerLeft == 2) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) then
+		elseif ((MenuStickX < -0 and StickTimerLeft == 5) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) then
 			MenuOptions = MenuOptions - 1
-			DpadTimerLeft = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 		end
 		
@@ -4494,19 +3356,12 @@ function displaymenu(m)
 		else
 		set_warp_position = false
 		end
-		if (DisableWarps == true) then
-		djui_popup_create("\\#FF0000\\Warps are disabled for this romhack, It's Either Not Supported or Doesn't Work Properly Sometimes", 2)
-			end
 		if (Disable_Custom_Warps == true) then
 		djui_popup_create("\\#FF0000\\Warps are disabled for this romhack, Because It's has a Custom Plugin to Disable Warps.", 2)
-			end
 		end
-		
-		if (MenuInputCheck & A_BUTTON) ~= 0 and MenuOptions == 4 and Secondstopress == 0 then
-		if (DisableWarps == false or Disable_Custom_Warps == true) and gGlobalSyncTable.Intermission then
-		Secondstopress = 10
+		if (Disable_Custom_Warps == false) and gGlobalSyncTable.Intermission then
 		djui_popup_create("\\#FF0000\\You only use this to avoid getting stuck, not using it for a speedrun", 2)
-			end
+		end
 		end
 		
 		if (MenuInputCheck & B_BUTTON) ~= 0 and Secondstopress == 0 then
@@ -4517,28 +3372,21 @@ function displaymenu(m)
 	end
 	
 	if Menus == 2 then
-		if MenuOptions == 1 and Secondstopress >= 1 then
-		Secondstopress = Secondstopress - 1
-		end
 		
 		if Secondstopress == 0 then
-		if ((MenuStickX > -0 and StickTimerRight == 2) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) and buttonispressed > 7 then
-			buttonispressed = buttonispressed - 8
-			DpadTimerRight = 0
+		if ((MenuStickX > -0 and StickTimerRight == 5) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) and buttonispressed > 6 then
+			buttonispressed = buttonispressed - 7
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickX > -0 and StickTimerRight == 2) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) then
+		elseif ((MenuStickX > -0 and StickTimerRight == 5) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) then
 			buttonispressed = buttonispressed + 1
-			DpadTimerRight = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 		end
 		
-		if ((MenuStickX < -0 and StickTimerLeft == 2) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) and buttonispressed < 1 then
-			buttonispressed = buttonispressed + 8
-			DpadTimerLeft = 0
+		if ((MenuStickX < -0 and StickTimerLeft == 5) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) and buttonispressed < 1 then
+			buttonispressed = buttonispressed + 7
 			play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickX < -0 and StickTimerLeft == 2) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) then
+		elseif ((MenuStickX < -0 and StickTimerLeft == 5) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) then
 			buttonispressed = buttonispressed - 1
-			DpadTimerLeft = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 		end
 		
@@ -4557,41 +3405,31 @@ function displaymenu(m)
 		end
 		if FontSettings == 0 then
 		
-		if MenuOptions == 2 and Secondstopress >= 1 then
-		Secondstopress = Secondstopress - 1
-		end
-		
 		if Secondstopress == 0 then
 		if #FontTable ~= 1 then
-		if ((MenuStickX > -0 and StickTimerRight == 2) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) and DefaultFont > #FontTable - 1 then
+		if ((MenuStickX > -0 and StickTimerRight == 5) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) and DefaultFont > #FontTable - 1 then
 			DefaultFont = 1
-			DpadTimerRight = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickX > -0 and StickTimerRight == 2) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) then
+		elseif ((MenuStickX > -0 and StickTimerRight == 5) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) then
 			DefaultFont = DefaultFont + 1
-			DpadTimerRight = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 		end
 		
-		if ((MenuStickX < -0 and StickTimerLeft == 2) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) and DefaultFont < 2 then
+		if ((MenuStickX < -0 and StickTimerLeft == 5) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) and DefaultFont < 2 then
 			DefaultFont = #FontTable
-			DpadTimerLeft = 0
 			play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickX < -0 and StickTimerLeft == 2) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) then
+		elseif ((MenuStickX < -0 and StickTimerLeft == 5) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) then
 			DefaultFont = DefaultFont - 1
-			DpadTimerLeft = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 			end
 		end
 		
 		if #FontTable == 1 then
-		if ((MenuStickX > -0 and StickTimerRight == 2) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) then
-			DpadTimerRight = 0
+		if ((MenuStickX > -0 and StickTimerRight == 5) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) then
             play_sound(SOUND_MENU_CAMERA_BUZZ, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 		end
 		
-		if ((MenuStickX < -0 and StickTimerLeft == 2) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) then
-			DpadTimerLeft = 0
+		if ((MenuStickX < -0 and StickTimerLeft == 5) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) then
 			play_sound(SOUND_MENU_CAMERA_BUZZ, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 			end
 		end
@@ -4630,45 +3468,37 @@ function displaymenu(m)
 	if FontSettings == 1 then
 		
 		if DisplayCustomColors == 1 then
-		if ((MenuStickX > -0 and StickTimerRight == 2) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) and FontMenuOptions > 2 then
+		if ((MenuStickX > -0 and StickTimerRight == 5) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) and FontMenuOptions > 2 then
 			FontMenuOptions = FontMenuOptions - 2
-			DpadTimerRight = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickX > -0 and StickTimerRight == 2) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) then
+		elseif ((MenuStickX > -0 and StickTimerRight == 5) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) then
 			FontMenuOptions = FontMenuOptions + 1
-			DpadTimerRight = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 		end
 		
-		if ((MenuStickX < -0 and StickTimerLeft == 2) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) and FontMenuOptions < 2 then
+		if ((MenuStickX < -0 and StickTimerLeft == 5) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) and FontMenuOptions < 2 then
 			FontMenuOptions = FontMenuOptions + 2
-			DpadTimerLeft = 0
 			play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickX < -0 and StickTimerLeft == 2) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) then
+		elseif ((MenuStickX < -0 and StickTimerLeft == 5) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) then
 			FontMenuOptions = FontMenuOptions - 1
-			DpadTimerLeft = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 			end
 		end
 		
 		if DisplayCustomColors == 0 then
-		if ((MenuStickX > -0 and StickTimerRight == 2) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) and FontMenuOptions == 3 then
+		if ((MenuStickX > -0 and StickTimerRight == 5) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) and FontMenuOptions == 3 then
 			FontMenuOptions = FontMenuOptions - 2
-			DpadTimerRight = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickX > -0 and StickTimerRight == 2) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) then
+		elseif ((MenuStickX > -0 and StickTimerRight == 5) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) then
 			FontMenuOptions = FontMenuOptions + 2
-			DpadTimerRight = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 		end
 		
-		if ((MenuStickX < -0 and StickTimerLeft == 2) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) and FontMenuOptions == 1 then
+		if ((MenuStickX < -0 and StickTimerLeft == 5) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) and FontMenuOptions == 1 then
 			FontMenuOptions = FontMenuOptions + 2
-			DpadTimerLeft = 0
 			play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickX < -0 and StickTimerLeft == 2) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) then
+		elseif ((MenuStickX < -0 and StickTimerLeft == 5) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) then
 			FontMenuOptions = FontMenuOptions - 2
-			DpadTimerLeft = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 			end
 		end
@@ -4708,96 +3538,76 @@ function displaymenu(m)
 	
 	if FontSettings == 2 then
 		
-		if FontSettings == 2 and Secondstopress >= 1 then
-		Secondstopress = Secondstopress - 1
-		end
-		
 		if Secondstopress == 0 then
 		if SwitchColorOptions == 0 then
 		if ColorOptions == 1 then
-		if ((MenuStickY > -0 and StickTimerDown == 2) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) and RedColorFont > 254 then
+		if ((MenuStickY > -0 and StickTimerDown == 5) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) and RedColorFont > 254 then
 			RedColorFont = RedColorFont - 255
-			DpadTimerUp = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickY > -0 and StickTimerDown == 2) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) then
+		elseif ((MenuStickY > -0 and StickTimerDown == 5) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) then
 			RedColorFont = RedColorFont + 1
-			DpadTimerUp = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 		end
 		
-		if ((MenuStickY < -0 and StickTimerUp == 2) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) and RedColorFont < 1 then
+		if ((MenuStickY < -0 and StickTimerUp == 5) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) and RedColorFont < 1 then
 			RedColorFont = RedColorFont + 255
-			DpadTimerDown = 0
 			play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickY < -0 and StickTimerUp == 2) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) then
+		elseif ((MenuStickY < -0 and StickTimerUp == 5) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) then
 			RedColorFont = RedColorFont - 1
-			DpadTimerDown = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 			end
 		end
 		
 		if ColorOptions == 2 then
-		if ((MenuStickY > -0 and StickTimerDown == 2) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) and GreenColorFont > 254 then
+		if ((MenuStickY > -0 and StickTimerDown == 5) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) and GreenColorFont > 254 then
 			GreenColorFont = GreenColorFont - 255
-			DpadTimerUp = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickY > -0 and StickTimerDown == 2) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) then
+		elseif ((MenuStickY > -0 and StickTimerDown == 5) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) then
 			GreenColorFont = GreenColorFont + 1
-			DpadTimerUp = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 		end
 		
-		if ((MenuStickY < -0 and StickTimerUp == 2) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) and GreenColorFont < 1 then
+		if ((MenuStickY < -0 and StickTimerUp == 5) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) and GreenColorFont < 1 then
 			GreenColorFont = GreenColorFont + 255
-			DpadTimerDown = 0
 			play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickY < -0 and StickTimerUp == 2) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) then
+		elseif ((MenuStickY < -0 and StickTimerUp == 5) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) then
 			GreenColorFont = GreenColorFont - 1
-			DpadTimerDown = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 			end
 		end
 		
 		if ColorOptions == 3 then
-		if ((MenuStickY > -0 and StickTimerDown == 2) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) and BlueColorFont > 254 then
+		if ((MenuStickY > -0 and StickTimerDown == 5) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) and BlueColorFont > 254 then
 			BlueColorFont = BlueColorFont - 255
-			DpadTimerUp = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickY > -0 and StickTimerDown == 2) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) then
+		elseif ((MenuStickY > -0 and StickTimerDown == 5) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) then
 			BlueColorFont = BlueColorFont + 1
-			DpadTimerUp = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 		end
 		
-		if ((MenuStickY < -0 and StickTimerUp == 2) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) and BlueColorFont < 1 then
+		if ((MenuStickY < -0 and StickTimerUp == 5) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) and BlueColorFont < 1 then
 			BlueColorFont = BlueColorFont + 255
-			DpadTimerDown = 0
 			play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickY < -0 and StickTimerUp == 2) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) then
+		elseif ((MenuStickY < -0 and StickTimerUp == 5) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) then
 			BlueColorFont = BlueColorFont - 1
-			DpadTimerDown = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 			end
 		end
 		
 		if ColorOptions == 4 then
-		if ((MenuStickY > -0 and StickTimerDown == 2) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) and VisableFont > 254 then
+		if ((MenuStickY > -0 and StickTimerDown == 5) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) and VisableFont > 254 then
 			VisableFont = VisableFont - 255
-			DpadTimerUp = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickY > -0 and StickTimerDown == 2) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) then
+		elseif ((MenuStickY > -0 and StickTimerDown == 5) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) then
 			VisableFont = VisableFont + 1
-			DpadTimerUp = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 		end
 		
-		if ((MenuStickY < -0 and StickTimerUp == 2) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) and VisableFont < 1 then
+		if ((MenuStickY < -0 and StickTimerUp == 5) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) and VisableFont < 1 then
 			VisableFont = VisableFont + 255
-			DpadTimerDown = 0
 			play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickY < -0 and StickTimerUp == 2) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) then
+		elseif ((MenuStickY < -0 and StickTimerUp == 5) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) then
 			VisableFont = VisableFont - 1
-			DpadTimerDown = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 				end
 			end
@@ -4806,89 +3616,73 @@ function displaymenu(m)
 		if RectFontsOnly == true then
 		if SwitchColorOptions == 1 then
 		if ColorOptions == 1 then
-		if ((MenuStickY > -0 and StickTimerDown == 2) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) and RedColorRect > 254 then
+		if ((MenuStickY > -0 and StickTimerDown == 5) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) and RedColorRect > 254 then
 			RedColorRect = RedColorRect - 255
-			DpadTimerUp = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickY > -0 and StickTimerDown == 2) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) then
+		elseif ((MenuStickY > -0 and StickTimerDown == 5) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) then
 			RedColorRect = RedColorRect + 1
-			DpadTimerUp = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 		end
 		
-		if ((MenuStickY < -0 and StickTimerUp == 2) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) and RedColorRect < 1 then
+		if ((MenuStickY < -0 and StickTimerUp == 5) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) and RedColorRect < 1 then
 			RedColorRect = RedColorRect + 255
-			DpadTimerDown = 0
 			play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickY < -0 and StickTimerUp == 2) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) then
+		elseif ((MenuStickY < -0 and StickTimerUp == 5) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) then
 			RedColorRect = RedColorRect - 1
-			DpadTimerDown = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 			end
 		end
 		
 		if ColorOptions == 2 then
-		if ((MenuStickY > -0 and StickTimerDown == 2) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) and GreenColorRect > 254 then
+		if ((MenuStickY > -0 and StickTimerDown == 5) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) and GreenColorRect > 254 then
 			GreenColorRect = GreenColorRect - 255
-			DpadTimerUp = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickY > -0 and StickTimerDown == 2) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) then
+		elseif ((MenuStickY > -0 and StickTimerDown == 5) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) then
 			GreenColorRect = GreenColorRect + 1
-			DpadTimerUp = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 		end
 		
-		if ((MenuStickY < -0 and StickTimerUp == 2) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) and GreenColorRect < 1 then
+		if ((MenuStickY < -0 and StickTimerUp == 5) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) and GreenColorRect < 1 then
 			GreenColorRect = GreenColorRect + 255
-			DpadTimerDown = 0
 			play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickY < -0 and StickTimerUp == 2) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) then
+		elseif ((MenuStickY < -0 and StickTimerUp == 5) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) then
 			GreenColorRect = GreenColorRect - 1
-			DpadTimerDown = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 			end
 		end
 		
 		if ColorOptions == 3 then
-		if ((MenuStickY > -0 and StickTimerDown == 2) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) and BlueColorRect > 254 then
+		if ((MenuStickY > -0 and StickTimerDown == 5) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) and BlueColorRect > 254 then
 			BlueColorRect = BlueColorRect - 255
-			DpadTimerUp = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickY > -0 and StickTimerDown == 2) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) then
+		elseif ((MenuStickY > -0 and StickTimerDown == 5) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) then
 			BlueColorRect = BlueColorRect + 1
-			DpadTimerUp = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 		end
 		
-		if ((MenuStickY < -0 and StickTimerUp == 2) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) and BlueColorRect < 1 then
+		if ((MenuStickY < -0 and StickTimerUp == 5) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) and BlueColorRect < 1 then
 			BlueColorRect = BlueColorRect + 255
-			DpadTimerDown = 0
 			play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickY < -0 and StickTimerUp == 2) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) then
+		elseif ((MenuStickY < -0 and StickTimerUp == 5) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) then
 			BlueColorRect = BlueColorRect - 1
-			DpadTimerDown = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 			end
 		end
 		
 		if ColorOptions == 4 then
-		if ((MenuStickY > -0 and StickTimerDown == 2) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) and VisableRect > 254 then
+		if ((MenuStickY > -0 and StickTimerDown == 5) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) and VisableRect > 254 then
 			VisableRect = VisableRect - 255
-			DpadTimerUp = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickY > -0 and StickTimerDown == 2) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) then
+		elseif ((MenuStickY > -0 and StickTimerDown == 5) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) then
 			VisableRect = VisableRect + 1
-			DpadTimerUp = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 		end
 		
-		if ((MenuStickY < -0 and StickTimerUp == 2) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) and VisableRect < 1 then
+		if ((MenuStickY < -0 and StickTimerUp == 5) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) and VisableRect < 1 then
 			VisableRect = VisableRect + 255
-			DpadTimerDown = 0
 			play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickY < -0 and StickTimerUp == 2) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) then
+		elseif ((MenuStickY < -0 and StickTimerUp == 5) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) then
 			VisableRect = VisableRect - 1
-			DpadTimerDown = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 				end
 			end
@@ -4922,23 +3716,19 @@ function displaymenu(m)
         play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 	end
 	
-		if ((MenuStickX > -0 and StickTimerRight == 2) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) and ColorOptions > 3 then
+		if ((MenuStickX > -0 and StickTimerRight == 5) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) and ColorOptions > 3 then
 			ColorOptions = ColorOptions - 3
-			DpadTimerRight = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickX > -0 and StickTimerRight == 2) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) then
+		elseif ((MenuStickX > -0 and StickTimerRight == 5) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) then
 			ColorOptions = ColorOptions + 1
-			DpadTimerRight = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 		end
 		
-		if ((MenuStickX < -0 and StickTimerLeft == 2) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) and ColorOptions < 2 then
+		if ((MenuStickX < -0 and StickTimerLeft == 5) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) and ColorOptions < 2 then
 			ColorOptions = ColorOptions + 3
-			DpadTimerLeft = 0
 			play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickX < -0 and StickTimerLeft == 2) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) then
+		elseif ((MenuStickX < -0 and StickTimerLeft == 5) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) then
 			ColorOptions = ColorOptions - 1
-			DpadTimerLeft = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 		end
 	
@@ -4971,73 +3761,57 @@ function displaymenu(m)
 			end
 		end
 	if FontSettings == 3 then
-	
-	if FontSettings == 3 and Secondstopress >= 1 then
-		Secondstopress = Secondstopress - 1
-	end
 		
 		if Secondstopress == 0 then
 		if PositionsMenuOptions == 1 then
-		if ((MenuStickY > -0 and StickTimerDown == 2) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) and CustomXPos > 254 then
+		if ((MenuStickY > -0 and StickTimerDown == 5) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) and CustomXPos > 254 then
 			CustomXPos = CustomXPos - 255
-			DpadTimerUp = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickY > -0 and StickTimerDown == 2) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) then
+		elseif ((MenuStickY > -0 and StickTimerDown == 5) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) then
 			CustomXPos = CustomXPos + 1
-			DpadTimerUp = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 		end
 		
-		if ((MenuStickY < -0 and StickTimerUp == 2) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) and CustomXPos < -254 then
+		if ((MenuStickY < -0 and StickTimerUp == 5) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) and CustomXPos < -254 then
 			CustomXPos = CustomXPos + 255
-			DpadTimerDown = 0
 			play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickY < -0 and StickTimerUp == 2) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) then
+		elseif ((MenuStickY < -0 and StickTimerUp == 5) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) then
 			CustomXPos = CustomXPos - 1
-			DpadTimerDown = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 			end
 		end
 		
 		if PositionsMenuOptions == 2 then
-		if ((MenuStickY > -0 and StickTimerDown == 2) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) and CustomYPos > 254 then
+		if ((MenuStickY > -0 and StickTimerDown == 5) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) and CustomYPos > 254 then
 			CustomYPos = CustomYPos - 255
-			DpadTimerUp = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickY > -0 and StickTimerDown == 2) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) then
+		elseif ((MenuStickY > -0 and StickTimerDown == 5) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) then
 			CustomYPos = CustomYPos + 1
-			DpadTimerUp = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 		end
 		
-		if ((MenuStickY < -0 and StickTimerUp == 2) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) and CustomYPos < -254 then
+		if ((MenuStickY < -0 and StickTimerUp == 5) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) and CustomYPos < -254 then
 			CustomYPos = CustomYPos + 255
-			DpadTimerDown = 0
 			play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickY < -0 and StickTimerUp == 2) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) then
+		elseif ((MenuStickY < -0 and StickTimerUp == 5) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) then
 			CustomYPos = CustomYPos - 1
-			DpadTimerDown = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 			end
 		end
 		
-		if ((MenuStickX > -0 and StickTimerRight == 2) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) and PositionsMenuOptions > 1 then
+		if ((MenuStickX > -0 and StickTimerRight == 5) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) and PositionsMenuOptions > 1 then
 			PositionsMenuOptions = PositionsMenuOptions - 1
-			DpadTimerRight = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickX > -0 and StickTimerRight == 2) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) then
+		elseif ((MenuStickX > -0 and StickTimerRight == 5) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) then
 			PositionsMenuOptions = PositionsMenuOptions + 1
-			DpadTimerRight = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 		end
 		
-		if ((MenuStickX < -0 and StickTimerLeft == 2) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) and PositionsMenuOptions < 2 then
+		if ((MenuStickX < -0 and StickTimerLeft == 5) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) and PositionsMenuOptions < 2 then
 			PositionsMenuOptions = PositionsMenuOptions + 1
-			DpadTimerLeft = 0
 			play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickX < -0 and StickTimerLeft == 2) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) then
+		elseif ((MenuStickX < -0 and StickTimerLeft == 5) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) then
 			PositionsMenuOptions = PositionsMenuOptions - 1
-			DpadTimerLeft = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 		end
 		
@@ -5068,105 +3842,84 @@ function displaymenu(m)
 		
 	if FontSettings == 4 then
 		
-		if MenuOptions == 2 and Secondstopress >= 1 then
-		Secondstopress = Secondstopress - 1
-		end
-		
 		if Secondstopress == 0 then
-		if ((MenuStickY > -0 and StickTimerDown == 2) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) and SoundsSettings < 2 then
+		if ((MenuStickY > -0 and StickTimerDown == 5) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) and SoundsSettings < 2 then
 			SoundsSettings = 3
-			DpadTimerUp = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickY > -0 and StickTimerDown == 2) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) then
-			SoundsSettings = SoundsSettings - 1
-			DpadTimerUp	= 0		
+		elseif ((MenuStickY > -0 and StickTimerDown == 5) or (MenuInputCheck & U_JPAD ~= 0 and DpadTimerUp == 3)) then
+			SoundsSettings = SoundsSettings - 1	
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 		end
 		
-		if ((MenuStickY < -0 and StickTimerUp == 2) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) and SoundsSettings > 2 then
+		if ((MenuStickY < -0 and StickTimerUp == 5) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) and SoundsSettings > 2 then
 			SoundsSettings = 1
-			DpadTimerDown = 0
 			play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickY < -0 and StickTimerUp == 2) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) then
+		elseif ((MenuStickY < -0 and StickTimerUp == 5) or (MenuInputCheck & D_JPAD ~= 0 and DpadTimerDown == 3)) then
 			SoundsSettings = SoundsSettings + 1
-			DpadTimerDown = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 		end
 		
 		if SoundsSettings == 1 and #FanfareTable ~= 1 then
-		if ((MenuStickX > -0 and StickTimerRight == 2) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) and FanfareDefault > #FanfareTable - 1 then
+		if ((MenuStickX > -0 and StickTimerRight == 5) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) and FanfareDefault > #FanfareTable - 1 then
 			FanfareDefault = 1
-			DpadTimerRight = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickX > -0 and StickTimerRight == 2) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) then
+		elseif ((MenuStickX > -0 and StickTimerRight == 5) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) then
 			FanfareDefault = FanfareDefault + 1
 			DpadTimerRight = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 		end
 		
-		if ((MenuStickX < -0 and StickTimerLeft == 2) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) and FanfareDefault < 2 then
+		if ((MenuStickX < -0 and StickTimerLeft == 5) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) and FanfareDefault < 2 then
 			FanfareDefault = #FanfareTable
-			DpadTimerLeft = 0
 			play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickX < -0 and StickTimerLeft == 2) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) then
+		elseif ((MenuStickX < -0 and StickTimerLeft == 5) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) then
 			FanfareDefault = FanfareDefault - 1
-			DpadTimerLeft = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 			end
 		end
 		
 		if SoundsSettings == 2 and #CountdownTable ~= 1 then
-		if ((MenuStickX > -0 and StickTimerRight == 2) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) and CountdownDefault > #CountdownTable - 1 then
+		if ((MenuStickX > -0 and StickTimerRight == 5) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) and CountdownDefault > #CountdownTable - 1 then
 			CountdownDefault = 1
-			DpadTimerRight = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickX > -0 and StickTimerRight == 2) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) then
+		elseif ((MenuStickX > -0 and StickTimerRight == 5) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) then
 			CountdownDefault = CountdownDefault + 1
-			DpadTimerRight = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 		end
 		
-		if ((MenuStickX < -0 and StickTimerLeft == 2) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) and CountdownDefault < 2 then
+		if ((MenuStickX < -0 and StickTimerLeft == 5) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) and CountdownDefault < 2 then
 			CountdownDefault = #CountdownTable
-			DpadTimerLeft = 0
 			play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickX < -0 and StickTimerLeft == 2) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) then
+		elseif ((MenuStickX < -0 and StickTimerLeft == 5) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) then
 			CountdownDefault = CountdownDefault - 1
-			DpadTimerLeft = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 			end
 		end
 		
 		if SoundsSettings == 3 and #GoTable ~= 1 then
-		if ((MenuStickX > -0 and StickTimerRight == 2) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) and GoDefault > #GoTable - 1 then
+		if ((MenuStickX > -0 and StickTimerRight == 5) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) and GoDefault > #GoTable - 1 then
 			GoDefault = 1
-			DpadTimerRight = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickX > -0 and StickTimerRight == 2) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) then
+		elseif ((MenuStickX > -0 and StickTimerRight == 5) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) then
 			GoDefault = GoDefault + 1
-			DpadTimerRight = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 		end
 		
-		if ((MenuStickX < -0 and StickTimerLeft == 2) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) and GoDefault < 2 then
+		if ((MenuStickX < -0 and StickTimerLeft == 5) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) and GoDefault < 2 then
 			GoDefault = #GoTable
-			DpadTimerLeft = 0
 			play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickX < -0 and StickTimerLeft == 2) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) then
+		elseif ((MenuStickX < -0 and StickTimerLeft == 5) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) then
 			GoDefault = GoDefault - 1
-			DpadTimerLeft = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 			end
 		end
 		
 		if #FanfareTable == 1 or #CountdownTable == 1 or #GoTable == 1 then
-		if ((MenuStickX > -0 and StickTimerRight == 2) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) then
-			DpadTimerRight = 0
+		if ((MenuStickX > -0 and StickTimerRight == 5) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) then
             play_sound(SOUND_MENU_CAMERA_BUZZ, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 		end
 		
-		if ((MenuStickX < -0 and StickTimerLeft == 2) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) then
-			DpadTimerLeft = 0
+		if ((MenuStickX < -0 and StickTimerLeft == 5) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) then
 			play_sound(SOUND_MENU_CAMERA_BUZZ, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 			end
 		end
@@ -5197,28 +3950,21 @@ function displaymenu(m)
 	end
 		
 	if Menus == 4 then
-		if Menus == 4 and Secondstopress >= 1 then
-		Secondstopress = Secondstopress - 1
-		end
 		
 		if Secondstopress == 0 then
-		if ((MenuStickX > -0 and StickTimerRight == 2) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) and SettingsOptions > 3 then
+		if ((MenuStickX > -0 and StickTimerRight == 5) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) and SettingsOptions > 3 then
 			SettingsOptions = 1
-			DpadTimerRight = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickX > -0 and StickTimerRight == 2) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) then
+		elseif ((MenuStickX > -0 and StickTimerRight == 5) or (MenuInputCheck & R_JPAD ~= 0 and DpadTimerRight == 3)) then
 			SettingsOptions = SettingsOptions + 1
-			DpadTimerRight = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 		end
 		
-		if ((MenuStickX < -0 and StickTimerLeft == 2) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) and SettingsOptions < 2 then
+		if ((MenuStickX < -0 and StickTimerLeft == 5) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) and SettingsOptions < 2 then
 			SettingsOptions = 4
-			DpadTimerLeft = 0
 			play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
-		elseif ((MenuStickX < -0 and StickTimerLeft == 2) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) then
+		elseif ((MenuStickX < -0 and StickTimerLeft == 5) or (MenuInputCheck & L_JPAD ~= 0 and DpadTimerLeft == 3)) then
 			SettingsOptions = SettingsOptions - 1
-			DpadTimerLeft = 0
             play_sound(SOUND_MENU_CHANGE_SELECT, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 		end
 		
@@ -5261,7 +4007,7 @@ function displaymenu(m)
 			end
 		end
 		
-		if (MenuInputCheck & A_BUTTON) ~= 0 and SettingsOptions == 4 and (gGlobalSyncTable.SpeedrunTeams and gGlobalSyncTable.startspeedrun > 0.1) and Secondstopress == 0 then
+		if (MenuInputCheck & A_BUTTON) ~= 0 and SettingsOptions == 4 and (gGlobalSyncTable.SpeedrunTeams and gGlobalSyncTable.startglobaltimer > 0.1) and Secondstopress == 0 then
 		Secondstopress = 10
 		djui_popup_create("\\#ff0000\\You can't change teams while the speedrun is starting", 2)
 		end

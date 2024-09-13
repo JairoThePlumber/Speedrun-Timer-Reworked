@@ -27,12 +27,12 @@ function Set_SM64_Position(x, y, z, level, area, act)
 	currLevelNum = level
 	currAreaIndex = area
 	currActNum = act
-if gGlobalSyncTable.Intermission and gGlobalSyncTable.startspeedrun < 0.1 then
+if gGlobalSyncTable.Intermission and gGlobalSyncTable.startglobaltimer < 0.1 then
     gMarioStates[0].pos.x = x
 	gMarioStates[0].pos.y = y
 	gMarioStates[0].pos.z = z
 	end
-if gGlobalSyncTable.startspeedrun < 0.1 and gNetworkPlayers[0].currLevelNum ~= level then
+if gGlobalSyncTable.startglobaltimer < 0.1 and gNetworkPlayers[0].currLevelNum ~= level then
 	warp_to_level(level, area, act)
 	end
 	if set_warp_position then
@@ -48,118 +48,12 @@ if gGlobalSyncTable.startspeedrun < 0.1 and gNetworkPlayers[0].currLevelNum ~= l
 	end
 end
 
--- This is for Romhacks Only, I also added a warp to the right location
-function Set_Romhack_Position(xpos, ypos, zpos, romhacklevel, romhackarea, romhackact, Forced_Level, Custom_Lock, Custom_Warp, Condition)
-	gGlobalSyncTable.CompatibleRomhacks = true
-	currLevelNum = romhacklevel
-	currAreaIndex = romhackarea
-	currActNum = romhackact
-	
-	if Condition ~= "Custom Runs" then
-	Romhack_Runs_Option = false
-	elseif Condition == "Custom Runs" then
-	Romhack_Runs_Option = true
-	end
-	
-	if Forced_Level == "Force Level" then
-	if gGlobalSyncTable.startspeedrun < 0.1 and gNetworkPlayers[0].currLevelNum ~= romhacklevel then
-	warp_to_level(romhacklevel, romhackarea, romhackact)
-		end
-	end
-	if Forced_Level == "Force Area" then
-	if gGlobalSyncTable.startspeedrun < 0.1 and gNetworkPlayers[0].currAreaIndex ~= romhackarea then
-	warp_to_level(romhacklevel, romhackarea, romhackact)
-		end
-	end
-	if Forced_Level == "Force Act" then
-	if gGlobalSyncTable.startspeedrun < 0.1 and gNetworkPlayers[0].currAreaIndex ~= romhackact then
-	warp_to_level(romhacklevel, romhackarea, romhackact)
-		end
-	end
-	
-	if Condition == "Grand Star" then
-	gGlobalSyncTable.GrandStar = true
-	else
-	gGlobalSyncTable.GrandStar = false
-	end
-	if Condition == "End Picture" then
-	gGlobalSyncTable.EndPicture = true
-	else
-	gGlobalSyncTable.EndPicture = false
-	end
-	if Condition == "Custom Runs" then
-	DisableCommands = false
-	else
-	DisableCommands = true
-	end
-	if Condition == "Grand Star and End Picture" then
-	gGlobalSyncTable.GrandStar = true
-	gGlobalSyncTable.EndPicture = true
-	else
-	gGlobalSyncTable.GrandStar = false
-	gGlobalSyncTable.EndPicture = false
-	end
-	if Condition == "None" then
-	gGlobalSyncTable.GrandStar = false
-	gGlobalSyncTable.EndPicture = false
-	DisableCommands = true
-	end
-	
-if Custom_Lock == "Lock" then
-	if gGlobalSyncTable.startspeedrun < 0.1 then
-    gMarioStates[0].pos.x = xpos
-	gMarioStates[0].pos.y = ypos
-	gMarioStates[0].pos.z = zpos
-	end
-	elseif Custom_Lock == "No Lock" then
-	if gGlobalSyncTable.Intermission and gGlobalSyncTable.startspeedrun < 0.1 then
-    gMarioStates[0].pos.x = xpos
-	gMarioStates[0].pos.y = ypos
-	gMarioStates[0].pos.z = zpos
-	end
-end
-	if Custom_Warp == "Disable" then
-		DisableWarps = true
-		gGlobalSyncTable.set_warp = false
-	end
-	
-	if Custom_Warp == "Level Warp" then
-	gGlobalSyncTable.set_warp = true
-	if set_warp_position then
-		warp_to_level(gLevelValues.entryLevel, romhackarea, romhackact)
-		set_warp_position = false
-		return true
-	end
-	if gGlobalSyncTable.Intermission then
-	if gGlobalSyncTable.set_warp and not set_warp_check then
-	warp_to_level(gLevelValues.entryLevel, romhackarea, romhackact)
-	set_warp_check = true
-			end
-		end
-	end
-	
-	if Custom_Warp == "Start Warp" then
-	gGlobalSyncTable.set_warp = true
-	if set_warp_position then
-		warp_to_start_level()
-		set_warp_position = false
-		return true
-	end
-	if gGlobalSyncTable.Intermission then
-	if gGlobalSyncTable.set_warp and not set_warp_check then
-	warp_to_start_level()
-	set_warp_check = true
-		end
-	end
-	end
-end
-
 -- This is only for Incompatible Romhacks, So The Warp Command Doesn't Break
 function Set_Warp_For_Incompatible_Romhacks(romhackarea, romhackact)
 	currAreaIndex = romhackarea
 	currActNum = romhackact
 	gGlobalSyncTable.set_warp = true
-if gGlobalSyncTable.CompatibleRomhacks == false then
+	if gGlobalSyncTable.CompatibleRomhacks == false then
 	if set_warp_position then
 		warp_to_level(gLevelValues.entryLevel, romhackarea, romhackact)
 		set_warp_position = false
@@ -171,6 +65,46 @@ if gGlobalSyncTable.CompatibleRomhacks == false then
 	set_warp_check = true
 		end
 	end
+	if gGlobalSyncTable.Intermission == false and gGlobalSyncTable.startglobaltimer == 0 and not incompatible_warp then
+	warp_to_start_level()
+	incompatible_warp = true
+		end
+	end
+end
+
+function reset_savefile()
+-- From EmilyEmmi
+file = get_current_save_file_num() - 1
+for course = 0, 25 do
+save_file_remove_star_flags(file, course - 1, 0xFF)
+end
+save_file_clear_flags(0xFFFFFFFF) -- ALL OF THEM
+save_file_do_save(file, 1)
+gMarioStates[0].numStars = save_file_get_total_star_count(get_current_save_file_num() - 1, COURSE_MIN - 1, COURSE_MAX - 1)
+end
+
+function reset_timer()
+gGlobalSyncTable.Intermission = false
+gGlobalSyncTable.startTimer = false
+gGlobalSyncTable.beatedGame = false
+gGlobalSyncTable.timer_popup = false
+gGlobalSyncTable.anti_cheat = false
+gGlobalSyncTable.startglobaltimer = 0
+gGlobalSyncTable.startcountdown = 0
+gGlobalSyncTable.GoTimer = 0
+gGlobalSyncTable.Intercountdown = 6
+set_warp_check = false
+freeze_check = false
+FreezePlayers = false
+incompatible_warp = false
+countdown_display_check = 31
+startTimerbutton = false
+if CDNumbers ~= nil then
+	CDNumbers = clamp(CDNumbers, 0, 50)
+	gGlobalSyncTable.timercountdown = CDNumbers * 30 + 60 
+end
+if not gGlobalSyncTable.set_countdown_numbers then
+gGlobalSyncTable.timercountdown = 5 * 30
 	end
 end
 
@@ -217,7 +151,6 @@ function printMenuText(text, x, y, font, scale, color, left, right)
     djui_hud_set_color(rgbtable.r, rgbtable.g, rgbtable.b, 255)
     djui_hud_print_text(text, xc, yc - y, scale)
 end
-
 
 -- renders a rectangle in the center of the screen
 function renderRect(x, y, font, w, h, color)
@@ -271,76 +204,46 @@ function checkColorFormat(rgbhex)
     end
 end
 
-function reset_savefile()
--- From EmilyEmmi
-file = get_current_save_file_num() - 1
-for course = 0, 25 do
-save_file_remove_star_flags(file, course - 1, 0xFF)
-end
-save_file_clear_flags(0xFFFFFFFF) -- ALL OF THEM
-save_file_do_save(file, 1)
-gMarioStates[0].numStars = save_file_get_total_star_count(get_current_save_file_num() - 1, COURSE_MIN - 1, COURSE_MAX - 1)
-end
-
 function all_hook_mario_update(m)
 if m.playerIndex ~= 0 then return end
-sm64_check(m)
-mario_update(m)
-mario_button_update(m)
-check_health_update(m)
-countdown_sounds(m)
-teams_update(m)
-on_romhack_speedrun_check(m)
-on_teams_update(m)
-save_files_no_teams_sm74ee(m)
-romhack_positions(m)
-unsupported_romhacks(m)
-romhack_stars_mario_update(m)
+Main_Mario_Update_Functions(m)
+Romhack_Mario_Update_Functions(m)
 end
 
 function all_hook_update()
 local m = gMarioStates[0]
 if m.playerIndex ~= 0 then return end
-freeze_players_update()
-speedrun_commands_update()
-teams_character_update()
-on_romhack_interact_end_picture()
-on_king_boo_interact()
-on_only_up_64_interact()
-timer_check()
+Main_Update_Functions(m)
+Romhack_Update_Functions(m)
 set_timer_function()
 Controls_Players()
 end
 
 function all_hook_interact(m, o, interactType)
 if m.playerIndex ~= 0 then return end
-on_interact(m, o, interactType)
-on_romhack_interact(m, o, interactType)
-romhack_stars_interaction(m, o, interactType)
+Romhack_Interact_Functions(m, o, interactType)
 end
 
 local function all_hook_hud_render_behind()
 local m = gMarioStates[0]
 if m.playerIndex ~= 0 then return end
 on_timer_hud_render()
-krb2_timer_check()
 end
 
 local function all_hook_hud_render()
 local m = gMarioStates[0]
-if is_game_paused() then return end
 if m.playerIndex ~= 0 then return end
+if is_game_paused() then return end
 displaystrmenu(m)
 displaymenu(m)
-code_for_rules(m)
-code_for_custom_rules(m)
+code_for_displaying_rules(m)
 displayrules(m)
 SwitchingMenusCheck(m)
 end
 
 -- This fixes the pipes for OMM Rebirth
 function allowinteract()
-    if gGlobalSyncTable.startspeedrun < 0.1 then
+    if gGlobalSyncTable.startglobaltimer < 0.1 then
 		return false
 	end
 end
@@ -353,10 +256,10 @@ function Controls_Players()
 	end
 	if ControlsHelper == 1 then
 	if network_is_server() and PlayersPopup == false then 
-    djui_popup_create("\nControls For Menu: \n(L Trig + R Trig + D-Pad Right) \nTo Open The Main Menu \n\n(L Trig + R Trig + D-Pad Left)\nTo Open The Config Menu", 5)
+    djui_popup_create("\nControls For Menu: \n(L Trig + D-Pad Right) \nTo Open The Main Menu \n\n(L Trig + D-Pad Left)\nTo Open The Config Menu", 5)
 	PlayersPopup = true
 	elseif not network_is_server() and PlayersPopup == false then 
-    djui_popup_create("Controls For Menu: \n(L Trig + R Trig + D-Pad Left)\nTo Open The Config Menu", 3)
+    djui_popup_create("Controls For Menu: \n(L Trig + D-Pad Left)\nTo Open The Config Menu", 3)
 	PlayersPopup = true
 		end
 	end
@@ -394,5 +297,4 @@ local printColorText = printColorText
 local printMenuText = printMenuText
 local renderRect = renderRect
 local checkColorFormat = checkColorFormat
-local hook_chat_command = hook_chat_command
 local hook_event = hook_event

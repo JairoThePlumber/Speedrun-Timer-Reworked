@@ -21,6 +21,12 @@ for moveset_is_on in pairs(gActiveMods) do
     end
 end
 
+for livesplit_is_on in pairs(gActiveMods) do
+    if gActiveMods[livesplit_is_on].name:find("LiveSplit 64") then
+		djui_popup_create("\\#ff0000\\If your using LiveSplit 64 then, I would Suggest to Disable the \nSpeedrun Timer when using it", 2)
+    end
+end
+
 for other_moveset_mods_is_on in pairs(gActiveMods) do
     if gActiveMods[other_moveset_mods_is_on].name:find("\\#ff5c26\\Yuyake Kasarion") or gActiveMods[other_moveset_mods_is_on].name:find("Sonic Character: \\#4084d9\\Rebooted") 
 	or gActiveMods[other_moveset_mods_is_on].name:find("\\#ff9400\\Pasta \\#330062\\Castle ") or gActiveMods[other_moveset_mods_is_on].name:find("\\#ff6b91\\Veph the Dolphin-Fox") 
