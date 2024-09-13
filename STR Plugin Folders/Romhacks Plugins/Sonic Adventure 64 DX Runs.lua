@@ -32,7 +32,7 @@ end
 local function sonic_adventure_64_interaction(m, o, interactType)
 if _G.SpeedrunTimerReworked then
 if Sonic_Adventure_64 then
-   _G.STRApi.custom_romhack_runs("1 Star", gNetworkPlayers[0].currLevelNum == LEVEL_BOB and interactType == INTERACT_STAR_OR_KEY and o.oBehParams == 0 << 24)
+   _G.STRApi.custom_romhack_runs(1, gNetworkPlayers[0].currLevelNum == LEVEL_BOB and interactType == INTERACT_STAR_OR_KEY and o.oBehParams == 0 << 24)
 		end
 	end
 end
@@ -40,7 +40,7 @@ end
 local function sonic_adventure_64_mario_update(m)
 if _G.SpeedrunTimerReworked then
 if Sonic_Adventure_64 then
-   _G.STRApi.custom_romhack_runs("3 Stars", m.numStars >= 3)
+   _G.STRApi.custom_romhack_runs(2, m.numStars >= 3)
 		end
 	end
 end

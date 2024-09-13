@@ -32,7 +32,7 @@ end
 local function moonshine_interaction(m, o)
 if _G.SpeedrunTimerReworked then
 if Moonshine then
-   _G.STRApi.custom_romhack_runs("31 Stars", m.numStars >= 31 and get_id_from_behavior(o.behavior) == id_bhvStar and gNetworkPlayers[0].currLevelNum == LEVEL_BITS)
+   _G.STRApi.custom_romhack_runs(1, m.numStars >= 31 and get_id_from_behavior(o.behavior) == id_bhvStar and gNetworkPlayers[0].currLevelNum == LEVEL_BITS)
 		end
 	end
 end
@@ -40,7 +40,7 @@ end
 local function moonshine_mario_update(m)
 if _G.SpeedrunTimerReworked then
 if Moonshine then
-   _G.STRApi.custom_romhack_runs("50 Stars", m.numStars >= 50)
+   _G.STRApi.custom_romhack_runs(2, m.numStars >= 50)
 		end
 	end
 end

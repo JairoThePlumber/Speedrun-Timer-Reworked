@@ -37,7 +37,7 @@ end
 local function super_bell_thrill_mario_update(m)
 if _G.SpeedrunTimerReworked then
 if Super_Bell_Thrill then
-	 _G.STRApi.custom_romhack_runs("7 Stars", m.numStars >= 7)
+	 _G.STRApi.custom_romhack_runs(2, m.numStars >= 7)
 		end
 	end
 end
@@ -45,7 +45,7 @@ end
 local function super_bell_thrill_interaction(m, o, interactType)
 if _G.SpeedrunTimerReworked then
 if Super_Bell_Thrill then
-	 _G.STRApi.custom_romhack_runs("1 Star", gNetworkPlayers[0].currLevelNum == LEVEL_BOB and interactType == INTERACT_STAR_OR_KEY and o.oBehParams == 0 << 24)
+	 _G.STRApi.custom_romhack_runs(1, gNetworkPlayers[0].currLevelNum == LEVEL_BOB and interactType == INTERACT_STAR_OR_KEY and o.oBehParams == 0 << 24)
 		end
 	end
 end

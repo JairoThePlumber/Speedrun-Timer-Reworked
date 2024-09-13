@@ -40,8 +40,8 @@ end
 local function delightful_dioramas_mario_update(m)
 if _G.SpeedrunTimerReworked then
 	if Lug_Delightful_Dioramas then 
-	_G.STRApi.custom_romhack_runs("64 Stars", m.numStars >= 64 and gNetworkPlayers[0].currLevelNum == LEVEL_BITS)
-	_G.STRApi.custom_romhack_runs("74 Stars", m.numStars >= 74)
+	_G.STRApi.custom_romhack_runs(1, m.numStars >= 64 and gNetworkPlayers[0].currLevelNum == LEVEL_BITS)
+	_G.STRApi.custom_romhack_runs(2, m.numStars >= 74)
 		end
 	end
 end

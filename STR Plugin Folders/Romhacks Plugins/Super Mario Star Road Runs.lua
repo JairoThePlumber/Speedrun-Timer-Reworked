@@ -41,13 +41,13 @@ end
 local function star_road_mario_update(m)
 if _G.SpeedrunTimerReworked then
 	if (Star_Road or Star_Road_The_Replica_Comet) then 
-   _G.STRApi.custom_romhack_runs("Any%", gNetworkPlayers[0].currLevelNum == LEVEL_ENDING)
-   _G.STRApi.custom_romhack_runs("20 Stars", m.numStars >= 20 and save_file_get_flags() & SAVE_FLAG_HAVE_KEY_1 ~= 0)
-   _G.STRApi.custom_romhack_runs("65 Stars", m.numStars >= 65 and gNetworkPlayers[0].currLevelNum == LEVEL_ENDING)
-   _G.STRApi.custom_romhack_runs("80 Stars", m.numStars >= 80 and gNetworkPlayers[0].currLevelNum == LEVEL_ENDING)
-   _G.STRApi.custom_romhack_runs("130 Stars", m.numStars >= 130)
+   _G.STRApi.custom_romhack_runs(1, gNetworkPlayers[0].currLevelNum == LEVEL_ENDING)
+   _G.STRApi.custom_romhack_runs(2, m.numStars >= 20 and save_file_get_flags() & SAVE_FLAG_HAVE_KEY_1 ~= 0)
+   _G.STRApi.custom_romhack_runs(3, m.numStars >= 65 and gNetworkPlayers[0].currLevelNum == LEVEL_ENDING)
+   _G.STRApi.custom_romhack_runs(4, m.numStars >= 80 and gNetworkPlayers[0].currLevelNum == LEVEL_ENDING)
+   _G.STRApi.custom_romhack_runs(5, m.numStars >= 130)
    if Star_Road_The_Replica_Comet then
-   _G.STRApi.custom_romhack_runs("150 Stars", m.numStars >= 150)
+   _G.STRApi.custom_romhack_runs(6, m.numStars >= 150)
 			end
 		end
 	end

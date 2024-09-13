@@ -36,9 +36,9 @@ end
 local function star_revenge_3_mario_update(m)
 if _G.SpeedrunTimerReworked then
 if Star_Revenge_3 then
-   _G.STRApi.custom_romhack_runs("1 Star", m.numStars >= 1 and gNetworkPlayers[0].currLevelNum == LEVEL_BITFS)
-   _G.STRApi.custom_romhack_runs("36 Stars", m.numStars >= 36 and gNetworkPlayers[0].currLevelNum == LEVEL_BITFS)
-   _G.STRApi.custom_romhack_runs("65 Stars", m.numStars >= 65)
+   _G.STRApi.custom_romhack_runs(1, m.numStars >= 1 and gNetworkPlayers[0].currLevelNum == LEVEL_BITFS)
+   _G.STRApi.custom_romhack_runs(2, m.numStars >= 36 and gNetworkPlayers[0].currLevelNum == LEVEL_BITFS)
+   _G.STRApi.custom_romhack_runs(3, m.numStars >= 65)
 		end
 	end
 end

@@ -36,10 +36,10 @@ end
 local function ztar_attack_2_mario_update(m)
 if _G.SpeedrunTimerReworked then
 if Ztar_Attack_2 then
-   _G.STRApi.custom_romhack_runs("Any%", save_file_get_flags() & SAVE_FLAG_HAVE_WING_CAP ~= 0)
-   _G.STRApi.custom_romhack_runs("Warpless Any%", (save_file_get_flags() & (SAVE_FLAG_HAVE_KEY_1 and SAVE_FLAG_HAVE_KEY_2 and SAVE_FLAG_HAVE_METAL_CAP and SAVE_FLAG_HAVE_VANISH_CAP and SAVE_FLAG_HAVE_WING_CAP) ~= 0))
-   _G.STRApi.custom_romhack_runs("81 Time Stars", m.numStars >= 81 and save_file_get_flags() & SAVE_FLAG_HAVE_WING_CAP ~= 0)
-   _G.STRApi.custom_romhack_runs("91 Time Stars", m.numStars >= 91 and save_file_get_flags() & SAVE_FLAG_COLLECTED_MIPS_STAR_1 ~= 0)
+   _G.STRApi.custom_romhack_runs(1, save_file_get_flags() & SAVE_FLAG_HAVE_WING_CAP ~= 0)
+   _G.STRApi.custom_romhack_runs(2, (save_file_get_flags() & (SAVE_FLAG_HAVE_KEY_1 and SAVE_FLAG_HAVE_KEY_2 and SAVE_FLAG_HAVE_METAL_CAP and SAVE_FLAG_HAVE_VANISH_CAP and SAVE_FLAG_HAVE_WING_CAP) ~= 0))
+   _G.STRApi.custom_romhack_runs(3, m.numStars >= 81 and save_file_get_flags() & SAVE_FLAG_HAVE_WING_CAP ~= 0)
+   _G.STRApi.custom_romhack_runs(4, m.numStars >= 91 and save_file_get_flags() & SAVE_FLAG_COLLECTED_MIPS_STAR_1 ~= 0)
 		end
 	end
 end
@@ -47,7 +47,7 @@ end
 local function ztar_attack_2_interaction(m, o, interactType)
 if _G.SpeedrunTimerReworked then
 if Ztar_Attack_2 then
-   _G.STRApi.custom_romhack_runs("All Bosses", ((save_file_get_flags() & (SAVE_FLAG_HAVE_KEY_1 and SAVE_FLAG_HAVE_KEY_2 and SAVE_FLAG_HAVE_METAL_CAP and SAVE_FLAG_HAVE_VANISH_CAP and SAVE_FLAG_HAVE_WING_CAP) ~= 0) 
+   _G.STRApi.custom_romhack_runs(5, ((save_file_get_flags() & (SAVE_FLAG_HAVE_KEY_1 and SAVE_FLAG_HAVE_KEY_2 and SAVE_FLAG_HAVE_METAL_CAP and SAVE_FLAG_HAVE_VANISH_CAP and SAVE_FLAG_HAVE_WING_CAP) ~= 0) 
 	and gNetworkPlayers[0].currLevelNum == LEVEL_ENDING and interactType == INTERACT_STAR_OR_KEY and o.oBehParams == 2 << 24))
 		end
 	end

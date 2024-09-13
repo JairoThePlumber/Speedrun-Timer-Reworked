@@ -32,7 +32,7 @@ end
 local function rainbow_road_interaction(m, o)
 if _G.SpeedrunTimerReworked then
 if Rainbow_Road then
-   _G.STRApi.custom_romhack_runs("54 Stars", m.numStars >= 54 and get_id_from_behavior(o.behavior) == id_bhvStar and gNetworkPlayers[0].currLevelNum == LEVEL_SA)
+   _G.STRApi.custom_romhack_runs(1, m.numStars >= 54 and get_id_from_behavior(o.behavior) == id_bhvStar and gNetworkPlayers[0].currLevelNum == LEVEL_SA)
 		end
 	end
 end
@@ -40,7 +40,7 @@ end
 local function rainbow_road_mario_update(m)
 if _G.SpeedrunTimerReworked then
 if Rainbow_Road then
-   _G.STRApi.custom_romhack_runs("60 Stars", m.numStars >= 60)
+   _G.STRApi.custom_romhack_runs(2, m.numStars >= 60)
 		end
 	end
 end
