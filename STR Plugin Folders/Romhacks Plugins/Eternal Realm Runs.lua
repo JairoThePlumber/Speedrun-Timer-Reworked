@@ -1,30 +1,37 @@
 -- name: Eternal Realm Runs
 
+Eternal_Realm = false 
+
+for romhack in pairs(gActiveMods) do
+	if gActiveMods[romhack].name:find("Eternal Realm") then
+        Eternal_Realm = true
+    end
+end
+
+if not Eternal_Realm then return end
+
 local function eternal_realm_position(m)
 if _G.SpeedrunTimerReworked then
-for romhacks in pairs(gActiveMods) do
-if gActiveMods[romhacks].name:find("Eternal Realm") then
+if Eternal_Realm then
 _G.STRApi.Set_Custom_Romhack_Position(true, -784, -1741, 2590, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Level Warp", "None")
 		end
-	end
 	end
 end
 	
 local function eternal_realm_mario_update(m)
-for romhacks_stars_only in pairs(gActiveMods) do
-if gActiveMods[romhacks_stars_only].name:find("Eternal Realm") then
+if _G.SpeedrunTimerReworked then
+if Eternal_Realm then 
 	if save_file_get_flags() & SAVE_FLAG_HAVE_KEY_1 ~= 0 then
 	  _G.STRApi.set_beated_game(true)
+			end
 		end
-	end
 	end
 end
 
 
 local function eternal_realm_rules()
 if _G.SpeedrunTimerReworked then
-for custom_romhack_rules in pairs(gActiveMods) do
-if gActiveMods[custom_romhack_rules].name:find("Eternal Realm") then
+if Eternal_Realm then
 -- This display the borderline
 _G.STRApi.Display_Custom_Rules_Romhack(190, 120, FONT_MENU, 320, 240, "#ffffff")
 -- This is a example if you want to add OMM Rebirth rules
@@ -56,7 +63,6 @@ _G.STRApi.Display_Custom_Rules_Text("The Timer Stops once someone touch the Key"
 _G.STRApi.Display_Custom_Rules_Text("Press A to proceed,", 0, -13, FONT_NORMAL, 0.3, "#000000")
 _G.STRApi.Display_Custom_Rules_Text("OK", 0, -5, FONT_MENU, 0.3, "#ff0000")
 		end
-	end
 	end
 end
 

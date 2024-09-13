@@ -1,40 +1,46 @@
 -- name: Sonic Adventure 64 DX Runs
 
+Sonic_Adventure_64 = false 
+
+for romhack in pairs(gActiveMods) do
+	if gActiveMods[romhack].name:find("Sonic Adventure 64 DX") then
+        Sonic_Adventure_64 = true
+    end
+end
+
+if not Sonic_Adventure_64 then return end
+
 local function sonic_adventure_64_position()
 if _G.SpeedrunTimerReworked then
-for romhacks in pairs(gActiveMods) do
-if gActiveMods[romhacks].name:find("Sonic Adventure 64 DX") then
+if Sonic_Adventure_64 then
 _G.STRApi.Set_Custom_Romhack_Position(true, -20140, 675, -25901, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Level Warp", "Custom Runs")
 		end
-	end
 	end
 end
 
 local function sonic_adventure_64_runs(m)
 if _G.SpeedrunTimerReworked then
-for speedruncheck in pairs(gActiveMods) do
-	if gActiveMods[speedruncheck].name:find("Sonic Adventure 64 DX") then
-	_G.STRApi.custom_romhack_runs(1, nil, "1 Star")
-	_G.STRApi.custom_romhack_runs(2, nil, "3 Stars")
+if Sonic_Adventure_64 then
+	_G.STRApi.custom_romhack_runs(1, "1 Star")
+	_G.STRApi.custom_romhack_runs(2, "3 Stars")
 		end
-    end
 	end
 end
 
 -- Functions
 -- This will stop the timer once on the correct way to finish it
 local function sonic_adventure_64_interaction(m, o, interactType)
-for romhacks_stars_only in pairs(gActiveMods) do
-if gActiveMods[romhacks_stars_only].name:find("Sonic Adventure 64 DX") then
-   _G.STRApi.custom_romhack_runs(1, gNetworkPlayers[0].currLevelNum == LEVEL_BOB and interactType == INTERACT_STAR_OR_KEY and o.oBehParams == 0 << 24)
+if _G.SpeedrunTimerReworked then
+if Sonic_Adventure_64 then
+   _G.STRApi.custom_romhack_runs("1 Star", gNetworkPlayers[0].currLevelNum == LEVEL_BOB and interactType == INTERACT_STAR_OR_KEY and o.oBehParams == 0 << 24)
 		end
 	end
 end
 
 local function sonic_adventure_64_mario_update(m)
-for romhacks_stars_only in pairs(gActiveMods) do
-if gActiveMods[romhacks_stars_only].name:find("Sonic Adventure 64 DX") then
-   _G.STRApi.custom_romhack_runs(2, m.numStars >= 3)
+if _G.SpeedrunTimerReworked then
+if Sonic_Adventure_64 then
+   _G.STRApi.custom_romhack_runs("3 Stars", m.numStars >= 3)
 		end
 	end
 end
@@ -42,11 +48,9 @@ end
 
 local function sonic_adventure_64_rules()
 if _G.SpeedrunTimerReworked then
-for custom_romhack_rules in pairs(gActiveMods) do
-if gActiveMods[custom_romhack_rules].name:find("Sonic Adventure 64 DX") then
+if Sonic_Adventure_64 then
 -- This display the borderline
 _G.STRApi.Display_Custom_Rules_Romhack(190, 120, FONT_MENU, 320, 240, "#ffffff")
-_G.STRApi.Display_Custom_Rules_Romhack_Function(5, -2794, 2082, true)
 -- This is a example if you want to add OMM Rebirth rules
 
 if not OmmEnabled then
@@ -70,12 +74,11 @@ _G.STRApi.Display_Custom_Rules_Text("Press A to proceed,", 0, -13, FONT_NORMAL, 
 _G.STRApi.Display_Custom_Rules_Text("OK", 0, -5, FONT_MENU, 0.3, "#ff0000")
 		end
 	end
-	end
 end
 
 -- I have to put hooks, since for some reason they don't work without them
 hook_event(HOOK_MARIO_UPDATE, sonic_adventure_64_position)
-hook_event(HOOK_MARIO_UPDATE, sonic_adventure_64_runs)
+hook_event(HOOK_ON_MODS_LOADED, sonic_adventure_64_runs)
 hook_event(HOOK_MARIO_UPDATE, sonic_adventure_64_mario_update)
 hook_event(HOOK_ON_INTERACT, sonic_adventure_64_interaction)
 hook_event(HOOK_ON_HUD_RENDER, sonic_adventure_64_rules)

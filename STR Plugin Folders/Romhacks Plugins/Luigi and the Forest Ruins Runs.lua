@@ -1,25 +1,32 @@
--- name: Luigi and the Forest Ruins
+-- name: Luigi and the Forest Ruins Runs
+
+Luigi_and_the_Forest_Ruins = false 
+
+for romhack in pairs(gActiveMods) do
+	if gActiveMods[romhack].name:find("\\#074916\\Luigi and the Forest Ruins\\#ffffff\\") then
+        Luigi_and_the_Forest_Ruins = true
+    end
+end
+
+if Luigi_and_the_Forest_Ruins then return end
 
 local function forest_ruins_position()
 if _G.SpeedrunTimerReworked then
-for romhacks in pairs(gActiveMods) do
-if gActiveMods[romhacks].name:find("\\#074916\\Luigi and the Forest Ruins\\#ffffff\\") then
+if Luigi_and_the_Forest_Ruins then
 _G.STRApi.Set_Custom_Romhack_Position(true, -6400, 371, 392, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Level Warp", "End Picture")
+_G.STRApi.set_custom_color_on_RH_Fonts("Number Colors", "Words No Colors", "Single Quote No Colors", "Double Quotes No Colors")
 if OmmEnabled then
 _G.OmmApi.omm_force_setting("stars", 0)
 end
 		end
 	end
-	end
 end
 
 local function forest_ruins_rules()
 if _G.SpeedrunTimerReworked then
-for custom_romhack_rules in pairs(gActiveMods) do
-if gActiveMods[custom_romhack_rules].name:find("\\#074916\\Luigi and the Forest Ruins\\#ffffff\\") then
+if Luigi_and_the_Forest_Ruins then
 -- This display the borderline
 _G.STRApi.Display_Custom_Rules_Romhack(190, 120, FONT_MENU, 320, 240, "#ffffff")
-_G.STRApi.Display_Custom_Rules_Romhack_Function(-6400, 371, 392, true)
 -- This is a example if you want to add OMM Rebirth rules
 
 if not OmmEnabled then
@@ -42,7 +49,6 @@ _G.STRApi.Display_Custom_Rules_Text("The timer will stops once someone touching 
 _G.STRApi.Display_Custom_Rules_Text("Press A to proceed,", 0, -13, FONT_NORMAL, 0.3, "#000000")
 _G.STRApi.Display_Custom_Rules_Text("OK", 0, -5, FONT_MENU, 0.3, "#ff0000")
 		end
-	end
 	end
 end
 

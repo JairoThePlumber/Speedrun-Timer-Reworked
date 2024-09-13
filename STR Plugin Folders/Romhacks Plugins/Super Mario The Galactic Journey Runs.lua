@@ -1,23 +1,31 @@
 -- name: The Galactic Journey Runs
 
+The_Galactic_Journey = false 
+
+for romhack in pairs(gActiveMods) do
+	if gActiveMods[romhack].name:find("The Galactic Journey") then
+        The_Galactic_Journey = true
+    end
+end
+
+if not The_Galactic_Journey then return end
+
 local function galactic_journey_position()
 if _G.SpeedrunTimerReworked then
-for romhacks in pairs(gActiveMods) do
-if gActiveMods[romhacks].name:find("The Galactic Journey") then
+if The_Galactic_Journey then
 _G.STRApi.Set_Custom_Romhack_Position(true, -343, 944, 1154, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Level Warp", "None")
 if OmmEnabled then
 _G.OmmApi.omm_force_setting("stars", 0)
 end
 		end
 	end
-	end
 end
 
 -- Functions
 -- This will stop the timer once on the correct way to finish it
 local function galactic_journey_interaction(m, o, interactType)
-for romhacks_stars_only in pairs(gActiveMods) do
-if gActiveMods[romhacks_stars_only].name:find("The Galactic Journey") then
+if _G.SpeedrunTimerReworked then
+if The_Galactic_Journey then
 	if (interactType == INTERACT_STAR_OR_KEY and gNetworkPlayers[0].currLevelNum == LEVEL_TOTWC) then
 	   	_G.STRApi.set_beated_game(true)
 		end
@@ -28,8 +36,7 @@ end
 
 local function galactic_journey_rules()
 if _G.SpeedrunTimerReworked then
-for custom_romhack_rules in pairs(gActiveMods) do
-if gActiveMods[custom_romhack_rules].name:find("The Galactic Journey") then
+if The_Galactic_Journey then
 -- This display the borderline
 _G.STRApi.Display_Custom_Rules_Romhack(190, 120, FONT_MENU, 320, 240, "#ffffff")
 -- This is a example if you want to add OMM Rebirth rules
@@ -76,9 +83,7 @@ _G.STRApi.Display_Custom_Rules_Text("These are the rules of what to do in a spee
 _G.STRApi.Display_Custom_Rules_Text("Breaking the rules will result the run as a invalid", 0, -31, FONT_NORMAL, 0.3, "#000000")
 _G.STRApi.Display_Custom_Rules_Text("Press A to proceed,", 0, -13, FONT_NORMAL, 0.3, "#000000")
 _G.STRApi.Display_Custom_Rules_Text("OK", 0, -5, FONT_MENU, 0.3, "#ff0000")
-
 		end
-	end
 	end
 end
 

@@ -1,27 +1,36 @@
 -- name: Star Road Runs
 
+Star_Road = false 
+Star_Road_The_Replica_Comet = false 
+
+for romhack in pairs(gActiveMods) do
+	if gActiveMods[romhack].name:find("Star Road") and not gActiveMods[romhack].name:find("The Replica Comet") then
+        Star_Road = true
+	elseif gActiveMods[romhack].name:find("Star Road: The Replica Comet") then
+		Star_Road_The_Replica_Comet = true
+    end
+end
+
+if not (Star_Road or Star_Road_The_Replica_Comet) then return end
+
 local function star_road_position()
 if _G.SpeedrunTimerReworked then
-for romhacks in pairs(gActiveMods) do
-if gActiveMods[romhacks].name:find("Star Road") or gActiveMods[romhacks].name:find("Star Road: The Replica Comet") then
+if (Star_Road or Star_Road_The_Replica_Comet) then 
 _G.STRApi.Set_Custom_Romhack_Position(true, -6797, 1831, 2710, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Level Warp", "Custom Runs")
 		end
 	end
-	end
 end
 
-local function star_road_runs(m)
+local function star_road_runs()
 if _G.SpeedrunTimerReworked then
-for speedruncheck in pairs(gActiveMods) do
-	if gActiveMods[speedruncheck].name:find("Star Road") or gActiveMods[speedruncheck].name:find("Star Road: The Replica Comet") then
-	_G.STRApi.custom_romhack_runs(1, nil, "Any%")
-	_G.STRApi.custom_romhack_runs(2, nil, "20 Stars")
-	_G.STRApi.custom_romhack_runs(3, nil, "65 Stars")
-	_G.STRApi.custom_romhack_runs(4, nil, "80 Stars")
-	_G.STRApi.custom_romhack_runs(5, nil, "130 Stars")
-	if gActiveMods[speedruncheck].name:find("Star Road: The Replica Comet") then
-	_G.STRApi.custom_romhack_runs(6, nil, "150 Stars")
-	end
+	if (Star_Road or Star_Road_The_Replica_Comet) then 
+	_G.STRApi.add_custom_run(1, "Any%")
+	_G.STRApi.add_custom_run(2, "20 Stars")
+	_G.STRApi.add_custom_run(3, "65 Stars")
+	_G.STRApi.add_custom_run(4, "80 Stars")
+	_G.STRApi.add_custom_run(5, "130 Stars")
+	if Star_Road_The_Replica_Comet then
+	_G.STRApi.add_custom_run(6, "150 Stars")
 		end
     end
 	end
@@ -30,15 +39,15 @@ end
 -- Functions
 -- This will stop the timer once on the correct way to finish it
 local function star_road_mario_update(m)
-for romhacks_stars_only in pairs(gActiveMods) do
-if gActiveMods[romhacks_stars_only].name:find("Star Road") or gActiveMods[romhacks_stars_only].name:find("Star Road: The Replica Comet") then
-   _G.STRApi.custom_romhack_runs(1, gNetworkPlayers[0].currLevelNum == LEVEL_ENDING)
-   _G.STRApi.custom_romhack_runs(2, m.numStars >= 20 and save_file_get_flags() & SAVE_FLAG_HAVE_KEY_1 ~= 0)
-   _G.STRApi.custom_romhack_runs(3, m.numStars >= 65 and gNetworkPlayers[0].currLevelNum == LEVEL_ENDING)
-   _G.STRApi.custom_romhack_runs(4,m.numStars >= 80 and gNetworkPlayers[0].currLevelNum == LEVEL_ENDING)
-   _G.STRApi.custom_romhack_runs(5, m.numStars >= 130)
-   if gActiveMods[romhacks_stars_only].name:find("Star Road: The Replica Comet") then
-   _G.STRApi.custom_romhack_runs(6, m.numStars >= 150)
+if _G.SpeedrunTimerReworked then
+	if (Star_Road or Star_Road_The_Replica_Comet) then 
+   _G.STRApi.custom_romhack_runs("Any%", gNetworkPlayers[0].currLevelNum == LEVEL_ENDING)
+   _G.STRApi.custom_romhack_runs("20 Stars", m.numStars >= 20 and save_file_get_flags() & SAVE_FLAG_HAVE_KEY_1 ~= 0)
+   _G.STRApi.custom_romhack_runs("65 Stars", m.numStars >= 65 and gNetworkPlayers[0].currLevelNum == LEVEL_ENDING)
+   _G.STRApi.custom_romhack_runs("80 Stars", m.numStars >= 80 and gNetworkPlayers[0].currLevelNum == LEVEL_ENDING)
+   _G.STRApi.custom_romhack_runs("130 Stars", m.numStars >= 130)
+   if Star_Road_The_Replica_Comet then
+   _G.STRApi.custom_romhack_runs("150 Stars", m.numStars >= 150)
 			end
 		end
 	end
@@ -46,8 +55,7 @@ end
 
 local function star_road_rules()
 if _G.SpeedrunTimerReworked then
-for custom_romhack_rules in pairs(gActiveMods) do
-if gActiveMods[custom_romhack_rules].name:find("Star Road") or gActiveMods[custom_romhack_rules].name:find("Star Road: The Replica Comet") then
+if (Star_Road or Star_Road_The_Replica_Comet) then 
 -- This display the borderline
 _G.STRApi.Display_Custom_Rules_Romhack(190, 120, FONT_MENU, 320, 240, "#ffffff")
 -- This is a example if you want to add OMM Rebirth rules
@@ -58,7 +66,7 @@ _G.STRApi.Display_Custom_Rules_Text("Hello, Welcome to the OMM Speedrun server!"
 end
 
 _G.STRApi.Display_Custom_Rules_Text("Rules:", 0, -203, FONT_NORMAL, 0.4, "#000000")
-if gActiveMods[custom_romhack_rules].name:find("Star Road") and not gActiveMods[custom_romhack_rules].name:find("The Replica Comet") then
+if Star_Road then
 _G.STRApi.Display_Custom_Rules_Text("Any%: Grab Any stars", -70, -190, FONT_NORMAL, 0.3, "#000000")
 _G.STRApi.Display_Custom_Rules_Text("Beat the Game with any amount of stars", -70, -180, FONT_NORMAL, 0.3, "#000000")
 _G.STRApi.Display_Custom_Rules_Text("(All Glitches are allowed)", -70, -170, FONT_NORMAL, 0.3, "#000000")
@@ -82,7 +90,7 @@ _G.STRApi.Display_Custom_Rules_Text("(All Glitches are allowed)", 0, -60, FONT_N
 _G.STRApi.Display_Custom_Rules_Text("Here's are the Runs: [Any|20|65|80|130]", 0, -22, FONT_NORMAL, 0.3, "#000000")
 end
 
-if gActiveMods[custom_romhack_rules].name:find("Star Road") and gActiveMods[custom_romhack_rules].name:find("The Replica Comet") then
+if Star_Road_The_Replica_Comet then
 _G.STRApi.Display_Custom_Rules_Text("Any%: Grab Any stars", -70, -190, FONT_NORMAL, 0.3, "#000000")
 _G.STRApi.Display_Custom_Rules_Text("Beat the Game with any amount of stars", -70, -180, FONT_NORMAL, 0.3, "#000000")
 _G.STRApi.Display_Custom_Rules_Text("(All Glitches are allowed)", -70, -170, FONT_NORMAL, 0.3, "#000000")
@@ -117,12 +125,11 @@ _G.STRApi.Display_Custom_Rules_Text("Press A to proceed,", 0, -13, FONT_NORMAL, 
 _G.STRApi.Display_Custom_Rules_Text("OK", 0, -5, FONT_MENU, 0.3, "#ff0000")
 		end
 	end
-	end
 end
 
 -- I have to put hooks, since for some reason they don't work without them
 hook_event(HOOK_MARIO_UPDATE, star_road_position)
-hook_event(HOOK_MARIO_UPDATE, star_road_runs)
+hook_event(HOOK_ON_MODS_LOADED, star_road_runs)
 hook_event(HOOK_MARIO_UPDATE, star_road_mario_update)
 hook_event(HOOK_ON_HUD_RENDER, star_road_rules)
 

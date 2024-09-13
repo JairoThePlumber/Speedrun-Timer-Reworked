@@ -1,22 +1,27 @@
 -- name: Luigi & The Violet Stars Runs
 
+Luigi_and_the_Violet_Stars = false 
+
+for romhack in pairs(gActiveMods) do
+	if gActiveMods[romhack].name:find("\\#66ff82\\Luigi \\#ffffff\\& \\#ff66fa\\The Violet Stars") then
+        Luigi_and_the_Violet_Stars = true
+    end
+end
+
+
+if not Luigi_and_the_Violet_Stars then return end
+
 local function violet_stars_position()
 if _G.SpeedrunTimerReworked then
-for romhacks in pairs(gActiveMods) do
-if gActiveMods[romhacks].name:find("\\#66ff82\\Luigi \\#ffffff\\& \\#ff66fa\\The Violet Stars") then
 _G.STRApi.Set_Custom_Romhack_Position(true, 104, -3772, 5000, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Start Warp", "Grand Star")
-		end
-	end
 	end
 end
 
 local function violet_stars_rules()
 if _G.SpeedrunTimerReworked then
-for custom_romhack_rules in pairs(gActiveMods) do
-if gActiveMods[custom_romhack_rules].name:find("\\#66ff82\\Luigi \\#ffffff\\& \\#ff66fa\\The Violet Stars") then
+if Luigi_and_the_Violet_Stars then return end
 -- This display the borderline
 _G.STRApi.Display_Custom_Rules_Romhack(190, 120, FONT_MENU, 320, 240, "#ffffff")
-_G.STRApi.Display_Custom_Rules_Romhack_Function(104, -3772, 5000, true)
 -- This is a example if you want to add OMM Rebirth rules
 
 if not OmmEnabled then
@@ -44,8 +49,6 @@ _G.STRApi.Display_Custom_Rules_Text("Breaking the rules will result the run as a
 _G.STRApi.Display_Custom_Rules_Text("This Romhack breaks the warp option, so it's will be disabled", 0, -22, FONT_NORMAL, 0.3, "#000000")
 _G.STRApi.Display_Custom_Rules_Text("Press A to proceed,", 0, -13, FONT_NORMAL, 0.3, "#000000")
 _G.STRApi.Display_Custom_Rules_Text("OK", 0, -5, FONT_MENU, 0.3, "#ff0000")
-		end
-	end
 	end
 end
 

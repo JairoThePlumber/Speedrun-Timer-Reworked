@@ -1,18 +1,26 @@
 -- name: Star Revenge 6.5 Runs
 
+Star_Revenge_6_5 = false 
+
+for romhack in pairs(gActiveMods) do
+	if gActiveMods[romhack].name:find("Star Revenge 6") and gActiveMods[romhack].name:find(".5") then
+        Star_Revenge_6_5 = true
+    end
+end
+
+if not Star_Revenge_6_5 then return end
+
 local function star_revenge_6_5_position()
 if _G.SpeedrunTimerReworked then
-for romhacks in pairs(gActiveMods) do
-if gActiveMods[romhacks].name:find("Star Revenge 6") and gActiveMods[romhacks].name:find(".5") then
+if Star_Revenge_6_5 then
 _G.STRApi.Set_Custom_Romhack_Position(true, -14341, -552, -9602, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Level Warp", "None")
 		end
-	end
 	end
 end
 
 local function star_revenge_6_5_interaction(m, o, interactType)
-for romhacks_stars_only in pairs(gActiveMods) do
-if gActiveMods[romhacks_stars_only].name:find("Star Revenge 6") and gActiveMods[romhacks_stars_only].name:find(".5") then
+if _G.SpeedrunTimerReworked then
+if Star_Revenge_6_5 then
 if (interactType == INTERACT_STAR_OR_KEY and o.oBehParams == 5 << 24 and gNetworkPlayers[0].currLevelNum == LEVEL_CASTLE) then
        _G.STRApi.set_beated_game(true)
 		end
@@ -23,11 +31,9 @@ end
 
 local function star_revenge_6_5_rules()
 if _G.SpeedrunTimerReworked then
-for custom_romhack_rules in pairs(gActiveMods) do
-if gActiveMods[custom_romhack_rules].name:find("Star Revenge 6") and gActiveMods[custom_romhack_rules].name:find(".5") then
+if Star_Revenge_6_5 then
 -- This display the borderline
 _G.STRApi.Display_Custom_Rules_Romhack(190, 120, FONT_MENU, 320, 240, "#ffffff")
-_G.STRApi.Display_Custom_Rules_Romhack_Function(-14341, -552, -9602, true)
 -- This is a example if you want to add OMM Rebirth rules
 
 if not OmmEnabled then
@@ -54,7 +60,6 @@ _G.STRApi.Display_Custom_Rules_Text("Breaking the rules will result the run as a
 _G.STRApi.Display_Custom_Rules_Text("Press A to proceed,", 0, -13, FONT_NORMAL, 0.3, "#000000")
 _G.STRApi.Display_Custom_Rules_Text("OK", 0, -5, FONT_MENU, 0.3, "#ff0000")
 		end
-	end
 	end
 end
 

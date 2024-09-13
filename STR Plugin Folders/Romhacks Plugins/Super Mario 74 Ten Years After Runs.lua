@@ -1,22 +1,28 @@
 -- name: Ten Years After Runs
 
+SM64_Ten_Years_After = false 
+
+for romhack in pairs(gActiveMods) do
+	if gActiveMods[romhack].name:find("Ten Years After") then
+        SM64_Ten_Years_After = true
+	end
+end
+
+if not SM64_Ten_Years_After then return end
+
 local function ten_years_after_position()
 if _G.SpeedrunTimerReworked then
-for romhacks in pairs(gActiveMods) do
-if gActiveMods[romhacks].name:find("Ten Years After") then
+if SM64_Ten_Years_After then
 _G.STRApi.Set_Custom_Romhack_Position(true, -5097, -157, 6235, LEVEL_CASTLE_COURTYARD, 1, 0, "Force Level", "No Lock", "Level Warp", "Grand Star")
 		end
-	end
 	end
 end
 
 local function ten_years_after_rules()
 if _G.SpeedrunTimerReworked then
-for custom_romhack_rules in pairs(gActiveMods) do
-if gActiveMods[custom_romhack_rules].name:find("Ten Years After") then
+if SM64_Ten_Years_After then
 -- This display the borderline
 _G.STRApi.Display_Custom_Rules_Romhack(190, 120, FONT_MENU, 320, 240, "#ffffff")
-_G.STRApi.Display_Custom_Rules_Romhack_Function(-5097, -157, 6235, true)
 -- This is a example if you want to add OMM Rebirth rules
 
 _G.STRApi.Display_Custom_Rules_Text("Rules:", 0, -203, FONT_NORMAL, 0.4, "#000000")
@@ -52,7 +58,6 @@ _G.STRApi.Display_Custom_Rules_Text("Breaking the rules will result the run as a
 _G.STRApi.Display_Custom_Rules_Text("Press A to proceed,", 0, -13, FONT_NORMAL, 0.3, "#000000")
 _G.STRApi.Display_Custom_Rules_Text("OK", 0, -5, FONT_MENU, 0.3, "#ff0000")
 		end
-	end
 	end
 end
 

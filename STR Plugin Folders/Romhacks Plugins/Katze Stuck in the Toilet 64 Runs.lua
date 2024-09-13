@@ -1,22 +1,30 @@
 -- name: Katze Stuck in the Toilet 64 Runs
 
+Katze_Stuck_in_the_Toilet = false 
+
+for romhack in pairs(gActiveMods) do
+	if gActiveMods[romhack].name:find("Katze Stuck in the Toilet 64") then
+        Katze_Stuck_in_the_Toilet = true
+    end
+end
+
+
+if not Katze_Stuck_in_the_Toilet then return end
+
 local function katze_64_position()
 if _G.SpeedrunTimerReworked then
-for romhacks in pairs(gActiveMods) do
-if gActiveMods[romhacks].name:find("Katze Stuck in the Toilet 64") then
+if Katze_Stuck_in_the_Toilet then
 _G.STRApi.Set_Custom_Romhack_Position(true, 0, 2000, 0, LEVEL_CASTLE_GROUNDS, 2, 0, "Force Level", "No Lock", "Level Warp", "End Picture")
 if OmmEnabled then
 _G.OmmApi.omm_force_setting("stars", 0)
 end
 		end
 	end
-	end
 end
 
 local function katze_64_rules()
 if _G.SpeedrunTimerReworked then
-for custom_romhack_rules in pairs(gActiveMods) do
-if gActiveMods[custom_romhack_rules].name:find("Katze Stuck in the Toilet 64") then
+if Katze_Stuck_in_the_Toilet then 
 -- This display the borderline
 _G.STRApi.Display_Custom_Rules_Romhack(190, 120, FONT_MENU, 320, 240, "#ffffff")
 -- This is a example if you want to add OMM Rebirth rules
@@ -54,7 +62,6 @@ _G.STRApi.Display_Custom_Rules_Text("Breaking the rules will result the run as a
 _G.STRApi.Display_Custom_Rules_Text("Press A to proceed,", 0, -13, FONT_NORMAL, 0.3, "#000000")
 _G.STRApi.Display_Custom_Rules_Text("OK", 0, -5, FONT_MENU, 0.3, "#ff0000")
 		end
-	end
 	end
 end
 

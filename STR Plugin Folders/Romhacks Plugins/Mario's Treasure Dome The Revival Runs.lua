@@ -1,19 +1,26 @@
 -- name: Mario's Treasure Dome: The Revival Runs
 
+Mario_Treasure_Dome = false 
+
+for romhack in pairs(gActiveMods) do
+	if gActiveMods[romhack].name:find("Mario's Treasure Dome") and gActiveMods[romhack].name:find("The Revival") then
+        Mario_Treasure_Dome = true
+    end
+end
+
+if not Mario_Treasure_Dome then return end
+
 local function mario_treasure_dome_position()
 if _G.SpeedrunTimerReworked then
-for romhacks in pairs(gActiveMods) do
-if gActiveMods[romhacks].name:find("Mario's Treasure Dome") and gActiveMods[romhacks].name:find("The Revival") then
+if Mario_Treasure_Dome then
 _G.STRApi.Set_Custom_Romhack_Position(true, -489, -557, 2480, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Level Warp", "Grand Star and End Picture")
 		end
-	end
 	end
 end
 
 local function mario_treasure_dome_rules()
 if _G.SpeedrunTimerReworked then
-for custom_romhack_rules in pairs(gActiveMods) do
-if gActiveMods[custom_romhack_rules].name:find("Mario's Treasure Dome") and gActiveMods[custom_romhack_rules].name:find("The Revival") then
+if Mario_Treasure_Dome then
 -- This display the borderline
 _G.STRApi.Display_Custom_Rules_Romhack(190, 120, FONT_MENU, 320, 240, "#ffffff")
 -- This is a example if you want to add OMM Rebirth rules
@@ -38,7 +45,6 @@ _G.STRApi.Display_Custom_Rules_Text("This Romhack Doesn't have a speedrun catego
 _G.STRApi.Display_Custom_Rules_Text("Press A to proceed,", 0, -13, FONT_NORMAL, 0.3, "#000000")
 _G.STRApi.Display_Custom_Rules_Text("OK", 0, -5, FONT_MENU, 0.3, "#ff0000")
 		end
-	end
 	end
 end
 

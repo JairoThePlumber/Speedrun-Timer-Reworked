@@ -1,15 +1,23 @@
 -- name: Super Mario 64 Extra Runs
 
+Super_Mario_64_Extra = false 
+
+for romhack in pairs(gActiveMods) do
+	if gActiveMods[romhack].name:find("Super Mario 64 \\#ff0000\\Extra") then
+        Super_Mario_64_Extra = true
+    end
+end
+
+if not Super_Mario_64_Extra then return end
+
 local function sm64_extra_position()
 if _G.SpeedrunTimerReworked then
-for romhacks in pairs(gActiveMods) do
-if gActiveMods[romhacks].name:find("Super Mario 64 \\#ff0000\\Extra") then
+if Super_Mario_64_Extra then
 _G.STRApi.Set_Custom_Romhack_Position(true, -11576, 689, 10706, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Level Warp", "End Picture")
 if OmmEnabled then
 _G.OmmApi.omm_force_setting("stars", 0)
 end
 		end
-	end
 	end
 end
 
@@ -18,8 +26,7 @@ hook_event(HOOK_MARIO_UPDATE, sm64_extra_position)
 
 local function sm64_extra_rules()
 if _G.SpeedrunTimerReworked then
-for custom_romhack_rules in pairs(gActiveMods) do
-if gActiveMods[custom_romhack_rules].name:find("Super Mario 64 \\#ff0000\\Extra") then
+if Super_Mario_64_Extra then
 -- This display the borderline
 _G.STRApi.Display_Custom_Rules_Romhack(190, 120, FONT_MENU, 320, 240, "#ffffff")
 -- This is a example if you want to add OMM Rebirth rules
@@ -42,7 +49,6 @@ _G.STRApi.Display_Custom_Rules_Text("The timer will stop once someone is at the 
 _G.STRApi.Display_Custom_Rules_Text("Press A to proceed,", 0, -13, FONT_NORMAL, 0.3, "#000000")
 _G.STRApi.Display_Custom_Rules_Text("OK", 0, -5, FONT_MENU, 0.3, "#ff0000")
 		end
-	end
 	end
 end
 

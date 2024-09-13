@@ -1,27 +1,33 @@
 -- name: Thousand Year Door 64 Runs
 
+Thousand_Year_Door_64 = false 
+
+for romhack in pairs(gActiveMods) do
+	if gActiveMods[romhack].name:find("Thousand") and gActiveMods[romhack].name:find("Year Door 64") then
+        Thousand_Year_Door_64 = true
+    end
+end
+
+if not Thousand_Year_Door_64 then return end
+
 local function thousand_year_door_64_position()
 if _G.SpeedrunTimerReworked then
-for romhacks in pairs(gActiveMods) do
-if gActiveMods[romhacks].name:find("Thousand") and gActiveMods[romhacks].name:find("Year Door 64") then
+if Thousand_Year_Door_64 then
 _G.STRApi.Set_Custom_Romhack_Position(true, -1722, 120, -4331, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Level Warp", "End Picture")
 if OmmEnabled then
 _G.OmmApi.omm_disable_feature("trueNonStop", true)
 end
 		end
 	end
-	end
 end
 
 
 local function thousand_year_door_64_rules()
 if _G.SpeedrunTimerReworked then
-for custom_romhack_rules in pairs(gActiveMods) do
-if gActiveMods[custom_romhack_rules].name:find("Thousand") and gActiveMods[custom_romhack_rules].name:find("Year Door 64") then
+if Thousand_Year_Door_64 then
 -- This display the borderline
 _G.STRApi.Display_Custom_Rules_Romhack(190, 120, FONT_MENU, 320, 240, "#ffffff")
 -- This is a example if you want to add OMM Rebirth rules
-_G.STRApi.Display_Custom_Rules_Romhack_Function(-1722, 120, -4331, true)
 
 _G.STRApi.Display_Custom_Rules_Text("Rules:", 0, -203, FONT_NORMAL, 0.4, "#000000")
 
@@ -59,7 +65,6 @@ _G.STRApi.Display_Custom_Rules_Text("Breaking the rules will result the run as a
 _G.STRApi.Display_Custom_Rules_Text("Press A to proceed,", 0, -13, FONT_NORMAL, 0.3, "#000000")
 _G.STRApi.Display_Custom_Rules_Text("OK", 0, -5, FONT_MENU, 0.3, "#ff0000")
 		end
-	end
 	end
 end
 

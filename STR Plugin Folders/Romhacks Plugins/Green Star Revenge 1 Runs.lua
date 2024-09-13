@@ -1,22 +1,29 @@
 -- name: Green Star Revenge 1 Runs
 
+Green_Star_Revenge_1 = false 
+
+for romhack in pairs(gActiveMods) do
+	if gActiveMods[romhack].name:find("Green Star Revenge 1") then
+        Green_Star_Revenge_1 = true
+    end
+end
+
+if not Green_Star_Revenge_1 then return end
+
 local function green_star_revenge_1_position()
 if _G.SpeedrunTimerReworked then
-for romhacks in pairs(gActiveMods) do
-if gActiveMods[romhacks].name:find("Green Star Revenge 1") then
+if Green_Star_Revenge_1 then
 _G.STRApi.Set_Custom_Romhack_Position(true, -1328, 260, 4664, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Level Warp", "Grand Star")
 if OmmEnabled then
 _G.OmmApi.omm_disable_feature("trueNonStop", true)
-end
+			end
 		end
-	end
 	end
 end
 
 local function green_star_revenge_1_rules()
 if _G.SpeedrunTimerReworked then
-for custom_romhack_rules in pairs(gActiveMods) do
-if gActiveMods[custom_romhack_rules].name:find("Green Star Revenge 1") then
+if Green_Star_Revenge_1 then
 -- This display the borderline
 _G.STRApi.Display_Custom_Rules_Romhack(190, 120, FONT_MENU, 320, 240, "#ffffff")
 -- This is a example if you want to add OMM Rebirth rules
@@ -81,7 +88,6 @@ _G.STRApi.Display_Custom_Rules_Text("Breaking the rules will result the run as a
 _G.STRApi.Display_Custom_Rules_Text("Press A to proceed,", 0, -13, FONT_NORMAL, 0.3, "#000000")
 _G.STRApi.Display_Custom_Rules_Text("OK", 0, -5, FONT_MENU, 0.3, "#ff0000")
 		end
-	end
 	end
 end
 

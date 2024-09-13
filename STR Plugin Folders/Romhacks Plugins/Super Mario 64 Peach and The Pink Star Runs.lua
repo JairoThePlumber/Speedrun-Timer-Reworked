@@ -1,22 +1,28 @@
 -- name: Peach and the Pink Star Runs
 
+Peach_and_the_Pink_Stars = false 
+
+for romhack in pairs(gActiveMods) do
+	if gActiveMods[romhack].name:find("pink star") then
+        Peach_and_the_Pink_Stars = true
+    end
+end
+
+if not Peach_and_the_Pink_Stars then return end
+
 local function pink_star_position()
 if _G.SpeedrunTimerReworked then
-for romhacks in pairs(gActiveMods) do
-if gActiveMods[romhacks].name:find("pink star") then
+if Peach_and_the_Pink_Stars then
 _G.STRApi.Set_Custom_Romhack_Position(true, -426, 1243, -161, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Start Warp", "Grand Star")
 		end
-	end
 	end
 end
 
 local function pink_star_rules()
 if _G.SpeedrunTimerReworked then
-for custom_romhack_rules in pairs(gActiveMods) do
-if gActiveMods[custom_romhack_rules].name:find("pink star") then
+if Peach_and_the_Pink_Stars then
 -- This display the borderline
 _G.STRApi.Display_Custom_Rules_Romhack(190, 120, FONT_MENU, 320, 240, "#ffffff")
-_G.STRApi.Display_Custom_Rules_Romhack_Function(-426, 1243, -161, true)
 -- This is a example if you want to add OMM Rebirth rules
 
 if not OmmEnabled then
@@ -43,7 +49,6 @@ _G.STRApi.Display_Custom_Rules_Text("Breaking the rules will result the run as a
 _G.STRApi.Display_Custom_Rules_Text("Press A to proceed,", 0, -13, FONT_NORMAL, 0.3, "#000000")
 _G.STRApi.Display_Custom_Rules_Text("OK", 0, -5, FONT_MENU, 0.3, "#ff0000")
 		end
-	end
 	end
 end
 

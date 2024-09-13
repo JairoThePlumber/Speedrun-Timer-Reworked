@@ -1,25 +1,31 @@
 -- name: Star Revenge 1: Star Takeover Runs
 
+Star_Revenge_1 = false 
+
+for romhack in pairs(gActiveMods) do
+	if gActiveMods[romhack].name:find("Star Revenge 1: Star Takeover") then
+        Star_Revenge_1 = true
+    end
+end
+
+if not Star_Revenge_1 then return end
+
 local function star_revenge_1_position()
 if _G.SpeedrunTimerReworked then
-for romhacks in pairs(gActiveMods) do
-if gActiveMods[romhacks].name:find("Star Revenge 1: Star Takeover") then
+if Star_Revenge_1 then
 _G.STRApi.Set_Custom_Romhack_Position(true, 8120, -1991, -9473, LEVEL_CASTLE_COURTYARD, 1, 0, "Force Level", "No Lock", "Level Warp", "End Picture")
 if OmmEnabled then
 _G.OmmApi.omm_force_setting("stars", 0)
 end
 		end
 	end
-	end
 end
 
 local function star_revenge_1_rules()
 if _G.SpeedrunTimerReworked then
-for custom_romhack_rules in pairs(gActiveMods) do
-if gActiveMods[custom_romhack_rules].name:find("Star Revenge 1: Star Takeover") then
+if Star_Revenge_1 then
 -- This display the borderline
 _G.STRApi.Display_Custom_Rules_Romhack(190, 120, FONT_MENU, 320, 240, "#ffffff")
-_G.STRApi.Display_Custom_Rules_Romhack_Function(8120, -1991, -9473, true)
 -- This is a example if you want to add OMM Rebirth rules
 
 if not OmmEnabled then
@@ -44,7 +50,6 @@ _G.STRApi.Display_Custom_Rules_Text("The timer will stop once someone is at the 
 _G.STRApi.Display_Custom_Rules_Text("Press A to proceed,", 0, -13, FONT_NORMAL, 0.3, "#000000")
 _G.STRApi.Display_Custom_Rules_Text("OK", 0, -5, FONT_MENU, 0.3, "#ff0000")
 		end
-	end
 	end
 end
 

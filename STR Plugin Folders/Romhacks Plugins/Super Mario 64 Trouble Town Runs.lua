@@ -1,18 +1,26 @@
 -- name: Super Mario 64 Trouble Town Runs
 
+Trouble_Town = false 
+
+for romhack in pairs(gActiveMods) do
+	if gActiveMods[romhack].name:find("Super Mario 64 Trouble Town") then
+        Trouble_Town = true
+    end
+end
+
+if not Trouble_Town then return end
+
 local function trouble_town_position()
 if _G.SpeedrunTimerReworked then
-for romhacks in pairs(gActiveMods) do
-if gActiveMods[romhacks].name:find("Super Mario 64 Trouble Town") then
+if Trouble_Town then
 _G.STRApi.Set_Custom_Romhack_Position(true, 9756, -1120, -4534, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Level Warp", "None")
 		end
-	end
 	end
 end
 
 local function trouble_town_mario_update(m)
-for romhacks_stars_only in pairs(gActiveMods) do
-if gActiveMods[romhacks_stars_only].name:find("Super Mario 64 Trouble Town") then
+if _G.SpeedrunTimerReworked then
+if Trouble_Town then
    if m.numStars >= 30 then
        _G.STRApi.set_beated_game(true)
 		end
@@ -23,8 +31,7 @@ end
 
 local function trouble_town_rules()
 if _G.SpeedrunTimerReworked then
-for custom_romhack_rules in pairs(gActiveMods) do
-if gActiveMods[custom_romhack_rules].name:find("Super Mario 64 Trouble Town") then
+if Trouble_Town then
 -- This display the borderline
 _G.STRApi.Display_Custom_Rules_Romhack(190, 120, FONT_MENU, 320, 240, "#ffffff")
 -- This is a example if you want to add OMM Rebirth rules
@@ -47,7 +54,6 @@ _G.STRApi.Display_Custom_Rules_Text("The timer will stop after collecting 30 Sta
 _G.STRApi.Display_Custom_Rules_Text("Press A to proceed,", 0, -13, FONT_NORMAL, 0.3, "#000000")
 _G.STRApi.Display_Custom_Rules_Text("OK", 0, -5, FONT_MENU, 0.3, "#ff0000")
 		end
-	end
 	end
 end
 
