@@ -51,16 +51,16 @@ end
 function custom_stars_interact_update(m, o)
 if Romhack_Is_Enabled == false then
 	if not OmmEnabled then
-	_G.STRApi.custom_romhack_runs("0 Stars", m.numStars >= 0 and get_id_from_behavior(o.behavior) == id_bhvGrandStar)
-	_G.STRApi.custom_romhack_runs("1 Star", m.numStars >= 1 and get_id_from_behavior(o.behavior) == id_bhvGrandStar)
-	_G.STRApi.custom_romhack_runs("16 Stars", m.numStars >= 16 and get_id_from_behavior(o.behavior) == id_bhvGrandStar)
-	_G.STRApi.custom_romhack_runs("70 Stars", m.numStars >= 70 and get_id_from_behavior(o.behavior) == id_bhvGrandStar)
-	_G.STRApi.custom_romhack_runs("120 Stars", m.numStars >= 120 and get_id_from_behavior(o.behavior) == id_bhvGrandStar)
+	_G.STRApi.custom_romhack_runs(1, m.numStars >= 0 and get_id_from_behavior(o.behavior) == id_bhvGrandStar)
+	_G.STRApi.custom_romhack_runs(2, m.numStars >= 1 and get_id_from_behavior(o.behavior) == id_bhvGrandStar)
+	_G.STRApi.custom_romhack_runs(3, m.numStars >= 16 and get_id_from_behavior(o.behavior) == id_bhvGrandStar)
+	_G.STRApi.custom_romhack_runs(4, m.numStars >= 70 and get_id_from_behavior(o.behavior) == id_bhvGrandStar)
+	_G.STRApi.custom_romhack_runs(5, m.numStars >= 120 and get_id_from_behavior(o.behavior) == id_bhvGrandStar)
 	else
-	_G.STRApi.custom_romhack_runs("16 Stars", m.numStars >= 16 and get_id_from_behavior(o.behavior) == id_bhvGrandStar)
-	_G.STRApi.custom_romhack_runs("70 Stars", m.numStars >= 70 and get_id_from_behavior(o.behavior) == id_bhvGrandStar)
-	_G.STRApi.custom_romhack_runs("90 Stars", m.numStars >= 90 and get_id_from_behavior(o.behavior) == id_bhvGrandStar)
-	_G.STRApi.custom_romhack_runs("120 Stars", m.numStars >= 120 and get_id_from_behavior(o.behavior) == id_bhvGrandStar)
+	_G.STRApi.custom_romhack_runs(1, m.numStars >= 16 and get_id_from_behavior(o.behavior) == id_bhvGrandStar)
+	_G.STRApi.custom_romhack_runs(2, m.numStars >= 70 and get_id_from_behavior(o.behavior) == id_bhvGrandStar)
+	_G.STRApi.custom_romhack_runs(3, m.numStars >= 90 and get_id_from_behavior(o.behavior) == id_bhvGrandStar)
+	_G.STRApi.custom_romhack_runs(4, m.numStars >= 120 and get_id_from_behavior(o.behavior) == id_bhvGrandStar)
 	end
 	end
 end
