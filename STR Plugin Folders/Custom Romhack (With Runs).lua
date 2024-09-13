@@ -1,66 +1,76 @@
 
-function custom_romhack_position()
-if _G.SpeedrunTimerReworked then
-for romhacks in pairs(gActiveMods) do
-if gActiveMods[romhacks].name:find("Super Bell Thrill") then
-_G.STRApi.Set_Custom_Romhack_Position(true, 0, 100, 0, LEVEL_CASTLE_COURTYARD, 1, 0, "Force Level", "No Lock", "Disable", "Custom Runs")
-_G.STRApi.set_teams(false)
-		end
-	end
+-- A Warning Check
+speedrun_timer_check = false
+function speedrun_timer()
+if not _G.SpeedrunTimerReworked and speedrun_timer_check == false then	
+    djui_popup_create("\\#ff0000\\\nWarning:\nThis Plugin is Disable without The Speedrun Timer Reworked Mod.\n\nI suggest you Go Back and Get it Before You Use This Plugin.", 5)
+	speedrun_timer_check = true
 	end
 end
 
-hook_event(HOOK_UPDATE, custom_romhack_position)
+hook_event(HOOK_UPDATE, speedrun_timer)
 
--- These are the Custom Runs but this is Optional tho, but it's you're choice
--- Here's are the Api For Making Run Commands (Optional)
--- This will check if you're making a run command
--- _G.STRApi.set_run_check(true/false) <- This checks if you have a run commend
-function custom_speedrun_check(m)
-if _G.SpeedrunTimerReworked then
-for speedruncheck in pairs(gActiveMods) do
-	if gActiveMods[speedruncheck].name:find("Super Bell Thrill") then
-	_G.STRApi.custom_romhack_runs(1, nil, "1 Star")
-	_G.STRApi.custom_romhack_runs(1, nil, "7 Stars")
-		end
-	end
+Selected_Romhack = false -- <- You can Rename It, if you want
+
+for romhack in pairs(gActiveMods) do
+	if gActiveMods[romhack].name:find("Test") then
+        Selected_Romhack = true
     end
 end
 
--- Functions
--- This will stop the timer once on the correct way to finish it
-function custom_stars_mario_update(m)
+if not Selected_Romhack return end
+
+function custom_romhack_position()
 if _G.SpeedrunTimerReworked then
-for test in pairs(gActiveMods) do
-if gActiveMods[test].name:find("Super Bell Thrill") then
-	 _G.STRApi.custom_romhack_runs(2, m.numStars >= 7)
+if Selected_Romhack == true then
+_G.STRApi.Set_Custom_Romhack_Position(true, 0, 0, 0, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Level Warp", "Custom Runs")
 		end
-	end
 	end
 end
 
-function custom_stars_interact_update(m, o, interactType)
-for test in pairs(gActiveMods) do
-if gActiveMods[test].name:find("Super Bell Thrill") then
-	 _G.STRApi.custom_romhack_runs(1, gNetworkPlayers[0].currLevelNum == LEVEL_BOB and interactType == INTERACT_STAR_OR_KEY and o.oBehParams == 0 << 24)
+function custom_speedrun_check(m)
+if _G.SpeedrunTimerReworked then
+if Selected_Romhack == true then
+	_G.STRApi.custom_romhack_runs(1, nil, "Mario Update Star")
+	_G.STRApi.custom_romhack_runs(2, nil, "Interaction Star")
+	_G.STRApi.custom_romhack_runs(3, nil, "Update Star")
+		end
+    end
+end
+
+function custom_stars_mario_update(m)
+if _G.SpeedrunTimerReworked then
+if Selected_Romhack == true then
+	 _G.STRApi.custom_romhack_runs(1, m.numStars == 70)
+		end
+	end
+end
+
+function custom_stars_interact_update(m, o)
+if _G.SpeedrunTimerReworked then
+if Selected_Romhack == true then
+	 _G.STRApi.custom_romhack_runs(2, get_id_from_behavior(o.behavior) == id_bhvGrandStar)
+		end
+	end
+end
+
+function custom_stars_update(m, o)
+if _G.SpeedrunTimerReworked then
+if Selected_Romhack == true then
+	 _G.STRApi.custom_romhack_runs(3, gNetworkPlayers[0].currLevelNum == LEVEL_ENDING)
 		end
 	end
 end
 
 function display_custom_rules()
 if _G.SpeedrunTimerReworked then
-for custom_romhack_rules in pairs(gActiveMods) do
-if gActiveMods[custom_romhack_rules].name:find("Super Bell Thrill") then
--- This display the borderline
-_G.STRApi.Display_Custom_Rules_Romhack_Function(0, 100, 0, true)
-_G.STRApi.Display_Custom_Rules_Romhack(190, 120, FONT_MENU, 320, 240, "#ffffff")
--- This is a example if you want to add OMM Rebirth rules
+if Selected_Romhack == true then
+_G.STRApi.Display_Custom_Rules_Romhack(190, 120, FONT_MENU, 320, 240, "#ffffff") -- <- Default Box Size
 if not OmmEnabled then
 _G.STRApi.Display_Custom_Rules_Text("Hello, Welcome to the Speedrun server!", 0, -223, FONT_NORMAL, 0.4, "#000000")
 else
 _G.STRApi.Display_Custom_Rules_Text("Hello, Welcome to the OMM Speedrun server!", 0, -223, FONT_NORMAL, 0.4, "#000000")
 end
--- You can move the text here or where OMM Rebirth is, so I don't have to make a plugin for Only OMM Rebirth
 _G.STRApi.Display_Custom_Rules_Text("Rules:", 0, -203, FONT_NORMAL, 0.4, "#000000")
 _G.STRApi.Display_Custom_Rules_Text("1 Star: Get 1 Star", 0, -180, FONT_NORMAL, 0.6, "#000000")
 _G.STRApi.Display_Custom_Rules_Text('Get The "First" Star in this Romhack', 0, -155, FONT_NORMAL, 0.6, "#000000")
@@ -74,12 +84,13 @@ _G.STRApi.Display_Custom_Rules_Text("Press A to proceed,", 0, -13, FONT_NORMAL, 
 _G.STRApi.Display_Custom_Rules_Text("OK", 0, -5, FONT_MENU, 0.3, "#ff0000")
 		end
 	end
-	end
 end
 
 -- I have to put hooks, since for some reason they don't work without them
+hook_event(HOOK_UPDATE, custom_romhack_position)
 hook_event(HOOK_ON_HUD_RENDER, display_custom_rules)
-hook_event(HOOK_MARIO_UPDATE, custom_speedrun_check)
+hook_event(HOOK_ON_HUD_RENDER, custom_speedrun_check)
 hook_event(HOOK_MARIO_UPDATE, custom_stars_mario_update)
 hook_event(HOOK_ON_INTERACT, custom_stars_interact_update)
+hook_event(HOOK_UPDATE, custom_stars_update)
 
