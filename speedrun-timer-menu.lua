@@ -50,7 +50,7 @@ CountdownMovement = 0
 RunDefault = 1
 RunsSlotColor = "#FFFFFF"
 RunsName = ""
-SavedRunName = "None"
+gGlobalSyncTable.SavedRunName = "None"
 RunTable = {}
 openstrmenu = false
 
@@ -317,7 +317,7 @@ if not openstrmenu then return end
 		RunsSlotColor = "#FFFFFF"
 	elseif RunTable[RunDefault].RunsSlotName == RunTable[RunDefault].RunsSlotName and RunTable[RunDefault].RunsSlotNumber == gGlobalSyncTable.RunsSlots then 
 		RunsSlotColor = "#00FF00"
-		SavedRunName = RunTable[RunDefault].RunsSlotName
+		gGlobalSyncTable.SavedRunName = RunTable[RunDefault].RunsSlotName
 		end
 	end	
 	

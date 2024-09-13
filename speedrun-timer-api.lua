@@ -107,8 +107,8 @@ end
 	end
 end
 
-function custom_romhack_runs(CustomRunName, Main_Function)
-	if RunTable[RunDefault].RunsSlotName == CustomRunName and RunTable[RunDefault].RunsSlotNumber == gGlobalSyncTable.RunsSlots then
+function custom_romhack_runs(RunNumber, Main_Function)
+	if gGlobalSyncTable.RunsSlots == RunNumber then
 	if Main_Function == true then
 	gGlobalSyncTable.beatedGame = true
 		end

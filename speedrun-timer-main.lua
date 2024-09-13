@@ -207,7 +207,7 @@ function Main_Update_Functions(m)
 	end
 	
 	-- Main Timer Function
-	if (gGlobalSyncTable.startcountdown == 1.0 and gGlobalSyncTable.timercountdown == 30 and gGlobalSyncTable.Intercountdown == 0) and gGlobalSyncTable.GoTimer <= 29 then
+	if (gGlobalSyncTable.startcountdown == 1.0 and gGlobalSyncTable.timercountdown == 30 and gGlobalSyncTable.Intercountdown == 0) and gGlobalSyncTable.GoTimer <= 29 and network_is_server() then
 	gGlobalSyncTable.GoTimer = gGlobalSyncTable.GoTimer + 1
 	end
 	if network_is_server() and gGlobalSyncTable.Intermission and gGlobalSyncTable.Intercountdown > 0 then

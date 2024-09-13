@@ -63,7 +63,7 @@ function intermission_render()
     djui_hud_set_color(255, 255, 255, 255);
     djui_hud_print_text(text, x, y, scale);
 	if Romhack_Runs_Option == true then
-	runtext = "Run: " .. SavedRunName
+	runtext = "Run: " .. gGlobalSyncTable.SavedRunName
 	
 	-- get width of screen and text
     runscreenWidth = djui_hud_get_screen_width()
