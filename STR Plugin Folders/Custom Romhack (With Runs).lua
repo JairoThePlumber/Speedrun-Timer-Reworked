@@ -31,9 +31,9 @@ end
 function custom_speedrun_check(m)
 if _G.SpeedrunTimerReworked then
 if Selected_Romhack == true then
-	_G.STRApi.custom_romhack_runs(1, nil, "Mario Update Star")
-	_G.STRApi.custom_romhack_runs(2, nil, "Interaction Star")
-	_G.STRApi.custom_romhack_runs(3, nil, "Update Star")
+	_G.STRApi.custom_romhack_runs(1, "Mario Update Star")
+	_G.STRApi.custom_romhack_runs(2, "Interaction Star")
+	_G.STRApi.custom_romhack_runs(3, "Update Star")
 		end
     end
 end
@@ -89,7 +89,7 @@ end
 -- I have to put hooks, since for some reason they don't work without them
 hook_event(HOOK_UPDATE, custom_romhack_position)
 hook_event(HOOK_ON_HUD_RENDER, display_custom_rules)
-hook_event(HOOK_ON_HUD_RENDER, custom_speedrun_check)
+hook_event(HOOK_ON_MODS_LOADED, custom_speedrun_check)
 hook_event(HOOK_MARIO_UPDATE, custom_stars_mario_update)
 hook_event(HOOK_ON_INTERACT, custom_stars_interact_update)
 hook_event(HOOK_UPDATE, custom_stars_update)
