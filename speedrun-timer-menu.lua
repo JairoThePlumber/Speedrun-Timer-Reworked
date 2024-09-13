@@ -1728,7 +1728,7 @@ function displaymenu(m)
         },
 		{
 		
-			"Removed Display_Custom_Rules_Romhack_Function for being useless now",
+			"Reworked Custom Runs (It can be Shown in the Intermission Display)",
             0,
 			-80,
             globalFont,
