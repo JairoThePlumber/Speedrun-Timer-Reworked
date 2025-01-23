@@ -4,18 +4,6 @@ Hours = 0
 Minutes = 0
 Seconds = 0
 MilliSeconds = 0
--- Fonts --
-DefaultFont = 1
-DefaultName = "Normal"
--- Fanfare --
-FanfareDefault = 1
-FanfareName = "Normal"
--- Countdown
-CountdownDefault = 1
-CountdownName = "Normal"
--- Go Sound --
-GoDefault = 1
-GoName = "Normal"
 -- Romhack Fonts --
 RomhackColors = false
 NumbersColors = false
@@ -82,7 +70,144 @@ function intermission_render()
 	end
 end
 
-function normal_and_aliased_hud_render()
+function practice_warp_render()
+	if gGlobalSyncTable.beatedGame and gGlobalSyncTable.GamemodeSetting == "PracticeRun" and gGlobalSyncTable.SingleStarsMode == false then
+	
+    -- set text
+    local text = "The Run will Reset in " .. tostring(math.floor(gGlobalSyncTable.PracticeWarpTimer))
+
+    -- set scale
+    scale = 0.50
+
+    -- get width of screen and text
+    screenWidth = djui_hud_get_screen_width()
+    screenHeight = djui_hud_get_screen_height()
+    width = djui_hud_measure_text(text) * scale
+    height = 32 * scale
+
+    x = (screenWidth - width) / 2.0
+    y = (screenHeight - height) / 2.0 - 112
+
+    -- render
+    djui_hud_set_color(0, 0, 0, 128);
+    djui_hud_render_rect(x - 6 * scale, y, width + 12 * scale, height);
+
+    djui_hud_set_color(255, 255, 255, 255);
+    djui_hud_print_text(text, x, y, scale);
+	end
+end
+
+function casual_warp_render()
+	if gGlobalSyncTable.beatedGame and gGlobalSyncTable.GamemodeSetting == "Casual" and gGlobalSyncTable.SingleStarsMode == false then
+	
+    -- set text
+    local text = "The Run will Reset in " .. tostring(math.floor(gGlobalSyncTable.CasualWarpTimer))
+
+    -- set scale
+    scale = 0.50
+
+    -- get width of screen and text
+    screenWidth = djui_hud_get_screen_width()
+    screenHeight = djui_hud_get_screen_height()
+    width = djui_hud_measure_text(text) * scale
+    height = 32 * scale
+
+    x = (screenWidth - width) / 2.0
+    y = (screenHeight - height) / 2.0 - 112
+
+    -- render
+    djui_hud_set_color(0, 0, 0, 128);
+    djui_hud_render_rect(x - 6 * scale, y, width + 12 * scale, height);
+
+    djui_hud_set_color(255, 255, 255, 255);
+    djui_hud_print_text(text, x, y, scale);
+	end
+end
+
+function Single_Stars_Display()
+    -- set text
+	if gGlobalSyncTable.SingleStarsStopTimer == "Amount Limit" and gGlobalSyncTable.SingleStarsCollectedStar ~= 1 and not gGlobalSyncTable.beatedGame then
+    text = "Amount of Stars: Collect " .. tostring(math.floor(gGlobalSyncTable.SingleStarsCollectedStar)) .. " Stars" 
+	elseif gGlobalSyncTable.SingleStarsStopTimer == "Amount Limit" and gGlobalSyncTable.SingleStarsCollectedStar == 1 and not gGlobalSyncTable.beatedGame then
+    text = "Amount of Stars: Collect " .. tostring(math.floor(gGlobalSyncTable.SingleStarsCollectedStar)) .. " Star" 
+	elseif gGlobalSyncTable.SingleStarsStopTimer == "Amount Limit" and gGlobalSyncTable.beatedGame then
+    text = "Amount of Stars: Complete!" 
+	end
+	
+	if gGlobalSyncTable.SingleStarsStopTimer == "Star ID" and not gGlobalSyncTable.beatedGame then
+    text = "Star ID: Collect Star " .. tostring(math.floor(gGlobalSyncTable.SingleStarsStarNumbers))
+	elseif gGlobalSyncTable.SingleStarsStopTimer == "Star ID" and gGlobalSyncTable.beatedGame then
+    text = "Star ID: Complete!" 
+	end
+	
+	if gGlobalSyncTable.SingleStarsStopTimer == "Key 1/2" and not gGlobalSyncTable.beatedGame then
+    text = "Key 1/2: Collect The Key"
+	elseif gGlobalSyncTable.SingleStarsStopTimer == "Key 1/2" and gGlobalSyncTable.beatedGame then
+    text = "Key 1/2: Complete!" 
+	end
+	
+	if gGlobalSyncTable.SingleStarsStopTimer == "Grand Star" and not gGlobalSyncTable.beatedGame then
+    text = "Grand Star: Collect The Grand Star"
+	elseif gGlobalSyncTable.SingleStarsStopTimer == "Grand Star" and gGlobalSyncTable.beatedGame then
+    text = "Grand Star: Complete!" 
+	end
+	
+	if gGlobalSyncTable.SingleStarsStopTimer == "Bowser Arenas" and not gGlobalSyncTable.beatedGame then
+    text = "Bowser Arenas: Go Thought The Level"
+	elseif gGlobalSyncTable.SingleStarsStopTimer == "Bowser Arenas" and gGlobalSyncTable.beatedGame then
+    text = "Bowser Arenas: Complete!" 
+	end
+	
+	if gGlobalSyncTable.SingleStarsStopTimer == "Cake Ending" and not gGlobalSyncTable.beatedGame then
+    text = "Cake Ending: Reach to the Cake Ending"
+	elseif gGlobalSyncTable.SingleStarsStopTimer == "Cake Ending" and gGlobalSyncTable.beatedGame then
+    text = "Cake Ending: Complete!" 
+	end
+	
+	if gGlobalSyncTable.SingleStarsStopTimer == "Cake Ending" and not gGlobalSyncTable.beatedGame then
+    text = "Cake Ending: Reach to the Cake Ending"
+	elseif gGlobalSyncTable.SingleStarsStopTimer == "Cake Ending" and gGlobalSyncTable.beatedGame then
+    text = "Cake Ending: Complete!" 
+	end
+	
+	if gGlobalSyncTable.SingleStarsStopTimer == "Cap Switches" and not gGlobalSyncTable.beatedGame then
+    text = "Cap Switches: Press one of the Cap Switches"
+	elseif gGlobalSyncTable.SingleStarsStopTimer == "Cap Switches" and gGlobalSyncTable.beatedGame then
+    text = "Cap Switches: Complete!" 
+	end
+
+    -- set scale
+    scale = 0.50
+	
+	if gGlobalSyncTable.SingleStarsTextChange == 0 and not network_is_server() then
+	text = "While the Host is setting up, You can go Around the Level"
+	elseif gGlobalSyncTable.SingleStarsTextChange == 0 and network_is_server() then
+	text = "You can either Try Again Or Choose a different Run."
+	end
+
+    -- get width of screen and text
+    screenWidth = djui_hud_get_screen_width()
+    screenHeight = djui_hud_get_screen_height()
+    width = djui_hud_measure_text(text) * scale
+    height = 32 * scale
+
+    x = (screenWidth - width) / 2.0
+    y = (screenHeight - height) / 2.0 - 112
+
+    -- render
+    djui_hud_set_color(0, 0, 0, 128);
+    djui_hud_render_rect(x - 6 * scale, y, width + 12 * scale, height);
+
+    djui_hud_set_color(255, 255, 255, 255);
+    djui_hud_print_text(text, x, y, scale);
+	
+	if gGlobalSyncTable.beatedGame and gGlobalSyncTable.SingleStarsTextChange ~= 0 then
+	djui_hud_set_color(0, 255, 0, 255);
+    djui_hud_print_text(text, x, y, scale);
+	end
+end
+
+function NAS_hud_render()
 	
 	if showSpeedrunTimer ~= 1 then return end
 	
@@ -149,7 +274,7 @@ end
 	end
 end
 
-    if countdown_display_check == 0 and gGlobalSyncTable.startcountdown >= 1.01 then
+    if gGlobalSyncTable.countdown_display_check == 0 and gGlobalSyncTable.startcountdown >= 1.01 then
 
     -- render
 	if DisplayCustomColors == 1 then
@@ -360,7 +485,7 @@ end
 	end
 end
 
-    if countdown_display_check == 0 and gGlobalSyncTable.startcountdown >= 1.01 then
+    if gGlobalSyncTable.countdown_display_check == 0 and gGlobalSyncTable.startcountdown >= 1.01 then
 	
 	if DisplayCustomColors == 1 and FontTable[DefaultFont].name == "SM64" then
     djui_hud_set_color(RedColorFont, GreenColorFont, BlueColorFont, VisableFont);
@@ -437,7 +562,7 @@ end
 	end
 end
 
-    if countdown_display_check == 0 and gGlobalSyncTable.startcountdown >= 1.01 then
+    if gGlobalSyncTable.countdown_display_check == 0 and gGlobalSyncTable.startcountdown >= 1.01 then
 
     -- render
 	if DisplayCustomColors == 1 then
@@ -450,176 +575,108 @@ end
 	end
 end
 
---------------------------------------------------------
+function nametag_hud_render()
+	
+	if showSpeedrunTimer ~= 1 then return end
 
--- Built in Fonts --
-FontTable = {
-    [1] = {
-        name = "Normal",
-        longname = "Super Mario 64 Text"
-    },
-	[2] = {
-        name = "Aliased",
-        longname = "Coop Aliased Text"
-    },
-	[3] = {
-        name = "SM64",
-        longname = "Super Mario 64"
-    },
-	[4] = {
-        name = "SM64RH",
-        longname = "Super Mario 64 (Romhack)"
-    },
-	[5] = {
-        name = "DJUI",
-        longname = "Coop DJUI"
-
-    },
-}
-
--- Built in Sounds --
-FanfareTable = {
-    [1] = {
-        fanfare_sound = "Normal",
-		long_fanfare_name = "Normal"
-    },
-}
-
-CountdownTable = {
-    [1] = {
-        countdown_sound = "Normal",
-		long_countdown_name = "Normal"
-    },
-	[2] = {
-        countdown_sound = "ReversePause",
-		long_countdown_name = "Reverse Pause"
-    },
-	[3] = {
-        countdown_sound = "ShortStar",
-		long_countdown_name = "Short Star"
-    },
-	[4] = {
-        countdown_sound = "SwitchTickSpeed",
-		long_countdown_name = "Switch Tick Speed"
-    },
-	[5] = {
-        countdown_sound = "StarSound",
-		long_countdown_name = "Star Sound"
-    },
-}
-
-GoTable = {
-    [1] = {
-		go_sound = "Normal",
-		long_go_name = "Normal"
-    },
-}
-
--- Save Functions From Character Select (Thanks to Squishy)
-function load_fonts()
-	savefont = mod_storage_load("AddFont")
-    if savefont == nil or savefont == "" then
-        mod_storage_save("AddFont", "Normal")
-        savefont = "Normal"
+	-- All
+	screenWidth = djui_hud_get_screen_width()
+    screenHeight = djui_hud_get_screen_height()
+	size = 0.75
+	height = 50 * size
+	y = (screenHeight - height) / 2.0
+	
+	-- Timer Display
+	timer_text = string.format("%s:%s:%s.%s", string.format("%d", Hours), string.format("%02d", Minutes), string.format("%02d", Seconds), string.format("%03d", MilliSeconds))
+	timer_size = 1
+	timer_width = djui_hud_measure_text(timer_text) * timer_size
+	timer_x = (screenWidth - timer_width) / 2.01
+    timer_y = screenHeight - 21
+	
+	-- Go Display
+    go_text = "Go!"
+    go_width = djui_hud_measure_text(go_text) * size
+    go_x = (screenWidth - go_width) / 2.0
+	
+	-- Countdown Display
+    countdown_text = tostring(math.floor(gGlobalSyncTable.startcountdown))
+	countdown_width = djui_hud_measure_text(countdown_text) * size
+	countdown_x = (screenWidth - countdown_width) / 2.04
+	
+    -- render
+	if DisplayCustomColors == 1 then
+    djui_hud_set_color(RedColorFont, GreenColorFont, BlueColorFont, VisableFont);
+    djui_hud_print_text(timer_text, timer_x + CustomXPos, timer_y + CustomYPos, timer_size);
+	elseif DisplayCustomColors == 0 then
+    djui_hud_set_color(255, 255, 255, 255);
+    djui_hud_print_text(timer_text, timer_x + CustomXPos, timer_y + CustomYPos, timer_size);
+	end
+	
+if gGlobalSyncTable.startcountdown <= 1 then
+    if gGlobalSyncTable.GoTimer <= 0 then
+        return true
+	else
+	if gGlobalSyncTable.GoTimer >= 30 then
+	return false
     end
-    if savefont ~= nil and savefont ~= "Normal" then
-        for i = 2, #FontTable do
-            if FontTable[i].name == savefont then
-                DefaultFont = i
-                break
-            end
-        end
-    end
-    return savefont
+end
+    -- render
+    if DisplayCustomColors == 1 then
+    djui_hud_set_color(RedColorFont, GreenColorFont, BlueColorFont, VisableFont);
+    djui_hud_print_text(go_text, go_x, y, size);
+	elseif DisplayCustomColors == 0 then
+    djui_hud_set_color(255, 255, 255, 255);
+    djui_hud_print_text(go_text, go_x, y, size);
+	end
 end
 
-function load_custom_fanfare()
-	savefanfare = mod_storage_load("AddFanfare")
-    if savefanfare == nil or savefanfare == "" then
-        mod_storage_save("AddFanfare", "Normal")
-        savefont = "Normal"
-    end
-    if savefanfare ~= nil and savefanfare ~= "Normal" then
-        for i = 2, #FanfareTable do
-            if FanfareTable[i].fanfare_sound == savefanfare then
-                FanfareDefault = i
-                break
-            end
-        end
-    end
-    return savefanfare
-end
+    if gGlobalSyncTable.countdown_display_check == 0 and gGlobalSyncTable.startcountdown >= 1.01 then
 
-function load_custom_countdown()
-	savecountdown = mod_storage_load("AddCountdown")
-    if savecountdown == nil or savefont == "" then
-        mod_storage_save("AddCountdown", "Normal")
-        savecountdown = "Normal"
-    end
-    if savecountdown ~= nil and savecountdown ~= "Normal" then
-        for i = 2, #CountdownTable do
-            if CountdownTable[i].countdown_sound == savecountdown then
-                CountdownDefault = i
-                break
-            end
-        end
-    end
-    return savecountdown
-end
-
-function load_custom_go()
-	savegosound = mod_storage_load("AddGoSound")
-    if savegosound == nil or savegosound == "" then
-        mod_storage_save("AddGoSound", "Normal")
-        savegosound = "Normal"
-    end
-    if savegosound ~= nil and savegosound ~= "Normal" then
-        for i = 2, #GoTable do
-            if GoTable[i].go_sound == savegosound then
-                GoDefault = i
-                break
-            end
-        end
-    end
-    return savegosound
-end
-
-function pref_font(fonts)
-    mod_storage_save("AddFont", fonts.name)
-	DefaultName = fonts.name
-end
-
-function pref_fanfare(sounds)
-    mod_storage_save("AddFanfare", sounds.fanfare_sound)
-	FanfareName = sounds.fanfare_sound
-end
-
-function pref_countdown(sounds)
-	mod_storage_save("AddCountdown", sounds.countdown_sound)
-	CountdownName = sounds.countdown_sound
-end
-
-function pref_go(sounds)
-	mod_storage_save("AddGoSound", sounds.go_sound)
-	GoName = sounds.go_sound
+    -- render
+	if DisplayCustomColors == 1 then
+    djui_hud_set_color(RedColorFont, GreenColorFont, BlueColorFont, VisableFont);
+    djui_hud_print_text(countdown_text, countdown_x, y, size);
+	elseif DisplayCustomColors == 0 then
+    djui_hud_set_color(255, 255, 255, 255);
+    djui_hud_print_text(countdown_text, countdown_x, y, size);
+		end
+	end
 end
 
 -- hooks for the huds
 function on_timer_hud_render()
     djui_hud_set_resolution(RESOLUTION_N64)
 	
+	if gGlobalSyncTable.GamemodeSetting == "SingleStars" and gGlobalSyncTable.SingleStarsMode == true then
+	djui_hud_set_font(FONT_NORMAL)
+	Single_Stars_Display()
+	end
+	
 	if gGlobalSyncTable.Intermission then
 	djui_hud_set_font(FONT_NORMAL)
 	intermission_render()
 	end
 	
+	if gGlobalSyncTable.GamemodeSetting == "PracticeRun" then
+	djui_hud_set_font(FONT_NORMAL)
+	practice_warp_render()
+	end
+	
+	if gGlobalSyncTable.GamemodeSetting == "Casual" then
+	djui_hud_set_font(FONT_NORMAL)
+	casual_warp_render()
+	end
+	
 	-- Normal Text Fonts and Aliased Text Fonts
 	if FontTable[DefaultFont].name == "Normal" then
 	djui_hud_set_font(FONT_NORMAL)
-	normal_and_aliased_hud_render()
+	NAS_hud_render()
 	elseif FontTable[DefaultFont].name == "Aliased" then
 	djui_hud_set_font(FONT_ALIASED)
-	normal_and_aliased_hud_render()
+	NAS_hud_render()
+	elseif FontTable[DefaultFont].name == "Nametags" then
+	djui_hud_set_font(FONT_SPECIAL)
+	NAS_hud_render()
 	end
 	
 	-- SM64 Built in Fonts
@@ -643,7 +700,7 @@ function on_timer_hud_render()
 	djui_hud_render()
 	end
 	
-	if (FontTable[DefaultFont].name == "Normal" or FontTable[DefaultFont].name == "Aliased") then
+	if (FontTable[DefaultFont].name == "Normal" or FontTable[DefaultFont].name == "Aliased" or FontTable[DefaultFont].name == "Nametags") then
 	RectFontsOnly = true
 	else
 	RectFontsOnly = false

@@ -1,6 +1,7 @@
 -- This is a Api for adding a Romhack, I also added a warp to the right location
 -- Set_Custom_Romhack_Position(rules_set, xpos, ypos, zpos, romhacklevel, romhackarea, romhackact, Forced_Level, Custom_Lock, Custom_Warp, Condition)
 local function Set_Custom_Romhack_Position(rules_set, xpos, ypos, zpos, romhacklevel, romhackarea, romhackact, Forced_Level, Custom_Lock, Custom_Warp, Condition)
+	if gGlobalSyncTable.CustomPlugin == "Enabled" and gGlobalSyncTable.GamemodeSetting ~= "SingleStars" then
 	gGlobalSyncTable.CompatibleRomhacks = true
 	currLevelNum = romhacklevel
 	currAreaIndex = romhackarea
@@ -41,9 +42,9 @@ local function Set_Custom_Romhack_Position(rules_set, xpos, ypos, zpos, romhackl
 	gGlobalSyncTable.EndPicture = false
 	end
 	if Condition == "Custom Runs" then
-	DisableCommands = false
+	EnablePluginRuns = false
 	else
-	DisableCommands = true
+	EnablePluginRuns = true
 	end
 	if Condition == "Grand Star and End Picture" then
 	gGlobalSyncTable.GrandStar = true
@@ -55,7 +56,7 @@ local function Set_Custom_Romhack_Position(rules_set, xpos, ypos, zpos, romhackl
 	if Condition == "None" then
 	gGlobalSyncTable.GrandStar = false
 	gGlobalSyncTable.EndPicture = false
-	DisableCommands = true
+	EnablePluginRuns = true
 	end
 	
 if Custom_Lock == "Lock" then
@@ -103,35 +104,24 @@ end
 	warp_to_start_level()
 	set_warp_check = true
 		end
+		end
 	end
 	end
 end
 
 function custom_romhack_runs(RunNumber, Main_Function)
-	if gGlobalSyncTable.RunsSlots == RunNumber then
+	if gGlobalSyncTable.CustomPlugin == "Enabled" and gGlobalSyncTable.GamemodeSetting ~= "SingleStars" then
+	if gGlobalSyncTable.PluginsRunsSlots == RunNumber then
 	if Main_Function == true then
 	gGlobalSyncTable.beatedGame = true
 		end
 	end
-end
-
-local function set_custom_lives(livescheck, number)
-	gGlobalSyncTable.custom_lives = livescheck
- if gGlobalSyncTable.startglobaltimer == 0 then
-		gMarioStates[0].health = 0x880
-		gMarioStates[0].peakHeight = gMarioStates[0].pos.y
-		if livescheck == true then
-		gMarioStates[0].numLives = number
-		else
-		gMarioStates[0].numLives = 4
-		end
-	else
-	return false
 	end
 end
 
-local function custom_anticheat(Which, Option, Number, Main_Function)
-	if Which == "All Runs" then
+local function custom_anticheat(CheatsNumber, Option, Main_Function)
+	if gGlobalSyncTable.AntiCheatsSlots == CheatsNumber then
+	if (gGlobalSyncTable.AntiCheatOption == false and gGlobalSyncTable.GamemodeSetting ~= "Normal") then return end
 	if Main_Function == true then
 	if Option == "Stop Timer" then
 	gGlobalSyncTable.Cheated = true
@@ -147,29 +137,6 @@ local function custom_anticheat(Which, Option, Number, Main_Function)
 	if gGlobalSyncTable.anti_cheat == false then
 	djui_popup_create_global("\\#FF0000\\\nUh oh!!\nSomeone is Trying to Cheat\nor\nTrying to Break the Rules!\n\nThe Timer Will Stopped\nUnless The Timer Resets.", 6)
 	gGlobalSyncTable.anti_cheat = true
-				end
-			end
-		end
-	end
-		
-	if Which == "Custom Runs" then
-	if gGlobalSyncTable.RunsSlots == Number then
-	if Main_Function == true then
-	if Option == "Stop Timer" then
-	gGlobalSyncTable.Cheated = true
-	end
-	if Option == "Popup" then
-	if gGlobalSyncTable.anti_cheat == false then
-	djui_popup_create_global("\\#FF0000\\\nUh oh!!\nSomeone is Trying to Cheat\nor\nTrying to Break the Rules!\n\nThe Timer Doesn't Stop\nSince it's a Warning Popup.", 6)
-	gGlobalSyncTable.anti_cheat = true
-				end
-			end
-	if Option == "Popup and Stop Timer" then
-	gGlobalSyncTable.Cheated = true
-	if gGlobalSyncTable.anti_cheat == false then
-	djui_popup_create_global("\\#FF0000\\\nUh oh!!\nSomeone is Trying to Cheat\nor\nTrying to Break the Rules!\n\nThe Timer Will Stopped\nUnless The Timer Resets.", 6)
-	gGlobalSyncTable.anti_cheat = true
-			end
 		end
 		end
 	end
@@ -177,6 +144,7 @@ local function custom_anticheat(Which, Option, Number, Main_Function)
 end
 
 local function set_time_record(h_time, m_time, s_time, ms_time)
+	if gGlobalSyncTable.GamemodeSetting ~= "Normal" then return end
 	if gGlobalSyncTable.beatedGame and not gGlobalSyncTable.timer_popup then
 	djui_popup_create_global("Your Time: " .. string.format("%s:%s:%s.%s", string.format("%d", Hours), string.format("%02d", Minutes), string.format("%02d", Seconds), string.format("%03d", MilliSeconds)) .. "\n\nRecord Time: " .. string.format("%s:%s:%s.%s", string.format("%d", h_time), string.format("%02d", m_time), string.format("%02d", s_time), string.format("%03d", ms_time)), 3)
 	gGlobalSyncTable.timer_popup = true
@@ -222,7 +190,7 @@ local function set_countdown_custom(savename, texture, xpos, ypos, size1, size2,
 	
 	if FontTable[DefaultFont].name ~= savename then return end
 
-	if countdown_display_check == 0 and gGlobalSyncTable.startcountdown >= 1.01 then
+	if gGlobalSyncTable.countdown_display_check == 0 and gGlobalSyncTable.startcountdown >= 1.01 then
 	
 	if big_number == "Multiplying" then
 	if Layers == "Middle Number" then
@@ -248,15 +216,15 @@ local function set_countdown_custom(savename, texture, xpos, ypos, size1, size2,
 	if Layers == "Middle Number" then
 	if gGlobalSyncTable.startcountdown < 10 then
 	djui_hud_render_texture_tile(get_texture_info(texture), xpos, ypos, size1, size2, (math.floor(gGlobalSyncTable.startcountdown%10)%num1)*size3, (math.floor(gGlobalSyncTable.startcountdown%10/num2)) + size4, size5, size6)
-		end
+	end
 	elseif Layers == "Right Number" then
 	if gGlobalSyncTable.startcountdown >= 10 then
 	djui_hud_render_texture_tile(get_texture_info(texture), xpos, ypos, size1, size2, (math.floor(gGlobalSyncTable.startcountdown%10)%num1)*size3, (math.floor(gGlobalSyncTable.startcountdown%10/num2)) + size4, size5, size6)
-		end
+	end
 	elseif Layers == "Left Number (Tens)" then
 	if gGlobalSyncTable.startcountdown >= 10 then
 	djui_hud_render_texture_tile(get_texture_info(texture), xpos, ypos, size1, size2, ((math.floor(gGlobalSyncTable.startcountdown/10)%10)%num1)*size3, (math.floor(gGlobalSyncTable.startcountdown%100/num2)) + size4, size5, size6)
-			end
+	end
 	elseif Layers == "Left Number (Ones)" then
 	if gGlobalSyncTable.startcountdown >= 10 then
 	djui_hud_render_texture_tile(get_texture_info(texture), xpos, ypos, size1, size2, ((math.floor(gGlobalSyncTable.startcountdown/10)%10)%num1)*size3, (math.floor(gGlobalSyncTable.startcountdown%100/num2)) + size4, size5, size6)
@@ -284,12 +252,41 @@ end
 	end
 end
 
-local function set_extras_custom(savename, texture, xpos, ypos, size1, size2, size3, size4, size5, size6)
+local function set_extras_timer_custom(savename, texture, xpos, ypos, size1, size2, size3, size4, size5, size6)
 	if showSpeedrunTimer ~= 1 then return end
 	
 	if FontTable[DefaultFont].name ~= savename then return end
 	
     djui_hud_render_texture_tile(get_texture_info(texture), xpos + CustomXPos, ypos + CustomYPos, size1, size2, size3, size4, size5, size6)
+end
+
+local function set_extras_countdown_custom(savename, texture, xpos, ypos, size1, size2, size3, size4, size5, size6)
+	if showSpeedrunTimer ~= 1 then return end
+	
+	if FontTable[DefaultFont].name ~= savename then return end
+
+	if gGlobalSyncTable.countdown_display_check == 0 and gGlobalSyncTable.startcountdown >= 1.01 then
+	
+    djui_hud_render_texture_tile(get_texture_info(texture), xpos + CustomXPos, ypos + CustomYPos, size1, size2, size3, size4, size5, size6)
+	end
+end
+
+local function set_extras_go_custom(savename, texture, xpos, ypos, size1, size2, size3, size4, size5, size6)
+	if showSpeedrunTimer ~= 1 then return end
+	
+	if FontTable[DefaultFont].name ~= savename then return end
+	
+if gGlobalSyncTable.startcountdown <= 1 then
+    if gGlobalSyncTable.GoTimer <= 0 then
+        return true
+	else
+	if gGlobalSyncTable.GoTimer >= 30 then
+	return false
+    end
+end
+	
+    djui_hud_render_texture_tile(get_texture_info(texture), xpos + CustomXPos, ypos + CustomYPos, size1, size2, size3, size4, size5, size6)
+	end
 end
 
 local function set_time_custom(savename, texture, xpos, ypos, size1, size2, size3, size4, size5, size6, num1, num2, number, option, xpos2, ypos2, size7, size8, size9, num3, num4, size10, size11, size12, num3, num4)
@@ -525,8 +522,10 @@ end
 local function set_custom_fanfare(savename, longname, custom_sounds)
 	if FanfareTable[FanfareDefault].fanfare_sound == savename and FanfareTable[FanfareDefault].long_fanfare_name == longname then
 	
-	if gGlobalSyncTable.Intermission and (gGlobalSyncTable.Intercountdown <= 5.96 and gGlobalSyncTable.Intercountdown >= 5.93) then
+	if gGlobalSyncTable.StartingSettings == "Both" or gGlobalSyncTable.StartingSettings == "Intermission" then
+	if gGlobalSyncTable.Intermission and (gGlobalSyncTable.Intercountdown <= 5.93 and gGlobalSyncTable.Intercountdown >= 5.90) then
 		audio_stream_play(audio_stream_load(custom_sounds), true, 1)
+		end
 	end
 	end
 end
@@ -535,6 +534,7 @@ local function set_custom_countdown(savename, longname, custom_sounds, which_num
 	local sounds = gGlobalSyncTable.startcountdown
 	
 	if CountdownTable[CountdownDefault].countdown_sound == savename and CountdownTable[CountdownDefault].long_countdown_name == longname then
+	if gGlobalSyncTable.StartingSettings == "Both" or gGlobalSyncTable.StartingSettings == "Countdown" then
 	
 	if which_number == "One Each" then
 	if sounds == set_numbers + 1 then
@@ -548,17 +548,54 @@ local function set_custom_countdown(savename, longname, custom_sounds, which_num
 	or sounds == 5 + 1 or sounds == 4 + 1 or sounds == 3 + 1 or sounds == 2 + 1 or sounds == 1 + 1) then
 	if gGlobalSyncTable.Intercountdown == 0 and gGlobalSyncTable.startglobaltimer == 0 then
 	audio_stream_play(audio_stream_load(custom_sounds), true, 1)
-				end
 			end
 		end
+		end
+	end
 	end
 end
 
 local function set_custom_go(savename, longname, custom_sounds)
 	if GoTable[GoDefault].go_sound == savename and GoTable[GoDefault].long_go_name == longname then
 	
+	if gGlobalSyncTable.GamemodeSetting == "PracticeRun" then
+	if gGlobalSyncTable.startglobaltimer == 2 and gGlobalSyncTable.timercountdown == 30 then
+	audio_stream_play(audio_stream_load(custom_sounds), true, 1)
+	end
+	end
+	
+	if gGlobalSyncTable.GamemodeSetting == "Normal" and gGlobalSyncTable.EnabledIntro == false then
+	if gGlobalSyncTable.StartingSettings == "Both" or gGlobalSyncTable.StartingSettings == "Countdown" then
 	if gGlobalSyncTable.startglobaltimer == 0 and gGlobalSyncTable.timercountdown == 30 then
 	audio_stream_play(audio_stream_load(custom_sounds), true, 1)
+		end
+	end
+	
+	if gGlobalSyncTable.StartingSettings == "Intermission" then
+	if gGlobalSyncTable.Intermission then
+	if gGlobalSyncTable.startglobaltimer == 1 and gGlobalSyncTable.Intercountdown == 0 then
+		audio_stream_play(audio_stream_load(custom_sounds), true, 1)
+			end
+		end
+	end
+	
+	if gGlobalSyncTable.StartingSettings == "None" then
+	if gGlobalSyncTable.startTimer then
+	gGlobalSyncTable.timercountdown = 30
+	if gGlobalSyncTable.startglobaltimer == 2 and gGlobalSyncTable.timercountdown == 30 then
+	audio_stream_play(audio_stream_load(custom_sounds), true, 1)
+			end
+		end
+		end	
+	end
+	
+	if gGlobalSyncTable.GamemodeSetting == "Normal" and gGlobalSyncTable.EnabledIntro == true then
+	if gGlobalSyncTable.startTimer then
+	gGlobalSyncTable.timercountdown = 30
+	if gGlobalSyncTable.startglobaltimer == 2 and gGlobalSyncTable.timercountdown == 30 then
+	audio_stream_play(audio_stream_load(custom_sounds), true, 1)
+			end
+		end
 		end
 	end
 end
@@ -601,43 +638,57 @@ end
 -- Api For Other Mods
 _G.SpeedrunTimerReworked = true
 _G.STRApi = {
-	-- Complex Plugins --
+	-- Main Runs and Custom Runs --
 	Set_Custom_Romhack_Position = Set_Custom_Romhack_Position,
-	set_time_record = set_time_record,
-	set_custom_color_on_RH_Fonts = set_custom_color_on_RH_Fonts,
+	menu_custom_runs = menu_custom_runs,
 	custom_romhack_runs = custom_romhack_runs,
-	set_custom_lives = set_custom_lives,
-	custom_anticheat = custom_anticheat,
-	Display_Custom_Rules_Text = Display_Custom_Rules_Text,
-	Display_Custom_Rules_Romhack = Display_Custom_Rules_Romhack,
-	set_countdown_custom = set_countdown_custom,
-	set_time_custom = set_time_custom,
-	set_milliseconds_custom = set_milliseconds_custom,
-	set_seconds_custom = set_seconds_custom,
-	set_minutes_custom = set_minutes_custom,
-	set_hours_custom = set_hours_custom,
-	set_go_custom = set_go_custom,
-	set_extras_custom = set_extras_custom,
-	set_custom_color_on_fonts = set_custom_color_on_fonts,
-	set_custom_fanfare_name = set_custom_fanfare_name,
-	set_custom_countdown_name = set_custom_countdown_name,
-	set_custom_go_name = set_custom_go_name,
-	set_custom_fanfare = set_custom_fanfare,
-	set_custom_countdown = set_custom_countdown,
-	set_custom_go = set_custom_go,
 	
 	add_custom_run = function (Number, NameSlot)
-	DisableCommands = false
+	EnablePluginRuns = false
 	Romhack_Runs_Option = true
 	table.insert(RunTable, { RunsSlotName = NameSlot, RunsSlotNumber = Number })
 	return #RunTable
 	end,
 	
+	add_anti_cheat = function (AntiNumber, CheatSlot)
+	gGlobalSyncTable.AntiCheatOption = true
+	table.insert(AntiCheatTable, { AntiCheatName = CheatSlot, AntiCheatNumber = AntiNumber })
+	return #AntiCheatTable
+	end,
+	
+	set_beated_game = function (enable)
+	gGlobalSyncTable.beatedGame = enable
+	end,
+	
+	set_backup_slot = function (enable)
+	gGlobalSyncTable.backupslot = enable
+	BackupSlotPluginCheck = true
+	end,
+	
+	-- Rules --
+	Display_Custom_Rules_Text = Display_Custom_Rules_Text,
+	Display_Custom_Rules_Romhack = Display_Custom_Rules_Romhack,
+	
+	-- Fonts --
 	add_font = function (custom_name, custom_longname)
         table.insert(FontTable, { name = custom_name, longname = custom_longname })
 		return #FontTable
     end,
 	
+	set_custom_color_on_fonts = set_custom_color_on_fonts,
+	set_custom_color_on_RH_Fonts = set_custom_color_on_RH_Fonts,
+	set_countdown_custom = set_countdown_custom,
+	set_go_custom = set_go_custom,
+	set_time_custom = set_time_custom,
+	set_milliseconds_custom = set_milliseconds_custom,
+	set_seconds_custom = set_seconds_custom,
+	set_minutes_custom = set_minutes_custom,
+	set_hours_custom = set_hours_custom,
+	set_extras_timer_custom = set_extras_timer_custom,
+	set_extras_countdown_custom = set_extras_countdown_custom,
+	set_extras_go_custom = set_extras_go_custom,
+	
+	-- Sounds --
 	set_custom_fanfare_name = function (savename, longname)
         table.insert(FanfareTable, { fanfare_sound = savename, long_fanfare_name = longname })
 		return #FanfareTable
@@ -653,21 +704,15 @@ _G.STRApi = {
 		return #GoTable
     end,
 	
-	-- Simple Plugins --
-	set_teams = function (enable)
-	gGlobalSyncTable.SpeedrunTeams = enable
+	set_custom_fanfare = set_custom_fanfare,
+	set_custom_countdown = set_custom_countdown,
+	set_custom_go = set_custom_go,
+	
+	-- Extra --
+	set_time_record = set_time_record,
+	custom_anticheat = custom_anticheat,
+
+	disable_teams = function ()
 	DisableTeams = true
-	end,
-	
-	set_beated_game = function (enable)
-	gGlobalSyncTable.beatedGame = enable
-	end,
-	
-	set_compatible_romhack = function (enable)
-	gGlobalSyncTable.CompatibleRomhacks = enable
-	end,
-	
-	set_anti_cheat = function (enable)
-	gGlobalSyncTable.Cheated = enable
 	end,
 }

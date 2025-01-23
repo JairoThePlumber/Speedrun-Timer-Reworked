@@ -143,7 +143,7 @@ function displayrules(m)
         },
         {
 		
-			"Get 1 star in DDD after doing SBLJ",
+			"Get one Star in DDD after doing Mips Clip",
 			 70,
             -180,
             globalFont,
@@ -161,7 +161,7 @@ function displayrules(m)
         },
 		{
             "16 Star: Get 16 Stars",
-            0,
+            -70,
             -157,
             globalFont,
             scale - 0.7,
@@ -170,7 +170,7 @@ function displayrules(m)
         {
 		
 		    "Collect 16 Stars and then Beat Bowser",
-            0,
+            -70,
             -147,
             globalFont,
             scale - 0.7,
@@ -179,7 +179,33 @@ function displayrules(m)
 		{
 		
 			"(SBLJs are banned)",
-            0,
+            -70,
+            -137,
+            globalFont,
+            scale - 0.7,
+            color
+        },
+		{
+            "31 Star: Get 31 Stars",
+			 70,
+            -157,
+            globalFont,
+            scale - 0.7,
+            color
+        },
+        {
+		
+		    "30 star door cannot be bypassed",
+             70,
+            -147,
+            globalFont,
+            scale - 0.7,
+            color
+        },
+		{
+		
+			"(SBLJ and MIPS clip are banned)",
+             70,
             -137,
             globalFont,
             scale - 0.7,
@@ -187,8 +213,8 @@ function displayrules(m)
         },
 		{
 		
-            "70 Star: Get 70 Stars",
-            0,
+            "45 Star: Get 45 Stars",
+            -70,
             -123,
             globalFont,
             scale - 0.7,
@@ -196,8 +222,8 @@ function displayrules(m)
         },
         {
 		
-		    "All Star Doors Cannot Be Skipped",
-            0,
+		    "Skip the 50 star door with BLJs",
+            -70,
             -113,
             globalFont,
             scale - 0.7,
@@ -205,16 +231,43 @@ function displayrules(m)
         },
 		{
 		
-		    "(BLJs and MIPS clip are banned)",
-            0,
+		    "(LBLJ, SBLJ and MIPS clip are Banned)",
+            -70,
             -103,
             globalFont,
             scale - 0.7,
             color
         },
         {
-            "120 Star: Get 120 Stars",
-            0,
+		
+            "50 Star: Get 50 Stars",
+            70,
+            -123,
+            globalFont,
+            scale - 0.7,
+            color
+        },
+        {
+		
+		    "Castle star doors cannot be bypassed.",
+            70,
+            -113,
+            globalFont,
+            scale - 0.7,
+            color
+        },
+		{
+		
+		    "(LBLJ, SBLJ and MIPS clip are Banned)",
+            70,
+            -103,
+            globalFont,
+            scale - 0.7,
+            color
+        },
+        {
+            "70 Star: Get 70 Stars",
+            -70,
             -90,
             globalFont,
             scale - 0.7,
@@ -222,8 +275,25 @@ function displayrules(m)
         },
         {
 		
-		    "Collect Every Single Star in the Game",
-            0,
+		    "BLJs and MIPS clip are banned",
+            -70,
+            -80,
+            globalFont,
+            scale - 0.7,
+            color
+        },
+		{
+            "90 Star: Get 90 Stars",
+            70,
+            -90,
+            globalFont,
+            scale - 0.7,
+            color
+        },
+        {
+		
+		    "Only Collect 6 Main Stars in Each Main Level",
+            70,
             -80,
             globalFont,
             scale - 0.7,
@@ -231,18 +301,18 @@ function displayrules(m)
         },
 		{
 		
-		    "Including The Sercet Stars and Bowser Stars",
+		    "120 Star: Get 120 Stars",
             0,
-            -70,
+            -67,
             globalFont,
             scale - 0.7,
             color
         },
         {
 		
-		    "(All Glitches are Allowed)",
+		    "All glitches allowed",
             0,
-            -60,
+            -57,
             globalFont,
             scale - 0.7,
             color
@@ -367,6 +437,150 @@ function displayrules(m)
         },
 		{
             "These rules are for OMM Rebirth, To avoid confusion of what run to do",
+            0,
+            -22,
+            globalFont,
+            scale - 0.7,
+            color
+        }
+    }
+	
+	-- Super Mario Star Road
+	srtexts = {
+        {
+            "Any%: Grab Any stars",
+            -70,
+            -190,
+            globalFont,
+            scale - 0.7,
+            color
+        },
+        {
+		
+		    "Beat the Game with any amount of stars",
+            -70,
+            -180,
+            globalFont,
+            scale - 0.7,
+            color
+        },
+		{
+		
+			"(All Glitches are allowed)",
+            -70,
+            -170,
+            globalFont,
+            scale - 0.7,
+            color
+        },
+		{
+            "20 Star: Grab 20 stars",
+			 70,
+            -190,
+            globalFont,
+            scale - 0.7,
+            color
+        },
+        {
+		
+		    "Defeat the Plants and Grab the Key",
+             70,
+            -180,
+            globalFont,
+            scale - 0.7,
+            color
+        },
+		{
+		
+			"(Clipping Out of Bounds is Banned)",
+             70,
+            -170,
+            globalFont,
+            scale - 0.7,
+            color
+        },
+		{
+		
+            "65 Star: Get 65 Stars",
+            0,
+            -157,
+            globalFont,
+            scale - 0.7,
+            color
+        },
+        {
+		
+		    "Take the Cannon and clip through star door",
+            0,
+            -147,
+            globalFont,
+            scale - 0.7,
+            color
+        },
+		{
+		
+			"(All Glitches are allowed)",
+            0,
+            -137,
+            globalFont,
+            scale - 0.7,
+            color
+        },
+        {
+		
+            "80 Star: Get 80 Stars",
+            0,
+            -120,
+            globalFont,
+            scale - 0.7,
+            color
+        },
+        {
+		
+		    "You can't passed the 80 Star door",
+            0,
+            -110,
+            globalFont,
+            scale - 0.7,
+            color
+        },
+		{
+		
+			"(BLJs are Banned)",
+            0,
+            -100,
+            globalFont,
+            scale - 0.7,
+            color
+        },
+        {
+            "130 Star: Get 130 Stars",
+            0,
+            -80,
+            globalFont,
+            scale - 0.7,
+            color
+        },
+        {
+		
+		    "Make sure get All Stars and All Replica Stars",
+            0,
+            -70,
+            globalFont,
+            scale - 0.7,
+            color
+        },
+		{
+		
+			"(All Glitches are allowed)",
+            0,
+            -60,
+            globalFont,
+            scale - 0.7,
+            color
+        },
+		{
+            "Here's are the Runs: [Any|20|65|80|130]",
             0,
             -22,
             globalFont,
