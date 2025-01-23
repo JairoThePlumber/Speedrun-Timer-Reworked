@@ -31,9 +31,9 @@ end
 function custom_speedrun_check(m)
 if _G.SpeedrunTimerReworked then
 if Selected_Romhack == true then
-	_G.STRApi.custom_romhack_runs(1, "Mario Update Star")
-	_G.STRApi.custom_romhack_runs(2, "Interaction Star")
-	_G.STRApi.custom_romhack_runs(3, "Update Star")
+	_G.STRApi.add_custom_run(1, "Mario Update Star")
+	_G.STRApi.add_custom_run(2, "Interaction Star")
+	_G.STRApi.add_custom_run(3, "Update Star")
 		end
     end
 end

@@ -15,9 +15,23 @@ hook_event(HOOK_UPDATE, speedrun_timer)
 
 function custom_anti_cheat()
 if _G.SpeedrunTimerReworked then
-_G.STRApi.custom_anticheat("All Runs", "Popup and Stop Timer", nil, gMarioStates[0].numStars <= 70 and gNetworkPlayers[0].currLevelNum == LEVEL_BITS)
+_G.STRApi.custom_anticheat(1, "Popup and Stop Timer", gMarioStates[0].numStars <= 70 and gNetworkPlayers[0].currLevelNum == LEVEL_BITS)
+_G.STRApi.custom_anticheat(2, "Popup", gMarioStates[0].numStars <= 30 and gNetworkPlayers[0].currLevelNum == LEVEL_DDD)
+_G.STRApi.custom_anticheat(3, "Stop Timer", gMarioStates[0].forwardVel < -100)
+_G.STRApi.custom_anticheat(4, "Popup and Stop Timer", gMarioStates[0].numStars <= 8 and gNetworkPlayers[0].currLevelNum == LEVEL_BITDW)
 	end
 end
 
 hook_event(HOOK_UPDATE, custom_anti_cheat)
 
+
+function str_anti_cheats(m)
+if _G.SpeedrunTimerReworked then
+	_G.STRApi.add_anti_cheat(1, "Going To Bowser Early")
+	_G.STRApi.add_anti_cheat(2, "Skipping To DDD Early (Popup Warning)")
+	_G.STRApi.add_anti_cheat(3, "No BLJ Allowed (Timer Stop)")
+	_G.STRApi.add_anti_cheat(4, "No LBLJ")
+    end
+end
+
+hook_event(HOOK_ON_MODS_LOADED, str_anti_cheats)
