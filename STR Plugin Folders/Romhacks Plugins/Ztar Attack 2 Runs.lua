@@ -14,7 +14,6 @@ local function ztar_attack_2_position()
 if _G.SpeedrunTimerReworked then
 if Ztar_Attack_2 then
 _G.STRApi.Set_Custom_Romhack_Position(true, -1226, -1823, 515, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Level Warp", "Custom Runs")
-_G.STRApi.set_custom_lives(true, 10)
 		end
 	end
 end

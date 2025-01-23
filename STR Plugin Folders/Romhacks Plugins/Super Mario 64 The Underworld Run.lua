@@ -14,7 +14,8 @@ local function underworld_position()
 if _G.SpeedrunTimerReworked then
 if The_Underworld then 
 _G.STRApi.Set_Custom_Romhack_Position(false, -1328, 260, 4664, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "Lock", "Disable", "Grand Star")
-_G.STRApi.set_teams(false)
+_G.STRApi.disable_teams()
+_G.STRApi.set_backup_slot(true)
 		end
 	end
 end

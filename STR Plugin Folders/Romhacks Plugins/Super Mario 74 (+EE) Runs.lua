@@ -18,9 +18,11 @@ if _G.SpeedrunTimerReworked then
 for romhacks in pairs(gActiveMods) do
 if Super_Mario_74 then
 _G.STRApi.Set_Custom_Romhack_Position(true, -6558, -578, 6464, LEVEL_CASTLE_COURTYARD, 1, 0, "Force Level", "No Lock", "Level Warp", "Grand Star")
+_G.STRApi.set_backup_slot(false)
 
 elseif Super_Mario_74_Extreme_Edition then
 _G.STRApi.Set_Custom_Romhack_Position(true, 5481, -922, 6320, LEVEL_CASTLE_COURTYARD, 2, 0, "Force Level", "No Lock", "Level Warp", "Grand Star")
+_G.STRApi.set_backup_slot(true)
 		end
 	end
 	end
