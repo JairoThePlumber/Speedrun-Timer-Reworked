@@ -107,10 +107,10 @@ _G.STRApi.set_custom_fanfare("MKDSB", "Mario Kart DS (Battle)", "MKDS Fanfare (B
 _G.STRApi.set_custom_countdown("MKDS", "Mario Kart DS", "MKDS Countdown.ogg", "Only 10", nil)
 _G.STRApi.set_custom_go("MKDS", "Mario Kart DS", "MKDS Go.ogg")
 
-_G.STRApi.set_custom_fanfare("MKWIITT", "Mario Kart Wii (Time Trials)", "MKWII Fanfare (Time Trials).ogg")
-_G.STRApi.set_custom_fanfare("MKWIIO", "Mario Kart Wii (Online)", "MKWII Fanfare (Online).ogg")
-_G.STRApi.set_custom_countdown("MKWIIB", "Mario Kart Wii (Battle)", "MKWII Countdown (Battle).ogg", "Only 10", nil)
-_G.STRApi.set_custom_go("MKWIIB", "Mario Kart Wii (Battle)", "MKWII Go (Battle).ogg")
+_G.STRApi.set_custom_fanfare("MKWIITT", "Mario Kart Wii (Time Trials)", "MKWii Fanfare (Time Trials).ogg")
+_G.STRApi.set_custom_fanfare("MKWIIO", "Mario Kart Wii (Online)", "MKWii Fanfare (Online).ogg")
+_G.STRApi.set_custom_countdown("MKWIIB", "Mario Kart Wii (Battle)", "MKWii Countdown (Battle).ogg", "Only 10", nil)
+_G.STRApi.set_custom_go("MKWIIB", "Mario Kart Wii (Battle)", "MKWii Go (Battle).ogg")
 
 _G.STRApi.set_custom_fanfare("MK7", "Mario Kart 7", "MK7 Fanfare.ogg")
 _G.STRApi.set_custom_fanfare("MK7TT", "Mario Kart 7 (Time Trials)", "MK7 Fanfare (Time Trials).ogg")
