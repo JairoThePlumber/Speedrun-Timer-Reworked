@@ -21,6 +21,7 @@ hook_event(HOOK_UPDATE, speedrun_timer)
 -- You can check the api functions to check of what to do
 
 local function on_fonts_names_load()
+	if not _G.SpeedrunTimerReworked then return end
 	_G.STRApi.add_font("SMB1", "Super Mario Bros.")
 	_G.STRApi.add_font("SMB2", "Super Mario Bros. 2 (USA)")
 	_G.STRApi.add_font("SMW", "Super Mario World")

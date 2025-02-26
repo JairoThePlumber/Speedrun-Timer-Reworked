@@ -2,9 +2,21 @@
 -- incompatible:
 -- description: The Official Speedrun Timer Custom Sounds Plugins
 
+-- A Warning Check
+speedrun_timer_check = false
+function speedrun_timer()
+if not _G.SpeedrunTimerReworked and speedrun_timer_check == false then	
+    djui_popup_create("\\#ff0000\\\nWarning:\nThis Plugin is Disable without The Speedrun Timer Reworked Mod.\n\nI suggest you Go Back and Get it Before You Use This Plugin.", 5)
+	speedrun_timer_check = true
+	end
+end
+
+hook_event(HOOK_UPDATE, speedrun_timer)
+
 -- Here's are the Api For setting the custom sounds
 
 local function on_sounds_names_load()
+	if not _G.SpeedrunTimerReworked then return end
 	_G.STRApi.set_custom_countdown_name("SM64DS", "Super Mario 64 DS")
 	_G.STRApi.set_custom_go_name("SM64DS", "Super Mario 64 DS")
 	
@@ -74,42 +86,42 @@ hook_event(HOOK_ON_MODS_LOADED, on_sounds_names_load)
 
 local function custom_sounds(m)
 if _G.SpeedrunTimerReworked then
-_G.STRApi.set_custom_countdown("SM64DS", "Super Mario 64 DS", "SM64DS Countdown.ogg", "Only 10", nil)
+_G.STRApi.set_custom_countdown("SM64DS", "Super Mario 64 DS", "SM64DS Countdown.ogg", "All Numbers", nil)
 _G.STRApi.set_custom_go("SM64DS", "Super Mario 64 DS", "SM64DS Go.ogg")
 
 _G.STRApi.set_custom_fanfare("SMG", "Super Mario Galaxy 1/2", "SMG Fanfare.ogg")
-_G.STRApi.set_custom_countdown("SMG", "Super Mario Galaxy 1/2", "SMG Countdown.ogg", "Only 10", nil)
+_G.STRApi.set_custom_countdown("SMG", "Super Mario Galaxy 1/2", "SMG Countdown.ogg", "All Numbers", nil)
 _G.STRApi.set_custom_go("SMG", "Super Mario Galaxy 1/2", "SMG Go.ogg")
 
 _G.STRApi.set_custom_fanfare("SMK", "Super Mario Kart", "SMK Fanfare.ogg")
-_G.STRApi.set_custom_countdown("SMK", "Super Mario Kart", "SMK Countdown.ogg", "Only 10", nil)
+_G.STRApi.set_custom_countdown("SMK", "Super Mario Kart", "SMK Countdown.ogg", "All Numbers", nil)
 _G.STRApi.set_custom_go("SMK", "Super Mario Kart", "SMK Go.ogg")
 
 _G.STRApi.set_custom_fanfare("MK64", "Mario Kart 64", "MK64 Fanfare.ogg")
 _G.STRApi.set_custom_fanfare("MK64TT", "Mario Kart 64 (Time Trials)", "MK64 Fanfare (Time Trials).ogg")
-_G.STRApi.set_custom_countdown("MK64", "Mario Kart 64", "MK64 Countdown.ogg", "Only 10", nil)
+_G.STRApi.set_custom_countdown("MK64", "Mario Kart 64", "MK64 Countdown.ogg", "All Numbers", nil)
 _G.STRApi.set_custom_go("MK64", "Mario Kart 64", "MK64 Go.ogg")
 
 _G.STRApi.set_custom_fanfare("MKSC", "Mario Kart: Super Circuit", "MKSC Fanfare.ogg")
 _G.STRApi.set_custom_fanfare("MKSCTT", "Mario Kart: Super Circuit (Time Trials)", "MKSC Fanfare (Time Trials).ogg")
-_G.STRApi.set_custom_countdown("MKSC", "Mario Kart: Super Circuit", "MKSC Countdown.ogg", "Only 10", nil)
+_G.STRApi.set_custom_countdown("MKSC", "Mario Kart: Super Circuit", "MKSC Countdown.ogg", "All Numbers", nil)
 _G.STRApi.set_custom_go("MKSC", "Mario Kart: Super Circuit", "MKSC Go.ogg")
 
 _G.STRApi.set_custom_fanfare("MKDD", "Mario Kart: Double Dash!!", "MKDD Fanfare.ogg")
 _G.STRApi.set_custom_fanfare("MKDDTT", "Mario Kart: Double Dash!! (Time Trials)", "MKDD Fanfare (Time Trials).ogg")
 _G.STRApi.set_custom_fanfare("MKDDB", "Mario Kart: Double Dash!! (Battle)", "MKDD Fanfare (Battle).ogg")
-_G.STRApi.set_custom_countdown("MKDD", "Mario Kart: Double Dash!!", "MKDD Countdown.ogg", "Only 10", nil)
+_G.STRApi.set_custom_countdown("MKDD", "Mario Kart: Double Dash!!", "MKDD Countdown.ogg", "All Numbers", nil)
 _G.STRApi.set_custom_go("MKDD", "Mario Kart: Double Dash!!", "MKDD Go.ogg")
 
 _G.STRApi.set_custom_fanfare("MKDS", "Mario Kart DS", "MKDS Fanfare.ogg")
 _G.STRApi.set_custom_fanfare("MKDSTT", "Mario Kart DS (Time Trials)", "MKDS Fanfare (Time Trials).ogg")
 _G.STRApi.set_custom_fanfare("MKDSB", "Mario Kart DS (Battle)", "MKDS Fanfare (Battle).ogg")
-_G.STRApi.set_custom_countdown("MKDS", "Mario Kart DS", "MKDS Countdown.ogg", "Only 10", nil)
+_G.STRApi.set_custom_countdown("MKDS", "Mario Kart DS", "MKDS Countdown.ogg", "All Numbers", nil)
 _G.STRApi.set_custom_go("MKDS", "Mario Kart DS", "MKDS Go.ogg")
 
 _G.STRApi.set_custom_fanfare("MKWIITT", "Mario Kart Wii (Time Trials)", "MKWii Fanfare (Time Trials).ogg")
 _G.STRApi.set_custom_fanfare("MKWIIO", "Mario Kart Wii (Online)", "MKWii Fanfare (Online).ogg")
-_G.STRApi.set_custom_countdown("MKWIIB", "Mario Kart Wii (Battle)", "MKWii Countdown (Battle).ogg", "Only 10", nil)
+_G.STRApi.set_custom_countdown("MKWIIB", "Mario Kart Wii (Battle)", "MKWii Countdown (Battle).ogg", "All Numbers", nil)
 _G.STRApi.set_custom_go("MKWIIB", "Mario Kart Wii (Battle)", "MKWii Go (Battle).ogg")
 
 _G.STRApi.set_custom_fanfare("MK7", "Mario Kart 7", "MK7 Fanfare.ogg")
@@ -123,8 +135,8 @@ _G.STRApi.set_custom_fanfare("MK8", "Mario Kart 8", "MK8 Fanfare.ogg")
 _G.STRApi.set_custom_fanfare("MK8TT", "Mario Kart 8 (Time Trials)", "MK8 Fanfare (Time Trials).ogg")
 _G.STRApi.set_custom_fanfare("MK8B", "Mario Kart 8 (Battle)", "MK8 Fanfare (Battle).ogg")
 _G.STRApi.set_custom_fanfare("MK8F", "Mario Kart 8 (F-Zero)", "MK8 Fanfare (F-Zero).ogg")
-_G.STRApi.set_custom_countdown("MK8", "Mario Kart 8", "MK8 Countdown.ogg", "Only 10", nil)
-_G.STRApi.set_custom_countdown("MK8B", "Mario Kart 8 (Battle)", "MK8 Countdown (Battle).ogg", "Only 10", nil)
+_G.STRApi.set_custom_countdown("MK8", "Mario Kart 8", "MK8 Countdown.ogg", "All Numbers", nil)
+_G.STRApi.set_custom_countdown("MK8B", "Mario Kart 8 (Battle)", "MK8 Countdown (Battle).ogg", "All Numbers", nil)
 _G.STRApi.set_custom_go("MK8", "Mario Kart 8", "MK8 Go.ogg")
 _G.STRApi.set_custom_go("MK8B", "Mario Kart 8 (Battle)", "MK8 Go (Battle).ogg")
 
@@ -140,4 +152,4 @@ _G.STRApi.set_custom_fanfare("MKLHCTT", "Mario Kart Live: Home Circuit (Time Tri
 	end
 end
 
-hook_event(HOOK_MARIO_UPDATE, custom_sounds)
+hook_event(HOOK_UPDATE, custom_sounds)
