@@ -23,43 +23,24 @@ if not Selected_Romhack return end
 function custom_romhack_position()
 if _G.SpeedrunTimerReworked then
 if Selected_Romhack == true then
-_G.STRApi.Set_Custom_Romhack_Position(true, 0, 0, 0, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Level Warp", "Custom Runs")
+	_G.STRApi.Enable_Custom_Rules()
+	_G.STRApi.custom_plugin_slots(1, "Enabled", "Stop Timer: Stars", 70, 0, "None", "Star Limit")
+	_G.STRApi.custom_plugin_slots(2, "Enabled", "Stop Timer: Levels", 28, 1, 0, "Level Location")
+	_G.STRApi.custom_plugin_slots(3, "Enabled", "Stop Timer: Actions", 7, 0, "Only Actions")
+	_G.STRApi.custom_plugin_slots(4, "Enabled", "Stop Timer: Positions", 0, 0, 0, 0, 0, 0, "X Position Area")
 		end
 	end
 end
 
-function custom_speedrun_check(m)
+function custom_speedrun_check()
 if _G.SpeedrunTimerReworked then
 if Selected_Romhack == true then
-	_G.STRApi.add_custom_run(1, "Mario Update Star")
-	_G.STRApi.add_custom_run(2, "Interaction Star")
-	_G.STRApi.add_custom_run(3, "Update Star")
+	_G.STRApi.add_custom_run(1, "Stars Function")
+	_G.STRApi.add_custom_run(2, "Levels Function")
+	_G.STRApi.add_custom_run(3, "Actions Function")
+	_G.STRApi.add_custom_run(4, "Position Function")
 		end
     end
-end
-
-function custom_stars_mario_update(m)
-if _G.SpeedrunTimerReworked then
-if Selected_Romhack == true then
-	 _G.STRApi.custom_romhack_runs(1, m.numStars == 70)
-		end
-	end
-end
-
-function custom_stars_interact_update(m, o)
-if _G.SpeedrunTimerReworked then
-if Selected_Romhack == true then
-	 _G.STRApi.custom_romhack_runs(2, get_id_from_behavior(o.behavior) == id_bhvGrandStar)
-		end
-	end
-end
-
-function custom_stars_update(m, o)
-if _G.SpeedrunTimerReworked then
-if Selected_Romhack == true then
-	 _G.STRApi.custom_romhack_runs(3, gNetworkPlayers[0].currLevelNum == LEVEL_ENDING)
-		end
-	end
 end
 
 function display_custom_rules()
@@ -90,7 +71,4 @@ end
 hook_event(HOOK_UPDATE, custom_romhack_position)
 hook_event(HOOK_ON_HUD_RENDER, display_custom_rules)
 hook_event(HOOK_ON_MODS_LOADED, custom_speedrun_check)
-hook_event(HOOK_MARIO_UPDATE, custom_stars_mario_update)
-hook_event(HOOK_ON_INTERACT, custom_stars_interact_update)
-hook_event(HOOK_UPDATE, custom_stars_update)
 

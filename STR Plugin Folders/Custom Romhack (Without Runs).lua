@@ -1,3 +1,4 @@
+
 -- A Warning Check
 speedrun_timer_check = false
 function speedrun_timer()
@@ -22,7 +23,8 @@ if not Selected_Romhack return end
 function custom_romhack_position()
 if _G.SpeedrunTimerReworked then
 if Selected_Romhack == true then
-_G.STRApi.Set_Custom_Romhack_Position(true, 0, 0, 0, LEVEL_CASTLE_GROUNDS, 1, 0, "Force Level", "No Lock", "Level Warp", "Grand Star and End Picture")
+	_G.STRApi.Enable_Custom_Rules()
+	_G.STRApi.custom_plugin_slots(0, "Disabled", "Stop Timer: Stars", 0, 0, "Grand Star", "Behavior Types")
 		end
 	end
 end
