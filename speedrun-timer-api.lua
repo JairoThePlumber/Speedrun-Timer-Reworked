@@ -1,121 +1,108 @@
 -- This is a Api for adding a Romhack, I also added a warp to the right location
 -- Set_Custom_Romhack_Position(rules_set, xpos, ypos, zpos, romhacklevel, romhackarea, romhackact, Forced_Level, Custom_Lock, Custom_Warp, Condition)
-local function Set_Custom_Romhack_Position(rules_set, xpos, ypos, zpos, romhacklevel, romhackarea, romhackact, Forced_Level, Custom_Lock, Custom_Warp, Condition)
-	if gGlobalSyncTable.CustomPlugin == "Enabled" and gGlobalSyncTable.GamemodeSetting ~= "SingleStars" then
-	gGlobalSyncTable.CompatibleRomhacks = true
-	currLevelNum = romhacklevel
-	currAreaIndex = romhackarea
-	currActNum = romhackact
-	DisplayCustomRules = rules_set
-	DisplayBuiltinRules = false
-	
-	if Condition ~= "Custom Runs" then
-	Romhack_Runs_Option = false
-	elseif Condition == "Custom Runs" then
-	Romhack_Runs_Option = true
-	end
-	
-	if Forced_Level == "Force Level" then
-	if gGlobalSyncTable.startglobaltimer < 0.1 and gNetworkPlayers[0].currLevelNum ~= romhacklevel then
-	warp_to_level(romhacklevel, romhackarea, romhackact)
-		end
-	end
-	if Forced_Level == "Force Area" then
-	if gGlobalSyncTable.startglobaltimer < 0.1 and gNetworkPlayers[0].currAreaIndex ~= romhackarea then
-	warp_to_level(romhacklevel, romhackarea, romhackact)
-		end
-	end
-	if Forced_Level == "Force Act" then
-	if gGlobalSyncTable.startglobaltimer < 0.1 and gNetworkPlayers[0].currActNum ~= romhackact then
-	warp_to_level(romhacklevel, romhackarea, romhackact)
-		end
-	end
-	
-	if Condition == "Grand Star" then
-	gGlobalSyncTable.GrandStar = true
-	else
-	gGlobalSyncTable.GrandStar = false
-	end
-	if Condition == "End Picture" then
-	gGlobalSyncTable.EndPicture = true
-	else
-	gGlobalSyncTable.EndPicture = false
-	end
-	if Condition == "Custom Runs" then
-	EnablePluginRuns = false
-	else
-	EnablePluginRuns = true
-	end
-	if Condition == "Grand Star and End Picture" then
-	gGlobalSyncTable.GrandStar = true
-	gGlobalSyncTable.EndPicture = true
-	else
-	gGlobalSyncTable.GrandStar = false
-	gGlobalSyncTable.EndPicture = false
-	end
-	if Condition == "None" then
-	gGlobalSyncTable.GrandStar = false
-	gGlobalSyncTable.EndPicture = false
-	EnablePluginRuns = true
-	end
-	
-if Custom_Lock == "Lock" then
-	if gGlobalSyncTable.startglobaltimer < 0.1 then
-    gMarioStates[0].pos.x = xpos
-	gMarioStates[0].pos.y = ypos
-	gMarioStates[0].pos.z = zpos
-	end
-	elseif Custom_Lock == "No Lock" then
-	if gGlobalSyncTable.Intermission and gGlobalSyncTable.startglobaltimer < 0.1 then
-    gMarioStates[0].pos.x = xpos
-	gMarioStates[0].pos.y = ypos
-	gMarioStates[0].pos.z = zpos
-	end
-end
-	if Custom_Warp == "Disable" then
-		Disable_Custom_Warps = true
-		gGlobalSyncTable.set_warp = false
-	end
-	
-	if Custom_Warp == "Level Warp" then
-	gGlobalSyncTable.set_warp = true
-	if set_warp_position then
-		warp_to_level(gLevelValues.entryLevel, romhackarea, romhackact)
-		set_warp_position = false
-		return true
-	end
-	if gGlobalSyncTable.Intermission then
-	if gGlobalSyncTable.set_warp and not set_warp_check then
-	warp_to_level(gLevelValues.entryLevel, romhackarea, romhackact)
-	set_warp_check = true
-			end
-		end
-	end
-	
-	if Custom_Warp == "Start Warp" then
-	gGlobalSyncTable.set_warp = true
-	if set_warp_position then
-		warp_to_start_level()
-		set_warp_position = false
-		return true
-	end
-	if gGlobalSyncTable.Intermission then
-	if gGlobalSyncTable.set_warp and not set_warp_check then
-	warp_to_start_level()
-	set_warp_check = true
-		end
-		end
-	end
-	end
-end
 
-function custom_romhack_runs(RunNumber, Main_Function)
-	if gGlobalSyncTable.CustomPlugin == "Enabled" and gGlobalSyncTable.GamemodeSetting ~= "SingleStars" then
-	if gGlobalSyncTable.PluginsRunsSlots == RunNumber then
-	if Main_Function == true then
-	gGlobalSyncTable.beatedGame = true
-		end
+function custom_plugin_slots(RunNumber, InSlots, EnabledType, slot1, slot2, slot3, slot4, slot5, slot6, slot7, slot8, slot9, slot10, slot11, slot12, slot13, slot14, slot15, slot16, slot17, slot18)
+	if gGlobalSyncTable.GamemodeSetting ~= "SingleStars" then
+	Romhack_Runs_Option = true
+	
+	if InSlots == "Disabled" then
+	NoSlotsTypePlugin = "Enabled"
 	end
+	
+	if InSlots == "Enabled" then
+	NoSlotsTypePlugin = "Disabled"
+	end
+	
+	
+	if (gGlobalSyncTable.PluginsRunsSlots == RunNumber and InSlots == "Enabled") or (InSlots == "Disabled") then
+	gGlobalSyncTable.LREnabledOption = EnabledType
+	
+	if (EnabledType == "Stop Timer: Stars" or EnabledType == "Combine Types: Stars + Levels" or EnabledType == "Combine Types: Stars + Actions" or EnabledType == "Combine Types: Stars + Positions"
+	or EnabledType == "Combine Types: Stars + Levels + Actions" or EnabledType == "Combine Types: Stars + Levels + Positions" or EnabledType == "Combine Types: Stars + Levels + Actions + Positions") then
+	gGlobalSyncTable.LRStarLimit = slot1
+	gGlobalSyncTable.LRStarID = slot2
+	gGlobalSyncTable.LRStarTypes = slot3
+	gGlobalSyncTable.LRStarsFunctions = slot4
+	end
+	
+	if (EnabledType == "Stop Timer: Levels" or EnabledType == "Combine Types: Levels + Actions" or EnabledType == "Combine Types: Levels + Positions" or EnabledType == "Combine Types: Levels + Actions + Positions") then
+	gGlobalSyncTable.LFLevels = slot1
+	gGlobalSyncTable.LRLevelArea = slot2
+	gGlobalSyncTable.LRLevelAct = slot3
+	gGlobalSyncTable.LRLevelsFunctions = slot4
+	elseif (EnabledType == "Combine Types: Stars + Levels" or EnabledType == "Combine Types: Stars + Levels + Actions" or EnabledType == "Combine Types: Stars + Levels + Positions" 
+	or EnabledType == "Combine Types: Stars + Levels + Actions + Positions") then
+	gGlobalSyncTable.LFLevels = slot5
+	gGlobalSyncTable.LRLevelArea = slot6
+	gGlobalSyncTable.LRLevelAct = slot7
+	gGlobalSyncTable.LRLevelsFunctions = slot8
+	end
+	
+	
+	if (EnabledType == "Stop Timer: Actions" or EnabledType == "Combine Types: Actions + Positions") then
+	gGlobalSyncTable.LFActions = slot1
+	gGlobalSyncTable.LRLevelActionTimerSave = slot2
+	gGlobalSyncTable.LRActionsFunctions = slot3
+	elseif (EnabledType == "Combine Types: Stars + Actions" or EnabledType == "Combine Types: Levels + Actions" or EnabledType == "Combine Types: Levels + Actions + Positions") then
+	gGlobalSyncTable.LFActions = slot5
+	gGlobalSyncTable.LRLevelActionTimerSave = slot6
+	gGlobalSyncTable.LRActionsFunctions = slot7
+	elseif (EnabledType == "Combine Types: Stars + Levels + Actions" or EnabledType == "Combine Types: Stars + Levels + Actions + Positions") then
+	gGlobalSyncTable.LFActions = slot9
+	gGlobalSyncTable.LRLevelActionTimerSave = slot10
+	gGlobalSyncTable.LRActionsFunctions = slot11
+	end
+	
+	if EnabledType == "Stop Timer: Positions" then
+	gGlobalSyncTable.LRPBXPosition = slot1
+	gGlobalSyncTable.LRPBYPosition = slot2
+	gGlobalSyncTable.LRPBZPosition = slot3
+	gGlobalSyncTable.LRPBXPositionExtra = slot4
+	gGlobalSyncTable.LRPBYPositionExtra = slot5
+	gGlobalSyncTable.LRPBZPositionExtra = slot6
+	gGlobalSyncTable.LRPositionFunctions = slot7
+	elseif (EnabledType == "Combine Types: Stars + Positions" or EnabledType == "Combine Types: Levels + Positions") then
+	gGlobalSyncTable.LRPBXPosition = slot5
+	gGlobalSyncTable.LRPBYPosition = slot6
+	gGlobalSyncTable.LRPBZPosition = slot7
+	gGlobalSyncTable.LRPBXPositionExtra = slot8
+	gGlobalSyncTable.LRPBYPositionExtra = slot9
+	gGlobalSyncTable.LRPBZPositionExtra = slot10
+	gGlobalSyncTable.LRPositionFunctions = slot11
+	elseif EnabledType == "Combine Types: Actions + Positions" then
+	gGlobalSyncTable.LRPBXPosition = slot4
+	gGlobalSyncTable.LRPBYPosition = slot5
+	gGlobalSyncTable.LRPBZPosition = slot6
+	gGlobalSyncTable.LRPBXPositionExtra = slot7
+	gGlobalSyncTable.LRPBYPositionExtra = slot8
+	gGlobalSyncTable.LRPBZPositionExtra = slot9
+	gGlobalSyncTable.LRPositionFunctions = slot10
+	elseif EnabledType == "Combine Types: Stars + Levels + Positions" then
+	gGlobalSyncTable.LRPBXPosition = slot9
+	gGlobalSyncTable.LRPBYPosition = slot10
+	gGlobalSyncTable.LRPBZPosition = slot11
+	gGlobalSyncTable.LRPBXPositionExtra = slot12
+	gGlobalSyncTable.LRPBYPositionExtra = slot13
+	gGlobalSyncTable.LRPBZPositionExtra = slot14
+	gGlobalSyncTable.LRPositionFunctions = slot15
+	elseif EnabledType == "Combine Types: Levels + Actions + Positions" then
+	gGlobalSyncTable.LRPBXPosition = slot8
+	gGlobalSyncTable.LRPBYPosition = slot9
+	gGlobalSyncTable.LRPBZPosition = slot10
+	gGlobalSyncTable.LRPBXPositionExtra = slot11
+	gGlobalSyncTable.LRPBYPositionExtra = slot12
+	gGlobalSyncTable.LRPBZPositionExtra = slot13
+	gGlobalSyncTable.LRPositionFunctions = slot14
+	elseif gGlobalSyncTable.LREnabledOption == "Combine Types: Stars + Levels + Actions + Positions" then
+	gGlobalSyncTable.LRPBXPosition = slot12
+	gGlobalSyncTable.LRPBYPosition = slot13
+	gGlobalSyncTable.LRPBZPosition = slot14
+	gGlobalSyncTable.LRPBXPositionExtra = slot15
+	gGlobalSyncTable.LRPBYPositionExtra = slot16
+	gGlobalSyncTable.LRPBZPositionExtra = slot17
+	gGlobalSyncTable.LRPositionFunctions = slot18
+		end
+		end
 	end
 end
 
@@ -140,14 +127,6 @@ local function custom_anticheat(CheatsNumber, Option, Main_Function)
 		end
 		end
 	end
-	end
-end
-
-local function set_time_record(h_time, m_time, s_time, ms_time)
-	if gGlobalSyncTable.GamemodeSetting ~= "Normal" then return end
-	if gGlobalSyncTable.beatedGame and not gGlobalSyncTable.timer_popup then
-	djui_popup_create_global("Your Time: " .. string.format("%s:%s:%s.%s", string.format("%d", Hours), string.format("%02d", Minutes), string.format("%02d", Seconds), string.format("%03d", MilliSeconds)) .. "\n\nRecord Time: " .. string.format("%s:%s:%s.%s", string.format("%d", h_time), string.format("%02d", m_time), string.format("%02d", s_time), string.format("%03d", ms_time)), 3)
-	gGlobalSyncTable.timer_popup = true
 	end
 end
 
@@ -522,33 +501,25 @@ end
 local function set_custom_fanfare(savename, longname, custom_sounds)
 	if FanfareTable[FanfareDefault].fanfare_sound == savename and FanfareTable[FanfareDefault].long_fanfare_name == longname then
 	
-	if gGlobalSyncTable.StartingSettings == "Both" or gGlobalSyncTable.StartingSettings == "Intermission" then
-	if gGlobalSyncTable.Intermission and (gGlobalSyncTable.Intercountdown <= 5.93 and gGlobalSyncTable.Intercountdown >= 5.90) then
+	if (gGlobalSyncTable.IntermissionSound == false and gGlobalSyncTable.IntermissionSoundWarp == 2) then
 		audio_stream_play(audio_stream_load(custom_sounds), true, 1)
 		end
-	end
 	end
 end
 
 local function set_custom_countdown(savename, longname, custom_sounds, which_number, set_numbers)
-	local sounds = gGlobalSyncTable.startcountdown
-	
 	if CountdownTable[CountdownDefault].countdown_sound == savename and CountdownTable[CountdownDefault].long_countdown_name == longname then
-	if gGlobalSyncTable.StartingSettings == "Both" or gGlobalSyncTable.StartingSettings == "Countdown" then
+	if gGlobalSyncTable.GamemodeSetting == "Normal" and (gGlobalSyncTable.StartingSettings == "Both" or gGlobalSyncTable.StartingSettings == "Intermission") then
 	
 	if which_number == "One Each" then
-	if sounds == set_numbers + 1 then
+	if gGlobalSyncTable.startcountdown == set_numbers + 1 then
 	audio_stream_play(audio_stream_load(custom_sounds), true, 1)
 		end
 	end
 
-	
-	if which_number == "Only 10" then
-	if (sounds == 9 + 1 or sounds == 8 + 1 or sounds == 7 + 1 or sounds == 6 + 1
-	or sounds == 5 + 1 or sounds == 4 + 1 or sounds == 3 + 1 or sounds == 2 + 1 or sounds == 1 + 1) then
-	if gGlobalSyncTable.Intercountdown == 0 and gGlobalSyncTable.startglobaltimer == 0 then
-	audio_stream_play(audio_stream_load(custom_sounds), true, 1)
-			end
+	if which_number == "All Numbers" then
+	if (gGlobalSyncTable.Intercountdown == 0 and gGlobalSyncTable.startglobaltimer == 0 and gGlobalSyncTable.CountdownSound == 29) then
+		audio_stream_play(audio_stream_load(custom_sounds), true, 1)
 		end
 		end
 	end
@@ -558,44 +529,8 @@ end
 local function set_custom_go(savename, longname, custom_sounds)
 	if GoTable[GoDefault].go_sound == savename and GoTable[GoDefault].long_go_name == longname then
 	
-	if gGlobalSyncTable.GamemodeSetting == "PracticeRun" then
-	if gGlobalSyncTable.startglobaltimer == 2 and gGlobalSyncTable.timercountdown == 30 then
+	if (gGlobalSyncTable.GoSound == false and gGlobalSyncTable.GoSoundWarp == 2 and gGlobalSyncTable.startglobaltimer < 5) then 
 	audio_stream_play(audio_stream_load(custom_sounds), true, 1)
-	end
-	end
-	
-	if gGlobalSyncTable.GamemodeSetting == "Normal" and gGlobalSyncTable.EnabledIntro == false then
-	if gGlobalSyncTable.StartingSettings == "Both" or gGlobalSyncTable.StartingSettings == "Countdown" then
-	if gGlobalSyncTable.startglobaltimer == 0 and gGlobalSyncTable.timercountdown == 30 then
-	audio_stream_play(audio_stream_load(custom_sounds), true, 1)
-		end
-	end
-	
-	if gGlobalSyncTable.StartingSettings == "Intermission" then
-	if gGlobalSyncTable.Intermission then
-	if gGlobalSyncTable.startglobaltimer == 1 and gGlobalSyncTable.Intercountdown == 0 then
-		audio_stream_play(audio_stream_load(custom_sounds), true, 1)
-			end
-		end
-	end
-	
-	if gGlobalSyncTable.StartingSettings == "None" then
-	if gGlobalSyncTable.startTimer then
-	gGlobalSyncTable.timercountdown = 30
-	if gGlobalSyncTable.startglobaltimer == 2 and gGlobalSyncTable.timercountdown == 30 then
-	audio_stream_play(audio_stream_load(custom_sounds), true, 1)
-			end
-		end
-		end	
-	end
-	
-	if gGlobalSyncTable.GamemodeSetting == "Normal" and gGlobalSyncTable.EnabledIntro == true then
-	if gGlobalSyncTable.startTimer then
-	gGlobalSyncTable.timercountdown = 30
-	if gGlobalSyncTable.startglobaltimer == 2 and gGlobalSyncTable.timercountdown == 30 then
-	audio_stream_play(audio_stream_load(custom_sounds), true, 1)
-			end
-		end
 		end
 	end
 end
@@ -639,12 +574,9 @@ end
 _G.SpeedrunTimerReworked = true
 _G.STRApi = {
 	-- Main Runs and Custom Runs --
-	Set_Custom_Romhack_Position = Set_Custom_Romhack_Position,
-	menu_custom_runs = menu_custom_runs,
-	custom_romhack_runs = custom_romhack_runs,
+	custom_plugin_slots = custom_plugin_slots,
 	
-	add_custom_run = function (Number, NameSlot)
-	EnablePluginRuns = false
+	add_custom_slot = function (Number, NameSlot)
 	Romhack_Runs_Option = true
 	table.insert(RunTable, { RunsSlotName = NameSlot, RunsSlotNumber = Number })
 	return #RunTable
@@ -668,6 +600,11 @@ _G.STRApi = {
 	-- Rules --
 	Display_Custom_Rules_Text = Display_Custom_Rules_Text,
 	Display_Custom_Rules_Romhack = Display_Custom_Rules_Romhack,
+	
+	Enable_Custom_Rules = function ()
+	DisplayCustomRules = true
+	DisplayBuiltinRules = false
+	end,
 	
 	-- Fonts --
 	add_font = function (custom_name, custom_longname)
@@ -709,7 +646,6 @@ _G.STRApi = {
 	set_custom_go = set_custom_go,
 	
 	-- Extra --
-	set_time_record = set_time_record,
 	custom_anticheat = custom_anticheat,
 
 	disable_teams = function ()

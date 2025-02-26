@@ -1,9 +1,9 @@
 if gamemodes_is_checked or notallowedmods or no_cheats then return end
 
-gGlobalSyncTable.LevelsDefault = 1
+gGlobalSyncTable.SSLevels = 1
 gGlobalSyncTable.LFLevels = 1
 gGlobalSyncTable.LFActions = 1
-gGlobalSyncTable.StartingLevelsDefault = tonumber(mod_storage_load("StartingLevels")) or 1
+gGlobalSyncTable.MSTableNumbers = 0
 RunDefault = 1
 AntiCheatDefault = 1
 RunTable = {}
@@ -22,6 +22,49 @@ GoDefault = 1
 GoName = "Normal"
 
 -- Built in Fonts --
+MilliSecondsNumberTable = {
+	[0] = 000,
+    [1] = 033,
+	[2] = 066,
+	[3] = 099,
+	[4] = 100,
+	[5] = 133,
+	[6] = 166,
+	[7] = 199,
+	[8] = 200,
+	[9] = 233,
+	[10] = 266,
+	[11] = 299,
+	[12] = 300,
+	[13] = 333,
+	[14] = 366,
+	[15] = 399,
+	[16] = 400,
+	[17] = 433,
+	[18] = 466,
+	[19] = 499,
+	[20] = 500,
+	[21] = 533,
+	[22] = 566,
+	[23] = 599,
+	[24] = 600,
+	[25] = 633,
+	[26] = 666,
+	[27] = 699,
+	[28] = 700,
+	[29] = 733,
+	[30] = 766,
+	[31] = 799,
+	[32] = 800,
+	[33] = 833,
+	[34] = 866,
+	[35] = 899,
+	[36] = 900,
+	[37] = 933,
+	[38] = 966,
+	[39] = 999,
+}
+
 FontTable = {
     [1] = {
         name = "Normal",
@@ -29,24 +72,23 @@ FontTable = {
     },
 	[2] = {
         name = "Aliased",
-        longname = "Coop Aliased Text"
+        longname = "Coopdx Aliased Text"
     },
 	[3] = {
-        name = "SM64",
+        name = "Hud",
         longname = "Super Mario 64"
     },
 	[4] = {
-        name = "SM64RH",
+        name = "HudRecolor",
         longname = "Super Mario 64 (Romhack)"
     },
 	[5] = {
-        name = "DJUI",
-        longname = "Coop DJUI"
-
+        name = "Menu",
+        longname = "Coopdx Menu Font"
     },
 	[6] = {
-        name = "Nametags",
-        longname = "Coop Nametags Font"
+        name = "Special",
+        longname = "Coopdx Special Font"
 
     },
 }
@@ -95,372 +137,309 @@ ActionsTable = {
 		action_id = ACT_DISAPPEARED
     },
 	[2] = {
-		action_name = "No Spin Air",
+		action_name = "Spawn No Spin Airborne",
 		action_id = ACT_SPAWN_NO_SPIN_AIRBORNE
     },
 	[3] = {
-		action_name = "No Spin Land",
+		action_name = "Spawn No Spin Landing",
 		action_id = ACT_SPAWN_NO_SPIN_LANDING
     },
 	[4] = {
-		action_name = "Spawn Spin Air",
+		action_name = "Spawn Spin Airborne",
 		action_id = ACT_SPAWN_SPIN_AIRBORNE
     },
 	[5] = {
-		action_name = "Spawn Spin land",
+		action_name = "Spawn Spin Landing",
 		action_id = ACT_SPAWN_SPIN_LANDING
     },
 	[6] = {
-		action_name = "Star Exit",
+		action_name = "Star Dance Exit",
 		action_id = ACT_STAR_DANCE_EXIT
     },
 	[7] = {
-		action_name = "Star No Exit",
+		action_name = "Star Dance No Exit",
 		action_id = ACT_STAR_DANCE_NO_EXIT
     },
 	[8] = {
-		action_name = "Star Water Exit",
+		action_name = "Star Dance Water Exit",
 		action_id = ACT_STAR_DANCE_WATER
     },
 }
 
-LevelsTable = {
-    [1] = {
-        levelname = "Castle Grounds",
-        levelid = LEVEL_CASTLE_GROUNDS
-    },
-	[2] = {
-        levelname = "Castle",
-        levelid = LEVEL_CASTLE
-    },
-	[3] = {
-        levelname = "Castle Courtyard",
-        levelid = LEVEL_CASTLE_COURTYARD
-    },
-	[4] = {
-        levelname = "Bob-omb BattleField",
-        levelid = LEVEL_BOB
-    },
-	[5] = {
-        levelname = "Whomp's Fortress",
-        levelid = LEVEL_WF
-    },
-	[6] = {
-        levelname = "Jolly Roger Bay",
-        levelid = LEVEL_JRB
-    },
-	[7] = {
-        levelname = "Cool Cool Mountain",
-        levelid = LEVEL_CCM
-    },
-	[8] = {
-        levelname = "Big Boo's Haunt",
-        levelid = LEVEL_BBH
-    },
-	[9] = {
-        levelname = "Hazy Maze Cave",
-        levelid = LEVEL_HMC
-    },
-	[10] = {
-        levelname = "Lethal Lava Land",
-        levelid = LEVEL_LLL
-    },
-	[11] = {
-        levelname = "Shifting Sand Land",
-        levelid = LEVEL_SSL
-    },
-	[12] = {
-        levelname = "Dire Dire Docks",
-        levelid = LEVEL_DDD
-    },
-	[13] = {
-        levelname = "Snowman's Land",
-        levelid = LEVEL_SL
-    },
-	[14] = {
-        levelname = "Wet Dry World",
-        levelid = LEVEL_WDW
-    },
-	[15] = {
-        levelname = "Tall Tall Mountain",
-        levelid = LEVEL_TTM
-    },
-	[16] = {
-        levelname = "Tiny Huge Island",
-        levelid = LEVEL_THI
-    },
-	[17] = {
-        levelname = "Tick Tock Clock",
-        levelid = LEVEL_TTC
-    },
-	[18] = {
-        levelname = "Rainbow Ride",
-        levelid = LEVEL_RR
-    },
-	[19] = {
-        levelname = "Princess's Secret Slide",
-        levelid = LEVEL_PSS
-    },
-	[20] = {
-        levelname = "Secret Aquarium",
-        levelid = LEVEL_SA
-    },
-	[21] = {
-        levelname = "Wing Mario over the Rainbow",
-        levelid = LEVEL_WMOTR
-    },
-	[22] = {
-        levelname = "Tower of the Wing Cap",
-        levelid = LEVEL_TOTWC
-    },
-	[23] = {
-        levelname = "Cavern of the Metal Cap",
-        levelid = LEVEL_COTMC
-    },
-	[24] = {
-        levelname = "Vanish Cap Under the Moat",
-        levelid = LEVEL_VCUTM
-    },
-	[25] = {
-        levelname = "Bowser in the Dark World",
-        levelid = LEVEL_BITDW
-    },
-	[26] = {
-        levelname = "Bowser in the Fire Sea",
-        levelid = LEVEL_BITFS
-    },
-	[27] = {
-        levelname = "Bowser in the Sky",
-        levelid = LEVEL_BITS
-    },
-	[28] = {
-        levelname = "Cake Ending/End Picture",
-        levelid = LEVEL_ENDING
-    },
+StartingLevelsTable = {
+	-- Hud Levels
+    [LEVEL_CASTLE_GROUNDS] = "Castle Grounds",
+	[LEVEL_CASTLE] = "Castle",
+	[LEVEL_CASTLE_COURTYARD] = "Castle Courtyard",
+	
+	-- Main Levels
+	[LEVEL_BOB] = "Bob-omb BattleField",
+	[LEVEL_WF] = "Whomp's Fortress",
+	[LEVEL_JRB] = "Jolly Roger Bay",
+	[LEVEL_CCM] = "Cool Cool Mountain",
+	[LEVEL_BBH] = "Big Boo's Haunt",
+	[LEVEL_HMC] = "Hazy Maze Cave",
+	[LEVEL_LLL] = "Lethal Lava Land",
+	[LEVEL_SSL] = "Shifting Sand Land",
+	[LEVEL_DDD] = "Dire Dire Docks",
+	[LEVEL_SL] = "Snowman's Land",
+	[LEVEL_WDW] = "Wet Dry World",
+	[LEVEL_TTM] = "Tall Tall Mountain",
+	[LEVEL_THI] = "Tiny Huge Island",
+	[LEVEL_TTC] = "Tick Tock Clock",
+	[LEVEL_RR] = "Rainbow Ride",
+	
+	-- Secret Levels
+	[LEVEL_PSS] = "Princess's Secret Slide",
+	[LEVEL_SA] = "Secret Aquarium",
+	[LEVEL_WMOTR] = "Wing Mario over the Rainbow",
+	[LEVEL_TOTWC] = "Tower of the Wing Cap",
+	[LEVEL_VCUTM] = "Cavern of the Metal Cap",
+	
+	-- Bowser's Levels
+	[LEVEL_BITDW] = "Bowser in the Dark World",
+	[LEVEL_BITFS] = "Bowser in the Fire Sea",
+	[LEVEL_BITS] = "Bowser in the Sky",
+	
+	-- Ending Level
+	[LEVEL_ENDING] = "Cake Ending/End Picture",
+	
+	-- Extra Levels (Every Level Besides Level None is Unused)
+	[50] = "Course None", -- LEVEL_NONE Number ID
+	[LEVEL_UNKNOWN_1] = "Level Unknown 1",
+	[LEVEL_UNKNOWN_2] = "Level Unknown 2",
+	[LEVEL_UNKNOWN_3] = "Level Unknown 3",
+	[LEVEL_UNKNOWN_35] = "Level Unknown 35",
+	[LEVEL_UNKNOWN_37] = "Level Unknown 37",
+	[LEVEL_UNKNOWN_38] = "Level Unknown 38"
 }
 
-StartingLevelTable = {
+SingleStarsLevelsTable = {
     [1] = {
-        leveldisplay = "CastleGrounds",
-        levelid = LEVEL_CASTLE_GROUNDS
+        SSlevelname = "Castle Grounds",
+        SSlevelid = LEVEL_CASTLE_GROUNDS
     },
 	[2] = {
-        leveldisplay = "Castle",
-        levelid = LEVEL_CASTLE
+        SSlevelname = "Castle",
+        SSlevelid = LEVEL_CASTLE
     },
 	[3] = {
-        leveldisplay = "CastleCourtyard",
-        levelid = LEVEL_CASTLE_COURTYARD
+        SSlevelname = "Castle Courtyard",
+        SSlevelid = LEVEL_CASTLE_COURTYARD
     },
 	[4] = {
-        leveldisplay = "BOB",
-        levelid = LEVEL_BOB
+        SSlevelname = "Bob-omb BattleField",
+        SSlevelid = LEVEL_BOB
     },
 	[5] = {
-        leveldisplay = "WF",
-        levelid = LEVEL_WF
+        SSlevelname = "Whomp's Fortress",
+        SSlevelid = LEVEL_WF
     },
 	[6] = {
-        leveldisplay = "JRB",
-        levelid = LEVEL_JRB
+        SSlevelname = "Jolly Roger Bay",
+        SSlevelid = LEVEL_JRB
     },
 	[7] = {
-		leveldisplay = "CCM",
-        levelid = LEVEL_CCM
+        SSlevelname = "Cool Cool Mountain",
+        SSlevelid = LEVEL_CCM
     },
 	[8] = {
-		leveldisplay = "BBH",
-        levelid = LEVEL_BBH
+        SSlevelname = "Big Boo's Haunt",
+        SSlevelid = LEVEL_BBH
     },
 	[9] = {
-		leveldisplay = "HMC",
-        levelid = LEVEL_HMC
+        SSlevelname = "Hazy Maze Cave",
+        SSlevelid = LEVEL_HMC
     },
 	[10] = {
-		leveldisplay = "LLL",
-        levelid = LEVEL_LLL
+        SSlevelname = "Lethal Lava Land",
+        SSlevelid = LEVEL_LLL
     },
 	[11] = {
-		leveldisplay = "SSL",
-        levelid = LEVEL_SSL
+        SSlevelname = "Shifting Sand Land",
+        SSlevelid = LEVEL_SSL
     },
 	[12] = {
-		leveldisplay = "DDD",
-        levelid = LEVEL_DDD
+        SSlevelname = "Dire Dire Docks",
+        SSlevelid = LEVEL_DDD
     },
 	[13] = {
-        leveldisplay = "SL",
-        levelid = LEVEL_SL
+        SSlevelname = "Snowman's Land",
+        SSlevelid = LEVEL_SL
     },
 	[14] = {
-        leveldisplay = "WDW",
-        levelid = LEVEL_WDW
+        SSlevelname = "Wet Dry World",
+        SSlevelid = LEVEL_WDW
     },
 	[15] = {
-        leveldisplay = "TTM",
-        levelid = LEVEL_TTM
+        SSlevelname = "Tall Tall Mountain",
+        SSlevelid = LEVEL_TTM
     },
 	[16] = {
-        leveldisplay = "THI",
-        levelid = LEVEL_THI
+        SSlevelname = "Tiny Huge Island",
+        SSlevelid = LEVEL_THI
     },
 	[17] = {
-        leveldisplay = "TTC",
-        levelid = LEVEL_TTC
+        SSlevelname = "Tick Tock Clock",
+        SSlevelid = LEVEL_TTC
     },
 	[18] = {
-        leveldisplay = "RR",
-        levelid = LEVEL_RR
+        SSlevelname = "Rainbow Ride",
+        SSlevelid = LEVEL_RR
     },
 	[19] = {
-        leveldisplay = "PSS",
-        levelid = LEVEL_PSS
+        SSlevelname = "Princess's Secret Slide",
+        SSlevelid = LEVEL_PSS
     },
 	[20] = {
-        leveldisplay = "SA",
-        levelid = LEVEL_SA
+        SSlevelname = "Secret Aquarium",
+        SSlevelid = LEVEL_SA
     },
 	[21] = {
-        leveldisplay = "WMOTR",
-        levelid = LEVEL_WMOTR
+        SSlevelname = "Wing Mario over the Rainbow",
+        SSlevelid = LEVEL_WMOTR
     },
 	[22] = {
-        leveldisplay = "TOTWC",
-        levelid = LEVEL_TOTWC
+        SSlevelname = "Tower of the Wing Cap",
+        SSlevelid = LEVEL_TOTWC
     },
 	[23] = {
-        leveldisplay = "COTMC",
-        levelid = LEVEL_COTMC
+        SSlevelname = "Cavern of the Metal Cap",
+        SSlevelid = LEVEL_COTMC
     },
 	[24] = {
-        leveldisplay = "VCUTM",
-        levelid = LEVEL_VCUTM
+        SSlevelname = "Vanish Cap Under the Moat",
+        SSlevelid = LEVEL_VCUTM
     },
 	[25] = {
-        leveldisplay = "BITDW",
-        levelid = LEVEL_BITDW
+        SSlevelname = "Bowser in the Dark World",
+        SSlevelid = LEVEL_BITDW
     },
 	[26] = {
-        leveldisplay = "BITFS",
-        levelid = LEVEL_BITFS
+        SSlevelname = "Bowser in the Fire Sea",
+        SSlevelid = LEVEL_BITFS
     },
 	[27] = {
-        leveldisplay = "BITS",
-        levelid = LEVEL_BITS
+        SSlevelname = "Bowser in the Sky",
+        SSlevelid = LEVEL_BITS
+    },
+	[28] = {
+        SSlevelname = "Cake Ending/End Picture",
+        SSlevelid = LEVEL_ENDING
     },
 }
 
 LevelFunctionTable = {
     [1] = {
-        levelname = "Grounds",
-        levelid = LEVEL_CASTLE_GROUNDS
+        LFlevelname = "Grounds",
+        LFlevelid = LEVEL_CASTLE_GROUNDS
     },
 	[2] = {
-        levelname = "Castle",
-        levelid = LEVEL_CASTLE
+        LFlevelname = "Castle",
+        LFlevelid = LEVEL_CASTLE
     },
 	[3] = {
-        levelname = "Courtyard",
-        levelid = LEVEL_CASTLE_COURTYARD
+        LFlevelname = "Courtyard",
+        LFlevelid = LEVEL_CASTLE_COURTYARD
     },
 	[4] = {
-        levelname = "BOB",
-        levelid = LEVEL_BOB
+        LFlevelname = "BOB",
+        LFlevelid = LEVEL_BOB
     },
 	[5] = {
-        levelname = "WF",
-        levelid = LEVEL_WF
+        LFlevelname = "WF",
+        LFlevelid = LEVEL_WF
     },
 	[6] = {
-        levelname = "JRB",
-        levelid = LEVEL_JRB
+        LFlevelname = "JRB",
+        LFlevelid = LEVEL_JRB
     },
 	[7] = {
-		levelname = "CCM",
-        levelid = LEVEL_CCM
+		LFlevelname = "CCM",
+        LFlevelid = LEVEL_CCM
     },
 	[8] = {
-		levelname = "BBH",
-        levelid = LEVEL_BBH
+		LFlevelname = "BBH",
+        LFlevelid = LEVEL_BBH
     },
 	[9] = {
-		levelname = "HMC",
-        levelid = LEVEL_HMC
+		LFlevelname = "HMC",
+        LFlevelid = LEVEL_HMC
     },
 	[10] = {
-		levelname = "LLL",
-        levelid = LEVEL_LLL
+		LFlevelname = "LLL",
+        LFlevelid = LEVEL_LLL
     },
 	[11] = {
-		levelname = "SSL",
-        levelid = LEVEL_SSL
+		LFlevelname = "SSL",
+        LFlevelid = LEVEL_SSL
     },
 	[12] = {
-		levelname = "DDD",
-        levelid = LEVEL_DDD
+		LFlevelname = "DDD",
+        LFlevelid = LEVEL_DDD
     },
 	[13] = {
-        levelname = "SL",
-        levelid = LEVEL_SL
+        LFlevelname = "SL",
+        LFlevelid = LEVEL_SL
     },
 	[14] = {
-        levelname = "WDW",
-        levelid = LEVEL_WDW
+        LFlevelname = "WDW",
+        LFlevelid = LEVEL_WDW
     },
 	[15] = {
-        levelname = "TTM",
-        levelid = LEVEL_TTM
+        LFlevelname = "TTM",
+        LFlevelid = LEVEL_TTM
     },
 	[16] = {
-        levelname = "THI",
-        levelid = LEVEL_THI
+        LFlevelname = "THI",
+        LFlevelid = LEVEL_THI
     },
 	[17] = {
-        levelname = "TTC",
-        levelid = LEVEL_TTC
+        LFlevelname = "TTC",
+        LFlevelid = LEVEL_TTC
     },
 	[18] = {
-        levelname = "RR",
-        levelid = LEVEL_RR
+        LFlevelname = "RR",
+        LFlevelid = LEVEL_RR
     },
 	[19] = {
-        levelname = "PSS",
-        levelid = LEVEL_PSS
+        LFlevelname = "PSS",
+        LFlevelid = LEVEL_PSS
     },
 	[20] = {
-        levelname = "SA",
-        levelid = LEVEL_SA
+        LFlevelname = "SA",
+        LFlevelid = LEVEL_SA
     },
 	[21] = {
-        levelname = "WMOTR",
-        levelid = LEVEL_WMOTR
+        LFlevelname = "WMOTR",
+        LFlevelid = LEVEL_WMOTR
     },
 	[22] = {
-        levelname = "TOTWC",
-        levelid = LEVEL_TOTWC
+        LFlevelname = "TOTWC",
+        LFlevelid = LEVEL_TOTWC
     },
 	[23] = {
-        levelname = "COTMC",
-        levelid = LEVEL_COTMC
+        LFlevelname = "COTMC",
+        LFlevelid = LEVEL_COTMC
     },
 	[24] = {
-        levelname = "VCUTM",
-        levelid = LEVEL_VCUTM
+        LFlevelname = "VCUTM",
+        LFlevelid = LEVEL_VCUTM
     },
 	[25] = {
-        levelname = "BITDW",
-        levelid = LEVEL_BITDW
+        LFlevelname = "BITDW",
+        LFlevelid = LEVEL_BITDW
     },
 	[26] = {
-        levelname = "BITFS",
-        levelid = LEVEL_BITFS
+        LFlevelname = "BITFS",
+        LFlevelid = LEVEL_BITFS
     },
 	[27] = {
-        levelname = "BITS",
-        levelid = LEVEL_BITS
+        LFlevelname = "BITS",
+        LFlevelid = LEVEL_BITS
     },
 	[28] = {
-        levelname = "END",
-        levelid = LEVEL_ENDING
+        LFlevelname = "END",
+        LFlevelid = LEVEL_ENDING
     },
 }

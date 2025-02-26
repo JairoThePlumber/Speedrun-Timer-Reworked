@@ -7,6 +7,7 @@ Rules_Display = tonumber(mod_storage_load("DisplayRules")) or 1
 MenuOptionSetting = mod_storage_load("MenuOption") or "Menu"
 ControlsHelper = tonumber(mod_storage_load("PopupHelper")) or 1
 CommandMenuOption = mod_storage_load("CommandMenu") or "Commands"
+LocationSpotSettings = mod_storage_load("LocationSettings") or "Ground"
 
 -- Custom Colors and the Timer Position
 DisplayCustomColors = tonumber(mod_storage_load("DisplayColors")) or 0
@@ -24,74 +25,20 @@ CustomYPos = tonumber(mod_storage_load("YPos")) or 0
 -- Global Saves
 gGlobalSyncTable.StartingSettings = mod_storage_load("StartingOption") or "Both"
 gGlobalSyncTable.GamemodeSetting = mod_storage_load("GameModes") or "Normal"
-gGlobalSyncTable.CustomPlugin = mod_storage_load("PositionPlugin") or "Disabled"
 gGlobalSyncTable.IntroSettings = mod_storage_load("IntroOption") or "Disabled"
 
 -- Runs Menu
 -- Starting Positon Functions
-gGlobalSyncTable.SPPositionSettings = mod_storage_load("PositionSettings") or "Enabled"
-gGlobalSyncTable.SPXPosition = tonumber(mod_storage_load("XPosition")) or 0
-gGlobalSyncTable.SPYPosition = tonumber(mod_storage_load("YPosition")) or 0
-gGlobalSyncTable.SPZPosition = tonumber(mod_storage_load("ZPosition")) or 0
-gGlobalSyncTable.SPStartingAreas = tonumber(mod_storage_load("StartingAreas")) or 1
-gGlobalSyncTable.SPStartingActs = tonumber(mod_storage_load("StartingActs")) or 0
-gGlobalSyncTable.SPForcedSettings = mod_storage_load("ForcedSettings") or "ForcedNone"
+gGlobalSyncTable.SPForcedSettings = mod_storage_load("ForcedSettings") or "ForcedLevel"
 gGlobalSyncTable.SPWarpSettings = mod_storage_load("WarpSettings") or "StartWarp"
 gGlobalSyncTable.SPLockPosition = mod_storage_load("LockPosition") or "Disabled"
 
--- This is just for SM64, to keep it separate from the romhacks
-function Set_SM64_Position(x, y, z, level, area, act)
-	gGlobalSyncTable.EndPicture = false
-	gGlobalSyncTable.set_warp = true
-	currLevelNum = level
-	currAreaIndex = area
-	currActNum = act
-if gGlobalSyncTable.Intermission and gGlobalSyncTable.startglobaltimer < 0.1 then
-    gMarioStates[0].pos.x = x
-	gMarioStates[0].pos.y = y
-	gMarioStates[0].pos.z = z
-	end
-if gGlobalSyncTable.startglobaltimer < 0.1 and gNetworkPlayers[0].currLevelNum ~= level then
-	warp_to_level(level, area, act)
-	end
-	if set_warp_position then
-		warp_to_level(gLevelValues.entryLevel, area, act)
-		set_warp_position = false
-		return true
-		end
-	if gGlobalSyncTable.Intermission then
-	if gGlobalSyncTable.set_warp and not set_warp_check then
-	warp_to_level(gLevelValues.entryLevel, 1, 0)
-	set_warp_check = true
-		end
-	end
-end
+-- Save File Packet
+Packet_Save_Data = 1
 
--- This is only for Incompatible Romhacks, So The Warp Command Doesn't Break
-function Set_Warp_For_Incompatible_Romhacks(romhackarea, romhackact)
-	if gGlobalSyncTable.CustomPlugin == "Enabled" and gGlobalSyncTable.GamemodeSetting ~= "SingleStars" then
-	currAreaIndex = romhackarea
-	currActNum = romhackact
-	gGlobalSyncTable.set_warp = true
-	if gGlobalSyncTable.CompatibleRomhacks == false then
-	if set_warp_position then
-		warp_to_level(gLevelValues.entryLevel, romhackarea, romhackact)
-		set_warp_position = false
-		return true
-	end
-	if gGlobalSyncTable.Intermission then
-	if gGlobalSyncTable.set_warp and not set_warp_check then
-	warp_to_start_level()
-	set_warp_check = true
-		end
-	end
-	if gGlobalSyncTable.Intermission == false and gGlobalSyncTable.startglobaltimer == 0 and not incompatible_warp then
-	warp_to_start_level()
-	incompatible_warp = true
-		end
-	end
-	end
-end
+---------
+--Hooks--
+---------
 
 -- Save Functions From Character Select (Thanks to Squishy)
 function load_fonts()
@@ -278,14 +225,128 @@ function checkColorFormat(rgbhex)
     end
 end
 
+function packet_function()
+	if gGlobalSyncTable.ResetSaveCheck == true then
+	str_reset_save()
+	network_send(true, {Update = Packet_Save_Data})
+	end
+end
+
+RunsPopup = 0
+
+function Players_RunsPopup()
+	if not (gGlobalSyncTable.LREnabledOption == "Stop Timer: Stars" or gGlobalSyncTable.LREnabledOption == "Combine Types: Stars + Levels" 
+	or gGlobalSyncTable.LREnabledOption == "Combine Types: Stars + Actions" or gGlobalSyncTable.LREnabledOption == "Combine Types: Stars + Positions"
+	or gGlobalSyncTable.LREnabledOption == "Combine Types: Stars + Levels + Actions" or gGlobalSyncTable.LREnabledOption == "Combine Types: Stars + Levels + Positions" 
+	or gGlobalSyncTable.LREnabledOption == "Combine Types: Stars + Levels + Actions + Positions") then
+	StarsName = "None"
+	else
+	if gGlobalSyncTable.LRStarsFunctions == "Star Limit" then
+	StarsName = "Stars Limit: " .. gGlobalSyncTable.LRStarLimit
+	elseif gGlobalSyncTable.LRStarsFunctions == "Star ID" then
+	StarsName = "Star ID: " .. gGlobalSyncTable.LRStarID
+	elseif gGlobalSyncTable.LRStarsFunctions == "Behavior Types" then
+	StarsName = "Behavior: " .. gGlobalSyncTable.LRStarTypes
+	elseif gGlobalSyncTable.LRStarsFunctions == "Star Limit + Star ID" then
+	StarsName = "Stars Limit: " .. gGlobalSyncTable.LRStarLimit .. "\nStar ID: " .. gGlobalSyncTable.LRStarID
+	elseif gGlobalSyncTable.LRStarsFunctions == "Star Limit + Behavior Types" then
+	StarsName = "Stars Limit: " .. gGlobalSyncTable.LRStarLimit .. "\nBehavior: " .. gGlobalSyncTable.LRStarTypes
+	elseif gGlobalSyncTable.LRStarsFunctions == "Behavior Types + Star ID" then
+	StarsName = "Behavior: " .. gGlobalSyncTable.LRStarTypes .. "\nStar ID: " .. gGlobalSyncTable.LRStarID
+	end
+	end
+	
+	if not (gGlobalSyncTable.LREnabledOption == "Stop Timer: Levels" or gGlobalSyncTable.LREnabledOption == "Combine Types: Stars + Levels" 
+	or gGlobalSyncTable.LREnabledOption == "Combine Types: Levels + Actions" or gGlobalSyncTable.LREnabledOption == "Combine Types: Levels + Positions"
+	or gGlobalSyncTable.LREnabledOption == "Combine Types: Stars + Levels + Actions" or gGlobalSyncTable.LREnabledOption == "Combine Types: Stars + Levels + Positions" 
+	or gGlobalSyncTable.LREnabledOption == "Combine Types: Levels + Actions + Positions" or gGlobalSyncTable.LREnabledOption == "Combine Types: Stars + Levels + Actions + Positions") then
+	LevelsName = "None"
+	else
+	if gGlobalSyncTable.LRLevelsFunctions == "Level Location" then
+	LevelsName = "Level: " .. LevelFunctionTable[gGlobalSyncTable.LFLevels].LFlevelname
+	elseif gGlobalSyncTable.LRLevelsFunctions == "Area Number" then
+	LevelsName = "Area: " .. gGlobalSyncTable.LRLevelArea
+	elseif gGlobalSyncTable.LRLevelsFunctions == "Act Number" then
+	LevelsName = "Act: " .. gGlobalSyncTable.LRLevelAct
+	elseif gGlobalSyncTable.LRLevelsFunctions == "Level Location + Area Number" then
+	LevelsName = "Level: " .. LevelFunctionTable[gGlobalSyncTable.LFLevels].LFlevelname .. "\nArea: " .. gGlobalSyncTable.LRLevelArea
+	elseif gGlobalSyncTable.LRLevelsFunctions == "Level Location + Act Number" then
+	LevelsName = "Level: " .. LevelFunctionTable[gGlobalSyncTable.LFLevels].LFlevelname .. "\nAct: " .. gGlobalSyncTable.LRLevelAct
+	elseif gGlobalSyncTable.LRLevelsFunctions == "All Options" then
+	LevelsName = "Level: " .. LevelFunctionTable[gGlobalSyncTable.LFLevels].LFlevelname .. "\nArea: " .. gGlobalSyncTable.LRLevelArea .. "\nAct: " .. gGlobalSyncTable.LRLevelAct
+	end
+	end
+	
+	if not (gGlobalSyncTable.LREnabledOption == "Stop Timer: Actions" or gGlobalSyncTable.LREnabledOption == "Combine Types: Stars + Actions" 
+	or gGlobalSyncTable.LREnabledOption == "Combine Types: Levels + Actions" or gGlobalSyncTable.LREnabledOption == "Combine Types: Actions + Positions"
+	or gGlobalSyncTable.LREnabledOption == "Combine Types: Stars + Levels + Actions" or gGlobalSyncTable.LREnabledOption == "Combine Types: Levels + Actions + Positions" 
+	or gGlobalSyncTable.LREnabledOption == "Combine Types: Stars + Levels + Actions + Positions") then
+	ActionsName = "None"
+	else
+	if gGlobalSyncTable.LRActionsFunctions == "Only Actions" then
+	ActionsName = "Action: " .. ActionsTable[gGlobalSyncTable.LFActions].action_name
+	elseif gGlobalSyncTable.LRActionsFunctions == "Action + Timer" then
+	ActionsName = "Action: " .. ActionsTable[gGlobalSyncTable.LFActions].action_name .. "\nTimer: " .. gGlobalSyncTable.LRLevelActionTimerSave
+	end
+	end
+	
+	if not (gGlobalSyncTable.LREnabledOption == "Stop Timer: Positions" or gGlobalSyncTable.LREnabledOption == "Combine Types: Stars + Positions" 
+	or gGlobalSyncTable.LREnabledOption == "Combine Types: Levels + Positions" or gGlobalSyncTable.LREnabledOption == "Combine Types: Actions + Positions"
+	or gGlobalSyncTable.LREnabledOption == "Combine Types: Stars + Levels + Positions" or gGlobalSyncTable.LREnabledOption == "Combine Types: Levels + Actions + Positions" 
+	or gGlobalSyncTable.LREnabledOption == "Combine Types: Stars + Levels + Actions + Positions") then
+	PositionsName = "None"
+	else
+	if gGlobalSyncTable.LRPositionFunctions == "X Position Area" then
+	PositionsName = "X: " .. gGlobalSyncTable.LRPBXPosition
+	elseif gGlobalSyncTable.LRPositionFunctions == "Y Position Area" then
+	PositionsName = "Y: " .. gGlobalSyncTable.LRPBYPosition
+	elseif gGlobalSyncTable.LRPositionFunctions == "Z Position Area" then
+	PositionsName = "Z: " .. gGlobalSyncTable.LRPBZPosition
+	elseif gGlobalSyncTable.LRPositionFunctions == "X Position Box" then
+	PositionsName = "X: " .. gGlobalSyncTable.LRPBXPosition  .. " + E_X : " .. gGlobalSyncTable.LRPBXPositionExtra
+	elseif gGlobalSyncTable.LRPositionFunctions == "Y Position Box" then
+	PositionsName = "Y: " .. gGlobalSyncTable.LRPBYPosition  .. " + E_Y: " .. gGlobalSyncTable.LRPBYPositionExtra
+	elseif gGlobalSyncTable.LRPositionFunctions == "Z Position Box" then
+	PositionsName = "Z: " .. gGlobalSyncTable.LRPBZPosition  .. " + E_Z: " .. gGlobalSyncTable.LRPBZPositionExtra
+	elseif gGlobalSyncTable.LRPositionFunctions == "X + Y Position Area" then
+	PositionsName = "X: " .. gGlobalSyncTable.LRPBXPosition  .. " + Y: " .. gGlobalSyncTable.LRPBYPosition
+	elseif gGlobalSyncTable.LRPositionFunctions == "X + Z Position Area" then
+	PositionsName = "X: " .. gGlobalSyncTable.LRPBXPosition  .. " + Z: " .. gGlobalSyncTable.LRPBZPosition
+	elseif gGlobalSyncTable.LRPositionFunctions == "Y + Z Position Area" then
+	PositionsName = "Y: " .. gGlobalSyncTable.LRPBYPosition  .. " + Z: " .. gGlobalSyncTable.LRPBZPosition
+	elseif gGlobalSyncTable.LRPositionFunctions == "X + Y Position Box" then
+	PositionsName = "(X: " .. gGlobalSyncTable.LRPBXPosition  .. " + E_X: " .. gGlobalSyncTable.LRPBXPositionExtra .. 
+				")\n(Y: " .. gGlobalSyncTable.LRPBYPosition  .. " + E_Y: " .. gGlobalSyncTable.LRPBYPositionExtra .. ")"
+	elseif gGlobalSyncTable.LRPositionFunctions == "X + Z Position Box" then
+	PositionsName = "(X: " .. gGlobalSyncTable.LRPBXPosition  .. " + E_X: " .. gGlobalSyncTable.LRPBXPositionExtra .. 
+				")\n(Z: " .. gGlobalSyncTable.LRPBZPosition  .. " + E_Z: " .. gGlobalSyncTable.LRPBZPositionExtra .. ")"
+	elseif gGlobalSyncTable.LRPositionFunctions == "Y + Z Position Box" then
+	PositionsName = "(Y: " .. gGlobalSyncTable.LRPBYPosition  .. " + E_Y: " .. gGlobalSyncTable.LRPBYPositionExtra .. 
+				")\n(Z: " .. gGlobalSyncTable.LRPBZPosition  .. " + E_Z: " .. gGlobalSyncTable.LRPBZPositionExtra .. ")"
+	elseif gGlobalSyncTable.LRPositionFunctions == "All Position Area" then
+	PositionsName = "X: " .. gGlobalSyncTable.LRPBXPosition  .. " + Y: " .. gGlobalSyncTable.LRPBYPosition .. " + Z: " .. gGlobalSyncTable.LRPBZPosition
+	elseif gGlobalSyncTable.LRPositionFunctions == "All Position Box" then
+	PositionsName = "(X: " .. gGlobalSyncTable.LRPBXPosition  .. " + E_X: " .. gGlobalSyncTable.LRPBXPositionExtra .. 
+				")\n(Y: " .. gGlobalSyncTable.LRPBYPosition  .. " + E_Y: " .. gGlobalSyncTable.LRPBYPositionExtra .. 
+				")\n(Z: " .. gGlobalSyncTable.LRPBZPosition  .. " + E_Z: " .. gGlobalSyncTable.LRPBZPositionExtra .. ")"
+		end
+	end
+	if gGlobalSyncTable.RunStarting == true and RunsPopup == 3 then
+	djui_popup_create("\nRun In This Server:\n\nStars:\n".. StarsName .."\nLevels:\n".. LevelsName .."\nActions:\n".. ActionsName .."\nPositions:\n".. PositionsName, 17)
+	end
+end
+
 function str_hook_mario_update(m)
 if m.playerIndex ~= 0 then return end
 Normal_Mario_Update_Functions(m)
 Practice_Mario_Update_Functions(m)
 Casual_Mario_Update_Functions(m)
-Starting_Mario_Update_Functions(m)
 Extra_Mario_Update_Functions(m)
 Romhack_Mario_Update_Functions(m)
+if network_is_server() then
+str_menu_description()
+end
+str_config_description()
 end
 
 function str_hook_update()
@@ -298,18 +359,18 @@ SingleStars_Update_Functions()
 SingleStars_Main_Function()
 Starting_Update_Functions()
 Extra_Update_Functions()
+Starting_Positions_Updater()
 Runs_Starting_Positions_Menu()
 Runs_Level_Functions_Menu()
 Runs_Level_Functions_Combined_Menu()
-Romhack_Update_Functions()
 set_timer_function()
-Controls_Players()
 Saving_Function()
+packet_function()
+Players_RunsPopup()
 end
 
 function str_hook_interact(m, o, interactType)
 if m.playerIndex ~= 0 then return end
-Romhack_Interact_Functions(m, o, interactType)
 SingleStars_Interaction(m, o, interactType)
 Runs_Level_Functions_Interact(m, o, interactType)
 Runs_Level_Functions_Interact_Combined(m, o, interactType)
@@ -336,38 +397,6 @@ end
 function str_allowinteract()
     if gGlobalSyncTable.startglobaltimer < 0.1 and gGlobalSyncTable.GamemodeSetting ~= "SingleStars" then
 		return false
-	end
-end
-
-PlayersPopup = false
-
-function Controls_Players()
-	if ControlsHelper == 0 then
-	PlayersPopup = true
-	end
-	
-	if CommandMenuOption == "Buttons" then
-	if ControlsHelper == 1 then
-	if network_is_server() and PlayersPopup == false then 
-    djui_popup_create("\nControls For Menu: \n(L Trig + D-Pad Right) \nTo Open The Main Menu \n\n(L Trig + D-Pad Left)\nTo Open The Config Menu", 5)
-	PlayersPopup = true
-	elseif not network_is_server() and PlayersPopup == false then 
-    djui_popup_create("Controls For Menu: \n(L Trig + D-Pad Left)\nTo Open The Config Menu", 3)
-	PlayersPopup = true
-		end
-	end
-	end
-	
-	if CommandMenuOption == "Commands" then
-	if ControlsHelper == 1 then
-	if network_is_server() and PlayersPopup == false then
-	djui_chat_message_create("Controls For Commands: \n/str_menu - To Open The Main Menu \n/str_config - To Open The Config Menu") 
-	PlayersPopup = true
-	elseif not network_is_server() and PlayersPopup == false then 
-    djui_chat_message_create("Controls For Commands: \n/str_config - To Open The Config Menu")
-	PlayersPopup = true
-		end
-	end
 	end
 end
 
@@ -407,40 +436,115 @@ function str_before_mario_update(m)
 		m.controller.stickY = 0
 		m.controller.stickMag = 0
 	end
+	
+	if (gGlobalSyncTable.PositionUpdate < 3 and LocationSpotSettings == "Ground") 
+	or (gGlobalSyncTable.PositionUpdate < 5 and LocationSpotSettings == "Anywhere") and network_is_server() then
+	m.controller.stickX = 0
+	m.controller.stickY = 0
+	m.controller.stickMag = 0
+	m.controller.buttonPressed = 0
+	m.controller.buttonDown = 0
+	end
 end
 
 function str_reset_save()
-    file = get_current_save_file_num() - 1
+	file = get_current_save_file_num() - 1
 	for course = 0, 25 do
 	save_file_remove_star_flags(file, course - 1, 0xFF)
 	end
 	save_file_clear_flags(0xFFFFFFFF) -- ALL OF THEM
 	save_file_do_save(file, 1)
-	gMarioStates[0].numStars = save_file_get_total_star_count(get_current_save_file_num() - 1, COURSE_MIN - 1, COURSE_MAX - 1)
+    update_all_mario_stars()
 end
 
-function str_packetreceive()
-    if gGlobalSyncTable.ResetSaveCheck == true then
+function str_packetreceive(SaveData)
+	if SaveData.Update == Packet_Save_Data then
 	str_reset_save()
 	end
 end
 
-if network_is_server() and CommandMenuOption == "Commands" then
-hook_chat_command("str_menu", "Display The Speedrun Timer Menu", function(msg)
-    openstrmenu = true
+function str_menu_description()
+	if CommandMenuOption == "Buttons" then
+	update_chat_command_description('str_menu', "[\\#FF0000\\Commands Only\\#FFFFFF\\]")
+	elseif CommandMenuOption == "Commands" then
+	update_chat_command_description('str_menu', "Display The Speedrun Timer Menu")
+	end
+end
+
+function str_menu_function()
+	if CommandMenuOption == "Buttons" then
+	djui_chat_message_create("\\#FF0000\\This Command Only Works When Having Commands Enabled") 
+	return true
+	elseif CommandMenuOption == "Commands" then
+	openstrmenu = true
 	openmenu = false
 	SwitchingMenus = 1
 	MenuOptions = 1
-	return true end)
+	return true
+	end
 end
 
-if CommandMenuOption == "Commands" then
-hook_chat_command("str_config", "Display The Config Menu", function(msg)
-    openmenu = true
+function str_config_description()
+	if CommandMenuOption == "Buttons" then
+	update_chat_command_description('str_config', "[\\#FF0000\\Commands Only\\#FFFFFF\\]")
+	elseif CommandMenuOption == "Commands" then
+	update_chat_command_description('str_config', "Display The Config Menu")
+	end
+end
+
+function str_config_function()
+	if CommandMenuOption == "Buttons" then
+	djui_chat_message_create("\\#FF0000\\This Command Only Works When Having Commands Enabled") 
+	return true
+	elseif CommandMenuOption == "Commands" then
+	openmenu = true
 	openstrmenu = false
 	SwitchingMenus = 2
-	return true end)
+	return true
+	end
 end
+
+HostPopup = false
+
+function str_host_connected()
+	if CommandMenuOption == "Buttons" then
+	if ControlsHelper == 1 then
+	if network_is_server() and HostPopup == false then 
+    djui_popup_create("\nControls For Menu: \n(L Trig + D-Pad Right) \nTo Open The Main Menu \n\n(L Trig + D-Pad Left)\nTo Open The Config Menu", 5)
+	HostPopup = true
+			end
+		end
+	end
+	
+	if CommandMenuOption == "Commands" then
+	if ControlsHelper == 1 then
+	if network_is_server() and HostPopup == false then 
+	djui_chat_message_create("Controls For Commands: \n/str_menu - To Open The Main Menu \n/str_config - To Open The Config Menu")
+	HostPopup = true	
+		end
+	end
+	end
+end
+
+function str_player_joined_game()
+	if CommandMenuOption == "Buttons" then
+	if ControlsHelper == 1 then
+    djui_popup_create("Controls For Menu: \n(L Trig + D-Pad Left)\nTo Open The Config Menu", 3)
+		end
+	end
+	
+	if CommandMenuOption == "Commands" then
+	if ControlsHelper == 1 then
+    djui_chat_message_create("Controls For Commands: \n/str_config - To Open The Config Menu")
+		end
+	end
+end
+
+if network_is_server() then
+hook_chat_command("str_menu", "Display The Speedrun Timer Menu", str_menu_function)
+end
+
+hook_chat_command("str_config", "Display The Config Menu", str_config_function)
 
 -- All Hooks in hook_event order
 hook_event(HOOK_UPDATE, 	    	   str_hook_update)
@@ -452,6 +556,8 @@ hook_event(HOOK_ALLOW_INTERACT, 	   str_allowinteract)
 hook_event(HOOK_ON_LEVEL_INIT, 	       str_levelinit)
 hook_event(HOOK_ON_PACKET_RECEIVE, 	   str_packetreceive)
 hook_event(HOOK_BEFORE_MARIO_UPDATE,   str_before_mario_update)
+hook_event(HOOK_ON_PLAYER_CONNECTED,   str_host_connected)
+hook_event(HOOK_JOINED_GAME, 		   str_player_joined_game)
 
 local mod_storage_load = mod_storage_load
 local mod_storage_save = mod_storage_save
