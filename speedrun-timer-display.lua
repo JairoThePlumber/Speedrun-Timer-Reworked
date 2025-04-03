@@ -550,29 +550,29 @@ function sm64_hud_render()
 	end
 	
 	if Hours >= 10 then
-	djui_hud_print_text(timetext, timer_x - 125 + CustomXPos, timer_y - 2 + CustomYPos, size);
+	djui_hud_print_text(timetext, timer_x - 125 + CustomXPos, timer_y + 8 + CustomYPos, size);
 	end
 
 	if Hours < 10 then
-	djui_hud_print_text(timetext, timer_x - 115 + CustomXPos, timer_y - 2 + CustomYPos, size);
+	djui_hud_print_text(timetext, timer_x - 115 + CustomXPos, timer_y + 8 + CustomYPos, size);
 	end
 	
 	if Hours >= 10 then
-    djui_hud_print_text(hours10text, timer_x - 70 + CustomXPos, timer_y - 2 + CustomYPos, size);
+    djui_hud_print_text(hours10text, timer_x - 70 + CustomXPos, timer_y + 8 + CustomYPos, size);
 	end
 	
 	if Hours < 10 then
-    djui_hud_print_text(hourstext, timer_x - 58 + CustomXPos, timer_y - 2 + CustomYPos, size);
+    djui_hud_print_text(hourstext, timer_x - 58 + CustomXPos, timer_y + 8 + CustomYPos, size);
 	end
 	
-    djui_hud_print_text(Minutestext, timer_x - 38 + CustomXPos, timer_y - 2 + CustomYPos, size);
-    djui_hud_print_text(secondstext, timer_x - 4 + CustomXPos, timer_y - 2 + CustomYPos, size);
-    djui_hud_print_text(millisecondstext, timer_x + 30 + CustomXPos, timer_y - 2 + CustomYPos, size);
+    djui_hud_print_text(Minutestext, timer_x - 38 + CustomXPos, timer_y + 8 + CustomYPos, size);
+    djui_hud_print_text(secondstext, timer_x - 4 + CustomXPos, timer_y + 8 + CustomYPos, size);
+    djui_hud_print_text(millisecondstext, timer_x + 30 + CustomXPos, timer_y + 8 + CustomYPos, size);
 	
 	
-	djui_hud_print_text(singlequote, timer_x - 43 + CustomXPos, timer_y - 5 + CustomYPos, size);
-    djui_hud_print_text(Doublequote, timer_x - 10 + CustomXPos, timer_y - 5 + CustomYPos, size);
-    djui_hud_print_text(Doublequote, timer_x + 24 + CustomXPos, timer_y - 5 + CustomYPos, size);
+	djui_hud_print_text(singlequote, timer_x - 43 + CustomXPos, timer_y + 5 + CustomYPos, size);
+    djui_hud_print_text(Doublequote, timer_x - 10 + CustomXPos, timer_y + 5 + CustomYPos, size);
+    djui_hud_print_text(Doublequote, timer_x + 24 + CustomXPos, timer_y + 5 + CustomYPos, size);
 	end
 	
 	if FontTable[DefaultFont].name == "SM64RH" then

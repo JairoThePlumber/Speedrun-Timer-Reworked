@@ -79,11 +79,11 @@ FontTable = {
         longname = "Super Mario 64"
     },
 	[4] = {
-        name = "HudRecolor",
+        name = "SM64RH",
         longname = "Super Mario 64 (Romhack)"
     },
 	[5] = {
-        name = "SM64RH",
+        name = "DJUI",
         longname = "Coopdx Menu Font"
     },
 	[6] = {
