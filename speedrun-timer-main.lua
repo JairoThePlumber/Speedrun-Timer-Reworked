@@ -102,6 +102,7 @@ function Normal_Mario_Update_Functions(m)
 	if (((m.controller.buttonDown & L_TRIG) ~= 0) and ((m.controller.buttonPressed & X_BUTTON) ~= 0)) and not startTimerbutton then 
         gGlobalSyncTable.beatedGame = false
 		gGlobalSyncTable.Intermission = true
+		gGlobalSyncTable.RunStarting = true
 		startTimerbutton = true
 		end
 	end
@@ -110,6 +111,7 @@ function Normal_Mario_Update_Functions(m)
 	if (((m.controller.buttonDown & L_TRIG) ~= 0) and ((m.controller.buttonPressed & X_BUTTON) ~= 0)) and not startTimerbutton then 
         gGlobalSyncTable.beatedGame = false
 		gGlobalSyncTable.startTimer = true
+		gGlobalSyncTable.RunStarting = true
 		startTimerbutton = true
 		end
 	end
@@ -204,6 +206,13 @@ function Practice_Mario_Update_Functions(m)
 	
 	-- This starts the run when inputting it
 	if MenuOptionSetting == "Buttons" and network_is_server() then
+	
+	if (((m.controller.buttonDown & L_TRIG) ~= 0) and ((m.controller.buttonPressed & X_BUTTON) ~= 0)) and not startTimerbutton then 
+        gGlobalSyncTable.beatedGame = false
+		gGlobalSyncTable.startTimer = true
+		gGlobalSyncTable.RunStarting = true
+		startTimerbutton = true
+	end
 
 	if gGlobalSyncTable.startglobaltimer ~= 0 then
 	if (((m.controller.buttonDown & L_TRIG) ~= 0) and ((m.controller.buttonPressed & X_BUTTON) ~= 0)) and gGlobalSyncTable.startTimer == false then 

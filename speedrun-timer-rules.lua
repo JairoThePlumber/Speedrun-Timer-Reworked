@@ -143,7 +143,7 @@ function displayrules(m)
         },
         {
 		
-			"Get one Star in DDD after doing Mips Clip",
+			"Get one Star in DDD after doing SBLJ",
 			 70,
             -180,
             globalFont,
@@ -231,7 +231,7 @@ function displayrules(m)
         },
 		{
 		
-		    "(LBLJ, SBLJ and MIPS clip are Banned)",
+		    "(SBLJ are Banned)",
             -70,
             -103,
             globalFont,
