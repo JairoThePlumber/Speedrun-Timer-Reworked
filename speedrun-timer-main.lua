@@ -115,9 +115,9 @@ function Normal_Mario_Update_Functions(m)
 	end
 	
 	if gGlobalSyncTable.startglobaltimer ~= 0 then
-	if (((m.controller.buttonDown & L_TRIG) ~= 0) and ((m.controller.buttonPressed & X_BUTTON) ~= 0)) and gGlobalSyncTable.Intermission and gGlobalSyncTable.startTimer == false then 
+	if (((m.controller.buttonDown & L_TRIG) ~= 0) and ((m.controller.buttonPressed & X_BUTTON) ~= 0)) and not gGlobalSyncTable.Intermission and gGlobalSyncTable.startTimer == false then 
 		gGlobalSyncTable.startTimer = true
-	elseif (((m.controller.buttonDown & L_TRIG) ~= 0) and ((m.controller.buttonPressed & X_BUTTON) ~= 0)) and gGlobalSyncTable.Intermission and gGlobalSyncTable.startTimer then 
+	elseif (((m.controller.buttonDown & L_TRIG) ~= 0) and ((m.controller.buttonPressed & X_BUTTON) ~= 0)) and not gGlobalSyncTable.Intermission and gGlobalSyncTable.startTimer then 
 		gGlobalSyncTable.startTimer = false
 	end
 	
@@ -206,9 +206,9 @@ function Practice_Mario_Update_Functions(m)
 	if MenuOptionSetting == "Buttons" and network_is_server() then
 
 	if gGlobalSyncTable.startglobaltimer ~= 0 then
-	if (((m.controller.buttonDown & L_TRIG) ~= 0) and ((m.controller.buttonPressed & X_BUTTON) ~= 0)) and gGlobalSyncTable.Intermission and gGlobalSyncTable.startTimer == false then 
+	if (((m.controller.buttonDown & L_TRIG) ~= 0) and ((m.controller.buttonPressed & X_BUTTON) ~= 0)) and gGlobalSyncTable.startTimer == false then 
 		gGlobalSyncTable.startTimer = true
-	elseif (((m.controller.buttonDown & L_TRIG) ~= 0) and ((m.controller.buttonPressed & X_BUTTON) ~= 0)) and gGlobalSyncTable.Intermission and gGlobalSyncTable.startTimer then 
+	elseif (((m.controller.buttonDown & L_TRIG) ~= 0) and ((m.controller.buttonPressed & X_BUTTON) ~= 0)) and gGlobalSyncTable.startTimer then 
 		gGlobalSyncTable.startTimer = false
 	end
 	
@@ -406,13 +406,12 @@ function Starting_Update_Functions()
 	if gGlobalSyncTable.GamemodeSetting == "Normal" and gGlobalSyncTable.SingleStarsMode == false and gGlobalSyncTable.EnabledIntro == false then
 	-- Update The Countdown Number
 	if not gGlobalSyncTable.Intermission then
-    if gGlobalSyncTable.StartingSettings == "Both" or gGlobalSyncTable.StartingSettings == "Countdown" then
+    if (gGlobalSyncTable.StartingSettings == "Both" or gGlobalSyncTable.StartingSettings == "Intermission") then
     if (gGlobalSyncTable.startTimer and gGlobalSyncTable.Intercountdown < 0) then
 		if not gGlobalSyncTable.set_countdown_numbers then
 		gGlobalSyncTable.timercountdown = 5 * 30
 		end
         gGlobalSyncTable.beatedGame = false
-		gGlobalSyncTable.startTimer = true 
 		end
 		end
 	end
@@ -433,6 +432,7 @@ function Starting_Update_Functions()
 	if gGlobalSyncTable.Intercountdown <= 0 then
 	if gGlobalSyncTable.Intermission and (gGlobalSyncTable.StartingSettings == "Both" or gGlobalSyncTable.StartingSettings == "Intermission") then
 	gGlobalSyncTable.startTimer = true
+	gGlobalSyncTable.Intermission = false
 	end
 	end
 	

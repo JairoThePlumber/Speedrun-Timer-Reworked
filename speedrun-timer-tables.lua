@@ -75,7 +75,7 @@ FontTable = {
         longname = "Coopdx Aliased Text"
     },
 	[3] = {
-        name = "Hud",
+        name = "SM64",
         longname = "Super Mario 64"
     },
 	[4] = {
@@ -83,7 +83,7 @@ FontTable = {
         longname = "Super Mario 64 (Romhack)"
     },
 	[5] = {
-        name = "Menu",
+        name = "SM64RH",
         longname = "Coopdx Menu Font"
     },
 	[6] = {

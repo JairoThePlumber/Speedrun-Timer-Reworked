@@ -3,8 +3,8 @@ if gamemodes_is_checked or notallowedmods or no_cheats then return end
 -- Both SelectMenus
 globalFont = FONT_NORMAL
 hudFont = FONT_CUSTOM_HUD
-yhudposition = -228 
-yhudposition2 = 228 
+yhudposition = -220 
+yhudposition2 = 220 
 scale = 1
 color = "#000000"
 creditscale = 1
@@ -502,8 +502,8 @@ function displaystrmenu(m)
 		ArrowPositionLeft = -160
 		ArrowPositionRight = -127
 		elseif SelectedExtra == 2 then
-		ArrowPositionLeft = -63
-		ArrowPositionRight = -15
+		ArrowPositionLeft = -107
+		ArrowPositionRight = -60
 		elseif SelectedExtra == 3 then
 		ArrowPositionLeft = -40
 		ArrowPositionRight = 33
@@ -2475,7 +2475,6 @@ function displaystrmenu(m)
 		Secondstopress = 10
 		end
 			
-		if MenuOptionSetting == "Menu" then
 		if (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 1 and gGlobalSyncTable.beatedGame and gGlobalSyncTable.GamemodeSetting ~= "SingleStars" then
         djui_popup_create("\\#ff0000\\The Run is Finished, You can Either Rehost or Restart The Speedrun", 2)
 		Secondstopress = 10
@@ -2491,6 +2490,7 @@ function displaystrmenu(m)
 		Secondstopress = 10 
 		end
 		
+		if MenuOptionSetting == "Menu" then
 		if gGlobalSyncTable.GamemodeSetting == "Normal" then
 		if (MenuInputCheck & R_TRIG) ~= 0 and MainOptions == 1 and gGlobalSyncTable.IntroSettings == "Enabled" and gGlobalSyncTable.RunStarting then
 		djui_popup_create("\\#ff0000\\You Can't Switch while the Run is Starting", 2)
@@ -2510,11 +2510,11 @@ function displaystrmenu(m)
 		and (NoSlotsTypePlugin == "Disabled" and gGlobalSyncTable.PluginsRunsSlots == 0) and gGlobalSyncTable.startglobaltimer == 0 then
 		djui_popup_create("\\#ff0000\\Woah There!! You need to choose a Run before you start the Speedrun", 2)
 		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 1 and gGlobalSyncTable.Intermission and gGlobalSyncTable.startTimer and gGlobalSyncTable.startglobaltimer ~= 0 then
+		elseif (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 1 and gGlobalSyncTable.startTimer and gGlobalSyncTable.startglobaltimer ~= 0 then
 		djui_popup_create_global("The Speedrun has been Paused!", 2)
 		gGlobalSyncTable.startTimer = false
 		Secondstopress = 10
-		elseif (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 1 and gGlobalSyncTable.Intermission and gGlobalSyncTable.startTimer == false and gGlobalSyncTable.startglobaltimer ~= 0 then
+		elseif (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 1 and gGlobalSyncTable.startTimer == false and gGlobalSyncTable.startglobaltimer ~= 0 then
 		djui_popup_create_global("The Speedrun has been Unpaused!", 2)
 		gGlobalSyncTable.startTimer = true
 		openstrmenu = false
@@ -2657,7 +2657,8 @@ function displaystrmenu(m)
 		Secondstopress = 10 
 		djui_popup_create_global("\\#ff0000\\The Save File Has Erased!", 2)
 		end
-			
+		end
+		
 		if (MenuInputCheck & A_BUTTON) ~= 0 and MainOptions == 4 and StrOption == 0 then
 		StrOption = 1
 		Secondstopress = 10
@@ -2670,7 +2671,6 @@ function displaystrmenu(m)
 		play_sound(SOUND_MENU_REVERSE_PAUSE, m.marioObj.header.gfx.cameraToObject)
         StrOption = 2
 		Secondstopress = 10
-		end
 		end
 		
 		if gGlobalSyncTable.GamemodeSetting == "SingleStars" then
