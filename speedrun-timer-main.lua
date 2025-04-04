@@ -663,20 +663,22 @@ function Extra_Update_Functions()
 	
 	-- Colors on Playerlist
 	for i = 0, MAX_PLAYERS - 1 do
-        if gGlobalSyncTable.SpeedrunTeams and gPlayerSyncTable[i].TeamColors == 1 and (indicatormods and IndicatorDisplay >= 100) then
+		if IndicatorDisplay <= 100 then
+        if gGlobalSyncTable.SpeedrunTeams and gPlayerSyncTable[i].TeamColors == 1 and IndicatorDisplay <= 100 then
             network_player_set_description(gNetworkPlayers[i], "Red Team", 249, 3, 3, 255)
-        elseif gGlobalSyncTable.SpeedrunTeams and gPlayerSyncTable[i].TeamColors == 2 and (indicatormods and IndicatorDisplay >= 100) then
+        elseif gGlobalSyncTable.SpeedrunTeams and gPlayerSyncTable[i].TeamColors == 2 then
             network_player_set_description(gNetworkPlayers[i], "Blue Team", 57, 3, 255, 255)
-		elseif (gGlobalSyncTable.SpeedrunTeams ~= true) and gGlobalSyncTable.GamemodeSetting == "Normal" and gGlobalSyncTable.backupslot == false and (indicatormods and IndicatorDisplay >= 100) then
+		elseif (gGlobalSyncTable.SpeedrunTeams ~= true) and gGlobalSyncTable.GamemodeSetting == "Normal" and gGlobalSyncTable.backupslot == false then
 			network_player_set_description(gNetworkPlayers[i], "Speedrun", 255, 255, 255, 255)
-		elseif (gGlobalSyncTable.SpeedrunTeams ~= true) and gGlobalSyncTable.GamemodeSetting == "Normal" and gGlobalSyncTable.backupslot == true and (indicatormods and IndicatorDisplay >= 100) then
+		elseif (gGlobalSyncTable.SpeedrunTeams ~= true) and gGlobalSyncTable.GamemodeSetting == "Normal" and gGlobalSyncTable.backupslot == true then
 			network_player_set_description(gNetworkPlayers[i], "Backup_S", 255, 255, 255, 255)
-		elseif (gGlobalSyncTable.SpeedrunTeams ~= true) and gGlobalSyncTable.GamemodeSetting == "PracticeRun" and (indicatormods and IndicatorDisplay >= 100) then
+		elseif (gGlobalSyncTable.SpeedrunTeams ~= true) and gGlobalSyncTable.GamemodeSetting == "PracticeRun" then
 			network_player_set_description(gNetworkPlayers[i], "Practice", 255, 255, 255, 255)
-		elseif gGlobalSyncTable.SpeedrunTeams ~= true and gGlobalSyncTable.GamemodeSetting == "Casual" and (indicatormods and IndicatorDisplay >= 100) then
+		elseif gGlobalSyncTable.SpeedrunTeams ~= true and gGlobalSyncTable.GamemodeSetting == "Casual" then
 			network_player_set_description(gNetworkPlayers[i], "Casual", 255, 255, 255, 255)
-		elseif gGlobalSyncTable.SpeedrunTeams ~= true and gGlobalSyncTable.GamemodeSetting == "SingleStars" and (indicatormods and IndicatorDisplay >= 100) then
+		elseif gGlobalSyncTable.SpeedrunTeams ~= true and gGlobalSyncTable.GamemodeSetting == "SingleStars" then
 			network_player_set_description(gNetworkPlayers[i], "S_Stars", 255, 255, 255, 255)
+		end
 		end
     end
 end
