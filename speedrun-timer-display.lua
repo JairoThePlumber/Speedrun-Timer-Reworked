@@ -681,7 +681,7 @@ end
 	end
 	
 	if FontTable[DefaultFont].name == "SM64" then
-	djui_hud_print_text(go_text, go_x - 3, y, doublesize);
+	djui_hud_print_text(go_text, go_x - 3, y + 21, doublesize);
 	end
 	
 	if FontTable[DefaultFont].name == "SM64RH" then
@@ -702,7 +702,7 @@ end
 	end
 	
 	if FontTable[DefaultFont].name == "SM64" then
-	djui_hud_print_text(countdown_text, countdown_x - 3, y, doublesize);
+	djui_hud_print_text(countdown_text, countdown_x - 3, y + 21, doublesize);
 	end
 	
 	if FontTable[DefaultFont].name == "SM64RH" then
