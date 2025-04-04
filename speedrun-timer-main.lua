@@ -664,7 +664,7 @@ function Extra_Update_Functions()
 	-- Colors on Playerlist
 	for i = 0, MAX_PLAYERS - 1 do
 		if IndicatorDisplay <= 100 then
-        if gGlobalSyncTable.SpeedrunTeams and gPlayerSyncTable[i].TeamColors == 1 and IndicatorDisplay <= 100 then
+        if gGlobalSyncTable.SpeedrunTeams and gPlayerSyncTable[i].TeamColors == 1 then
             network_player_set_description(gNetworkPlayers[i], "Red Team", 249, 3, 3, 255)
         elseif gGlobalSyncTable.SpeedrunTeams and gPlayerSyncTable[i].TeamColors == 2 then
             network_player_set_description(gNetworkPlayers[i], "Blue Team", 57, 3, 255, 255)
