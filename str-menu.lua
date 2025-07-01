@@ -309,7 +309,7 @@ shadow_text("+ Everything been Redone from Scratch (Mostly)", MDGX - 65, MDGY - 
 shadow_text("+ Full Menu been Reworked", MDGX - 65, MDGY - 60, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 shadow_text("~ Revert Custom Plugin Api", MDGX - 65, MDGY - 50, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 shadow_text("! Custom Fonts are now Customizable", MDGX - 65, MDGY - 40, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("! Now Saved Can Be Reset Now", MDGX - 65, MDGY - 30, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+shadow_text("! Now Custom Saves Can Be Reset Now", MDGX - 65, MDGY - 30, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 shadow_text("= Reduce alot of coding from menu", MDGX - 65, MDGY - 20, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 shadow_text("! Now Casual Gamemode can be Paused", MDGX - 65, MDGY - 10, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 shadow_text("! Now you can Set Binds for Single Stars", MDGX - 65, MDGY, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
