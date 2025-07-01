@@ -694,16 +694,3 @@ function Timer_Hud_Renders()
 	Special_Timer_Hud()
 	end
 end
-
-function displayHudRecreation()
-	djui_hud_set_resolution(RESOLUTION_N64)
-	djui_hud_set_font(FONT_HUD)
-	screenHeight = djui_hud_get_screen_height()
-	screenWidth = djui_hud_get_screen_width()
-	djui_hud_print_text(tostring(MenuButtonsDeplay), screenWidth - 120, screenHeight - 225, 1)
-end
-
----------
---Hooks--
----------
-hook_event(HOOK_ON_HUD_RENDER, displayHudRecreation)
