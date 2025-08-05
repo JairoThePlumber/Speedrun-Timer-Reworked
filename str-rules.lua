@@ -1,4 +1,3 @@
-
 SM64Rules = true
 
 for romhacks in pairs(gActiveMods) do 
@@ -109,4 +108,60 @@ function Rules_Display()
 	shadow_text("These Rules are Needed to make your Run Vaild.", X - 81, Y + 98, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Not following these Rules will count as Invaild.", X - 80, Y + 108, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Make sure you got things ready before Starting.", X - 83, Y + 118, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+end
+
+function Helper_Display()
+	HelpSize = 100
+	HelpW = 5 * HelpSize
+	HelpH = 3 * HelpSize
+	HelpX = (S_Width() - HelpW) / 2.0
+	HelpY = (S_Height() - HelpH) / 2.0
+	render_rect(HelpX, HelpY, HelpW, HelpH, 0, 0, 170, STRHelperHide)
+	
+	HelpTitleText = "Hello, Thanks for Using the Speedrun Timer Mod"
+
+	HelpSize = 0.50
+    HelpWidth = Hud_Measure(HelpTitleText) * HelpSize
+    HelpHeight = 32 * HelpSize
+
+    HelpX = (S_Width() - HelpWidth) / 2.0
+    HelpY = (S_Height() - HelpHeight) / 2.0 - 112
+	
+    shadow_text(HelpTitleText, HelpX, HelpY - 0.5, HelpSize, 1, 1, 255, 255, 255, STRHelperHide)
+	
+	HelpText = "Now, This is what you need to know:"
+	
+	Help_Size = 0.50
+	Help_Height = 16 * Help_Size
+	Help_W = Hud_Measure(HelpText) * Help_Size
+	Help_X = (S_Width() - Help_W) / 2.0 
+    Help_Y = (S_Height() - Help_Height) / 2.0 - 100
+	shadow_text(HelpText, Help_X, Help_Y - 0.5, Help_Size, 1, 1, 255, 255, 255, STRHelperHide)
+	
+	local Size = 0.75
+	local Height = 32 * Size
+	local Width = 0 * Size
+	local X = (S_Width() - Width) / 2.0
+	local Y = (S_Height() - Height) / 2.0
+	
+	shadow_text("- What to do when Joining a Run -", X - 60, Y - 70, Size - 0.40, 0.95, 0.95, 255, 255, 255, STRHelperHide)
+	shadow_text("You can Simply wait until The Host Starting a Run.", X - 60, Y - 60, Size - 0.50, 0.50, 0.50, 255, 255, 255, STRHelperHide)
+	shadow_text("If you join a Started Run, You can see the requirements on what to do", X - 85, Y - 53, Size - 0.50, 0.50, 0.50, 255, 255, 255, STRHelperHide)
+	
+	shadow_text("- How to Open the Menu -", X - 45, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, STRHelperHide)
+	shadow_text("If you using Commands, Just type /str_menu", X - 53, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, STRHelperHide)
+	shadow_text("If you using Controller Keybinds, Just Press " .. STRButtonBinds[STRMBinds1].name .. " + " .. STRButtonBinds[STRMBinds2].name .. " + " .. STRButtonBinds[STRMBinds3].name, X - 73, Y - 23, Size - 0.50, 0.50, 0.50, 255, 255, 255, STRHelperHide)
+	
+	shadow_text("- How to avoid getting stuck in the Lobby -", X - 75, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, STRHelperHide)
+	shadow_text('You can Find The Option "Warp Help" in Settings', X - 60, Y + 0, Size - 0.50, 0.50, 0.50, 255, 255, 255, STRHelperHide)
+	shadow_text("But Do Keep in mind that they don't work when Starting a Run", X - 75, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, STRHelperHide)
+	
+	shadow_text("- (Host Only) How to Change Requirements -", X - 75, Y + 20, Size - 0.40, 0.95, 0.95, 255, 255, 255, STRHelperHide)
+	shadow_text("Go to Run Config and Click Level Settings to change it", X - 70, Y + 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, STRHelperHide)
+	shadow_text("Make Sure to check first before Starting a Run", X - 60, Y + 37, Size - 0.50, 0.50, 0.50, 255, 255, 255, STRHelperHide)
+		
+	shadow_text("- (Host Only) Note on Server Settings -", X - 70, Y + 50, Size - 0.40, 0.95, 0.95, 255, 255, 255, STRHelperHide)
+	shadow_text("If you starting a run, Always make sure you Display them", X - 70, Y + 60, Size - 0.50, 0.50, 0.50, 255, 255, 255, STRHelperHide)
+	shadow_text("Otherwise, Your run will be Invalid.", X - 45, Y + 67, Size - 0.50, 0.50, 0.50, 255, 255, 255, STRHelperHide)
+	shadow_text("- This Message will Disappear in " .. tostring(math.floor(STRHelperTimer)) .. " -", X - 66, Y + 78, Size - 0.40, 0.95, 0.95, 255, 255, 255, STRHelperHide)
 end

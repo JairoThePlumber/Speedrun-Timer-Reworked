@@ -13,9 +13,21 @@ Save_Storage = mod_storage_save
 Save_Numbers = mod_storage_save_number
 Load_Storage = mod_storage_load
 
+-- Global Saves
+STRGST.STRFinishGameWarp = mod_storage_load("STRFGWarp") or "Enabled"
+STRGST.STRForceLevelType = mod_storage_load("STRFLType") or "Levels"
+STRGST.STRWarpType = mod_storage_load("STRWType") or "Start"
+STRGST.STRForceSpot = mod_storage_load("STRFSpot") or "Start"
+STRGST.STRBSFOption = mod_storage_load("STRBackupOption") or "Disabled"
+STRGST.CasualGM = mod_storage_load("STRCasualOption") or "Disabled"
+
+STRGST.STRCDNumber = tonumber(mod_storage_load("STRCDNum")) or 3
+STRGST.STRGameMode = tonumber(mod_storage_load("STRGM")) or 1
+STRGST.STRStartingType = tonumber(mod_storage_load("STRSType")) or 1
+
 -- Global Functions
 STRGST.STRGameState = "Lobby"
-STRGST.STRStartingWarp = "Unused"
+STRGST.STRStartingWarp = 0
 STRGST.VanillaCG = false
 STRGST.EraseSave = false
 STRGST.SwitchIntro = false
@@ -25,18 +37,49 @@ STRGST.STRPluginsCheck = false
 STRGST.EnabledInteraction = true
 STRGST.GrandStar = false
 STRGST.CakeEnding = false
-STRGST.BuildInRomhacks = false
-STRGST.DisableCSMoveset = false
+STRGST.AddRomhack = false
+STRGST.DisableCSMoveset = true
+STRGST.SavedBestTime = false
+STRGST.WNRCheck = false
+
+STRGST.SFSMipsStar1 = "Erase"
+STRGST.SFSMipsStar2 = "Erase"
+STRGST.SFSToadStar1 = "Erase"
+STRGST.SFSToadStar2 = "Erase"
+STRGST.SFSToadStar3 = "Erase"
+STRGST.SFSWingCap = "Erase"
+STRGST.SFSMetalCap = "Erase"
+STRGST.SFSVanishCap = "Erase"
+STRGST.SFSDDDMovedBack = "Erase"
+STRGST.SFSMoatDrain = "Erase"
+STRGST.SFS50StarDoor = "Erase"
+STRGST.SFSBasementDoor = "Erase"
+STRGST.SFSBTIDWDoor = "Erase"
+STRGST.SFSBITFSDoor = "Erase"
+STRGST.SFSCCMDoor = "Erase"
+STRGST.SFSJRBDoor = "Erase"
+STRGST.SFSPSSDoor = "Erase"
+STRGST.SFSUpstairsDoor = "Erase"
+STRGST.SFSWFDoor = "Erase"
+STRGST.SFSKeys = "Erase"
+
+for warpnoderandom in pairs(gActiveMods) do
+    if gActiveMods[warpnoderandom].name:find("Warp Node Randomizer") then
+        STRGST.WNRCheck = true
+		break
+    end
+end
 
 -- Global Number Functions
 STRGST.STRGlobalTimer = 0
-STRGST.STRIntermission = 6
+STRGST.STRIntermission = 5
 STRGST.STRSecondsDelay = 0
-STRGST.STRCDNumber = 3
 STRGST.STRCountdown = STRGST.STRCDNumber
 
+STRGST.STRGoText = 0
 STRGST.STRFinishText = 12
 STRGST.STRWarpCountdown = 6
+STRGST.STREraseSaveCD = 4
 
 STRGST.STRIntroAction = 5
 STRGST.STRCDSounds = 0
@@ -44,6 +87,13 @@ STRGST.STRSetLives = 0
 STRGST.STRUpdater = 0
 STRGST.STRLevelUpdater = 0
 STRGST.STRSpotUpdater = 0
+STRGST.STRSavLevelUpdater = 0
+STRGST.STRSavSpotUpdater = 0
+if STRGST.WNRCheck == true then
+STRGST.WarpNodeRandomierDeplay = 0
+else
+STRGST.WarpNodeRandomierDeplay = 90
+end
 
 STRGST.STRLevelID = 0
 STRGST.STRCourseID = 0
@@ -53,8 +103,13 @@ STRGST.STRXPos = 0
 STRGST.STRYPos = 0
 STRGST.STRZPos = 0
 
-STRGST.RulesPage = 1
-STRGST.BestTimeNumber = 0
+STRGST.STRSavLevelID = 0
+STRGST.STRSavCourseID = 0
+STRGST.STRSavAreaID = 0
+STRGST.STRSavActID = 0
+STRGST.STRSavXPos = 0
+STRGST.STRSavYPos = 0
+STRGST.STRSavZPos = 0
 
 GSTRT = STRGST.STRGlobalTimer / 30
 GSTRH = math.floor(GSTRT / 3600)
@@ -72,7 +127,7 @@ STRGST.STRSSCollectedStar = STRGST.STRSSSetStars
 STRGST.STRSSText = 300
 
 STRGST.STRRunsTypes = 1
-STRGST.STRPluginsTypes = 1
+STRGST.STRPluginsTypes = 0
 
 STRGST.STRLFLimit = 1
 STRGST.STRLFID = 1
@@ -97,81 +152,16 @@ STRGST.STRLFEYPos = 0
 STRGST.STRLFEZPos = 0
 STRGST.STRLFPositions = 1
 
--- Global Saves
-STRGST.STRFinishGameWarp = mod_storage_load("STRFGWarp") or "Enabled"
-STRGST.STRForceLevelType = mod_storage_load("STRFLType") or "Levels"
-STRGST.STRWarpType = mod_storage_load("STRWType") or "Level"
-STRGST.STRForceSpot = mod_storage_load("STRFSpot") or "Disabled"
-STRGST.STRRDisplay = mod_storage_load("STRRequireDisplay") or "Start"
-STRGST.STRBSFOption = mod_storage_load("STRBackupOption") or "Disabled"
-STRGST.BestTimeOption = mod_storage_load("STRBestTimeType") or "Disabled"
-STRGST.CasualGM = mod_storage_load("STRCasualOption") or "Disabled"
-
-STRGST.STRGameMode = tonumber(mod_storage_load("STRGM")) or 1
-STRGST.STRStartingType = tonumber(mod_storage_load("STRSType")) or 1
-
--- Local Functions
-STRMenuDisplay = false
-STRMenuWarp = false
-STRRunSlotAdded = false
-STRRulesOpen = false
-STRCustomRules = false
-STRPlaySound = false
-
-STRNumbers = false
-STRWords = false
-STRQuotes = false
-
-STRMenuBindsFS = false
-STRRulesBindsFS = false
-STRSingleBindsFS = false
-
--- Local Number Functions
-STRIndicatorDisplay = 0
-STRLoadSaveUpdater = 0
-STRSettingsTimer = 150
-
-STRFontTMNumber = 1
-STRFontCDNumber = 1
-STRFontGONumber = 1
-
-STRFanfareNumber = 1
-STRCountdownNumber = 1
-STRGoNumber = 1
-
-if network_is_server() then
-STRMenuNumber = 1
-else
-STRMenuNumber = 10
-end
-MenuPageLRDisplay = 1
-MenuPageUPDisplay = 1
-MenuLROption = 1
-MenuUDOption = 1
-MStickX = 0
-MStickY = 0
-MBPress = 0
-MBDown = 0
-MenuUpDelay = 0
-MenuDownDelay = 0
-MenuLeftDelay = 0
-MenuRightDelay = 0
-DPUpDelay = 0
-DPDownDelay = 0
-DPLeftDelay = 0
-DPRightDelay = 0
-MenuOptionDeplay = 10
-MenuButtonsDeplay = 10
-MenuSelectedOption = "Main"
-MenuSwitchDeplay = 0
-
 -- Local Saves
+STRMenuButtons = mod_storage_load("STRMButtons") or "Both"
 STRCustomColors = mod_storage_load("STRCColors") or "Enabled"
 STRLocationSpot = mod_storage_load("STRLSpot") or "Ground"
 STRRenderType = mod_storage_load("STRRType") or "Behind"
-STRBTDisplay = mod_storage_load("STRBTD") or "Disabled"
-STRMenuButtons = mod_storage_load("STRMButtons") or "Commands"
 STRRules = mod_storage_load("STRRulesDisplay") or "Enabled"
+STRHelper = mod_storage_load("STRHelperDisplay") or "Enabled"
+STRRDisplay = mod_storage_load("STRRequireDisplay") or "Start"
+STRMenuWarpType = mod_storage_load("STRMenuWType") or "Start"
+STRBestTimeOption = mod_storage_load("STRBestTimeType") or "Saves"
 
 STRMBinds1 = tonumber(Load_Storage("STRMenuBinds1")) or 6
 STRMBinds2 = tonumber(Load_Storage("STRMenuBinds2")) or 7
@@ -202,6 +192,71 @@ STRMenuR = tonumber(Load_Storage("STRMenuRed")) or 0
 STRMenuB = tonumber(Load_Storage("STRMenuBlue")) or 0
 STRMenuG = tonumber(Load_Storage("STRMenuGreen")) or 0
 STRMenuV = tonumber(Load_Storage("STRMenuVisible")) or 128
+
+-- Local Functions
+STRMenuDisplay = false
+STRMenuWarp = false
+STRRunSlotAdded = false
+if STRHelper == "Enabled" then
+STRHelperOpen = true
+elseif STRHelper == "Disabled" then
+STRHelperOpen = false
+end
+STRRulesOpen = false
+STRCustomRules = false
+STRPlaySound = false
+
+STRNumbers = false
+STRWords = false
+STRQuotes = false
+
+STRMenuBindsFS = false
+STRRulesBindsFS = false
+STRSingleBindsFS = false
+
+if network_is_server() then
+STRMenuTitleName = "MDMain"
+else
+STRMenuTitleName = "MDConfig"
+end
+MenuSelectedOption = "Main"
+MenuViewHostCheck = false
+
+-- Local Number Functions
+STRLoadSaveUpdater = 0
+STRSettingsTimer = 150
+STRBestTimeNumber = 0
+STRBTNLimit = 30
+STRHelperTimer = 10
+STRHelperHide = 255
+
+STRFontTMNumber = 1
+STRFontCDNumber = 1
+STRFontGONumber = 1
+
+STRFanfareNumber = 1
+STRCountdownNumber = 1
+STRGoNumber = 1
+
+MenuPageLRDisplay = 1
+MenuPageUDDisplay = 1
+MenuLROption = 1
+MenuUDOption = 1
+MStickX = 0
+MStickY = 0
+MBPress = 0
+MBDown = 0
+MenuUpDelay = 0
+MenuDownDelay = 0
+MenuLeftDelay = 0
+MenuRightDelay = 0
+DPUpDelay = 0
+DPDownDelay = 0
+DPLeftDelay = 0
+DPRightDelay = 0
+MenuOptionDeplay = 10
+MenuButtonsDeplay = 10
+MenuSwitchDeplay = 0
 
 -- Save File Packet Numbers
 STR_Packet_Data = 1
@@ -617,7 +672,27 @@ function str_reset_save()
 	for course = 0, 25 do
 	save_file_remove_star_flags(file, course - 1, 0xFF)
 	end
-	save_file_clear_flags(0xFFFFFFFF) -- ALL OF THEM
+
+	if STRGST.SFSMipsStar1 == "Erase" then save_file_clear_flags(SAVE_FLAG_COLLECTED_MIPS_STAR_1) end
+	if STRGST.SFSMipsStar2 == "Erase" then save_file_clear_flags(SAVE_FLAG_COLLECTED_MIPS_STAR_2) end
+	if STRGST.SFSToadStar1 == "Erase" then save_file_clear_flags(SAVE_FLAG_COLLECTED_TOAD_STAR_1) end
+	if STRGST.SFSToadStar2 == "Erase" then save_file_clear_flags(SAVE_FLAG_COLLECTED_TOAD_STAR_2) end
+	if STRGST.SFSToadStar3 == "Erase" then save_file_clear_flags(SAVE_FLAG_COLLECTED_TOAD_STAR_3) end
+	if STRGST.SFSWingCap == "Erase" then save_file_clear_flags(SAVE_FLAG_HAVE_WING_CAP) end
+	if STRGST.SFSMetalCap == "Erase" then save_file_clear_flags(SAVE_FLAG_HAVE_METAL_CAP) end
+	if STRGST.SFSVanishCap == "Erase" then save_file_clear_flags(SAVE_FLAG_HAVE_VANISH_CAP) end
+	if STRGST.SFSDDDMovedBack == "Erase" then save_file_clear_flags(SAVE_FLAG_DDD_MOVED_BACK) end
+	if STRGST.SFSMoatDrain == "Erase" then save_file_clear_flags(SAVE_FLAG_MOAT_DRAINED) end
+	if STRGST.SFS50StarDoor == "Erase" then save_file_clear_flags(SAVE_FLAG_UNLOCKED_50_STAR_DOOR) end
+	if STRGST.SFSBasementDoor == "Erase" then save_file_clear_flags(SAVE_FLAG_UNLOCKED_BASEMENT_DOOR) end
+	if STRGST.SFSBTIDWDoor == "Erase" then save_file_clear_flags(SAVE_FLAG_UNLOCKED_BITDW_DOOR) end
+	if STRGST.SFSBITFSDoor == "Erase" then save_file_clear_flags(SAVE_FLAG_UNLOCKED_BITFS_DOOR) end
+	if STRGST.SFSCCMDoor == "Erase" then save_file_clear_flags(SAVE_FLAG_UNLOCKED_CCM_DOOR) end
+	if STRGST.SFSJRBDoor == "Erase" then save_file_clear_flags(SAVE_FLAG_UNLOCKED_JRB_DOOR) end
+	if STRGST.SFSPSSDoor == "Erase" then save_file_clear_flags(SAVE_FLAG_UNLOCKED_PSS_DOOR) end
+	if STRGST.SFSUpstairsDoor == "Erase" then save_file_clear_flags(SAVE_FLAG_UNLOCKED_UPSTAIRS_DOOR) end
+	if STRGST.SFSWFDoor == "Erase" then save_file_clear_flags(SAVE_FLAG_UNLOCKED_WF_DOOR) end
+	if STRGST.SFSKeys == "Erase" then save_file_clear_flags(SAVE_FLAG_HAVE_KEY_1 | SAVE_FLAG_HAVE_KEY_2) end
 	save_file_do_save(file, 1)
     update_all_mario_stars()
 end
@@ -642,37 +717,16 @@ function str_button_combo(controller, ...)
 end
 
 function str_erase_save()
-	if STRGST.EraseSave == true then
-	STRGST.EraseSave = false
+	if STRGST.STREraseSaveCD < 1 and STRGST.EraseSave == true then
 	str_reset_save()
+	save_file_reload(0)
 	network_send(true, {Update = STR_Packet_Data})
 	end
 end
 
-function str_indicator()
-    if gNetworkPlayers[0].description ~= TagDisplay then
-	if STRIndicatorDisplay >= 200 then
-        STRIndicatorDisplay = 0
-    end	
-	
-	if STRIndicatorDisplay ~= 200 then
-        STRIndicatorDisplay = STRIndicatorDisplay + 1
-		end	
-	end
-	
-	for i = 0, MAX_PLAYERS - 1 do
-		TagDisplay = gNetworkPlayers[i].description
-		TagDisplay = STRGameModeTable[STRGST.STRGameMode]
-		
-		if (STRIndicatorDisplay <= 100) then
-			network_player_set_description(gNetworkPlayers[i], TagDisplay, 255, 255, 255, 255)
-		end
-    end
-end
-
 function str_sounds()
 	if network_is_server() then 
-	if STRGST.STRCountdown > 1.93 and STRGST.STRSecondsDelay > 30 and STRGST.STRIntermission <= 0 and STRGST.STRStartingType == 1 then
+	if STRGST.STRCountdown > 1.93 and STRGST.STRSecondsDelay > 60 and STRGST.STRIntermission <= 0 and STRGST.STRStartingType == 1 then
 		STRGST.STRCDSounds = STRGST.STRCDSounds + 1
 	if STRGST.STRCDSounds > 29 then 
 		STRGST.STRCDSounds = 0
@@ -683,10 +737,10 @@ function str_sounds()
 		STRGST.STRCDSounds = STRGST.STRCDSounds + 1
 	if STRGST.STRCDSounds > 29 then 
 		STRGST.STRCDSounds = 0
-			end
 		end
+	end
 		
-	if STRGST.STRCountdown == 1 and STRGST.STRGameState == "Preparing" and STRGST.STRSecondsDelay > 30 and STRGST.STRSecondsDelay < 61 and STRGST.STRIntermission <= 0 and STRGST.STRStartingType == 1 then
+	if STRGST.STRCountdown == 1 and STRGST.STRGameState == "Preparing" and STRGST.STRSecondsDelay > 60 and STRGST.STRSecondsDelay < 91 and STRGST.STRIntermission <= 0 and STRGST.STRStartingType == 1 then
 		STRGST.STRCDSounds = STRGST.STRCDSounds + 1
 	if STRGST.STRCDSounds > 29 then 
 		STRGST.STRCDSounds = 0
@@ -697,7 +751,7 @@ function str_sounds()
 		STRGST.STRCDSounds = STRGST.STRCDSounds + 1
 	if STRGST.STRCDSounds > 29 then 
 		STRGST.STRCDSounds = 0
-	end
+			end
 		end
 	end
 	
@@ -716,29 +770,95 @@ end
 
 function str_level_updater()
 	if not network_is_server() then return end
-	if STRGST.STRSpotUpdater < 5 and ((STRLocationSpot == "Anywhere" and gMarioStates[0].action & ACT_FLAG_AIR ~= 0) or ((gMarioStates[0].action & ACT_FLAG_AIR) == 0 and STRLocationSpot == "Ground")) then
+	LocationSpot = ((STRLocationSpot == "Anywhere" and gMarioStates[0].action & ACT_FLAG_AIR ~= 0) or ((gMarioStates[0].action & ACT_FLAG_AIR) == 0 and STRLocationSpot == "Ground"))
+	InstantSpot = (STRLocationSpot == "FrameSpot")
+	
+	if STRGST.STRSpotUpdater < 5 and (LocationSpot or InstantSpot) and STRGST.WarpNodeRandomierDeplay > 89 then
         STRGST.STRSpotUpdater = STRGST.STRSpotUpdater + 1
     end	
 	
-	if STRGST.STRLevelUpdater < 5 and network_is_server() then
+	if STRGST.STRSavSpotUpdater < 5 and (LocationSpot or InstantSpot) and STRGST.WarpNodeRandomierDeplay > 89 then
+        STRGST.STRSavSpotUpdater = STRGST.STRSavSpotUpdater + 1
+    end	
+	
+	if STRGST.STRSavLevelUpdater < 5 and network_is_server() and STRGST.WarpNodeRandomierDeplay > 89 then
+        STRGST.STRSavLevelUpdater = STRGST.STRSavLevelUpdater + 1
+	end	
+	
+	if (STRGST.STRSpotUpdater < 5 and LocationSpot) or (STRGST.STRSpotUpdater < 2 and InstantSpot) and STRGST.WarpNodeRandomierDeplay > 89 then
+	STRGST.STRXPos = gMarioStates[0].pos.x
+	STRGST.STRYPos = gMarioStates[0].pos.y
+	STRGST.STRZPos = gMarioStates[0].pos.z
+	end
+	
+	if (STRGST.STRSavSpotUpdater < 5 and LocationSpot) or (STRGST.STRSavSpotUpdater < 2 and InstantSpot) and STRGST.WarpNodeRandomierDeplay > 89 then
+	STRGST.STRSavXPos = gMarioStates[0].pos.x
+	STRGST.STRSavYPos = gMarioStates[0].pos.y
+	STRGST.STRSavZPos = gMarioStates[0].pos.z
+	end
+	
+	if STRGST.STRLevelUpdater < 5 and network_is_server() and STRGST.WarpNodeRandomierDeplay > 89 then
         STRGST.STRLevelUpdater = STRGST.STRLevelUpdater + 1
 	end	
 	
-	if STRGST.STRLevelUpdater < 5 then
+	if STRGST.STRLevelUpdater < 5 and STRGST.WarpNodeRandomierDeplay > 89 then
 	STRGST.STRLevelID = gNetworkPlayers[0].currLevelNum
 	STRGST.STRCourseID = gNetworkPlayers[0].currCourseNum
 	STRGST.STRAreaID = gNetworkPlayers[0].currAreaIndex
 	STRGST.STRActID = gNetworkPlayers[0].currActNum
 	end
-	
-	if STRGST.STRSpotUpdater < 5 and ((STRLocationSpot == "Anywhere" and gMarioStates[0].action & ACT_FLAG_AIR ~= 0) or ((gMarioStates[0].action & ACT_FLAG_AIR) == 0 and STRLocationSpot == "Ground")) then
-	STRGST.STRXPos = gMarioStates[0].pos.x
-	STRGST.STRYPos = gMarioStates[0].pos.y
-	STRGST.STRZPos = gMarioStates[0].pos.z
+
+	if STRGST.STRSavLevelUpdater < 5 and STRGST.WarpNodeRandomierDeplay > 89 then
+	STRGST.STRSavLevelID = gNetworkPlayers[0].currLevelNum
+	STRGST.STRSavCourseID = gNetworkPlayers[0].currCourseNum
+	STRGST.STRSavAreaID = gNetworkPlayers[0].currAreaIndex
+	STRGST.STRSavActID = gNetworkPlayers[0].currActNum
 	end
 end
 
 function str_updater_function()
+	if STRGST.WarpNodeRandomierDeplay < 90 and STRGST.WNRCheck == true then
+	STRGST.WarpNodeRandomierDeplay = STRGST.WarpNodeRandomierDeplay + 1
+	end
+	CountdownDisplayFunc = ((STRGST.STRSecondsDelay > 28 and STRGST.STRStartingType == 3 and STRGST.STRCountdown >= 1.01) 
+	or (STRGST.STRSecondsDelay > 88 and STRGST.STRSecondsDelay < 120 and STRGST.STRCountdown >= 1.01)
+	or (STRGST.STRSecondsDelay > 88 and STRGST.STRSecondsDelay < 119 and STRGST.STRCountdown == 1 and STRGST.STRGameState == "Preparing")
+	or (STRGST.STRSecondsDelay > 28 and STRGST.STRSecondsDelay < 58 and STRGST.STRCountdown == 1 and STRGST.STRStartingType == 3 and STRGST.STRGameState == "Preparing"))
+	
+	GoDisplayFunc = (STRGST.STRGlobalTimer >= 2 and STRGST.STRGoText < 28)
+	CountdownSwitchFunc = (STRGST.STRCountdown >= 1.01 or STRGST.STRCountdown == 1)
+	
+	saveflag, m, Star, NP = save_file_get_flags(), gMarioStates[0], INTERACT_STAR_OR_KEY, gNetworkPlayers[0]
+	StarsFunctions = ((STRGST.STRLFStars == 1 and m.numStars >= STRGST.STRLFLimit)
+	or (STRGST.STRLFStars == 3 and (saveflag & STRLFB[STRGST.STRLFBehavior].ID) ~= 0 and STRLFB[STRGST.STRLFBehavior].Interact == false) 
+	or (STRGST.STRLFStars == 5 and (saveflag & STRLFB[STRGST.STRLFBehavior].ID) ~= 0 and STRLFB[STRGST.STRLFBehavior].Interact == false and m.numStars >= STRGST.STRLFLimit))
+	
+	LevelsFunctions = ((STRGST.STRLFLevels == 1 and NP.currLevelNum == STRLevels[STRGST.STRLFLevel].STRLID)
+	or (STRGST.STRLFLevels == 2 and NP.currAreaIndex == STRGST.STRLFArea) 
+	or (STRGST.STRLFLevels == 3 and NP.currActNum == STRGST.STRLFAct)
+	or (STRGST.STRLFLevels == 4 and NP.currLevelNum == STRLevels[STRGST.STRLFLevel].STRLID and NP.currAreaIndex == STRGST.STRLFArea) 
+	or (STRGST.STRLFLevels == 5 and NP.currLevelNum == STRLevels[STRGST.STRLFLevel].STRLID and NP.currActNum == STRGST.STRLFAct)
+	or (STRGST.STRLFLevels == 6 and NP.currLevelNum == STRLevels[STRGST.STRLFLevel].STRLID and NP.currAreaIndex == STRGST.STRLFArea and NP.currActNum == STRGST.STRLFAct))
+	
+	ActionsTimerFunctions = (STRGST.STRLFActions == 2 and m.action == STRActions[STRGST.STRLFAction].A_ID and STRGST.STRLFTimer > 0 and network_is_server())
+	ActionsFunctions = ((STRGST.STRLFActions == 1 and m.action == STRActions[STRGST.STRLFAction].A_ID)
+	or (STRGST.STRLFActions == 2 and m.action == STRActions[STRGST.STRLFAction].A_ID and STRGST.STRLFTimer <= 0))
+	
+	PositionsFunctions = ((STRGST.STRLFPositions == 1 and m.pos.x == STRGST.STRLFXPos) 
+	or (STRGST.STRLFPositions == 2 and m.pos.y == STRGST.STRLFYPos) 
+	or (STRGST.STRLFPositions == 3 and m.pos.z == STRGST.STRLFZPos)
+	or (STRGST.STRLFPositions == 4 and m.pos.x == STRGST.STRLFXPos and m.pos.y == STRGST.STRLFYPos) 
+	or (STRGST.STRLFPositions == 5 and m.pos.x == STRGST.STRLFXPos and m.pos.z == STRGST.STRLFZPos)
+	or (STRGST.STRLFPositions == 6 and m.pos.y == STRGST.STRLFYPos and m.pos.z == STRGST.STRLFZPos) 
+	or (STRGST.STRLFPositions == 7 and m.pos.x == STRGST.STRLFXPos and m.pos.y == STRGST.STRLFYPos and m.pos.z == STRGST.STRLFZPos)
+	or (STRGST.STRLFPositions == 8 and m.pos.x <= STRGST.STRLFXPos and m.pos.x >= STRGST.STRLFEXPos)
+	or (STRGST.STRLFPositions == 9 and m.pos.y <= STRGST.STRLFYPos and m.pos.y >= STRGST.STRLFEYPos) 
+	or (STRGST.STRLFPositions == 10 and m.pos.z <= STRGST.STRLFZPos and m.pos.z >= STRGST.STRLFEZPos)
+	or (STRGST.STRLFPositions == 11 and m.pos.x <= STRGST.STRLFXPos and m.pos.x >= STRGST.STRLFEXPos and m.pos.y <= STRGST.STRLFYPos and m.pos.y >= STRGST.STRLFEXPos) 
+	or (STRGST.STRLFPositions == 12 and m.pos.x <= STRGST.STRLFXPos and m.pos.x >= STRGST.STRLFEXPos and m.pos.z <= STRGST.STRLFZPos and m.pos.z >= STRGST.STRLFEYPos)
+	or (STRGST.STRLFPositions == 13 and m.pos.y <= STRGST.STRLFYPos and m.pos.y >= STRGST.STRLFEYPos and m.pos.z <= STRGST.STRLFZPos and m.pos.z >= STRGST.STRLFEZPos) 
+	or (STRGST.STRLFPositions == 14 and m.pos.x <= STRGST.STRLFXPos and m.pos.x >= STRGST.STRLFEXPos and m.pos.y <= STRGST.STRLFYPos and m.pos.y >= STRGST.STRLFEYPos and m.pos.z <= STRGST.STRLFZPos and m.pos.z >= STRGST.STRLFZPos))
+
 	if STRGST.STRUpdater < 10 and network_is_server() then
         STRGST.STRUpdater = STRGST.STRUpdater + 1
     end	
@@ -747,7 +867,7 @@ function str_updater_function()
         STRLoadSaveUpdater = STRLoadSaveUpdater + 1
     end	
 	
-	if STRLoadSaveUpdater < 2 then
+	if STRLoadSaveUpdater > 0 and STRLoadSaveUpdater < 2 then
 	load_saves()
 	end
 	
@@ -759,37 +879,58 @@ function str_updater_function()
 	STRSettingsTimer = STRSettingsTimer - 1
 	end
 	
+	if STRGST.STREraseSaveCD >= 1 and STRGST.EraseSave == true and network_is_server() then
+	STRGST.STREraseSaveCD = STRGST.STREraseSaveCD - 1 / 30
+	elseif STRGST.STREraseSaveCD <= 1 and STRGST.EraseSave == true then
+	STRGST.EraseSave = false
+	STRGST.STREraseSaveCD = 4
+	end
+	
+	if STRGST.EraseSave == true and STRGST.STREraseSaveCD < 4 then
+	warp_to_start_level()
+	end
+	
 	if STRGST.STRGameState == "Finished" and STRGST.STRGameMode == 4 and STRGST.STRSSText >= 1 and network_is_server() then
 	STRGST.STRSSText = STRGST.STRSSText - 1
 	end
 	
+	if (STRGST.STRGameState == "Started" or STRGST.STRGameState == "Finished" or STRGST.STRGameState == "Paused") and GoDisplayFunc and network_is_server() then
+	STRGST.STRGoText = STRGST.STRGoText + 1
+	end
+	
+	if STRGST.STRGameMode ~= 4 then
+	if ((STRGST.STRGameState == "Preparing") or (STRGST.STRGlobalTimer <= 1 and STRGST.STRGameState == "Started")) and STRGST.STRStartingWarp < 3 and network_is_server() then
+	STRGST.STRStartingWarp = STRGST.STRStartingWarp + 1
+	end
+	end
+	
 	if STRGST.STRGameState == "Resetting" or STRGST.STRGameState == "Finish_Lobby" then
-	if STRGST.STRGameState == "Resetting" then STRGST.STRGlobalTimer = 0 end
+	if STRGST.STRGameState == "Resetting" then STRGST.STRGlobalTimer = 0 STRGST.STRGoText = 0 end
 	STRGST.STRGameState = "Lobby"
-	STRGST.STRStartingWarp = "Unused"
-	STRGST.STRIntermission = 6
+	STRGST.STRStartingWarp = 0
+	STRGST.STRIntermission = 5
 	STRGST.STRSecondsDelay = 0
-	STRGST.STRCDNumber = 3
 	STRGST.STRCountdown = STRGST.STRCDNumber
 	STRGST.STRFinishText = 12
 	STRGST.STRIntroAction = 5
 	STRSettingsTimer = 150
+	STRGST.SavedBestTime = false
 	end
 end
 
 function str_menu_description(m)
 	if STRMenuButtons == "Buttons" then
 	update_chat_command_description('str_menu', "[\\#FF0000\\Commands Only\\#FFFFFF\\]")
-	elseif STRMenuButtons == "Commands" then
-	update_chat_command_description('str_menu', "Display The Speedrun Timer Menu")
+	elseif (STRMenuButtons == "Commands" or STRMenuButtons == "Both") then
+	update_chat_command_description('str_menu', "Display The Menu")
 	end
 end
 
 function str_menu_command()
 	if STRMenuButtons == "Buttons" then
-	djui_chat_message_create("\\#FF0000\\This command only works when having Commands enabled") 
+	djui_chat_message_create("\\#FF0000\\This Command Works when having Commands Enabled") 
 	return true
-	elseif STRMenuButtons == "Commands" then
+	elseif (STRMenuButtons == "Commands" or STRMenuButtons == "Both") then
 	STRMenuDisplay = true 
 	play_sound(SOUND_MENU_HAND_APPEAR, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 	return true

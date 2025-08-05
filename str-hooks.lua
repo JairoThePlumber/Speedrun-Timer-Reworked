@@ -1,7 +1,6 @@
 local function str_update()
 str_erase_save()
 str_global_time()
-str_indicator()
 str_level_updater()
 str_sounds()
 str_timer_function()
@@ -10,24 +9,27 @@ str_utils_functions()
 str_single_stars_main()
 str_level_functions_main()
 str_menu_update()
-romhack_hook_update()
+str_romhack_hook_update()
 end
 
 local function str_mario_update(m)
 str_menu_function(m)
 str_menu_description(m)
-romhack_mario_update(m)
+str_romhack_mario_update(m)
 end
 
 local function str_interact(m, o, type)
 str_single_stars_interact(m, o, type)
 str_level_functions_interact(m, o, type)
-romhack_interact(m, o, type)
+str_romhack_interact(m, o, type)
 end
 
 local function str_hud_render()
 All_Hud_Renders()
 str_render_menu()
+if STRHelper == "Enabled" and STRHelperOpen == true then
+Helper_Display()
+end
 if STRRenderType == "Front" then
 Timer_Hud_Renders()
 end
@@ -53,6 +55,8 @@ local function str_packetreceive(SaveData)
 	if SaveData.Update == STR_Packet_Data then
 	str_reset_save()
 	end
+	str_sounds()
+	play_full_sounds()
 end
 
 local function str_before_mario_update(m)
@@ -62,7 +66,8 @@ local function str_before_mario_update(m)
 	MBDown = gControllers[0].buttonDown
 	MBPress = gControllers[0].buttonPressed
 	end
-	if (STRGST.STRSpotUpdater < 5 and STRLocationSpot == "Ground" and network_is_server()) or (STRMenuDisplay == true) or (MenuSwitchDeplay ~= 0) then
+	if (STRGST.STRSpotUpdater < 5 and STRLocationSpot == "Ground" and network_is_server()) or (STRMenuDisplay == true) or (MenuSwitchDeplay ~= 0) 
+	or (STRGST.STRGameState == "Preparing" and STRGST.STRForceSpot == "Controller" and STRGST.STRGameMode == 1) or (STRGST.WarpNodeRandomierDeplay < 89 and STRGST.WNRCheck == true) then
 	gControllers[0].stickX = 0
 	gControllers[0].stickY = 0
 	gControllers[0].stickMag = 0

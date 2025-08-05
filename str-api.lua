@@ -1,11 +1,21 @@
 -- This is a Api for adding a Romhack, I also added a warp to the right location
 
 function add_plugin_slot(RunNumber, MainFunc)
-	if STRGST.STRGameMode ~= 4 and STRPluginRuns[STRGST.STRPluginsTypes].PluginNum == RunNumber and STRGST.STRPluginsCheck == true and MainFunc and STRGST.STRGameState == "Started" then
+	if STRGST.STRPluginsCheck == true and STRGST.AddRomhack == false and STRGST.STRGameState == "Started" then
+	if STRGST.STRGameMode ~= 4 and STRPluginRuns[STRGST.STRPluginsTypes].PluginNum == RunNumber and MainFunc then
 	STRGST.STRGameState = "Finished"
 	end
+	end
 	
-	if STRGST.STRGameMode ~= 4 and STRPluginRuns[STRGST.STRPluginsTypes].PluginNum == RunNumber and MainFunc and STRGST.STRPluginsCheck == false and STRGST.BuildInRomhacks == true then
+	if STRGST.STRPluginsCheck == true and STRGST.AddRomhack == true and STRGST.STRGameState == "Started" then
+	if STRGST.STRGameMode ~= 4 and STRPluginRuns[STRGST.STRPluginsTypes].PluginNum == RunNumber and MainFunc then
+	STRGST.STRGameState = "Finished"
+	end
+	end
+end
+
+function add_single_run(RunName, MainFunc)
+	if RH_Run_Name == RunName and MainFunc and STRGST.STRGameState == "Started" then
 	STRGST.STRGameState = "Finished"
 	end
 end
@@ -35,10 +45,7 @@ Hud_Color(R, G, B, STRFV)
 end
 
 local function set_custom_countdown(FName, Tx, x, y, s1, s2, s3, s4, s5, s6, n1, n2, types, layers)
-	if not ((STRGST.STRSecondsDelay > 28 and STRGST.STRStartingType == 3 and STRGST.STRCountdown >= 1.01) 
-	or (STRGST.STRSecondsDelay > 58 and STRGST.STRSecondsDelay < 90 and STRGST.STRCountdown >= 1.01)
-	or (STRGST.STRSecondsDelay > 58 and STRGST.STRSecondsDelay < 89 and STRGST.STRCountdown == 1 and STRGST.STRGameState == "Preparing")
-	or (STRGST.STRSecondsDelay > 28 and STRGST.STRSecondsDelay < 58 and STRGST.STRCountdown == 1 and STRGST.STRStartingType == 3 and STRGST.STRGameState == "Preparing")) then return end
+	if not CountdownDisplayFunc then return end
 	
 	if STRFontsTable[STRFontCDNumber].str_font_id ~= FName then return end
 	
@@ -60,7 +67,7 @@ local function set_custom_countdown(FName, Tx, x, y, s1, s2, s3, s4, s5, s6, n1,
 end
 
 local function set_custom_go(FName, Tx, x, y, s1, s2, s3, s4, s5, s6)
-	if not (STRGST.STRGlobalTimer <= 30 and STRGST.STRGlobalTimer >= 1 and STRGST.STRGameMode ~= 4) then return end
+	if not (GoDisplayFunc and STRGST.STRGameMode ~= 4) then return end
 	if STRFontsTable[STRFontGONumber].str_font_id ~= FName then return end
     Hud_Tile_Tex(Texture(Tx), x, y, s1, s2, s3, s4, s5, s6)
 end
@@ -69,15 +76,11 @@ local function set_custom_extras(FName, Tx, x, y, s1, s2, s3, s4, s5, s6, types)
 	if types == "Timer" and STRFontsTable[STRFontTMNumber].str_font_id == FName then
     Hud_Tile_Tex(Texture(Tx), x + CXPos, y + CYPos, s1, s2, s3, s4, s5, s6)
 	elseif types ~= "Timer" then
-	if ((STRGST.STRSecondsDelay > 28 and STRGST.STRStartingType == 3 and STRGST.STRCountdown >= 1.01) 
-	or (STRGST.STRSecondsDelay > 58 and STRGST.STRSecondsDelay < 90 and STRGST.STRCountdown >= 1.01)
-	or (STRGST.STRSecondsDelay > 58 and STRGST.STRSecondsDelay < 89 and STRGST.STRCountdown == 1 and STRGST.STRGameState == "Preparing")
-	or (STRGST.STRSecondsDelay > 28 and STRGST.STRSecondsDelay < 58 and STRGST.STRCountdown == 1 and STRGST.STRStartingType == 3 and STRGST.STRGameState == "Preparing"))	
-	or (STRGST.STRGlobalTimer <= 30 and STRGST.STRGlobalTimer >= 1 and STRGST.STRGameMode ~= 4) then
-	if STRGST.STRCountdown >= 1.01 and types == "Countdown" and STRFontsTable[STRFontCDNumber].str_font_id == FName then
+	if STRGST.STRGameMode ~= 4 then
+	if CountdownDisplayFunc and types == "Countdown" and STRFontsTable[STRFontCDNumber].str_font_id == FName then
 	Hud_Tile_Tex(Texture(Tx), x, y, s1, s2, s3, s4, s5, s6)
 	end
-	if STRGST.STRGlobalTimer <= 30 and STRGST.STRGlobalTimer >= 1 and types == "Go" and STRFontsTable[STRFontGONumber].str_font_id == FName then
+	if GoDisplayFunc and types == "Go" and STRFontsTable[STRFontGONumber].str_font_id == FName then
 	Hud_Tile_Tex(Texture(Tx), x, y, s1, s2, s3, s4, s5, s6)
 	end
 	end
@@ -272,7 +275,7 @@ end
 return #STRFanfareTable or #STRCountdownTable or #STRGoTable
 end
 
-local function play_full_sounds()
+function play_full_sounds()
 	if is_game_paused() then
 	Volume = 0.5
 	else
@@ -290,22 +293,22 @@ local function play_full_sounds()
 		audio_sample_play(audio_sample_load(STRGoTable[STRGoNumber].str_go_sound), gMarioStates[0].pos, Volume)
 	end
 	
-	if STRMenuDisplay == true and MenuSwitchDeplay == 5 and STRMenuNumber == 13 and MenuButtonsDeplay == 0 then
+	if STRMenuDisplay == true and MenuSwitchDeplay == 5 and STRMenuTitleName == "MDCSettings" and MenuButtonsDeplay == 0 then
 	if STRPlaySound == true and MenuOptionDeplay == 9 and MenuUDOption == 1 then 
 	if STRFanfareNumber ~= 1 then
-	audio_sample_play(audio_sample_load(STRFanfareTable[STRFanfareNumber].str_fanfare_sound), gMarioStates[0].pos, Volume)
+	audio_sample_play(audio_sample_load(STRFanfareTable[STRFanfareNumber].str_fanfare_sound), gMarioStates[0].pos, 1)
 	end
 	STRPlaySound = false
 	end
 	if STRPlaySound == true and MenuOptionDeplay == 9 and MenuUDOption == 2 then
 	if STRCountdownNumber > 5 then
-	audio_sample_play(audio_sample_load(STRCountdownTable[STRCountdownNumber].str_countdown_sound), gMarioStates[0].pos, Volume)
+	audio_sample_play(audio_sample_load(STRCountdownTable[STRCountdownNumber].str_countdown_sound), gMarioStates[0].pos, 1)
 	end
 	STRPlaySound = false
 	end
 	if STRPlaySound == true and MenuOptionDeplay == 9 and MenuUDOption == 3 then 
 	if STRGoNumber ~= 1 then
-	audio_sample_play(audio_sample_load(STRGoTable[STRGoNumber].str_go_sound), gMarioStates[0].pos, Volume)
+	audio_sample_play(audio_sample_load(STRGoTable[STRGoNumber].str_go_sound), gMarioStates[0].pos, 1)
 	end 
 	STRPlaySound = false
 	end
@@ -317,8 +320,20 @@ _G.STREnabled = true
 _G.STRApi = {
 	-- Main Runs and Custom Runs --
 	add_plugin_slot = add_plugin_slot,
+	add_single_run = add_single_run,
 	
-	add_run_slot = function (Number, NameSlot)
+	add_romhack_name = function (RomhackName, RunName)
+	if RomhackName ~= nil and RunName ~= nil then
+	CRH_Name = RomhackName 
+	RH_Run_Name = RunName
+	end
+	return CRH_Name or RH_Run_Name
+	end,
+	
+	add_run_slot = function (RomhackName, Number, NameSlot)
+	if RomhackName ~= nil then
+	CRH_Name = RomhackName
+	end
 	table.insert(STRPluginRuns, {PluginName = NameSlot, PluginNum = Number})
 	STRRunSlotAdded = true
 	return #STRPluginRuns
