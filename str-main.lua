@@ -2,42 +2,44 @@ function str_timer_function()
     if not network_is_server() then return end
 	
 	if STRGST.STRGameState == "Preparing" then
+	if STRGST.STRForceSpot == "Lobby" or STRGST.STRForceSpot == "Start" then
 	gMarioStates[0].faceAngle.y = gMarioStates[0].intendedYaw
+	end
 	if STRGST.STRSecondsDelay < 2 then
 	STRGST.STRCountdown = STRGST.STRCDNumber
 	end
 	
 	if STRGST.STRStartingType == 1 then
-	if STRGST.STRSecondsDelay < 29 and STRGST.STRIntermission >= 1 then
+	if STRGST.STRSecondsDelay < 59 and STRGST.STRIntermission >= 1 then
 	STRGST.STRSecondsDelay = STRGST.STRSecondsDelay + 1
-	elseif STRGST.STRIntermission <= 1 and STRGST.STRSecondsDelay < 89 then
+	elseif STRGST.STRIntermission <= 1 and STRGST.STRSecondsDelay < 119 then
 	STRGST.STRSecondsDelay = STRGST.STRSecondsDelay + 1
 	STRGST.STRIntermission = 0
 	end
 	
-	if STRGST.STRIntermission >= 0 and STRGST.STRSecondsDelay == 29 then
+	if STRGST.STRIntermission >= 0 and STRGST.STRSecondsDelay == 59 then
 		STRGST.STRIntermission = STRGST.STRIntermission - 1 / 30
 	end
 	
-	if STRGST.STRCountdown >= 1.01 and STRGST.STRIntermission < 2 and STRGST.STRSecondsDelay == 89 then
+	if STRGST.STRCountdown >= 1.01 and STRGST.STRIntermission < 2 and STRGST.STRSecondsDelay == 119 then
 		STRGST.STRCountdown = STRGST.STRCountdown - 1 / 30
-	elseif STRGST.STRCountdown <= 1.01 and STRGST.STRIntermission == 0 and STRGST.STRSecondsDelay == 89 then
+	elseif STRGST.STRCountdown <= 1.01 and STRGST.STRIntermission == 0 and STRGST.STRSecondsDelay == 119 then
 		STRGST.STRGameState = "Started"
 		end
 	end
 	
 	if STRGST.STRStartingType == 2 then
-	if STRGST.STRSecondsDelay < 29 and STRGST.STRIntermission >= 1 then
+	if STRGST.STRSecondsDelay < 59 and STRGST.STRIntermission >= 1 then
 	STRGST.STRSecondsDelay = STRGST.STRSecondsDelay + 1
 	elseif STRGST.STRIntermission <= 1 then
 	STRGST.STRIntermission = 0
 	end
 	
-	if STRGST.STRIntermission >= 1 and STRGST.STRSecondsDelay == 29 then
+	if STRGST.STRIntermission >= 1 and STRGST.STRSecondsDelay == 59 then
 		STRGST.STRIntermission = STRGST.STRIntermission - 1 / 30
 	end
 	
-	if STRGST.STRIntermission < 1 and STRGST.STRSecondsDelay == 29 then
+	if STRGST.STRIntermission < 1 and STRGST.STRSecondsDelay == 59 then
 	STRGST.STRGameState = "Started"
 		end
 	end
@@ -87,13 +89,20 @@ function str_utils_functions()
 	
 	end
 	
-	if STRGST.STRGameState == "Started" and STRGST.VanillaCG == true and STRGST.STRGameMode == 1 and STRGST.SwitchIntro == true then
-	
+	if STRGST.STRGameState == "Started" and STRGST.VanillaCG == true and STRGST.STRGameMode == 1 and (STRGST.SwitchIntro == true or gServerSettings.skipIntro == 0) then
 	if STRGST.STRIntroAction > 1 then 
 		STRGST.STRIntroAction = STRGST.STRIntroAction - 1
 		set_mario_action(gMarioStates[0], ACT_INTRO_CUTSCENE, 0)
 	end
+	end
 	
+	if gServerSettings.skipIntro == 0 and gMarioStates[0].action == ACT_INTRO_CUTSCENE and STRGST.STRGlobalTimer == 0 then
+	set_mario_action(gMarioStates[0], ACT_FREEFALL, 0)
+	warp_to_start_level()
+	end
+	
+	if gServerSettings.skipIntro == 0 and gMarioStates[0].action ~= ACT_INTRO_CUTSCENE and STRGST.STRGlobalTimer ~= 0 then
+	STRGST.STRIntroAction = 0
 	end
 	
 	if STRGST.STRXPos == -1328 and STRGST.STRYPos == 260 and STRGST.STRZPos == 4664 then
@@ -107,7 +116,8 @@ function str_utils_functions()
 	end
 	
 	if STRGST.STRGameMode ~= 4 then
-	if (STRGST.STRGameState == "Preparing" and STRGST.STRForceSpot == "Disabled" and STRGST.STRGameMode == 1) or (STRGST.STRGameMode == 1 and STRGST.STRForceSpot == "Enabled") 
+	if (STRGST.STRGameState == "Preparing" and (STRGST.STRForceSpot == "Start") and STRGST.STRGameMode == 1) 
+	or (STRGST.STRGameMode == 1 and (STRGST.STRForceSpot == "All" or STRGST.STRForceSpot == "Lobby") and STRGST.STRGlobalTimer == 0) 
 	or (STRGST.STRGlobalTimer < 6 and (STRGST.STRGameMode == 2 or STRGST.STRGameMode == 3)) or (STRGST.STRStartingType == 4 and STRGST.STRGameMode == 1) and STRGST.STRGameState == "Lobby" then
 	if STRGST.STRSpotUpdater > 4 then
 	gMarioStates[0].pos.x = STRGST.STRXPos
@@ -126,9 +136,9 @@ function str_utils_functions()
 	end
 	
 	if STRMenuWarp then
-		if STRGST.STRWarpType == "Level" then
+		if STRMenuWarpType == "Level" then
 		warp_to_level(STRGST.STRLevelID, STRGST.STRAreaID, STRGST.STRActID)
-		elseif STRGST.STRWarpType == "Start" then
+		elseif STRMenuWarpType == "Start" then
 		warp_to_start_level()
 		end
 		STRMenuWarp = false
@@ -136,18 +146,11 @@ function str_utils_functions()
 	end
 	
 	if STRGST.STRGameMode ~= 4 then
-	if (STRGST.STRGameState == "Preparing")
-	or (STRGST.STRGlobalTimer == 1 and STRGST.STRGameState == "Started" and STRGST.STRStartingWarp == "Unused") then
-	if STRGST.STRStartingWarp == "Unused" then
-	STRGST.STRStartingWarp = "Used"
-	end
-	if STRGST.STRStartingWarp == "Used" then
+	if ((STRGST.STRGameState == "Preparing") or (STRGST.STRGlobalTimer <= 1 and STRGST.STRGameState == "Started")) and STRGST.STRStartingWarp < 3 then
 		if STRGST.STRWarpType == "Level" then
 		warp_to_level(STRGST.STRLevelID, STRGST.STRAreaID, STRGST.STRActID)
 		elseif STRGST.STRWarpType == "Start" then
 		warp_to_start_level()
-		end
-		STRGST.STRStartingWarp = "Disable"
 		end
 		end
 	end
@@ -161,7 +164,7 @@ function str_utils_functions()
 	if ((STRGST.STRGameMode == 1 and STRGST.STRFinishGameWarp == "Enabled") 
 	or (STRGST.STRGameMode == 2 or STRGST.STRGameMode == 3)) and STRGST.STRGameState == "Lobby" then
 	if STRGST.STRLFLevel == 28 or STRGST.CakeEnding == true then
-	STRGST.STRWarpCountdown = 19
+	STRGST.STRWarpCountdown = 20
 	else
 	STRGST.STRWarpCountdown = 6
 	end
@@ -184,11 +187,19 @@ function str_utils_functions()
 	end
 	end
 	
-	if STRGST.STRGameMode == 3 and STRGST.CasualGM == "Enabled" and STRGST.STRGameState ~= "Paused" then
+	if STRGST.STRGameMode == 3 and STRGST.CasualGM == "Enabled" and not (STRGST.STRGameState == "Paused" or STRGST.STRGameState == "Finished" or STRGST.STRGameState == "Resetting") then
 	STRGST.STRGameState = "Started"
 	end
 	
-	if STRRules == "Enabled" and (STRGST.STRGameMode == 1 or STRGST.STRGameMode == 2) and (SM64Rules == true or STRCustomRules == true or STRGST.BuildInRomhacks == true) and STRGST.STRGameState == "Lobby" then
+	if STRGST.STRGameMode == 1 and (STRGST.STRForceSpot == "TimeStop" or STRGST.STRForceSpot == "All") then
+	if STRGST.STRGameState == "Preparing" then
+	enable_time_stop_including_mario()
+	elseif STRGST.STRGameState == "Started" and STRGST.STRGlobalTimer <= 3 then
+	disable_time_stop_including_mario()
+	end
+	end
+	
+	if STRRules == "Enabled" and (STRGST.STRGameMode == 1 or STRGST.STRGameMode == 2) and (SM64Rules == true or STRCustomRules == true or (STRGST.AddRomhack == true and CRH_Name == "None")) and STRGST.STRGameState == "Lobby" then
 	if str_button_combo(gControllers[0], STRButtonBinds[STRRBinds1].button, STRButtonBinds[STRRBinds2].button, STRButtonBinds[STRRBinds3].button) then
 	if STRRulesOpen == false then
 	STRRulesOpen = true
@@ -200,20 +211,53 @@ function str_utils_functions()
 	end
 	end
 	
-	if STRRules == "Enabled" and (STRGST.STRGameMode == 1 or STRGST.STRGameMode == 2) and (SM64Rules == false and STRCustomRules == false and STRGST.BuildInRomhacks == false) and STRGST.STRGameState ~= "Lobby" then
+	if (STRRules == "Enabled" and (STRGST.STRGameMode == 1 or STRGST.STRGameMode == 2)) and (((SM64Rules == false and STRCustomRules == false and STRGST.AddRomhack == false) and STRGST.STRGameState ~= "Lobby")
+	or (STRGST.AddRomhack == true and CRH_Name ~= "None" and STRCustomRules == false) 
+	or (STRGST.STRPluginsCheck == false and STRGST.AddRomhack == false and (RH_Name == "None" or CRH_Name == "None") and #STRPluginRuns == 0 and (SM64Rules == false and STRCustomRules == false))) then
 	if str_button_combo(gControllers[0], STRButtonBinds[STRRBinds1].button, STRButtonBinds[STRRBinds2].button, STRButtonBinds[STRRBinds3].button) then
 	play_sound(SOUND_MENU_CAMERA_BUZZ, gMarioStates[0].marioObj.header.gfx.cameraToObject) 
 	end
 	end
 	
-	if STRGST.CakeEnding == true and gNetworkPlayers[0].currLevelNum == LEVEL_ENDING and STRGST.STRGameState == "Started" then STRGST.STRGameState = "Finished" end
-	
-	if STRGST.BestTimeOption == "Saves" and STRGST.STRGameState == "Finished" and STRGST.BestTimeNumber == 0 then
-	STRGST.BestTimeNumber = STRGST.STRGlobalTimer
+	if STRHelper == "Enabled" and STRHelperTimer >= 1 then
+	STRHelperTimer = STRHelperTimer - 1 / 30
+	if STRHelperTimer <= 2 then
+	STRHelperHide = STRHelperHide - 1 / 0.12
+	end
+	if STRHelperTimer <= 1 then
+	STRHelperOpen = false
+	end
 	end
 	
-	if STRGST.BestTimeOption == "Saves" and STRGST.STRGameState == "Finished" and STRGST.BestTimeNumber ~= 0 and STRGST.BestTimeNumber >= STRGST.STRGlobalTimer then
-	STRGST.BestTimeNumber = STRGST.STRGlobalTimer
+	if STRRulesOpen == true or STRMenuDisplay == true or STRHelper == "Disabled" then
+	STRHelperOpen = false
+	STRHelperHide = 0
+	STRHelperTimer = 0
+	end
+	
+	if STRMenuDisplay == true and (gMarioStates[0].action == ACT_START_HANGING or gMarioStates[0].action == ACT_HANGING or gMarioStates[0].action == ACT_HANG_MOVING) then
+	set_mario_action(gMarioStates[0], ACT_FREEFALL, 0)
+	end
+	
+	if STRGST.CakeEnding == true and gNetworkPlayers[0].currLevelNum == LEVEL_ENDING and STRGST.STRGameState == "Started" then STRGST.STRGameState = "Finished" end
+	
+	if STRGST.STRGameMode == 1 or STRGST.STRGameMode == 2 then
+	if STRBestTimeOption == "Saves" and STRGST.STRGameState == "Finished" and STRBestTimeNumber == 0 then
+	STRBestTimeNumber = STRGST.STRGlobalTimer
+	end
+	
+	if STRBestTimeOption == "Saves" and STRGST.STRGameState == "Finished" and STRBestTimeNumber ~= 0 and STRBestTimeNumber >= STRGST.STRGlobalTimer then
+	STRBestTimeNumber = STRGST.STRGlobalTimer
+	end
+	end
+	
+	if STRGST.STRGameMode == 3 or STRGST.STRGameMode == 4 then
+	if STRBestTimeOption == "Saves" and STRGST.STRGameState == "Finished" and STRBestTimeNumber == 0 and not STRGST.SavedBestTime then
+	STRBestTimeNumber = STRGST.STRGlobalTimer
+	STRGST.SavedBestTime = true
+	elseif STRBestTimeOption == "Saves" and STRGST.STRGameState == "Finished" and STRBestTimeNumber >= STRGST.STRGlobalTimer then
+	STRBestTimeNumber = STRGST.STRGlobalTimer
+	end
 	end
 	
 	if (STRGST.STRGameState == "Started" and STRGST.STRGameMode == 4 and (gNetworkPlayers[0].currLevelNum ~= STRLevels[STRGST.STRSSLevelID].STRLID)) then
@@ -275,41 +319,10 @@ function str_single_stars_interact(m, o, type)
 end
 
 function str_level_functions_main()
-	if STRGST.STRPluginsCheck == false and STRGST.BuildInRomhacks == false then
-	saveflag, m, Star, NP = save_file_get_flags(), gMarioStates[0], INTERACT_STAR_OR_KEY, gNetworkPlayers[0]
+	if (STRGST.STRPluginsCheck == false or STRGST.AddRomhack == false) then
 	if STRGST.STRGameState == "Lobby" then
 	STRGST.STRLFTimer = STRGST.STRLFSetTimer
 	end
-	
-	StarsFunctions = ((STRGST.STRLFStars == 1 and m.numStars >= STRGST.STRLFLimit)
-	or (STRGST.STRLFStars == 3 and (saveflag & STRLFB[STRGST.STRLFBehavior].ID) ~= 0 and STRLFB[STRGST.STRLFBehavior].Interact == false) 
-	or (STRGST.STRLFStars == 5 and (saveflag & STRLFB[STRGST.STRLFBehavior].ID) ~= 0 and STRLFB[STRGST.STRLFBehavior].Interact == false and m.numStars >= STRGST.STRLFLimit))
-	
-	LevelsFunctions = ((STRGST.STRLFLevels == 1 and NP.currLevelNum == STRLevels[STRGST.STRLFLevel].STRLID)
-	or (STRGST.STRLFLevels == 2 and NP.currAreaIndex == STRGST.STRLFArea) 
-	or (STRGST.STRLFLevels == 3 and NP.currActNum == STRGST.STRLFAct)
-	or (STRGST.STRLFLevels == 4 and NP.currLevelNum == STRLevels[STRGST.STRLFLevel].STRLID and NP.currAreaIndex == STRGST.STRLFArea) 
-	or (STRGST.STRLFLevels == 5 and NP.currLevelNum == STRLevels[STRGST.STRLFLevel].STRLID and NP.currActNum == STRGST.STRLFAct)
-	or (STRGST.STRLFLevels == 6 and NP.currLevelNum == STRLevels[STRGST.STRLFLevel].STRLID and NP.currAreaIndex == STRGST.STRLFArea and NP.currActNum == STRGST.STRLFAct))
-	
-	ActionsTimerFunctions = (STRGST.STRLFActions == 2 and m.action == STRActions[STRGST.STRLFAction].A_ID and STRGST.STRLFTimer > 0 and network_is_server())
-	ActionsFunctions = ((STRGST.STRLFActions == 1 and m.action == STRActions[STRGST.STRLFAction].A_ID)
-	or (STRGST.STRLFActions == 2 and m.action == STRActions[STRGST.STRLFAction].A_ID and STRGST.STRLFTimer <= 0))
-	
-	PositionsFunctions = ((STRGST.STRLFPositions == 1 and m.pos.x == STRGST.STRLFXPos) 
-	or (STRGST.STRLFPositions == 2 and m.pos.y == STRGST.STRLFYPos) 
-	or (STRGST.STRLFPositions == 3 and m.pos.z == STRGST.STRLFZPos)
-	or (STRGST.STRLFPositions == 4 and m.pos.x == STRGST.STRLFXPos and m.pos.y == STRGST.STRLFYPos) 
-	or (STRGST.STRLFPositions == 5 and m.pos.x == STRGST.STRLFXPos and m.pos.z == STRGST.STRLFZPos)
-	or (STRGST.STRLFPositions == 6 and m.pos.y == STRGST.STRLFYPos and m.pos.z == STRGST.STRLFZPos) 
-	or (STRGST.STRLFPositions == 7 and m.pos.x == STRGST.STRLFXPos and m.pos.y == STRGST.STRLFYPos and m.pos.z == STRGST.STRLFZPos)
-	or (STRGST.STRLFPositions == 8 and m.pos.x <= STRGST.STRLFXPos and m.pos.x >= STRGST.STRLFEXPos)
-	or (STRGST.STRLFPositions == 9 and m.pos.y <= STRGST.STRLFYPos and m.pos.y >= STRGST.STRLFEYPos) 
-	or (STRGST.STRLFPositions == 10 and m.pos.z <= STRGST.STRLFZPos and m.pos.z >= STRGST.STRLFEZPos)
-	or (STRGST.STRLFPositions == 11 and m.pos.x <= STRGST.STRLFXPos and m.pos.x >= STRGST.STRLFEXPos and m.pos.y <= STRGST.STRLFYPos and m.pos.y >= STRGST.STRLFEXPos) 
-	or (STRGST.STRLFPositions == 12 and m.pos.x <= STRGST.STRLFXPos and m.pos.x >= STRGST.STRLFEXPos and m.pos.z <= STRGST.STRLFZPos and m.pos.z >= STRGST.STRLFEYPos)
-	or (STRGST.STRLFPositions == 13 and m.pos.y <= STRGST.STRLFYPos and m.pos.y >= STRGST.STRLFEYPos and m.pos.z <= STRGST.STRLFZPos and m.pos.z >= STRGST.STRLFEZPos) 
-	or (STRGST.STRLFPositions == 14 and m.pos.x <= STRGST.STRLFXPos and m.pos.x >= STRGST.STRLFEXPos and m.pos.y <= STRGST.STRLFYPos and m.pos.y >= STRGST.STRLFEYPos and m.pos.z <= STRGST.STRLFZPos and m.pos.z >= STRGST.STRLFZPos))
 
 	if STRGST.STRGameState == "Started" and STRGST.STRGameMode ~= 4 then
 	
@@ -346,7 +359,7 @@ function str_level_functions_main()
 end
 
 function str_level_functions_interact(m, o, type)
-	if STRGST.STRPluginsCheck == false and STRGST.BuildInRomhacks == false then
+	if (STRGST.STRPluginsCheck == false or STRGST.AddRomhack == false) then
 	saveflag, Star, BehavID, StarID, NP = save_file_get_flags(), INTERACT_STAR_OR_KEY, get_id_from_behavior(o.behavior), o.oBehParams, gNetworkPlayers[0]
 	
 	StarsInteractFunctions = ((STRGST.STRLFStars == 2 and type == Star and StarID == STRGST.STRLFID - 1 << 24)
@@ -355,32 +368,6 @@ function str_level_functions_interact(m, o, type)
 	or (STRGST.STRLFStars == 5 and BehavID == STRLFB[STRGST.STRLFBehavior].ID and STRLFB[STRGST.STRLFBehavior].Interact == true and m.numStars >= STRGST.STRLFLimit) 
 	or (STRGST.STRLFStars == 6 and type == Star and StarID == STRGST.STRLFID - 1 << 24 and ((BehavID == STRLFB[STRGST.STRLFBehavior].ID and STRLFB[STRGST.STRLFBehavior].Interact == true) 
 	or (saveflag & STRLFB[STRGST.STRLFBehavior].ID) ~= 0 and STRLFB[STRGST.STRLFBehavior].Interact == false)))
-	
-	LevelsFunctions = ((STRGST.STRLFLevels == 1 and NP.currLevelNum == STRLevels[STRGST.STRLFLevel].STRLID)
-	or (STRGST.STRLFLevels == 2 and NP.currAreaIndex == STRGST.STRLFArea) 
-	or (STRGST.STRLFLevels == 3 and NP.currActNum == STRGST.STRLFAct)
-	or (STRGST.STRLFLevels == 4 and NP.currLevelNum == STRLevels[STRGST.STRLFLevel].STRLID and NP.currAreaIndex == STRGST.STRLFArea) 
-	or (STRGST.STRLFLevels == 5 and NP.currLevelNum == STRLevels[STRGST.STRLFLevel].STRLID and NP.currActNum == STRGST.STRLFAct)
-	or (STRGST.STRLFLevels == 6 and NP.currLevelNum == STRLevels[STRGST.STRLFLevel].STRLID and NP.currAreaIndex == STRGST.STRLFArea and NP.currActNum == STRGST.STRLFAct))
-	
-	ActionsTimerFunctions = (STRGST.STRLFActions == 2 and m.action == STRActions[STRGST.STRLFAction].A_ID and STRGST.STRLFTimer > 0 and network_is_server())
-	ActionsFunctions = ((STRGST.STRLFActions == 1 and m.action == STRActions[STRGST.STRLFAction].A_ID)
-	or (STRGST.STRLFActions == 2 and m.action == STRActions[STRGST.STRLFAction].A_ID and STRGST.STRLFTimer <= 0))
-	
-	PositionsFunctions = ((STRGST.STRLFPositions == 1 and m.pos.x == STRGST.STRLFXPos) 
-	or (STRGST.STRLFPositions == 2 and m.pos.y == STRGST.STRLFYPos) 
-	or (STRGST.STRLFPositions == 3 and m.pos.z == STRGST.STRLFZPos)
-	or (STRGST.STRLFPositions == 4 and m.pos.x == STRGST.STRLFXPos and m.pos.y == STRGST.STRLFYPos) 
-	or (STRGST.STRLFPositions == 5 and m.pos.x == STRGST.STRLFXPos and m.pos.z == STRGST.STRLFZPos)
-	or (STRGST.STRLFPositions == 6 and m.pos.y == STRGST.STRLFYPos and m.pos.z == STRGST.STRLFZPos) 
-	or (STRGST.STRLFPositions == 7 and m.pos.x == STRGST.STRLFXPos and m.pos.y == STRGST.STRLFYPos and m.pos.z == STRGST.STRLFZPos)
-	or (STRGST.STRLFPositions == 8 and m.pos.x <= STRGST.STRLFXPos and m.pos.x >= STRGST.STRLFEXPos)
-	or (STRGST.STRLFPositions == 9 and m.pos.y <= STRGST.STRLFYPos and m.pos.y >= STRGST.STRLFEYPos) 
-	or (STRGST.STRLFPositions == 10 and m.pos.z <= STRGST.STRLFZPos and m.pos.z >= STRGST.STRLFEZPos)
-	or (STRGST.STRLFPositions == 11 and m.pos.x <= STRGST.STRLFXPos and m.pos.x >= STRGST.STRLFEXPos and m.pos.y <= STRGST.STRLFYPos and m.pos.y >= STRGST.STRLFEXPos) 
-	or (STRGST.STRLFPositions == 12 and m.pos.x <= STRGST.STRLFXPos and m.pos.x >= STRGST.STRLFEXPos and m.pos.z <= STRGST.STRLFZPos and m.pos.z >= STRGST.STRLFEYPos)
-	or (STRGST.STRLFPositions == 13 and m.pos.y <= STRGST.STRLFYPos and m.pos.y >= STRGST.STRLFEYPos and m.pos.z <= STRGST.STRLFZPos and m.pos.z >= STRGST.STRLFEZPos) 
-	or (STRGST.STRLFPositions == 14 and m.pos.x <= STRGST.STRLFXPos and m.pos.x >= STRGST.STRLFEXPos and m.pos.y <= STRGST.STRLFYPos and m.pos.y >= STRGST.STRLFEYPos and m.pos.z <= STRGST.STRLFZPos and m.pos.z >= STRGST.STRLFZPos))
 	
 	if STRGST.STRGameState == "Started" and STRGST.STRGameMode ~= 4 then
 	
