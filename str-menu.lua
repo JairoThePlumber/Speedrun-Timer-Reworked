@@ -1,8 +1,8 @@
 
 STRMenuTitles = {
 	-- Main -- 
-	["MDMain"] = "MAIN MENU", ["MDSave"] = "SAVEFILE SETTINGS", ["MDSettings"] = "SETTINGS", ["MDServer"] = "SERVER SETTINGS", ["MDRuns"] = "RUNS CONFIG", 
-	["MDLobby"] = "LOBBY SETTINGS", ["MDLevels"] = "LEVEL SETTINGS", ["MDRunSlot"] = "RUN SLOT PLUGINS", ["MDSingle"] = "SINGLE STARS",
+	["MDMain"] = "MAIN MENU", ["MDSave"] = "SAVEFILE SETTINGS", ["MDSettings"] = "SETTINGS", ["MDServer"] = "SERVER SETTINGS", 
+	["MDRuns"] = "RUNS CONFIG", ["MDLobby"] = "LOBBY SETTINGS", ["MDLevels"] = "LEVEL SETTINGS", ["MDSingle"] = "SINGLE STARS",
 	-- Config -- 
 	["MDConfig"] = "CONFIG MENU", ["MDInfo"] = "INFO", ["MDHTP"] = "HOW TO PLAY", ["MDCSettings"] = "SETTINGS", ["MDConfigVH"] = "VIEW HOST SETTINGS", 
 }
@@ -20,7 +20,7 @@ MGRW = 5 * MGRSize
 MGRH = 3 * MGRSize
 MGRX = (S_Width() - MGRW) / 2.0
 MGRY = (S_Height() - MGRH) / 2.0
-render_rect(MGRX, MGRY, MGRW, MGRH, STRMenuR, STRMenuB, STRMenuG, STRMenuV)
+render_rect(MGRX, MGRY, MGRW, MGRH, STRMenuR, STRMenuG, STRMenuB, STRMenuV)
 
 djui_hud_set_font(FONT_CUSTOM_HUD)
 MGTTitle = STRMenuTitles[STRMenuTitleName]
@@ -39,7 +39,14 @@ MDGX = (S_Width() - MDGWidth) / 2.0
 MDGY = (S_Height() - MDGHeight) / 2.0
 
 if STRMenuTitleName == "MDMain" or STRMenuTitleName == "MDConfig" then
-shadow_text("Speedrun Timer Reworked V2.1", MDGX - 40, MDGY - 85, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255) 
+if network_is_server() and STRMenuTitleName == "MDMain" then SDJM = "(X) Switch to the Main Menu | (R) DJUI Menu" 
+elseif network_is_server() and STRMenuTitleName == "MDConfig" then SDJM = "(X) Switch to the Config Menu | (R) DJUI Menu" 
+else SDJM = "(R) DJUI Menu" end
+local SDJMX = (S_Width() - Hud_Measure(SDJM) * 0.35) / 2.0
+shadow_text(SDJM, SDJMX, MDGY - 70, MDGSize - 0.40, 0.95, 0.95, 255, 255, 255, 255) 
+
+local STRVersion = "Speedrun Timer Reworked V2.1.1" local STRVX = (S_Width() - Hud_Measure(STRVersion) * 0.25) / 2.0
+shadow_text(STRVersion, STRVX, MDGY - 85, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255) 
 end
 
 if STRMenuTitleName == "MDMain" then
@@ -63,10 +70,6 @@ menu_shadow_text("Settings", MDGX - 125, MDGY + 20, MDGSize, 1.25, 1.25, 255, 25
 menu_shadow_text("Server", MDGX - 27, MDGY + 10, MDGSize, 1.25, 1.25, 255, 255, 0, 255, MenuLROption == 2 and MenuUDOption == 2)
 menu_shadow_text("Settings", MDGX - 35, MDGY + 30, MDGSize, 1.25, 1.25, 255, 255, 0, 255, MenuLROption == 2 and MenuUDOption == 2)
 menu_shadow_text("Runs Config", MDGX + 52, MDGY + 20, MDGSize, 1.25, 1.25, 255, 255, 0, 255, MenuLROption == 3 and MenuUDOption == 2)
-
-if network_is_server() then
-shadow_text("(X) Switch To The Config Menu | (R) DJUI Menu", MDGX - 85, MDGY - 70, MDGSize - 0.40, 0.95, 0.95, 255, 255, 255, 255)
-end
 end
 if STRMenuTitleName == "MDSave" then
 menu_shadow_text("Mips Star 1: " .. STRGST.SFSMipsStar1, MDGX - 110, MDGY - 85, MDGSize - 0.35, 1.00, 1.00, 255, 255, 0, 255, MenuUDOption == 1 and MenuLROption == 1 and MenuSelectedOption == "Main")
@@ -95,7 +98,10 @@ hide_shadow_text("(A) Reset | (B) Back", MDGX - 25, MDGY + 87, MDGSize - 0.50, 0
 hide_shadow_text("Are you sure you want to Erase your Save Data?", MDGX - 58, MDGY + 78, MDGSize - 0.50, 0.50, 0.50, 255, 255, 0, 255, MenuSelectedOption == "EraseSave")
 end
 if STRMenuTitleName == "MDSettings" then
+if MenuLROption == 1 then GType = "Normal" elseif MenuLROption == 2 then GType = "Practice" elseif MenuLROption == 3 then GType = "Casual" elseif MenuLROption == 4 then GType = "Single Stars" end
+if not network_is_server() then
 if STRGST.STRGameMode == 1 then GType = "Normal" elseif STRGST.STRGameMode == 2 then GType = "Practice" elseif STRGST.STRGameMode == 3 then GType = "Casual" elseif STRGST.STRGameMode == 4 then GType = "Single Stars" end
+end
 if STRGST.STRStartingType == 1 then SOType = "Both" elseif STRGST.STRStartingType == 2 then SOType = "Intermission"
 elseif STRGST.STRStartingType == 3 then SOType = "Countdown" elseif STRGST.STRStartingType == 4 then SOType = "None" end
 local GMWidth = Hud_Measure(GType) * MDGSize local GMX = (S_Width() - GMWidth) / 2.0
@@ -119,16 +125,10 @@ hide_shadow_text("(Y) Switch Files", MDGX + 65, MDGY + 45, MDGSize - 0.50, 0.50,
 menu_shadow_text(BackupText, BSX + 85, MDGY + 50, MDGSize, 1.25, 1.25, 255, 255, 0, 255, MenuUDOption == 5)
 end
 if STRMenuTitleName == "MDServer" then
-if gServerSettings.playerInteractions == 0 then PIFunc = "Non Solid" elseif gServerSettings.playerInteractions == 1 then PIFunc = "Solid" elseif gServerSettings.playerInteractions == 2 then PIFunc = "Friendly Fire"
-end
-if gServerSettings.playerKnockbackStrength == 10 then KBFunc = "Weak" 
-elseif gServerSettings.playerKnockbackStrength == 25 then KBFunc = "Normal" 
-elseif gServerSettings.playerKnockbackStrength == 60 then KBFunc = "Too Much"
-end
+if gServerSettings.playerInteractions == 0 then PIFunc = "Non Solid" elseif gServerSettings.playerInteractions == 1 then PIFunc = "Solid" elseif gServerSettings.playerInteractions == 2 then PIFunc = "Friendly Fire" end
+if gServerSettings.playerKnockbackStrength == 10 then KBFunc = "Weak" elseif gServerSettings.playerKnockbackStrength == 25 then KBFunc = "Normal" elseif gServerSettings.playerKnockbackStrength == 60 then KBFunc = "Too Much" end
 if gServerSettings.pvpType == 0 then PVPFunc = "Classic" elseif gServerSettings.pvpType == 1 then PVPFunc = "Revamped" end
-if gServerSettings.stayInLevelAfterStar == 0 then SCFunc = "Leave Level" elseif gServerSettings.stayInLevelAfterStar == 1 then SCFunc = "Stay In Level" elseif gServerSettings.stayInLevelAfterStar == 2 then
-SCFunc = "Non-Stop"
-end
+if gServerSettings.stayInLevelAfterStar == 0 then SCFunc = "Leave Level" elseif gServerSettings.stayInLevelAfterStar == 1 then SCFunc = "Stay In Level" elseif gServerSettings.stayInLevelAfterStar == 2 then SCFunc = "Non-Stop" end
 if gServerSettings.bouncyLevelBounds == 0 then BLFunc = "Off" elseif gServerSettings.bouncyLevelBounds == 1 then BLFunc = "On" elseif gServerSettings.bouncyLevelBounds == 2 then BLFunc = "On (Capped)" end
 if gServerSettings.nametags == 0 then NTFunc = "Disabled" elseif gServerSettings.nametags == 1 then NTFunc = "Enabled" end
 if gServerSettings.bubbleDeath == 0 then BDFunc = "Disabled" elseif gServerSettings.bubbleDeath == 1 then BDFunc = "Enabled" end
@@ -164,29 +164,51 @@ menu_shadow_text("- Lobby Settings -", MDGX - 90, MDGY - 70, MDGSize + 0.20, 1.5
 menu_shadow_text("- Level Settings -", MDGX - 89, MDGY - 20, MDGSize + 0.20, 1.50, 1.50, 255, LSA, 0, 255, MenuUDOption == 2)
 if STRGST.AddRomhack == true then LSA = 0 else LSA = 255 end
 if STRRunSlotAdded == false then RSA = 0 else RSA = 255 end
-menu_shadow_text("- Run Slot Plugins -", MDGX - 98, MDGY + 30, MDGSize + 0.20, 1.50, 1.50, 255, RSA, 0, 255, MenuUDOption == 3)
+menu_shadow_text("- Run Slot Plugins -", MDGX - 65, MDGY + 20, MDGSize - 0.10, 1.25, 1.25, 255, RSA, 0, 255, MenuUDOption == 3 and MenuSelectedOption == "Main")
+if STRGST.STRPluginsCheck == true then PluginText = "(A) Disabled Plugin, (L/R) Select Slot" else PluginText = "(A) Enabled Plugin" end
+local PTX = (S_Width() - Hud_Measure(PluginText) * 0.25) / 2.0
+hide_shadow_text(PluginText, PTX, MDGY + 43, MDGSize - 0.50, 0.50, 0.50, 255, 255, 0, 255, MenuUDOption == 3 and MenuSelectedOption == "MDRunSlot")
+
+if STRGST.STRPluginsCheck == false and #STRPluginRuns == 0 then RPCText = "No Plugins" RPCColor = 0
+elseif #STRPluginRuns ~= 1 and STRGST.STRPluginsCheck == false then RPCText = "Available Slots (" .. #STRPluginRuns .. ")" RPCColor = 255
+elseif #STRPluginRuns == 1 and STRGST.STRPluginsCheck == false then RPCText = "Available Slot (" .. #STRPluginRuns .. ")" RPCColor = 255
+else RPCText = STRPluginRuns[STRGST.STRPluginsTypes].PluginName RPCColor = 255 end
+if (MenuUDOption == 3 and MenuSelectedOption == "MDRunSlot") or (STRGST.STRPluginsCheck == false and #STRPluginRuns == 0) then RPC2Color = 0 else RPC2Color = 255 end
+local RPCX = (S_Width() - Hud_Measure(RPCText) * 0.45) / 2.0
+shadow_text(RPCText, RPCX, MDGY + 52, MDGSize - 0.30, 1.05, 1.05, 255, RPCColor, RPC2Color, 255)
 end
 
 if STRMenuTitleName == "MDLobby" then
-if MenuViewHostCheck == true then VHXCheck = 75 else VHXCheck = 0 end
 if STRGST.EnabledInteraction == true then LIText = "Disabled" else LIText = "Enabled" end
-menu_shadow_text("Interaction:", MDGX - 140 + VHXCheck, MDGY - 75, MDGSize - 0.30, 1.05, 1.05, 255, 255, 0, 255, MenuUDOption == 1 and MenuLROption == 1 and MenuSelectedOption == "Main")
-menu_shadow_text("Update Location:", MDGX - 140 + VHXCheck, MDGY - 55, MDGSize - 0.30, 1.05, 1.05, 255, 255, 0, 255, MenuUDOption == 2 and MenuLROption == 1 and MenuSelectedOption == "Main")
-menu_shadow_text("Forced Type:", MDGX - 140 + VHXCheck, MDGY - 35, MDGSize - 0.30, 1.05, 1.05, 255, 255, 0, 255, MenuUDOption == 3 and MenuLROption == 1 and MenuSelectedOption == "Main")
-menu_shadow_text("Warp Settings:", MDGX - 140 + VHXCheck, MDGY - 15, MDGSize - 0.30, 1.05, 1.05, 255, 255, 0, 255, MenuUDOption == 4 and MenuLROption == 1 and MenuSelectedOption == "Main")
-menu_shadow_text("Position Settings:", MDGX - 140 + VHXCheck, MDGY + 5, MDGSize - 0.30, 1.05, 1.05, 255, 255, 0, 255, MenuUDOption == 5 and MenuLROption == 1 and MenuSelectedOption == "Main")
+if MenuViewHostCheck == true then
+menu_shadow_text("Interaction:", MDGX - 65, MDGY - 75, MDGSize - 0.30, 1.05, 1.05, 255, 255, 0, 255, MenuUDOption == 1 and MenuLROption == 1 and MenuSelectedOption == "Main")
+menu_shadow_text("Forced Type:", MDGX - 65, MDGY - 55, MDGSize - 0.30, 1.05, 1.05, 255, 255, 0, 255, MenuUDOption == 3 and MenuLROption == 1 and MenuSelectedOption == "Main")
+menu_shadow_text("Warp Settings:", MDGX - 65, MDGY - 35, MDGSize - 0.30, 1.05, 1.05, 255, 255, 0, 255, MenuUDOption == 4 and MenuLROption == 1 and MenuSelectedOption == "Main")
+menu_shadow_text("Position Settings:", MDGX - 65, MDGY - 15, MDGSize - 0.30, 1.05, 1.05, 255, 255, 0, 255, MenuUDOption == 5 and MenuLROption == 1 and MenuSelectedOption == "Main")
 
-menu_shadow_text(LIText, MDGX - 50 + VHXCheck, MDGY - 72, MDGSize - 0.40, 0.95, 0.95, 255, 255, 0, 255, MenuUDOption == 1 and MenuLROption == 1 and MenuSelectedOption == "Main")
-menu_shadow_text(STRLocationSpot, MDGX - 50 + VHXCheck, MDGY - 52, MDGSize - 0.40, 0.95, 0.95, 255, 255, 0, 255, MenuUDOption == 2 and MenuLROption == 1 and MenuSelectedOption == "Main")
-menu_shadow_text(STRGST.STRForceLevelType, MDGX - 50 + VHXCheck, MDGY - 32, MDGSize - 0.40, 0.95, 0.95, 255, 255, 0, 255, MenuUDOption == 3 and MenuLROption == 1 and MenuSelectedOption == "Main")
-menu_shadow_text(STRGST.STRWarpType, MDGX - 50 + VHXCheck, MDGY - 12, MDGSize - 0.40, 0.95, 0.95, 255, 255, 0, 255, MenuUDOption == 4 and MenuLROption == 1 and MenuSelectedOption == "Main")
-menu_shadow_text(STRGST.STRForceSpot, MDGX - 50 + VHXCheck, MDGY + 8, MDGSize - 0.40, 0.95, 0.95, 255, 255, 0, 255, MenuUDOption == 5 and MenuLROption == 1 and MenuSelectedOption == "Main")
-
-shadow_text("Current Level Location:", MDGX - 140, MDGY + 27, MDGSize - 0.40, 0.95, 0.95, 255, 255, 255, 255)
-shadow_text("(" .. get_level_name(STRGST.STRCourseID, STRGST.STRLevelID, STRGST.STRAreaID) .. ", " .. STRGST.STRAreaID ..  ", " .. STRGST.STRActID ..  ")", MDGX - 50, MDGY + 30, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("Current Level Position:", MDGX - 140, MDGY + 47, MDGSize - 0.40, 0.95, 0.95, 255, 255, 255, 255)
-shadow_text("(" ..  tostring(math.floor(STRGST.STRXPos)) .. ", " ..  tostring(math.floor(STRGST.STRYPos)) ..  ", " ..  tostring(math.floor(STRGST.STRZPos)) ..  ")", MDGX - 50, MDGY + 50, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+menu_shadow_text(LIText, MDGX + 25, MDGY - 72, MDGSize - 0.40, 0.95, 0.95, 255, 255, 0, 255, MenuUDOption == 1 and MenuLROption == 1 and MenuSelectedOption == "Main")
+menu_shadow_text(STRGST.STRForceLevelType, MDGX + 25, MDGY - 52, MDGSize - 0.40, 0.95, 0.95, 255, 255, 0, 255, MenuUDOption == 3 and MenuLROption == 1 and MenuSelectedOption == "Main")
+menu_shadow_text(STRGST.STRWarpType, MDGX + 25, MDGY - 32, MDGSize - 0.40, 0.95, 0.95, 255, 255, 0, 255, MenuUDOption == 4 and MenuLROption == 1 and MenuSelectedOption == "Main")
+menu_shadow_text(STRGST.STRForceSpot, MDGX + 25, MDGY - 12, MDGSize - 0.40, 0.95, 0.95, 255, 255, 0, 255, MenuUDOption == 5 and MenuLROption == 1 and MenuSelectedOption == "Main")
+end
+FullLevel = "Location - (".. get_level_name(STRGST.STRCourseID, STRGST.STRLevelID, STRGST.STRAreaID)..", "..STRGST.STRAreaID ..", ".. STRGST.STRActID  ..")" local MDCLLX = (S_Width() - Hud_Measure(FullLevel) * 0.25) / 2.0
+FullPosition = "Position - (".. tostring(math.floor(STRGST.STRXPos))..", "..tostring(math.floor(STRGST.STRYPos))..", ".. tostring(math.floor(STRGST.STRZPos)) ..")" 
+local MDCLPX = (S_Width() - Hud_Measure(FullPosition) * 0.25) / 2.0
+shadow_text(FullLevel, MDCLLX, MDGY + 29, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+shadow_text(FullPosition, MDCLPX, MDGY + 45, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 if MenuViewHostCheck == false then
+menu_shadow_text("Interaction:", MDGX - 140, MDGY - 75, MDGSize - 0.30, 1.05, 1.05, 255, 255, 0, 255, MenuUDOption == 1 and MenuLROption == 1 and MenuSelectedOption == "Main")
+menu_shadow_text("Update Location:", MDGX - 140, MDGY - 55, MDGSize - 0.30, 1.05, 1.05, 255, 255, 0, 255, MenuUDOption == 2 and MenuLROption == 1 and MenuSelectedOption == "Main")
+menu_shadow_text("Forced Type:", MDGX - 140, MDGY - 35, MDGSize - 0.30, 1.05, 1.05, 255, 255, 0, 255, MenuUDOption == 3 and MenuLROption == 1 and MenuSelectedOption == "Main")
+menu_shadow_text("Warp Settings:", MDGX - 140, MDGY - 15, MDGSize - 0.30, 1.05, 1.05, 255, 255, 0, 255, MenuUDOption == 4 and MenuLROption == 1 and MenuSelectedOption == "Main")
+menu_shadow_text("Position Settings:", MDGX - 140, MDGY + 5, MDGSize - 0.30, 1.05, 1.05, 255, 255, 0, 255, MenuUDOption == 5 and MenuLROption == 1 and MenuSelectedOption == "Main")
+
+menu_shadow_text(LIText, MDGX - 50, MDGY - 72, MDGSize - 0.40, 0.95, 0.95, 255, 255, 0, 255, MenuUDOption == 1 and MenuLROption == 1 and MenuSelectedOption == "Main")
+menu_shadow_text(STRLocationSpot, MDGX - 50, MDGY - 52, MDGSize - 0.40, 0.95, 0.95, 255, 255, 0, 255, MenuUDOption == 2 and MenuLROption == 1 and MenuSelectedOption == "Main")
+menu_shadow_text(STRGST.STRForceLevelType, MDGX - 50, MDGY - 32, MDGSize - 0.40, 0.95, 0.95, 255, 255, 0, 255, MenuUDOption == 3 and MenuLROption == 1 and MenuSelectedOption == "Main")
+menu_shadow_text(STRGST.STRWarpType, MDGX - 50, MDGY - 12, MDGSize - 0.40, 0.95, 0.95, 255, 255, 0, 255, MenuUDOption == 4 and MenuLROption == 1 and MenuSelectedOption == "Main")
+menu_shadow_text(STRGST.STRForceSpot, MDGX - 50, MDGY + 8, MDGSize - 0.40, 0.95, 0.95, 255, 255, 0, 255, MenuUDOption == 5 and MenuLROption == 1 and MenuSelectedOption == "Main")
+
 menu_shadow_text("- Custom Location -", MDGX + 30, MDGY - 75, MDGSize - 0.30, 1.05, 1.05, 255, 255, 0, 255, MenuLROption == 2 and MenuSelectedOption == "Main")
 menu_shadow_text("(A) New Location", MDGX + 40, MDGY - 55, MDGSize - 0.40, 0.95, 0.95, 255, 255, 255, 255, MenuLROption == 2 and MenuSelectedOption == "Main")
 menu_shadow_text("(B) New Position", MDGX + 40, MDGY - 35, MDGSize - 0.40, 0.95, 0.95, 255, 255, 255, 255, MenuLROption == 2 and MenuSelectedOption == "Main")
@@ -199,8 +221,17 @@ hide_shadow_text("Are you sure you want to Reset your Settings?", MDGX - 55, MDG
 end
 end
 if STRMenuTitleName == "MDLevels" then
+if MenuPageLRDisplay == 1 then MDRLTitle = "Stars"
+elseif MenuPageLRDisplay == 2 then MDRLTitle = "Levels"
+elseif MenuPageLRDisplay == 3 then MDRLTitle = "Actions"
+elseif MenuPageLRDisplay == 4 then MDRLTitle = "Positions"
+end
+local MDRLX = (S_Width() - Hud_Measure(MDRLTitle) * 0.35) / 2.0
+shadow_text(MDRLTitle, MDRLX, MDGY - 85, MDGSize - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+
+MDRSOption = "(B) Exit | (Y) Switch Between Options | (L/R Trig) Menu Page: " .. MenuPageLRDisplay .. "/4" local MDRSX = (S_Width() - Hud_Measure(MDRSOption) * 0.25) / 2.0
+shadow_text(MDRSOption, MDRSX, MDGY + 46, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 if MenuPageLRDisplay == 1 then
-shadow_text("Stars", MDGX - 13, MDGY - 85, MDGSize - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 menu_shadow_text("Star Limit:", MDGX - 130, MDGY - 70, MDGSize - 0.10, 1.25, 1.25, 255, 255, 0, 255, MenuUDOption == 1 and MenuSelectedOption == "Main")
 menu_shadow_text("Star ID:", MDGX - 130, MDGY - 40, MDGSize - 0.10, 1.25, 1.25, 255, 255, 0, 255, MenuUDOption == 2 and MenuSelectedOption == "Main")
 menu_shadow_text("Behavior Types:", MDGX - 130, MDGY - 10, MDGSize - 0.10, 1.25, 1.25, 255, 255, 0, 255, MenuUDOption == 3 and MenuSelectedOption == "Main")
@@ -213,7 +244,6 @@ menu_shadow_text(STRLFS[STRGST.STRLFStars], MDGX - 5, MDGY + 25, MDGSize - 0.30,
 end
 
 if MenuPageLRDisplay == 2 then
-shadow_text("Levels", MDGX - 13, MDGY - 85, MDGSize - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 menu_shadow_text("Level Location:", MDGX - 130, MDGY - 70, MDGSize - 0.10, 1.25, 1.25, 255, 255, 0, 255, MenuUDOption == 1 and MenuSelectedOption == "Main")
 menu_shadow_text("Level Area Num:", MDGX - 130, MDGY - 40, MDGSize - 0.10, 1.25, 1.25, 255, 255, 0, 255, MenuUDOption == 2 and MenuSelectedOption == "Main")
 menu_shadow_text("Level Act Num:", MDGX - 130, MDGY - 10, MDGSize - 0.10, 1.25, 1.25, 255, 255, 0, 255, MenuUDOption == 3 and MenuSelectedOption == "Main")
@@ -226,7 +256,6 @@ menu_shadow_text(STRLFL[STRGST.STRLFLevels], MDGX - 5, MDGY + 25, MDGSize - 0.30
 end
 
 if MenuPageLRDisplay == 3 then
-shadow_text("Actions", MDGX - 16, MDGY - 85, MDGSize - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 menu_shadow_text("Mario Action:", MDGX - 130, MDGY - 70, MDGSize - 0.10, 1.25, 1.25, 255, 255, 0, 255, MenuUDOption == 1 and MenuSelectedOption == "Main")
 menu_shadow_text("Action Timer:", MDGX - 130, MDGY - 25, MDGSize - 0.10, 1.25, 1.25, 255, 255, 0, 255, MenuUDOption == 2 and MenuSelectedOption == "Main")
 menu_shadow_text("Action Functions:", MDGX - 130, MDGY + 20, MDGSize - 0.10, 1.25, 1.25, 255, 255, 0, 255, MenuUDOption == 3 and MenuSelectedOption == "Main")
@@ -237,7 +266,6 @@ menu_shadow_text(STRLFA[STRGST.STRLFActions], MDGX - 5, MDGY + 25, MDGSize - 0.3
 end
 
 if MenuPageLRDisplay == 4 then
-shadow_text("Positions", MDGX - 19, MDGY - 85, MDGSize - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 menu_shadow_text("X Position:", MDGX - 130, MDGY - 60, MDGSize - 0.40, 0.95, 0.95, 255, 255, 0, 255, MenuUDOption == 1 and MenuSelectedOption == "Main")
 menu_shadow_text("Y Position:", MDGX - 130, MDGY - 45, MDGSize - 0.40, 0.95, 0.95, 255, 255, 0, 255, MenuUDOption == 2 and MenuSelectedOption == "Main")
 menu_shadow_text("Z Position:", MDGX - 130, MDGY - 30, MDGSize - 0.40, 0.95, 0.95, 255, 255, 0, 255, MenuUDOption == 3 and MenuSelectedOption == "Main")
@@ -255,34 +283,32 @@ menu_shadow_text(tostring(STRGST.STRLFEZPos), MDGX - 5, MDGY + 15, MDGSize - 0.4
 menu_shadow_text(STRLFP[STRGST.STRLFPositions], MDGX - 5, MDGY + 30, MDGSize - 0.40, 0.95, 0.95, 255, 255, 0, 255, MenuUDOption == 7 and MenuSelectedOption == "Main")
 end
 
-shadow_text("(Y) Switch Between Options | (L/R) Menu Page: " .. MenuPageLRDisplay .. "/4", MDGX - 70, MDGY + 46, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 menu_shadow_text("Requirement Type:", MDGX - 130, MDGY + 55, MDGSize - 0.10, 1.25, 1.25, 255, 255, 0, 255, MenuSelectedOption == "RunTypes")
 menu_shadow_text(STRRunsTypeTable[STRGST.STRRunsTypes], MDGX - 5, MDGY + 62, MDGSize - 0.40, 0.95, 0.95, 255, 255, 0, 255, MenuSelectedOption == "RunTypes")
 end
-if STRMenuTitleName == "MDRunSlot" then
-if STRGST.STRPluginsCheck == true then PluginText = "(A) Enabled" else PluginText = "(A) Disabled" end
-menu_shadow_text(PluginText, MDGX - 14, MDGY - 8, MDGSize - 0.50, 0.50, 0.50, 255, 255, 0, 255, STRGST.STRPluginsTypes == STRPluginRuns[STRGST.STRPluginsTypes].PluginNum)
-local RPSWidth = Hud_Measure(STRPluginRuns[STRGST.STRPluginsTypes].PluginName) * MDGSize local RPSX = (S_Width() - RPSWidth) / 2.0
-menu_shadow_text(STRPluginRuns[STRGST.STRPluginsTypes].PluginName, RPSX, MDGY - 3, MDGSize, 1.25, 1.25, 255, 255, 0, 255, STRGST.STRPluginsTypes == STRPluginRuns[STRGST.STRPluginsTypes].PluginNum)
-end
 
 if STRMenuTitleName == "MDSingle" then
-if MenuSelectedOption == "SingleBinds" then SBX = 56 else SBX = 53 end
 if MenuLROption == 1 then SBLF = "Left" elseif MenuLROption == 2 then SBLF = "Middle" elseif MenuLROption == 3 then SBLF = "Right" end 
+if MenuSelectedOption == "SingleBinds" then MDSSOption = "(A) Save | (B) Exit | (Y) Randomize Buttons"
+else MDSSOption = "(A) Start | (B) Exit | (X) Change Binds | (Y) Stop Run"
+end
+local MDSSX = (S_Width() - Hud_Measure(MDSSOption) * 0.25) / 2.0
+shadow_text(MDSSOption, MDSSX, MDGY + 75, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 
+if MenuSelectedOption == "SingleBinds" then
+WarpBindsText = "Warp Binds:  " .. STRButtonBinds[STRSBinds1].name .. " + " .. STRButtonBinds[STRSBinds2].name .. " + " .. STRButtonBinds[STRSBinds3].name .. " (" .. SBLF .. ")"
+else
+WarpBindsText = "Warp Binds:  " .. STRButtonBinds[STRSBinds1].name .. " + " .. STRButtonBinds[STRSBinds2].name .. " + " .. STRButtonBinds[STRSBinds3].name
+end
+local MDSSBX = (S_Width() - Hud_Measure(WarpBindsText) * 0.25) / 2.0
+menu_shadow_text(WarpBindsText, MDSSBX, MDGY - 80, MDGSize - 0.50, 0.50, 0.50, 255, 255, 0, 255, MenuSelectedOption == "SingleBinds")
+
+if MenuSelectedOption == "SingleBinds" then SBX = 56 else SBX = 53 end
 menu_shadow_text("Levels:", MDGX - 130, MDGY - 70, MDGSize - 0.10, 1.25, 1.25, 255, 255, 0, 255, MenuUDOption == 1 and MenuSelectedOption == "Main")
 menu_shadow_text("Areas:", MDGX - 130, MDGY - 40, MDGSize - 0.10, 1.25, 1.25, 255, 255, 0, 255, MenuUDOption == 2 and MenuSelectedOption == "Main")
 menu_shadow_text("Acts:", MDGX - 130, MDGY - 10, MDGSize - 0.10, 1.25, 1.25, 255, 255, 0, 255, MenuUDOption == 3 and MenuSelectedOption == "Main")
 menu_shadow_text("Amount/Star ID:", MDGX - 130, MDGY + 20, MDGSize - 0.10, 1.25, 1.25, 255, 255, 0, 255, MenuUDOption == 4 and MenuSelectedOption == "Main")
 menu_shadow_text("Set Function:", MDGX - 130, MDGY + 50, MDGSize - 0.10, 1.25, 1.25, 255, 255, 0, 255, MenuUDOption == 5 and MenuSelectedOption == "Main")
-menu_shadow_text("Warp Binds:", MDGX - 45, MDGY - 80, MDGSize - 0.50, 0.50, 0.50, 255, 255, 0, 255, MenuSelectedOption == "SingleBinds")
-menu_shadow_text(STRButtonBinds[STRSBinds1].name .. " + " .. STRButtonBinds[STRSBinds2].name .. " + " .. STRButtonBinds[STRSBinds3].name, MDGX - 4, MDGY - 80, MDGSize - 0.50, 0.50, 0.50, 255, 255, 0, 255, 
-MenuSelectedOption == "SingleBinds")
-if MenuSelectedOption == "SingleBinds" then
-shadow_text("(A) Save | (Y) Randomize Buttons | (L/R): " .. SBLF, MDGX - SBX, MDGY + 75, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-else
-shadow_text("(A) Start | (X) Change Binds | (Y) Stop Run", MDGX - SBX, MDGY + 75, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-end
 
 menu_shadow_text(STRLevels[STRGST.STRSSLevelID].STRLN, MDGX - 5, MDGY - 65, MDGSize - 0.30, 1.05, 1.05, 255, 255, 0, 255, MenuUDOption == 1 and MenuSelectedOption == "Main")
 menu_shadow_text(tostring(STRGST.STRSSAreaID), MDGX - 5, MDGY - 35, MDGSize - 0.30, 1.05, 1.05, 255, 255, 0, 255, MenuUDOption == 2 and MenuSelectedOption == "Main")
@@ -292,21 +318,22 @@ menu_shadow_text(STRSSTypeTable[STRGST.STRSSType].SSName, MDGX - 5, MDGY + 55, M
 end
 
 if STRMenuTitleName == "MDConfig" then
-if network_is_server() then
-shadow_text("(X) Switch To The Main Menu | (R) DJUI Menu", MDGX - 84, MDGY - 70, MDGSize - 0.40, 0.95, 0.95, 255, 255, 255, 255)
-else
-shadow_text("(R) Open DJUI Menu", MDGX - 37, MDGY - 70, MDGSize - 0.40, 0.95, 0.95, 255, 255, 255, 255)
-end
 menu_shadow_text("Info", MDGX - 105, MDGY - 3, MDGSize, 1.25, 1.25, 255, 255, 0, 255, MenuLROption == 1)
 menu_shadow_text("How To Play", MDGX - 45, MDGY - 3, MDGSize, 1.25, 1.25, 255, 255, 0, 255, MenuLROption == 2)
 menu_shadow_text("Settings", MDGX + 60, MDGY - 3, MDGSize, 1.25, 1.25, 255, 255, 0, 255, MenuLROption == 3)
 end
 if STRMenuTitleName == "MDInfo" then
+if MenuPageLRDisplay == 1 then MDInfoTitle = "What's new?"
+elseif MenuPageLRDisplay == 2 then MDInfoTitle = "Credits"
+elseif MenuPageLRDisplay == 3 then MDInfoTitle = "Changelog"
+elseif MenuPageLRDisplay == 4 then MDInfoTitle = "Romhacks, Total: 69"
+elseif MenuPageLRDisplay == 5 then MDInfoTitle = "Fixed Bugs"
+end
+local MDIX = (S_Width() - Hud_Measure(MDInfoTitle) * 0.35) / 2.0
+shadow_text(MDInfoTitle, MDIX, MDGY - 85, MDGSize - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 if MenuPageLRDisplay == 1 then
-shadow_text("What's new?", MDGX - 21, MDGY - 85, MDGSize - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 shadow_text("No Major Additions Right Now...", MDGX - 100, MDGY, MDGSize - 0.10, 1.25, 1.25, 255, 255, 255, 255)
 elseif MenuPageLRDisplay == 2 then
-shadow_text("Credits", MDGX - 14, MDGY - 85, MDGSize - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 shadow_text("Original Mod by EmeraldLockdown", MDGX - 40, MDGY - 70, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 shadow_text("Reworked Mod by JairoThePlumber", MDGX - 40, MDGY - 60, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 shadow_text("Star Road Postions by Mr.Needlemouse", MDGX - 48, MDGY - 50, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
@@ -317,44 +344,17 @@ shadow_text("Button Combo Code By Pipocalio", MDGX - 38, MDGY - 10, MDGSize - 0.
 shadow_text("The SM64 CoopDX Team", MDGX - 28, MDGY - 0, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 shadow_text("Everyone Who help Test This Mod", MDGX - 40, MDGY + 10, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 elseif MenuPageLRDisplay == 3 then
-shadow_text("Changelog", MDGX - 17, MDGY - 85, MDGSize - 0.40, 0.95, 0.95, 255, 255, 255, 255)
-if MenuPageUDDisplay == 1 then
-shadow_text("! Update The Lobby Settings", MDGX - 65, MDGY - 70, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("! Update The Position Settings", MDGX - 65, MDGY - 60, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("+ Added Title Names in Level Settings", MDGX - 65, MDGY - 50, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("+ Added a Reset Time For Best Time", MDGX - 65, MDGY - 40, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("! Change Requirements and Best Time as QoL Options", MDGX - 65, MDGY - 30, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("! Countdown is now saveable", MDGX - 65, MDGY - 20, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("! Adjust The Intermission and Countdown", MDGX - 65, MDGY - 10, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("! Reworked Custom Location", MDGX - 65, MDGY, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("! CS Moveset is Disabled by Default", MDGX - 65, MDGY + 10, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("! Changes Some Menus Size For 4:3 Support", MDGX - 65, MDGY + 20, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("+ Added a Both Option to Open the Menu", MDGX - 65, MDGY + 30, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("! Made Finish Warp set to 20 Seconds for Cake Ending", MDGX - 65, MDGY + 40, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("! Move Backup Save Option to Settings", MDGX - 65, MDGY + 50, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("+ Added Warp Node Randomier Support", MDGX - 65, MDGY + 60, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("- Replace Extras Option with Server Settings", MDGX - 65, MDGY + 70, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-elseif MenuPageUDDisplay == 2 then
-shadow_text("! Now Built and Custom Runs Now has Unique Names", MDGX - 65, MDGY - 70, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("! Now You can Randomize The Best Time", MDGX - 65, MDGY - 60, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("! Now Config Settings Only Reset on the Page you're in", MDGX - 65, MDGY - 50, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("+ Added a Helper Message", MDGX - 65, MDGY - 40, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("+ Added View Host Option", MDGX - 65, MDGY - 30, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("! Adjust The Controller Binds Display for Config", MDGX - 65, MDGY - 20, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("! Changed how Erasing Save Works Now", MDGX - 65, MDGY - 10, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("+ Added add_romhack_name and add_single_run", MDGX - 65, MDGY, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("! When Erasing a Save, You'll be Warpped to Reset The Area", MDGX - 65, MDGY + 10, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("+ Added 10 Romhacks in the Mod", MDGX - 65, MDGY + 20, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("+ Added Unique Names For SM64 Run Slots", MDGX - 65, MDGY + 30, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("! Now The Best Time Color Will Show when Finishing a Run", MDGX - 65, MDGY + 40, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("- Remove Indicator because it can't overwrite anymore", MDGX - 65, MDGY + 50, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("- Replace Headless Server With Skip Intro", MDGX - 65, MDGY + 60, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("! Adjust Alot of More Coding", MDGX - 65, MDGY + 70, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-end
+shadow_text("! Move Run Slot Plugin to Runs Config", MDGX - 65, MDGY - 70, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+shadow_text("! Forgot to add Pink Star in Romhacks Info", MDGX - 65, MDGY - 60, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+shadow_text("! Kinda Redone Location and Position ID Lables", MDGX - 65, MDGY - 50, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+shadow_text("! Now Gamemode Doesn't Change Until you Select one", MDGX - 65, MDGY - 40, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+shadow_text("+ Added Some Buttons Display to some Menus", MDGX - 65, MDGY - 30, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+shadow_text("! Did Some Changes to keep the Text in the Center", MDGX - 65, MDGY - 20, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+shadow_text("! Stars/Keys are not Interactable when interaction is on", MDGX - 65, MDGY - 10, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+shadow_text("+ Added 6 Romahcks", MDGX - 65, MDGY - 0, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 elseif MenuPageLRDisplay == 4 then
 Left = 100
 Right = -20
-shadow_text("Romhacks", MDGX - 16, MDGY - 85, MDGSize - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 if MenuPageUDDisplay == 1 then
 shadow_text("Star Road", MDGX - Left, MDGY - 70, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 shadow_text("Star Road: The Replica Comet", MDGX - Left, MDGY - 60, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
@@ -376,13 +376,13 @@ shadow_text("Luigi's Mansion 64", MDGX - Right, MDGY - 70, MDGSize - 0.50, 0.50,
 shadow_text("Luigi's Mansion 64.5", MDGX - Right, MDGY - 60, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 shadow_text("SM64 Paradise Island", MDGX - Right, MDGY - 50, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 shadow_text("Ztar Attack 2", MDGX - Right, MDGY - 40, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("Super Mario 64: Hidden Stars", MDGX - Right, MDGY - 30, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("Super Mario The Galactic Journey", MDGX - Right, MDGY - 20, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("Star Revenge 1.5: Star Takeover Redone", MDGX - Right, MDGY - 10, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("Luigi and the Forest Ruins", MDGX - Right, MDGY - 0, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("Only Up 64", MDGX - Right, MDGY + 10, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("Thousand Year Door 64", MDGX - Right, MDGY + 20, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("The Phantom's Call", MDGX - Right, MDGY + 30, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+shadow_text("SM64: Peach and The Pink Star", MDGX - Right, MDGY - 30, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+shadow_text("Super Mario 64: Hidden Stars", MDGX - Right, MDGY - 20, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+shadow_text("Super Mario The Galactic Journey", MDGX - Right, MDGY - 10, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+shadow_text("Star Revenge 1.5: Star Takeover Redone", MDGX - Right, MDGY - 0, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+shadow_text("Luigi and the Forest Ruins", MDGX - Right, MDGY + 10, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+shadow_text("Only Up 64", MDGX - Right, MDGY + 20, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+shadow_text("Thousand Year Door 64", MDGX - Right, MDGY + 30, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 shadow_text("SM64: The Mushroom Cup", MDGX - Right, MDGY + 40, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 shadow_text("Eternal Realm", MDGX - Right, MDGY + 50, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 shadow_text("Despair Mario's Gambit", MDGX - Right, MDGY + 60, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
@@ -423,27 +423,33 @@ elseif MenuPageUDDisplay == 3 then
 shadow_text("Super Mario 8MB", MDGX - Left, MDGY - 70, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 shadow_text("Super Mario Star", MDGX - Left, MDGY - 60, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 shadow_text("Goomba's Easter Egg Hunt", MDGX - Left, MDGY - 50, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+shadow_text("Kaizo Mario 64", MDGX - Left, MDGY - 40, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+shadow_text("SM64 Openworld Quest", MDGX - Left, MDGY - 30, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+shadow_text("Organ of Matrias", MDGX - Left, MDGY - 20, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+shadow_text("Star Revenge 8: Scepter of Hope", MDGX - Left, MDGY - 10, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+shadow_text("Mario on Indigo Island", MDGX - Left, MDGY - 0, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+shadow_text("Star Revenge 3.9: Dreamish Block Beats", MDGX - Left, MDGY + 10, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 end
 elseif MenuPageLRDisplay == 5 then
-shadow_text("Fixed Bugs", MDGX - 19, MDGY - 85, MDGSize - 0.40, 0.95, 0.95, 255, 255, 255, 255)
-shadow_text("Fixed Best Time Not Saved On Casual Mode", MDGX - 65, MDGY - 70, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("Fixed Best Time Display Wrong", MDGX - 65, MDGY - 60, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("Fixed set_custom_extras Countdown", MDGX - 65, MDGY - 50, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("Fixed Built in Countdown Displaying 1", MDGX - 65, MDGY - 40, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("Fixed Best Time Not Displaying in Lobby", MDGX - 65, MDGY - 30, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("Fixed Some Smaller Issues that could Happen", MDGX - 65, MDGY - 20, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("Fixed Texts Breaks when it's on a Finished State", MDGX - 65, MDGY - 10, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("Fixed Romhacks Runs Still active without Starting", MDGX - 65, MDGY, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("Fixed Parts of Level Doesn't Reset when Eraseing a Save?", MDGX - 65, MDGY + 10, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("Fixed Hanging on the Ceiling will Keep Holding A in the Menu", MDGX - 65, MDGY + 20, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("Fixed Some Romhacks that uses save_file_set_flags", MDGX - 65, MDGY + 30, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("Fixed Some Problems with add_plugin_slot", MDGX - 65, MDGY + 40, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-shadow_text("Fixed Some Issues that are Really Small", MDGX - 65, MDGY + 50, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+shadow_text("Fixed Best Time Display Behind Single Stars Requirement", MDGX - 65, MDGY - 70, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+shadow_text("Fixed Gamemode Instantly Switches when changing it", MDGX - 65, MDGY - 60, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+shadow_text("Fixed Run Slot Switching to 1 When checking it", MDGX - 65, MDGY - 50, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+shadow_text("Fixed STRGST.STRLFSetTimer set to 0 instead of 1", MDGX - 65, MDGY - 40, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+shadow_text("Fixed Blue and Green being swap for some reason", MDGX - 65, MDGY - 30, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+shadow_text("Fixed one of the host options is visable for non host", MDGX - 65, MDGY - 20, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+shadow_text("Fixed Available Slot being Visable for non host", MDGX - 65, MDGY - 10, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+shadow_text("Fixed not being able to Pause in Practice", MDGX - 65, MDGY, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 end
 end
 if STRMenuTitleName == "MDHTP" then
+if MenuPageLRDisplay == 1 then MDHTPTitle = "Normal"
+elseif MenuPageLRDisplay == 2 then MDHTPTitle = "Practice"
+elseif MenuPageLRDisplay == 3 then MDHTPTitle = "Casual"
+elseif MenuPageLRDisplay == 4 then MDHTPTitle = "Single Stars"
+end
+local MDHTPX = (S_Width() - Hud_Measure(MDHTPTitle) * 0.35) / 2.0
+shadow_text(MDHTPTitle, MDHTPX, MDGY - 85, MDGSize - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 if MenuPageLRDisplay == 1 then
-shadow_text("Normal", MDGX - 17, MDGY - 85, MDGSize - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 shadow_text("Your Goal is to Beat the Game as Quickly as Possible", MDGX - 105, MDGY - 70, MDGSize - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 shadow_text("Rules are Needed to Insure you're doing the Right Run", MDGX - 105, MDGY - 55, MDGSize - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 shadow_text("Server Settings are Needed If you want your Run to be Vaild", MDGX - 105, MDGY - 40, MDGSize - 0.40, 0.95, 0.95, 255, 255, 255, 255)
@@ -457,7 +463,6 @@ Hud_Texture(gTextures.waluigi_head, MDGX + 80, MDGY + 30, 1, 1)
 Hud_Texture(gTextures.star, MDGX - 60, MDGY + 0, 1, 1)
 end
 if MenuPageLRDisplay == 2 then
-shadow_text("Practice", MDGX - 18, MDGY - 85, MDGSize - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 shadow_text("This Gamemode is for those who want to Practice Runs", MDGX - 105, MDGY - 70, MDGSize - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 shadow_text("The Timer will Reset After Finishing a Run", MDGX - 105, MDGY - 55, MDGSize - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 shadow_text("You will Start Instantly when Starting a Run", MDGX - 105, MDGY - 40, MDGSize - 0.40, 0.95, 0.95, 255, 255, 255, 255)
@@ -471,7 +476,6 @@ Hud_Texture(gTextures.star, MDGX - 55, MDGY + 10, 1, 1)
 Hud_Texture(gTextures.star, MDGX + 30, MDGY + 10, 1, 1)
 end
 if MenuPageLRDisplay == 3 then
-shadow_text("Casual", MDGX - 16, MDGY - 85, MDGSize - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 shadow_text("A Simple Gamemode is for those who want to play it Normal", MDGX - 105, MDGY - 70, MDGSize - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 shadow_text("The Timer will Reset After Finishing a Run", MDGX - 105, MDGY - 55, MDGSize - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 shadow_text("The Timer will still be on even after Rehosting", MDGX - 105, MDGY - 40, MDGSize - 0.40, 0.95, 0.95, 255, 255, 255, 255)
@@ -484,7 +488,6 @@ Hud_Texture(gTextures.wario_head, MDGX + 15, MDGY + 30, 1, 1)
 Hud_Texture(gTextures.waluigi_head, MDGX + 35, MDGY + 30, 1, 1)
 end
 if MenuPageLRDisplay == 4 then
-shadow_text("Single Stars", MDGX - 25, MDGY - 85, MDGSize - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 shadow_text("This Gamemode is for those who want to do Single Stars", MDGX - 105, MDGY - 70, MDGSize - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 shadow_text("You can choose on what run you can try", MDGX - 105, MDGY - 55, MDGSize - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 shadow_text("You can Reset by using Binds of your Choice", MDGX - 105, MDGY - 40, MDGSize - 0.40, 0.95, 0.95, 255, 255, 255, 255)
@@ -503,81 +506,59 @@ Hud_Texture(gTextures.star, MDGX - 60, MDGY + 40, 1, 1)
 end
 end
 if STRMenuTitleName == "MDCSettings" then
-if MenuPageLRDisplay == 2 then
-shadow_text("(Y) Randomize Settings | (X) Play Sound", MDGX - 52, MDGY + 46, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-elseif MenuPageLRDisplay == 4 then
-shadow_text("(Y) Softlock Warp Help", MDGX - 28, MDGY + 46, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-else
-shadow_text("(Y) Randomize Settings", MDGX - 28, MDGY + 46, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+if MenuPageLRDisplay == 2 then MDCSROption = "(A) Select | (B) Exit | (L/R Trig) Menu Page: " .. MenuPageLRDisplay .. "/4 | (Y) Randomize Settings | (X) Play Sound"
+elseif MenuPageLRDisplay == 4 then MDCSROption = "(A) Select | (B) Exit | (L/R Trig) Menu Page: " .. MenuPageLRDisplay .. "/4 | (Y) Softlock Warp Help"
+else MDCSROption = "(A) Select | (B) Exit | (L/R Trig) Menu Page: " .. MenuPageLRDisplay .. "/4 | (Y) Randomize Settings" 
 end
+local MDCSROX = (S_Width() - Hud_Measure(MDCSROption) * 0.25) / 2.0
+shadow_text(MDCSROption, MDCSROX, MDGY + 46, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+if MenuPageLRDisplay == 1 then MDCSTitle = "Fonts"
+elseif MenuPageLRDisplay == 2 then MDCSTitle = "Sounds"
+elseif MenuPageLRDisplay == 3 then MDCSTitle = "Colors"
+elseif MenuPageLRDisplay == 4 then MDCSTitle = "Extras"
+end
+local MDCSX = (S_Width() - Hud_Measure(MDCSTitle) * 0.35) / 2.0
+shadow_text(MDCSTitle, MDCSX, MDGY - 85, MDGSize - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+
 menu_shadow_text("- (Z) Reset Saved Settings -", MDGX - 65, MDGY + 56, MDGSize - 0.30, 1.05, 1.05, 255, 255, 0, 255, MenuSelectedOption == "EraseSettings")
 hide_shadow_text("(A) Reset | (B) Back", MDGX - 26, MDGY + 80, MDGSize - 0.50, 0.50, 0.50, 255, 255, 0, 255, MenuSelectedOption == "EraseSettings")
 hide_shadow_text("Are you sure you want to Reset your Settings?", MDGX - 55, MDGY + 71, MDGSize - 0.50, 0.50, 0.50, 255, 255, 0, 255, MenuSelectedOption == "EraseSettings")
 if MenuPageLRDisplay == 1 then
-shadow_text("Fonts", MDGX - 10, MDGY - 85, MDGSize - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 menu_shadow_text("Timer:", MDGX - 130, MDGY - 70, MDGSize - 0.10, 1.25, 1.25, 255, 255, 0, 255, MenuUDOption == 1 and MenuSelectedOption == "Main")
 menu_shadow_text("Countdown:", MDGX - 130, MDGY - 25, MDGSize - 0.10, 1.25, 1.25, 255, 255, 0, 255, MenuUDOption == 2 and MenuSelectedOption == "Main")
 menu_shadow_text("Go:", MDGX - 130, MDGY + 20, MDGSize - 0.10, 1.25, 1.25, 255, 255, 0, 255, MenuUDOption == 3 and MenuSelectedOption == "Main")
 
-if STRFontTMNumber > 6 then
-menu_shadow_text(STRFontsTable[STRFontTMNumber].str_font_name, MDGX - 40, MDGY - 63, MDGSize - 0.40, 0.95, 0.95, 0, 150, 255, 255, MenuUDOption == 1 and MenuSelectedOption == "Main")
-menu_shadow_text(STRFontsTable[STRFontCDNumber].str_font_name, MDGX - 40, MDGY - 18, MDGSize - 0.40, 0.95, 0.95, 0, 150, 255, 255, MenuUDOption == 2 and MenuSelectedOption == "Main")
-menu_shadow_text(STRFontsTable[STRFontGONumber].str_font_name, MDGX - 40, MDGY + 27, MDGSize - 0.40, 0.95, 0.95, 0, 150, 255, 255, MenuUDOption == 3 and MenuSelectedOption == "Main")
-else
-menu_shadow_text(STRFontsTable[STRFontTMNumber].str_font_name, MDGX - 40, MDGY - 63, MDGSize - 0.40, 0.95, 0.95, 255, 255, 0, 255, MenuUDOption == 1 and MenuSelectedOption == "Main")
-menu_shadow_text(STRFontsTable[STRFontCDNumber].str_font_name, MDGX - 40, MDGY - 18, MDGSize - 0.40, 0.95, 0.95, 255, 255, 0, 255, MenuUDOption == 2 and MenuSelectedOption == "Main")
-menu_shadow_text(STRFontsTable[STRFontGONumber].str_font_name, MDGX - 40, MDGY + 27, MDGSize - 0.40, 0.95, 0.95, 255, 255, 0, 255, MenuUDOption == 3 and MenuSelectedOption == "Main")
-end
+if STRFontTMNumber > 6 then RFontColor = 0 GFontColor = 150 BFontColor = 255 else RFontColor = 255 GFontColor = 255 BFontColor = 0 end
+menu_shadow_text(STRFontsTable[STRFontTMNumber].str_font_name, MDGX - 40, MDGY - 63, MDGSize - 0.40, 0.95, 0.95, RFontColor, GFontColor, BFontColor, 255, MenuUDOption == 1 and MenuSelectedOption == "Main")
+menu_shadow_text(STRFontsTable[STRFontCDNumber].str_font_name, MDGX - 40, MDGY - 18, MDGSize - 0.40, 0.95, 0.95, RFontColor, GFontColor, BFontColor, 255, MenuUDOption == 2 and MenuSelectedOption == "Main")
+menu_shadow_text(STRFontsTable[STRFontGONumber].str_font_name, MDGX - 40, MDGY + 27, MDGSize - 0.40, 0.95, 0.95, RFontColor, GFontColor, BFontColor, 255, MenuUDOption == 3 and MenuSelectedOption == "Main")
 end
 if MenuPageLRDisplay == 2 then
-shadow_text("Sounds", MDGX - 12, MDGY - 85, MDGSize - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 menu_shadow_text("Fanfare:", MDGX - 130, MDGY - 70, MDGSize - 0.10, 1.25, 1.25, 255, 255, 0, 255, MenuUDOption == 1 and MenuSelectedOption == "Main")
 menu_shadow_text("Countdown:", MDGX - 130, MDGY - 25, MDGSize - 0.10, 1.25, 1.25, 255, 255, 0, 255, MenuUDOption == 2 and MenuSelectedOption == "Main")
 menu_shadow_text("Go:", MDGX - 130, MDGY + 20, MDGSize - 0.10, 1.25, 1.25, 255, 255, 0, 255, MenuUDOption == 3 and MenuSelectedOption == "Main")
 
-if STRFanfareNumber ~= 1 then
-menu_shadow_text(STRFanfareTable[STRFanfareNumber].str_fanfare_name, MDGX - 40, MDGY - 63, MDGSize - 0.40, 0.95, 0.95, 0, 150, 255, 255, MenuUDOption == 1 and MenuSelectedOption == "Main")
-else
-menu_shadow_text(STRFanfareTable[STRFanfareNumber].str_fanfare_name, MDGX - 40, MDGY - 63, MDGSize - 0.40, 0.95, 0.95, 255, 255, 0, 255, MenuUDOption == 1 and MenuSelectedOption == "Main")
-end
+if STRFanfareNumber ~= 1 then RFFColor = 0 GFFColor = 150 BFFColor = 255 else RFFColor = 255 GFFColor = 255 BFFColor = 0 end
+if STRCountdownNumber > 5 then RCDColor = 0 GCDColor = 150 BCDColor = 255 else RCDColor = 255 GCDColor = 255 BCDColor = 0 end
+if STRGoNumber ~= 1 then RGOColor = 0 GGOColor = 150 BGOColor = 255 else RGOColor = 255 GGOColor = 255 BGOColor = 0 end
 
-if STRCountdownNumber > 5 then
-menu_shadow_text(STRCountdownTable[STRCountdownNumber].str_countdown_name, MDGX - 40, MDGY - 18, MDGSize - 0.40, 0.95, 0.95, 0, 150, 255, 255, MenuUDOption == 2 and MenuSelectedOption == "Main")
-else
-menu_shadow_text(STRCountdownTable[STRCountdownNumber].str_countdown_name, MDGX - 40, MDGY - 18, MDGSize - 0.40, 0.95, 0.95, 255, 255, 0, 255, MenuUDOption == 2 and MenuSelectedOption == "Main")
-end
-
-if STRGoNumber ~= 1 then
-menu_shadow_text(STRGoTable[STRGoNumber].str_go_name, MDGX - 40, MDGY + 27, MDGSize - 0.40, 0.95, 0.95, 0, 150, 255, 255, MenuUDOption == 3 and MenuSelectedOption == "Main")
-else
-menu_shadow_text(STRGoTable[STRGoNumber].str_go_name, MDGX - 40, MDGY + 27, MDGSize - 0.40, 0.95, 0.95, 255, 255, 0, 255, MenuUDOption == 3 and MenuSelectedOption == "Main")
-end
+menu_shadow_text(STRFanfareTable[STRFanfareNumber].str_fanfare_name, MDGX - 40, MDGY - 63, MDGSize - 0.40, 0.95, 0.95, RFFColor, GFFColor, BFFColor, 255, MenuUDOption == 1 and MenuSelectedOption == "Main")
+menu_shadow_text(STRCountdownTable[STRCountdownNumber].str_countdown_name, MDGX - 40, MDGY - 18, MDGSize - 0.40, 0.95, 0.95, RCDColor, GCDColor, BCDColor, 255, MenuUDOption == 2 and MenuSelectedOption == "Main")
+menu_shadow_text(STRGoTable[STRGoNumber].str_go_name, MDGX - 40, MDGY + 27, MDGSize - 0.40, 0.95, 0.95, RGOColor, GGOColor, BGOColor, 255, MenuUDOption == 3 and MenuSelectedOption == "Main")
 
 end
 if MenuPageLRDisplay == 3 then
-shadow_text("Colors", MDGX - 11, MDGY - 85, MDGSize - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 menu_shadow_text("Font Colors:", MDGX - 130, MDGY - 70, MDGSize - 0.10, 1.25, 1.25, 255, 255, 0, 255, MenuUDOption == 1 and MenuSelectedOption == "Main")
 menu_shadow_text("Rect Colors:", MDGX - 130, MDGY - 40, MDGSize - 0.10, 1.25, 1.25, 255, 255, 0, 255, MenuUDOption == 2 and MenuSelectedOption == "Main")
 menu_shadow_text("Menu Colors:", MDGX - 130, MDGY - 10, MDGSize - 0.10, 1.25, 1.25, 255, 255, 0, 255, MenuUDOption == 3 and MenuSelectedOption == "Main")
 menu_shadow_text("Timer Pos:", MDGX - 130, MDGY + 20, MDGSize - 0.10, 1.25, 1.25, 255, 255, 0, 255, MenuUDOption == 4 and MenuSelectedOption == "Main")
 
-if MenuLROption == 1 then
-menu_shadow_text("(" .. STRFR .. ", " .. STRFB .. ", " .. STRFG .. ", " .. STRFV .. ")", MDGX - 40, MDGY - 65, MDGSize - 0.30, 1.05, 1.05, 255, 0, 0, 255, MenuUDOption == 1 and MenuSelectedOption == "FontColors")
-menu_shadow_text("(" .. STRRR .. ", " .. STRRB .. ", " .. STRRG .. ", " .. STRRV .. ")", MDGX - 40, MDGY - 35, MDGSize - 0.30, 1.05, 1.05, 255, 0, 0, 255, MenuUDOption == 2 and MenuSelectedOption == "RectColors")
-menu_shadow_text("(" .. STRMenuR .. ", " .. STRMenuB .. ", " .. STRMenuG .. ", " .. STRMenuV .. ")", MDGX - 40, MDGY - 5, MDGSize - 0.30, 1.05, 1.05, 255, 0, 0, 255, MenuUDOption == 3 and MenuSelectedOption == "MenuColors")
-elseif MenuLROption == 2 then 
-menu_shadow_text("(" .. STRFR .. ", " .. STRFB .. ", " .. STRFG .. ", " .. STRFV .. ")", MDGX - 40, MDGY - 65, MDGSize - 0.30, 1.05, 1.05, 0, 255, 0, 255, MenuUDOption == 1 and MenuSelectedOption == "FontColors")
-menu_shadow_text("(" .. STRRR .. ", " .. STRRB .. ", " .. STRRG .. ", " .. STRRV .. ")", MDGX - 40, MDGY - 35, MDGSize - 0.30, 1.05, 1.05, 0, 255, 0, 255, MenuUDOption == 2 and MenuSelectedOption == "RectColors")
-menu_shadow_text("(" .. STRMenuR .. ", " .. STRMenuB .. ", " .. STRMenuG .. ", " .. STRMenuV .. ")", MDGX - 40, MDGY - 5, MDGSize - 0.30, 1.05, 1.05, 0, 255, 0, 255, MenuUDOption == 3 and MenuSelectedOption == "MenuColors")
-elseif MenuLROption == 3 then 
-menu_shadow_text("(" .. STRFR .. ", " .. STRFB .. ", " .. STRFG .. ", " .. STRFV .. ")", MDGX - 40, MDGY - 65, MDGSize - 0.30, 1.05, 1.05, 0, 0, 255, 255, MenuUDOption == 1 and MenuSelectedOption == "FontColors")
-menu_shadow_text("(" .. STRRR .. ", " .. STRRB .. ", " .. STRRG .. ", " .. STRRV .. ")", MDGX - 40, MDGY - 35, MDGSize - 0.30, 1.05, 1.05, 0, 0, 255, 255, MenuUDOption == 2 and MenuSelectedOption == "RectColors")
-menu_shadow_text("(" .. STRMenuR .. ", " .. STRMenuB .. ", " .. STRMenuG .. ", " .. STRMenuV .. ")", MDGX - 40, MDGY - 5, MDGSize - 0.30, 1.05, 1.05, 0, 0, 255, 255, MenuUDOption == 3 and MenuSelectedOption == "MenuColors")
-elseif MenuLROption == 4 then 
-menu_shadow_text("(" .. STRFR .. ", " .. STRFB .. ", " .. STRFG .. ", " .. STRFV .. ")", MDGX - 40, MDGY - 65, MDGSize - 0.30, 1.05, 1.05, 255, 255, 255, 255, MenuUDOption == 1 and MenuSelectedOption == "FontColors")
-menu_shadow_text("(" .. STRRR .. ", " .. STRRB .. ", " .. STRRG .. ", " .. STRRV .. ")", MDGX - 40, MDGY - 35, MDGSize - 0.30, 1.05, 1.05, 255, 255, 255, 255, MenuUDOption == 2 and MenuSelectedOption == "RectColors")
-menu_shadow_text("(" .. STRMenuR .. ", " .. STRMenuB .. ", " .. STRMenuG .. ", " .. STRMenuV .. ")", MDGX - 40, MDGY - 5, MDGSize - 0.30, 1.05, 1.05, 255, 255, 255, 255, MenuUDOption == 3 and MenuSelectedOption == "MenuColors")
+if MenuLROption == 1 then RCSet = 255 GCSet = 0 BCSet = 0 elseif MenuLROption == 2 then RCSet = 0 GCSet = 255 BCSet = 0
+elseif MenuLROption == 3 then RCSet = 0 GCSet = 0 BCSet = 255 elseif MenuLROption == 4 then RCSet = 255 GCSet = 255 BCSet = 255
 end
+menu_shadow_text("(" .. STRFR .. ", " .. STRFG .. ", " .. STRFB .. ", " .. STRFV .. ")", MDGX - 40, MDGY - 65, MDGSize - 0.30, 1.05, 1.05, RCSet, GCSet, BCSet, 255, MenuUDOption == 1 and MenuSelectedOption == "FontColors")
+menu_shadow_text("(" .. STRRR .. ", " .. STRRG .. ", " .. STRRB .. ", " .. STRRV .. ")", MDGX - 40, MDGY - 35, MDGSize - 0.30, 1.05, 1.05, RCSet, GCSet, BCSet, 255, MenuUDOption == 2 and MenuSelectedOption == "RectColors")
+menu_shadow_text("(" .. STRMenuR .. ", " .. STRMenuG .. ", " .. STRMenuB .. ", " .. STRMenuV .. ")", MDGX - 40, MDGY - 5, MDGSize - 0.30, 1.05, 1.05, RCSet, GCSet, BCSet, 255, MenuUDOption == 3 and MenuSelectedOption == "MenuColors")
 
 if MenuLROption == 1 and MenuUDOption == 4 and MenuSelectedOption == "FontPosition" then
 menu_shadow_text("(" .. CXPos .. ", " .. CYPos .. ") - XPos", MDGX - 40, MDGY + 25, MDGSize - 0.30, 1.05, 1.05, 255, 255, 0, 255, MenuUDOption == 4 and MenuSelectedOption == "FontPosition")
@@ -588,8 +569,6 @@ menu_shadow_text("(" .. CXPos .. ", " .. CYPos .. ")", MDGX - 40, MDGY + 25, MDG
 end
 end
 if MenuPageLRDisplay == 4 then
-shadow_text("Extras", MDGX - 12, MDGY - 85, MDGSize - 0.40, 0.95, 0.95, 255, 255, 255, 255)
-
 if MenuPageUDDisplay == 1 then
 menu_shadow_text("Custom Colors:", MDGX - 130, MDGY - 70, MDGSize - 0.30, 1.05, 1.05, 255, 255, 0, 255, MenuUDOption == 1 and MenuSelectedOption == "Main")
 menu_shadow_text("Font Render:", MDGX - 130, MDGY - 50, MDGSize - 0.30, 1.05, 1.05, 255, 255, 0, 255, MenuUDOption == 2 and MenuSelectedOption == "Main")
@@ -612,7 +591,7 @@ if MenuSelectedOption == "Main" then
 hide_shadow_text("(X) Change Binds", MDGX - 15, MDGY - MRBY, MDGSize - 0.50, 0.50, 0.50, 255, 255, 255, 255, (MenuUDOption == 4 and (STRMenuButtons == "Buttons" or STRMenuButtons == "Both")) 
 or (MenuUDOption == 5 and STRRules == "Enabled"))
 else 
-hide_shadow_text("(A) Save | (Y) Randomize Buttons | (L/R): " .. MBLF, MDGX - 15, MDGY - MRBY, MDGSize - 0.50, 0.50, 0.50, 255, 255, 0, 255, 
+hide_shadow_text("(A) Save | (Y) Randomize Buttons | (L/R) " .. MBLF, MDGX - 15, MDGY - MRBY, MDGSize - 0.50, 0.50, 0.50, 255, 255, 0, 255, 
 (MenuSelectedOption == "MenuBinds" or MenuSelectedOption == "RulesBinds") and ((STRMenuButtons == "Buttons" or STRMenuButtons == "Both") or STRRules == "Enabled"))
 end
 
@@ -627,11 +606,7 @@ if MenuPageUDDisplay == 2 then
 BTTotal = STRBestTimeNumber / 30 BTHours = math.floor(BTTotal / 3600) BTMinutes = math.floor((BTTotal % 3600) / 60) BTSeconds = math.floor(BTTotal % 60) BTMilliSeconds = math.floor((BTTotal * 1000) % 1000)
 BestTimeText = string.format('%01d:%02d:%02d.%03d', BTHours, BTMinutes, BTSeconds, BTMilliSeconds)
 if STRBestTimeOption == "Enabled" then BTOText = "(A) Enabled" elseif STRBestTimeOption == "Disabled" then BTOText = "(A) Disabled"  elseif STRBestTimeOption == "Saves" then BTOText = "(A) Saves After Run" end
-if STRBTNLimit == 1 then BTNLText = "Millisecond"
-elseif STRBTNLimit == 30 then BTNLText = "Second"
-elseif STRBTNLimit == 1800 then BTNLText = "Minute"
-elseif STRBTNLimit == 108000 then BTNLText = "Hour"
-end
+if STRBTNLimit == 1 then BTNLText = "Millisecond" elseif STRBTNLimit == 30 then BTNLText = "Second" elseif STRBTNLimit == 1800 then BTNLText = "Minute" elseif STRBTNLimit == 108000 then BTNLText = "Hour" end
 
 menu_shadow_text("Display Requirements:", MDGX - 130, MDGY - 70, MDGSize - 0.30, 1.05, 1.05, 255, 255, 0, 255, MenuUDOption == 1 and MenuSelectedOption == "Main")
 menu_shadow_text("Warp Settings:", MDGX - 130, MDGY - 45, MDGSize - 0.30, 1.05, 1.05, 255, 255, 0, 255, MenuUDOption == 2 and MenuSelectedOption == "Main")
@@ -641,8 +616,8 @@ menu_shadow_text("- View Host Settings -", MDGX - 55, MDGY + 15, MDGSize - 0.30,
 menu_shadow_text(STRRDisplay, MDGX - 15, MDGY - 70, MDGSize - 0.30, 1.05, 1.05, 255, 255, 0, 255, MenuUDOption == 1 and MenuSelectedOption == "Main")
 menu_shadow_text(STRMenuWarpType, MDGX - 15, MDGY - 45, MDGSize - 0.30, 1.05, 1.05, 255, 255, 0, 255, MenuUDOption == 2 and MenuSelectedOption == "Main")
 menu_shadow_text(BestTimeText, MDGX - 15, MDGY - 15, MDGSize - 0.30, 1.05, 1.05, 255, 255, 0, 255, MenuUDOption == 3 and MenuSelectedOption == "BestTime")
-hide_shadow_text(BTOText .. " | (Y) Randomize Time | (X) Reset The Time", MDGX - 15, MDGY - 30, MDGSize - 0.50, 0.50, 0.50, 255, 255, 0, 255, MenuUDOption == 3 and MenuSelectedOption == "BestTime")
-hide_shadow_text("(Up/Down) + " .. BTNLText .. " | (L/R) Change Seconds", MDGX - 15, MDGY - 22, MDGSize - 0.50, 0.50, 0.50, 255, 255, 0, 255, MenuUDOption == 3 and MenuSelectedOption == "BestTime")
+hide_shadow_text(BTOText .. " | (Y) Randomize Time | (X) Reset Time", MDGX - 15, MDGY - 30, MDGSize - 0.50, 0.50, 0.50, 255, 255, 0, 255, MenuUDOption == 3 and MenuSelectedOption == "BestTime")
+hide_shadow_text("(U/D) + " .. BTNLText .. " | (L/R Trig) Change Seconds", MDGX - 15, MDGY - 22, MDGSize - 0.50, 0.50, 0.50, 255, 255, 0, 255, MenuUDOption == 3 and MenuSelectedOption == "BestTime")
 end
 end
 end
@@ -678,16 +653,6 @@ function str_menu_update()
 	STRMenuDisplay = false
 	STRRulesOpen = false
 	MenuSwitchDeplay = 0
-	end
-	
-	if (gMarioStates[0].action == ACT_EXIT_LAND_SAVE_DIALOG 
-	or gMarioStates[0].action == ACT_EXIT_AIRBORNE
-	or gMarioStates[0].action == ACT_FALLING_DEATH_EXIT
-	or gMarioStates[0].action == ACT_DEATH_EXIT 
-	or gMarioStates[0].action == ACT_DEATH_EXIT_LAND
-	or gMarioStates[0].action == ACT_SPECIAL_DEATH_EXIT 
-	or gMarioStates[0].action == ACT_SPECIAL_EXIT_AIRBORNE) then
-	STRMenuDisplay = false
 	end
 	
 	if STRMenuDisplay == true then
@@ -855,9 +820,11 @@ if STRGST.STRGameMode == 2 then
 if AButton and MenuLROption == 1 and MenuUDOption == 1 and STRGST.STRGameState == "Lobby" and STRGST.STRGlobalTimer == 0 
 and ((#STRPluginRuns == 0 and STRGST.STRPluginsTypes == 0) or (#STRPluginRuns ~= 0 and STRGST.STRPluginsTypes ~= 0 and STRGST.STRPluginsCheck == true)) then
 STRMenuDisplay = false STRGST.STRGameState = "Started"
-elseif AButton and ((MenuLROption == 1 and MenuUDOption == 1 and STRGST.STRGlobalTimer ~= 0 and STRGST.STRGameState == "Lobby") or (#STRPluginRuns ~= 0 and STRGST.STRPluginsTypes == 0 and STRGST.STRPluginsCheck == false)) then 
+elseif AButton and MenuLROption == 1 and MenuUDOption == 1 and (STRGST.STRGameState == "Started" or STRGST.STRGameState == "Paused") then
 play_sound(File_Select, CameraObject)
 if STRGST.STRGameState ~= "Paused" then STRGST.STRGameState = "Paused" elseif STRGST.STRGameState == "Paused" then STRGST.STRGameState = "Started" STRMenuDisplay = false end
+elseif AButton and ((MenuLROption == 1 and MenuUDOption == 1 and STRGST.STRGlobalTimer ~= 0 and STRGST.STRGameState == "Lobby") or (#STRPluginRuns ~= 0 and STRGST.STRPluginsTypes == 0 and STRGST.STRPluginsCheck == false)) then 
+play_sound(Camera_Buzz, CameraObject) 
 end
 
 if AButton and MenuLROption == 2 and MenuUDOption == 1 and (STRGST.STRGlobalTimer ~= 0 or STRGST.STRGameState == "Finished") then STRGST.STRGameState = "Resetting" play_sound(castle_warp, CameraObject)
@@ -959,11 +926,10 @@ elseif ZTrigger and STRGST.STRGameState ~= "Lobby" then play_sound(Camera_Buzz, 
 end
 
 if MenuSelectedOption == "EraseSave" and MenuButtonsDeplay == 0 then
-if AButton then MenuSelectedOption = "Main" STRGST.EraseSave = true MenuButtonsDeplay = 10 play_sound(Bowser_Laugh, CameraObject) end
+if AButton then MenuSelectedOption = "Main" STRGST.EraseSave = true STRMenuDisplay = false MenuButtonsDeplay = 10 play_sound(Bowser_Laugh, CameraObject) end
 
 if BButton then MenuSelectedOption = "Main" MenuButtonsDeplay = 10 play_sound(File_Select, CameraObject) end
 end
-
 
 if BButton and MenuButtonsDeplay == 0 then STRMenuTitleName = "MDMain" MenuLROption = 3 MenuUDOption = 1 play_sound(Disappear_Message, CameraObject) end
 end
@@ -978,12 +944,15 @@ if MenuUDOption < 5 then MenuUDOption = MenuUDOption + 1 play_sound(Next_Page, C
 end
 
 if MenuUDOption == 1 then
+if MenuLROption ~= STRGST.STRGameMode and MenuSaveUpdate == false then MenuLROption = STRGST.STRGameMode MenuSaveUpdate = true 
+elseif MenuLROption == STRGST.STRGameMode then MenuSaveUpdate = true end
+
 if (MDGRightStick or DpadRight) then 
-if STRGST.STRGameMode < 4 then STRGST.STRGameMode = STRGST.STRGameMode + 1 play_sound(Next_Page, CameraObject) elseif STRGST.STRGameMode > 3 then STRGST.STRGameMode = 1 play_sound(Next_Page, CameraObject) end
+if MenuLROption < 4 then MenuLROption = MenuLROption + 1 play_sound(Next_Page, CameraObject) elseif MenuLROption > 3 then MenuLROption = 1 play_sound(Next_Page, CameraObject) end
 end
 
 if (MDGLeftStick or DpadLeft) then 
-if STRGST.STRGameMode > 1 then STRGST.STRGameMode = STRGST.STRGameMode - 1 play_sound(Next_Page, CameraObject) elseif STRGST.STRGameMode < 2 then STRGST.STRGameMode = 4 play_sound(Next_Page, CameraObject) end
+if MenuLROption > 1 then MenuLROption = MenuLROption - 1 play_sound(Next_Page, CameraObject) elseif MenuLROption < 2 then MenuLROption = 4 play_sound(Next_Page, CameraObject) end
 end
 end
 
@@ -1017,7 +986,7 @@ end
 if AButton then Save_Storage("STRCDNum", tostring(STRGST.STRCDNumber)) play_sound(Star_Appear, CameraObject) end
 end
 
-if AButton and MenuUDOption == 1 then Save_Storage("STRGM", tostring(STRGST.STRGameMode)) play_sound(Star_Appear, CameraObject)
+if AButton and MenuUDOption == 1 then STRGST.STRGameMode = MenuLROption Save_Storage("STRGM", tostring(STRGST.STRGameMode)) play_sound(Star_Appear, CameraObject)
 STRGST.STRGameState = "Resetting"
 if AButton and MenuUDOption == 1 and STRGST.STRGameMode == 3 then STRGST.CasualGM = "Enabled" 
 elseif AButton and MenuUDOption == 1 and STRGST.STRGameMode ~= 3 then STRGST.CasualGM = "Disabled"
@@ -1043,7 +1012,7 @@ if STRGST.STRBackupSF == false then STRGST.STRBackupSF = true STRGST.STRSFUpdate
 elseif STRGST.STRBackupSF == true then STRGST.STRBackupSF = false STRGST.STRSFUpdater = false end play_sound(Change_Select, CameraObject) 
 elseif YButton and MenuUDOption == 5 and (STRGST.STRGameState ~= "Lobby" or STRGST.STRBSFOption == "Disabled") then play_sound(Camera_Buzz, CameraObject) end
 
-if BButton then STRMenuTitleName = "MDMain" MenuLROption = 1 MenuUDOption = 2 play_sound(Disappear_Message, CameraObject) end
+if BButton then STRMenuTitleName = "MDMain" MenuLROption = 1 MenuUDOption = 2 MenuSaveUpdate = false play_sound(Disappear_Message, CameraObject) end
 end
 
 if STRMenuTitleName == "MDSettings" and MenuViewHostCheck == true then 
@@ -1128,6 +1097,7 @@ if STRMenuTitleName == "MDServer" and MenuViewHostCheck == true then
 if BButton then STRMenuTitleName = "MDConfigVH" MenuUDOption = 2 MenuButtonsDeplay = 10 MenuViewHostCheck = false play_sound(Disappear_Message, CameraObject) end end
 
 if STRMenuTitleName == "MDRuns" and MenuButtonsDeplay == 0 then
+if MenuSelectedOption == "Main" then
 if (MDGUpStick or DpadUp) then 
 if MenuUDOption > 1 then MenuUDOption = MenuUDOption - 1 play_sound(Next_Page, CameraObject) elseif MenuUDOption < 3 then MenuUDOption = MenuUDOption + 2 play_sound(Next_Page, CameraObject) end
 end
@@ -1139,10 +1109,32 @@ end
 if AButton and MenuUDOption == 1 then STRMenuTitleName = "MDLobby" MenuLROption = 1 MenuUDOption = 1 MenuButtonsDeplay = 10 play_sound(Appear_Message, CameraObject) end
 if AButton and MenuUDOption == 2 and STRGST.AddRomhack == false then STRMenuTitleName = "MDLevels" MenuLROption = 1 MenuUDOption = 1 MenuButtonsDeplay = 10 play_sound(Appear_Message, CameraObject)
 elseif AButton and MenuUDOption == 2 and STRGST.AddRomhack == true then play_sound(Camera_Buzz, CameraObject) end
-if AButton and MenuUDOption == 3 and STRRunSlotAdded == true then STRGST.STRPluginsTypes = 1 STRMenuTitleName = "MDRunSlot" MenuLROption = 1 MenuUDOption = 1 MenuButtonsDeplay = 10 play_sound(Appear_Message, CameraObject) 
+if AButton and MenuUDOption == 3 and STRRunSlotAdded == true then MenuSelectedOption = "MDRunSlot" MenuButtonsDeplay = 10 play_sound(Read_Sign, CameraObject) 
 elseif AButton and MenuUDOption == 3 and STRRunSlotAdded == false then play_sound(Camera_Buzz, CameraObject) end
 
 if BButton then STRMenuTitleName = "MDMain" MenuLROption = 3 MenuUDOption = 2 play_sound(Disappear_Message, CameraObject) end
+end
+end
+
+if MenuSelectedOption == "MDRunSlot" and MenuButtonsDeplay == 0 then
+if (MDGRightStick or DpadRight) and STRGST.STRGameState == "Lobby" and STRGST.STRPluginsCheck == true then 
+if STRGST.STRPluginsTypes < #STRPluginRuns then STRGST.STRPluginsTypes = STRGST.STRPluginsTypes + 1 STRGST.STRPluginsSaved = STRGST.STRPluginsSaved + 1 play_sound(Next_Page, CameraObject) 
+elseif STRGST.STRPluginsTypes > 1 then STRGST.STRPluginsTypes = 1 STRGST.STRPluginsSaved = 1 play_sound(Next_Page, CameraObject) end
+elseif (MDGRightStick or DpadRight) and (STRGST.STRGameState ~= "Lobby" or STRGST.STRPluginsCheck == false or #STRPluginRuns == 1) then play_sound(Camera_Buzz, CameraObject) 
+end
+
+if (MDGLeftStick or DpadLeft) and STRGST.STRGameState == "Lobby" and STRGST.STRPluginsCheck == true then
+if STRGST.STRPluginsTypes > 1 then STRGST.STRPluginsTypes = STRGST.STRPluginsTypes - 1 STRGST.STRPluginsSaved = STRGST.STRPluginsSaved - 1 play_sound(Next_Page, CameraObject) 
+elseif STRGST.STRPluginsTypes < 2 then STRGST.STRPluginsTypes = #STRPluginRuns STRGST.STRPluginsSaved = #STRPluginRuns play_sound(Next_Page, CameraObject) end
+elseif (MDGLeftStick or DpadLeft) and (STRGST.STRGameState ~= "Lobby" or STRGST.STRPluginsCheck == false or #STRPluginRuns == 1) then play_sound(Camera_Buzz, CameraObject) 
+end
+
+if AButton and STRGST.STRGameState == "Lobby" then 
+if STRGST.STRPluginsCheck == false then STRGST.STRPluginsCheck = true STRGST.STRPluginsTypes = STRGST.STRPluginsSaved
+elseif STRGST.STRPluginsCheck == true then STRGST.STRPluginsCheck = false STRGST.STRPluginsTypes = 0 end play_sound(Change_Select, CameraObject) 
+elseif AButton and STRGST.STRGameState ~= "Lobby" then play_sound(Camera_Buzz, CameraObject) end
+
+if BButton then MenuSelectedOption = "Main" MenuLROption = 1 MenuUDOption = 3 MenuButtonsDeplay = 10 play_sound(Exit_Sign, CameraObject) end
 end
 
 if STRMenuTitleName == "MDLobby" and MenuButtonsDeplay == 0 and MenuViewHostCheck == false then
@@ -1456,27 +1448,6 @@ end
 if BButton then STRMenuTitleName = "MDRuns" MenuLROption = 1 MenuUDOption = 2 MenuPageLRDisplay = 1 MenuSelectedOption = "Main" play_sound(Disappear_Message, CameraObject) end
 end
 
-if STRMenuTitleName == "MDRunSlot" and MenuButtonsDeplay == 0 then
-if (MDGRightStick or DpadRight) and STRGST.STRGameState == "Lobby" and STRGST.STRPluginsCheck == true then 
-if STRGST.STRPluginsTypes < #STRPluginRuns then STRGST.STRPluginsTypes = STRGST.STRPluginsTypes + 1 play_sound(Next_Page, CameraObject) 
-elseif STRGST.STRPluginsTypes > 2 then STRGST.STRPluginsTypes = 1 play_sound(Next_Page, CameraObject) end
-elseif (MDGRightStick or DpadRight) and (STRGST.STRGameState ~= "Lobby" or STRGST.STRPluginsCheck == false or #STRPluginRuns == 1) then play_sound(Camera_Buzz, CameraObject) 
-end
-
-if (MDGLeftStick or DpadLeft) and STRGST.STRGameState == "Lobby" and STRGST.STRPluginsCheck == true then
-if STRGST.STRPluginsTypes > 1 then STRGST.STRPluginsTypes = STRGST.STRPluginsTypes - 1 play_sound(Next_Page, CameraObject) 
-elseif STRGST.STRPluginsTypes < 2 then STRGST.STRPluginsTypes = #STRPluginRuns play_sound(Next_Page, CameraObject) end
-elseif (MDGLeftStick or DpadLeft) and (STRGST.STRGameState ~= "Lobby" or STRGST.STRPluginsCheck == false or #STRPluginRuns == 1) then play_sound(Camera_Buzz, CameraObject) 
-end
-
-if AButton and STRGST.STRGameState == "Lobby" then 
-if STRGST.STRPluginsCheck == false then STRGST.STRPluginsCheck = true 
-elseif STRGST.STRPluginsCheck == true then STRGST.STRPluginsCheck = false end play_sound(Change_Select, CameraObject) 
-elseif AButton and STRGST.STRGameState ~= "Lobby" then play_sound(Camera_Buzz, CameraObject) end
-
-if BButton then STRMenuTitleName = "MDRuns" MenuLROption = 1 MenuUDOption = 3 play_sound(Disappear_Message, CameraObject) end
-end
-
 if STRMenuTitleName == "MDSingle" and MenuButtonsDeplay == 0 then
 if MenuSelectedOption == "Main" then
 if (MDGUpStick or DpadUp) then 
@@ -1585,14 +1556,6 @@ end
 if (MDGLeftStick or DpadLeft) then 
 if MenuPageLRDisplay > 1 then MenuPageLRDisplay = MenuPageLRDisplay - 1 MenuPageUDDisplay = 1 play_sound(Next_Page, CameraObject) 
 elseif MenuPageLRDisplay < 2 then MenuPageLRDisplay = 5 MenuPageUDDisplay = 1 play_sound(Next_Page, CameraObject) end
-end
-
-if (MDGUpStick or DpadUp) and MenuPageLRDisplay == 3 then 
-if MenuPageUDDisplay > 1 then MenuPageUDDisplay = MenuPageUDDisplay - 1 play_sound(Next_Page, CameraObject) elseif MenuPageUDDisplay < 2 then MenuPageUDDisplay = MenuPageUDDisplay + 1 play_sound(Next_Page, CameraObject) end
-end
-
-if (MDGDownStick or DpadDown) and MenuPageLRDisplay == 3 then 
-if MenuPageUDDisplay < 2 then MenuPageUDDisplay = MenuPageUDDisplay + 1 play_sound(Next_Page, CameraObject) elseif MenuPageUDDisplay > 1 then MenuPageUDDisplay = MenuPageUDDisplay - 1 play_sound(Next_Page, CameraObject) end
 end
 
 if (MDGUpStick or DpadUp) and MenuPageLRDisplay == 4 then 
@@ -1805,17 +1768,17 @@ if (MDGLeftStick or DpadLeft) then if MenuLROption > 1 then MenuLROption = MenuL
 
 if (MDGUpStick or DpadUp) and MenuLROption == 1 then if STRFR < 255 then STRFR = STRFR + 1 play_sound(Next_Page, CameraObject) elseif STRFR > 0 then STRFR = 0 play_sound(Next_Page, CameraObject) end end
 if (MDGDownStick or DpadDown) and MenuLROption == 1 then if STRFR > 0 then STRFR = STRFR - 1 play_sound(Next_Page, CameraObject) elseif STRFR < 255 then STRFR = 255 play_sound(Next_Page, CameraObject) end end
-if (MDGUpStick or DpadUp) and MenuLROption == 2 then if STRFB < 255 then STRFB = STRFB + 1 play_sound(Next_Page, CameraObject) elseif STRFB > 0 then STRFB = 0 play_sound(Next_Page, CameraObject) end end
-if (MDGDownStick or DpadDown) and MenuLROption == 2 then if STRFB > 0 then STRFB = STRFB - 1 play_sound(Next_Page, CameraObject) elseif STRFB < 255 then STRFB = 255 play_sound(Next_Page, CameraObject) end end
-if (MDGUpStick or DpadUp) and MenuLROption == 3 then if STRFG < 255 then STRFG = STRFG + 1 play_sound(Next_Page, CameraObject) elseif STRFG > 0 then STRFG = 0 play_sound(Next_Page, CameraObject) end end
-if (MDGDownStick or DpadDown) and MenuLROption == 3 then if STRFG > 0 then STRFG = STRFG - 1 play_sound(Next_Page, CameraObject) elseif STRFG < 255 then STRFG = 255 play_sound(Next_Page, CameraObject) end end
+if (MDGUpStick or DpadUp) and MenuLROption == 2 then if STRFG < 255 then STRFG = STRFG + 1 play_sound(Next_Page, CameraObject) elseif STRFG > 0 then STRFG = 0 play_sound(Next_Page, CameraObject) end end
+if (MDGDownStick or DpadDown) and MenuLROption == 2 then if STRFG > 0 then STRFG = STRFG - 1 play_sound(Next_Page, CameraObject) elseif STRFG < 255 then STRFG = 255 play_sound(Next_Page, CameraObject) end end
+if (MDGUpStick or DpadUp) and MenuLROption == 3 then if STRFB < 255 then STRFB = STRFB + 1 play_sound(Next_Page, CameraObject) elseif STRFB > 0 then STRFB = 0 play_sound(Next_Page, CameraObject) end end
+if (MDGDownStick or DpadDown) and MenuLROption == 3 then if STRFB > 0 then STRFB = STRFB - 1 play_sound(Next_Page, CameraObject) elseif STRFB < 255 then STRFB = 255 play_sound(Next_Page, CameraObject) end end
 if (MDGUpStick or DpadUp) and MenuLROption == 4 then if STRFV < 255 then STRFV = STRFV + 1 play_sound(Next_Page, CameraObject) elseif STRFV > 0 then STRFV = 0 play_sound(Next_Page, CameraObject) end end
 if (MDGDownStick or DpadDown) and MenuLROption == 4 then if STRFV > 0 then STRFV = STRFV - 1 play_sound(Next_Page, CameraObject) elseif STRFV < 255 then STRFV = 255 play_sound(Next_Page, CameraObject) end end
 
 if YButton then STRFR = math.random(255) STRFG = math.random(255) STRFB = math.random(255) STRFV = math.random(255) play_sound(castle_warp2, CameraObject) end
 if AButton and MenuLROption == 1 then Save_Storage("STRFRed", tostring(STRFR)) play_sound(Star_Appear, CameraObject) end
-if AButton and MenuLROption == 3 then Save_Storage("STRFBlue", tostring(STRFB)) play_sound(Star_Appear, CameraObject) end
 if AButton and MenuLROption == 2 then Save_Storage("STRFGreen", tostring(STRFG)) play_sound(Star_Appear, CameraObject) end
+if AButton and MenuLROption == 3 then Save_Storage("STRFBlue", tostring(STRFB)) play_sound(Star_Appear, CameraObject) end
 if AButton and MenuLROption == 4 then Save_Storage("STRFVisible", tostring(STRFV)) play_sound(Star_Appear, CameraObject) end
 if BButton then MenuSelectedOption = "Main" MenuButtonsDeplay = 10 MenuLROption = 1 play_sound(Exit_Sign, CameraObject) end
 end
@@ -1825,17 +1788,17 @@ if (MDGLeftStick or DpadLeft) then if MenuLROption > 1 then MenuLROption = MenuL
 
 if (MDGUpStick or DpadUp) and MenuLROption == 1 then if STRRR < 255 then STRRR = STRRR + 1 play_sound(Next_Page, CameraObject) elseif STRRR > 0 then STRRR = 0 play_sound(Next_Page, CameraObject) end end
 if (MDGDownStick or DpadDown) and MenuLROption == 1 then if STRRR > 0 then STRRR = STRRR - 1 play_sound(Next_Page, CameraObject) elseif STRRR < 255 then STRRR = 255 play_sound(Next_Page, CameraObject) end end
-if (MDGUpStick or DpadUp) and MenuLROption == 2 then if STRRB < 255 then STRRB = STRRB + 1 play_sound(Next_Page, CameraObject) elseif STRRB > 0 then STRRB = 0 play_sound(Next_Page, CameraObject) end end
-if (MDGDownStick or DpadDown) and MenuLROption == 2 then if STRRB > 0 then STRRB = STRRB - 1 play_sound(Next_Page, CameraObject) elseif STRRB < 255 then STRRB = 255 play_sound(Next_Page, CameraObject) end end
-if (MDGUpStick or DpadUp) and MenuLROption == 3 then if STRRG < 255 then STRRG = STRRG + 1 play_sound(Next_Page, CameraObject) elseif STRRG > 0 then STRRG = 0 play_sound(Next_Page, CameraObject) end end
-if (MDGDownStick or DpadDown) and MenuLROption == 3 then if STRRG > 0 then STRRG = STRRG - 1 play_sound(Next_Page, CameraObject) elseif STRRG < 255 then STRRG = 255 play_sound(Next_Page, CameraObject) end end
+if (MDGUpStick or DpadUp) and MenuLROption == 2 then if STRRG < 255 then STRRG = STRRG + 1 play_sound(Next_Page, CameraObject) elseif STRRG > 0 then STRRG = 0 play_sound(Next_Page, CameraObject) end end
+if (MDGDownStick or DpadDown) and MenuLROption == 2 then if STRRG > 0 then STRRG = STRRG - 1 play_sound(Next_Page, CameraObject) elseif STRRG < 255 then STRRG = 255 play_sound(Next_Page, CameraObject) end end
+if (MDGUpStick or DpadUp) and MenuLROption == 3 then if STRRB < 255 then STRRB = STRRB + 1 play_sound(Next_Page, CameraObject) elseif STRRB > 0 then STRRB = 0 play_sound(Next_Page, CameraObject) end end
+if (MDGDownStick or DpadDown) and MenuLROption == 3 then if STRRB > 0 then STRRB = STRRB - 1 play_sound(Next_Page, CameraObject) elseif STRRB < 255 then STRRB = 255 play_sound(Next_Page, CameraObject) end end
 if (MDGUpStick or DpadUp) and MenuLROption == 4 then if STRRV < 255 then STRRV = STRRV + 1 play_sound(Next_Page, CameraObject) elseif STRRV > 0 then STRRV = 0 play_sound(Next_Page, CameraObject) end end
 if (MDGDownStick or DpadDown) and MenuLROption == 4 then if STRRV > 0 then STRRV = STRRV - 1 play_sound(Next_Page, CameraObject) elseif STRRV < 255 then STRRV = 255 play_sound(Next_Page, CameraObject) end end
 
 if YButton then STRRR = math.random(255) STRRG = math.random(255) STRRB = math.random(255) STRRV = math.random(255) play_sound(castle_warp2, CameraObject) end
 if AButton and MenuLROption == 1 then Save_Storage("STRRRed", tostring(STRRR)) play_sound(Star_Appear, CameraObject) end
-if AButton and MenuLROption == 3 then Save_Storage("STRRBlue", tostring(STRRB)) play_sound(Star_Appear, CameraObject) end
 if AButton and MenuLROption == 2 then Save_Storage("STRRGreen", tostring(STRRG)) play_sound(Star_Appear, CameraObject) end
+if AButton and MenuLROption == 3 then Save_Storage("STRRBlue", tostring(STRRB)) play_sound(Star_Appear, CameraObject) end
 if AButton and MenuLROption == 4 then Save_Storage("STRRVisible", tostring(STRRV)) play_sound(Star_Appear, CameraObject) end
 if BButton then MenuSelectedOption = "Main" MenuButtonsDeplay = 10 MenuLROption = 1 play_sound(Exit_Sign, CameraObject) end
 end
@@ -1845,17 +1808,17 @@ if (MDGLeftStick or DpadLeft) then if MenuLROption > 1 then MenuLROption = MenuL
 
 if (MDGUpStick or DpadUp) and MenuLROption == 1 then if STRMenuR < 255 then STRMenuR = STRMenuR + 1 play_sound(Next_Page, CameraObject) elseif STRMenuR > 0 then STRMenuR = 0 play_sound(Next_Page, CameraObject) end end
 if (MDGDownStick or DpadDown) and MenuLROption == 1 then if STRMenuR > 0 then STRMenuR = STRMenuR - 1 play_sound(Next_Page, CameraObject) elseif STRMenuR < 255 then STRMenuR = 255 play_sound(Next_Page, CameraObject) end end
-if (MDGUpStick or DpadUp) and MenuLROption == 2 then if STRMenuB < 255 then STRMenuB = STRMenuB + 1 play_sound(Next_Page, CameraObject) elseif STRMenuB > 0 then STRMenuB = 0 play_sound(Next_Page, CameraObject) end end
-if (MDGDownStick or DpadDown) and MenuLROption == 2 then if STRMenuB > 0 then STRMenuB = STRMenuB - 1 play_sound(Next_Page, CameraObject) elseif STRMenuB < 255 then STRMenuB = 255 play_sound(Next_Page, CameraObject) end end
-if (MDGUpStick or DpadUp) and MenuLROption == 3 then if STRMenuG < 255 then STRMenuG = STRMenuG + 1 play_sound(Next_Page, CameraObject) elseif STRMenuG > 0 then STRMenuG = 0 play_sound(Next_Page, CameraObject) end end
-if (MDGDownStick or DpadDown) and MenuLROption == 3 then if STRMenuG > 0 then STRMenuG = STRMenuG - 1 play_sound(Next_Page, CameraObject) elseif STRMenuG < 255 then STRMenuG = 255 play_sound(Next_Page, CameraObject) end end
+if (MDGUpStick or DpadUp) and MenuLROption == 2 then if STRMenuG < 255 then STRMenuG = STRMenuG + 1 play_sound(Next_Page, CameraObject) elseif STRMenuG > 0 then STRMenuG = 0 play_sound(Next_Page, CameraObject) end end
+if (MDGDownStick or DpadDown) and MenuLROption == 2 then if STRMenuG > 0 then STRMenuG = STRMenuG - 1 play_sound(Next_Page, CameraObject) elseif STRMenuG < 255 then STRMenuG = 255 play_sound(Next_Page, CameraObject) end end
+if (MDGUpStick or DpadUp) and MenuLROption == 3 then if STRMenuB < 255 then STRMenuB = STRMenuB + 1 play_sound(Next_Page, CameraObject) elseif STRMenuB > 0 then STRMenuB = 0 play_sound(Next_Page, CameraObject) end end
+if (MDGDownStick or DpadDown) and MenuLROption == 3 then if STRMenuB > 0 then STRMenuB = STRMenuB - 1 play_sound(Next_Page, CameraObject) elseif STRMenuB < 255 then STRMenuB = 255 play_sound(Next_Page, CameraObject) end end
 if (MDGUpStick or DpadUp) and MenuLROption == 4 then if STRMenuV < 255 then STRMenuV = STRMenuV + 1 play_sound(Next_Page, CameraObject) elseif STRMenuV > 0 then STRMenuV = 0 play_sound(Next_Page, CameraObject) end end
 if (MDGDownStick or DpadDown) and MenuLROption == 4 then if STRMenuV > 0 then STRMenuV = STRMenuV - 1 play_sound(Next_Page, CameraObject) elseif STRMenuV < 255 then STRMenuV = 255 play_sound(Next_Page, CameraObject) end end
 
 if YButton then STRMenuR = math.random(255) STRMenuG = math.random(255) STRMenuB = math.random(255) STRMenuV = math.random(255) play_sound(castle_warp2, CameraObject) end
 if AButton and MenuLROption == 1 then Save_Storage("STRMenuRed", tostring(STRMenuR)) play_sound(Star_Appear, CameraObject) end
-if AButton and MenuLROption == 3 then Save_Storage("STRMenuBlue", tostring(STRMenuB)) play_sound(Star_Appear, CameraObject) end
 if AButton and MenuLROption == 2 then Save_Storage("STRMenuGreen", tostring(STRMenuG)) play_sound(Star_Appear, CameraObject) end
+if AButton and MenuLROption == 3 then Save_Storage("STRMenuBlue", tostring(STRMenuB)) play_sound(Star_Appear, CameraObject) end
 if AButton and MenuLROption == 4 then Save_Storage("STRMenuVisible", tostring(STRMenuV)) play_sound(Star_Appear, CameraObject) end
 if BButton then MenuSelectedOption = "Main" MenuButtonsDeplay = 10 MenuLROption = 1 play_sound(Exit_Sign, CameraObject) end
 end

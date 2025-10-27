@@ -75,7 +75,7 @@ function Requirements_Display()
 	GSize = 0.25
 	GHeight = 32 * GSize
 	
-	SettingsText = "Requirements For This Run:"
+	SettingsText = "- Requirements For This Run -"
 	
     local Width = Hud_Measure(SettingsText) * GSize
 
@@ -92,13 +92,13 @@ function Requirements_Display()
 	elseif #STRPluginRuns == 0 and CRH_Name ~= "None" and STRGST.AddRomhack == true and STRGST.STRPluginsCheck == false then
 	CText = CRH_Name .. " - " .. RH_Run_Name
 	elseif #STRPluginRuns ~= 1 and STRGST.AddRomhack == true and STRGST.STRPluginsCheck == false then
-	CText = RH_Name .. " - Available Slots (" .. #STRPluginRuns .. ")"
+	if network_is_server() then CText = RH_Name .. " - Available Slots (" .. #STRPluginRuns .. ")" else CText = "Wait until the Host Picks a Run" end
 	elseif #STRPluginRuns == 1 and STRGST.AddRomhack == true and STRGST.STRPluginsCheck == false then
-	CText = RH_Name .. " - Available Slot (" .. #STRPluginRuns .. ")"
+	if network_is_server() then CText = RH_Name .. " - Available Slot (" .. #STRPluginRuns .. ")" else CText = "Wait until the Host Pick the Only Run" end
 	elseif #STRPluginRuns ~= 1 and STRGST.AddRomhack == false and STRGST.STRPluginsCheck == false then
-	CText = CRH_Name .. " - Available Slots (" .. #STRPluginRuns .. ")"
+	if network_is_server() then CText = CRH_Name .. " - Available Slots (" .. #STRPluginRuns .. ")" else CText = "Wait until the Host Picks a Custom Run" end
 	elseif #STRPluginRuns == 1 and STRGST.AddRomhack == false and STRGST.STRPluginsCheck == false then
-	CText = CRH_Name .. " - Available Slot (" .. #STRPluginRuns .. ")"
+	if network_is_server() then CText = CRH_Name .. " - Available Slot (" .. #STRPluginRuns .. ")" else CText = "Wait until the Host Pick the Only Custom Run" end
 	elseif STRGST.AddRomhack == true and STRGST.STRPluginsCheck == true and STRRunSlotAdded == true then
 	CText = RH_Name .. " - " .. STRPluginRuns[STRGST.STRPluginsTypes].PluginName
 	elseif STRGST.AddRomhack == true and STRGST.STRPluginsCheck == true and STRRunSlotAdded == true then
@@ -263,7 +263,7 @@ function ServerSettings_Display()
 	GSize = 0.25
 	GHeight = 32 * GSize
 	
-	SettingsText = "Server Settings:"
+	SettingsText = "- Server Settings -"
 	
     local Width = Hud_Measure(SettingsText) * GSize
 
@@ -342,15 +342,19 @@ function BestTime_Display()
     BTDX = (S_Width() - BTDWidth) / 2.0
 	
 	if (((STRGST.STRGameState == "Lobby" or (STRGST.STRGameState == "Started" and STRSettingsTimer == 0)) and (STRRDisplay == "Start" or STRRDisplay == "SS_Start")) and (STRGST.STRGameMode == 1 or STRGST.STRGameMode == 2 or STRGST.STRGameMode == 3))
-	or (STRGST.STRGameMode == 4 and ((STRGST.STRGameState == "Finished" and STRGST.STRSSText <= 1) or STRGST.STRGameState == "Lobby")) or (STRGST.STRGameState == "Finished" and STRGST.STRFinishText < 1)
-	or ((STRRDisplay == "Lobby" or STRRDisplay == "SS_Lobby") and STRGST.STRGameState == "Started") or (STRGST.STRGameState == "Resetting" or STRGST.STRGameState == "Paused") 
-	or (STRGST.STRIntermission <= 1 and STRGST.STRGameState == "Preparing") or (STRRDisplay == "None" and STRGST.STRGameState ~= "Finished" and STRGST.STRGameMode ~= 4) then
+	or (STRGST.STRGameMode == 4 and ((STRGST.STRGameState == "Finished" and STRGST.STRSSText <= 1) or STRGST.STRGameState == "Lobby")) 
+	or (STRGST.STRGameState == "Finished" and STRGST.STRFinishText < 1)
+	or ((STRRDisplay == "Lobby" or STRRDisplay == "SS_Lobby") and STRGST.STRGameState == "Started" and STRGST.STRGameMode ~= 4) 
+	or (STRGST.STRGameState == "Resetting" or STRGST.STRGameState == "Paused") 
+	or (STRGST.STRIntermission <= 1 and STRGST.STRGameState == "Preparing") 
+	or (STRRDisplay == "None" and STRGST.STRGameState ~= "Finished" and STRGST.STRGameMode ~= 4) then
 	BTDY = (S_Height() - GHeight) / 2.0 - 116
 	elseif ((STRGST.STRRunsTypes == 1 or STRGST.STRRunsTypes == 2 or STRGST.STRRunsTypes == 3 or STRGST.STRRunsTypes == 4) and (STRRDisplay == "Lobby" or STRRDisplay == "Start"))
 	or ((STRGST.STRPluginsCheck == true or STRGST.AddRomhack == true)) 
 	or (STRGST.STRGameState == "Finished" and STRGST.STRFinishGameWarp == "Disabled" and (STRGST.STRFinishText > 12 and STRGST.STRFinishText < 2)) 
-	or (STRGST.STRGameState == "Started" and STRGST.STRGameMode == 4) or (((STRGST.STRGameMode == 1 and STRGST.STRFinishGameWarp == "Enabled") 
-	or (STRGST.STRGameMode == 2 or STRGST.STRGameMode == 3)) and STRGST.STRGameState == "Finished") or (STRGST.STRIntermission >= 1 and STRGST.STRGameState == "Preparing") then
+	or (STRGST.STRGameState == "Started" and STRGST.STRGameMode == 4) 
+	or (((STRGST.STRGameMode == 1 and STRGST.STRFinishGameWarp == "Enabled") or (STRGST.STRGameMode == 2 or STRGST.STRGameMode == 3)) and STRGST.STRGameState == "Finished") 
+	or (STRGST.STRGameMode == 1 and STRGST.STRIntermission >= 1 and STRGST.STRGameState == "Preparing") then
     BTDY = (S_Height() - GHeight) / 2.0 - 100
 	elseif (STRGST.STRRunsTypes == 5 or STRGST.STRRunsTypes == 6 or STRGST.STRRunsTypes == 7 or STRGST.STRRunsTypes == 8 or STRGST.STRRunsTypes == 9 or STRGST.STRRunsTypes == 10) and (STRRDisplay == "Lobby" or STRRDisplay == "Start") then
     BTDY = (S_Height() - GHeight) / 2.0 - 92

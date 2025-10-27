@@ -28,6 +28,47 @@ end
 return #STRFontsTable
 end
 
+local function add_rules_text(RTText, RTX, RTY, RTW, RTH, RTS, RTSX, RTSY, RTR, RTG, RTB, RTV)
+	if STRRules == "Enabled" and STRRulesOpen == true and STRCustomRules == true then
+	local RulesTSize = RTS
+	local RulesTWidth = RTW * RulesTSize
+	local RulesTHeight = RTH * RulesTSize
+	local RulesTX = (S_Width() - RulesTWidth) / RTX
+	local RulesTY = (S_Height() - RulesTHeight) / RTY
+	
+	shadow_text(RTText, RulesTX, RulesTY, RulesTSize, RTSX, RTSY, RTR, RTG, RTB, RTV)
+	end
+end
+
+local function add_rules_rect(RRX, RRY, RRW, RRH, RRS, RulesRR, RulesRG, RulesRB, RulesRV)
+	STRCustomRules = true
+	if STRRules == "Enabled" and STRRulesOpen == true and STRCustomRules == true then
+	local RulesRSize = RRS
+	local RulesRW = RRW * RulesRSize
+	local RulesRH = RRH * RulesRSize
+	local RulesRX = (S_Width() - RulesRW) / RRX
+	local RulesRY = (S_Height() - RulesRH) / RRY
+	render_rect(RulesRX, RulesRY, RulesRW, RulesRH, RulesRR, RulesRG, RulesRB, RulesRV)
+	end
+end
+
+local function add_full_sounds(ID, Name, FSound, CNSound, GoSound)
+if ID ~= nil and Name ~= nil then
+if FSound ~= nil then
+table.insert(STRFanfareTable, {str_fanfare_id = ID, str_fanfare_name = Name, str_fanfare_sound = FSound})
+end
+
+if CNSound ~= nil then
+table.insert(STRCountdownTable, {str_countdown_id = ID, str_countdown_name = Name, str_countdown_sound = CNSound})
+end
+
+if GoSound ~= nil then
+table.insert(STRGoTable, {str_go_id = ID, str_go_name = Name, str_go_sound = GoSound})
+end
+end
+return #STRFanfareTable or #STRCountdownTable or #STRGoTable
+end
+
 local function set_romhack_colors(Numbers, Words, Quotes)
 STRNumbers = Numbers
 STRWords = Words
@@ -234,53 +275,8 @@ local function set_custom_hours(FName, Tx, x, y, s1, s2, s3, s4, s5, s6, n1, n2,
 	end
 end
 
-local function add_rules_text(RTText, RTX, RTY, RTW, RTH, RTS, RTSX, RTSY, RTR, RTG, RTB, RTV)
-	if STRRules == "Enabled" and STRRulesOpen == true and STRCustomRules == true then
-	local RulesTSize = RTS
-	local RulesTWidth = RTW * RulesTSize
-	local RulesTHeight = RTH * RulesTSize
-	local RulesTX = (S_Width() - RulesTWidth) / RTX
-	local RulesTY = (S_Height() - RulesTHeight) / RTY
-	
-	shadow_text(RTText, RulesTX, RulesTY, RulesTSize, RTSX, RTSY, RTR, RTG, RTB, RTV)
-	end
-end
-
-local function add_rules_rect(RRX, RRY, RRW, RRH, RRS, RulesRR, RulesRG, RulesRB, RulesRV)
-	STRCustomRules = true
-	if STRRules == "Enabled" and STRRulesOpen == true and STRCustomRules == true then
-	local RulesRSize = RRS
-	local RulesRW = RRW * RulesRSize
-	local RulesRH = RRH * RulesRSize
-	local RulesRX = (S_Width() - RulesRW) / RRX
-	local RulesRY = (S_Height() - RulesRH) / RRY
-	render_rect(RulesRX, RulesRY, RulesRW, RulesRH, RulesRR, RulesRG, RulesRB, RulesRV)
-	end
-end
-
-local function add_full_sounds(ID, Name, FSound, CNSound, GoSound)
-if ID ~= nil and Name ~= nil then
-if FSound ~= nil then
-table.insert(STRFanfareTable, {str_fanfare_id = ID, str_fanfare_name = Name, str_fanfare_sound = FSound})
-end
-
-if CNSound ~= nil then
-table.insert(STRCountdownTable, {str_countdown_id = ID, str_countdown_name = Name, str_countdown_sound = CNSound})
-end
-
-if GoSound ~= nil then
-table.insert(STRGoTable, {str_go_id = ID, str_go_name = Name, str_go_sound = GoSound})
-end
-end
-return #STRFanfareTable or #STRCountdownTable or #STRGoTable
-end
-
 function play_full_sounds()
-	if is_game_paused() then
-	Volume = 0.5
-	else
-	Volume = 1
-	end
+	if is_game_paused() then Volume = 0.5 else Volume = 1 end
 	if (STRGST.STRGameState == "Preparing" and STRGST.STRSecondsDelay == 3 and (STRGST.STRStartingType == 1 or STRGST.STRStartingType == 2)) and STRFanfareNumber ~= 1 then
 		audio_sample_play(audio_sample_load(STRFanfareTable[STRFanfareNumber].str_fanfare_sound), gMarioStates[0].pos, Volume)
 	end
@@ -296,19 +292,19 @@ function play_full_sounds()
 	if STRMenuDisplay == true and MenuSwitchDeplay == 5 and STRMenuTitleName == "MDCSettings" and MenuButtonsDeplay == 0 then
 	if STRPlaySound == true and MenuOptionDeplay == 9 and MenuUDOption == 1 then 
 	if STRFanfareNumber ~= 1 then
-	audio_sample_play(audio_sample_load(STRFanfareTable[STRFanfareNumber].str_fanfare_sound), gMarioStates[0].pos, 1)
+	audio_sample_play(audio_sample_load(STRFanfareTable[STRFanfareNumber].str_fanfare_sound), gMarioStates[0].pos, Volume)
 	end
 	STRPlaySound = false
 	end
 	if STRPlaySound == true and MenuOptionDeplay == 9 and MenuUDOption == 2 then
 	if STRCountdownNumber > 5 then
-	audio_sample_play(audio_sample_load(STRCountdownTable[STRCountdownNumber].str_countdown_sound), gMarioStates[0].pos, 1)
+	audio_sample_play(audio_sample_load(STRCountdownTable[STRCountdownNumber].str_countdown_sound), gMarioStates[0].pos, Volume)
 	end
 	STRPlaySound = false
 	end
 	if STRPlaySound == true and MenuOptionDeplay == 9 and MenuUDOption == 3 then 
 	if STRGoNumber ~= 1 then
-	audio_sample_play(audio_sample_load(STRGoTable[STRGoNumber].str_go_sound), gMarioStates[0].pos, 1)
+	audio_sample_play(audio_sample_load(STRGoTable[STRGoNumber].str_go_sound), gMarioStates[0].pos, Volume)
 	end 
 	STRPlaySound = false
 	end

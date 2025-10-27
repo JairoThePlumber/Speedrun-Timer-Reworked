@@ -2,70 +2,76 @@ RH_Name = "None"
 CRH_Name = "None"
 RH_Run_Name = "None"
 
-for RM in pairs(gActiveMods) do
-    if gActiveMods[RM].name:find("\\#ff38cd\\Beat \\#ff38cd\\Block \\#ff38cd\\Beatdown") then RH_Name = "Beat Block Beatdown"
-	elseif gActiveMods[RM].name:find("Despair Mario's Gambit") then RH_Name = "Despair Mario's Gambit"
-	elseif gActiveMods[RM].name:find("Eternal Realm") then RH_Name = "Eternal Realm"
-	elseif gActiveMods[RM].name:find("Green Star Revenge 1") then RH_Name = "Green Star Revenge 1"
-	elseif gActiveMods[RM].name:find("Katze Stuck in the Toilet 64") then RH_Name = "Katze Stuck in the Toilet 64"
-	elseif gActiveMods[RM].name:find("King Boo's Revenge 2") then RH_Name = "King Boo's Revenge 2"
-	elseif gActiveMods[RM].name:find("Lug's Delightful Dioramas") and not gActiveMods[RM].name:find("Green Comet") then RH_Name = "Lug's Delightful Dioramas"
-	elseif gActiveMods[RM].name:find("Lug's Delightful Dioramas") and gActiveMods[RM].name:find("Green Comet") then RH_Name = "Lug's Delightful Dioramas (Green Comet)"
-	elseif gActiveMods[RM].name:find("\\#66ff82\\Luigi \\#ffffff\\& \\#ff66fa\\The Violet Stars") then RH_Name = "Luigi & The Violet Stars"
-	elseif gActiveMods[RM].name:find("\\#074916\\Luigi and the Forest Ruins\\#ffffff\\") then RH_Name = "Luigi and the Forest Ruins"
-	elseif (gActiveMods[RM].name:find("Luigi's Mansion 64") and not gActiveMods[RM].name:find(".5")) then RH_Name = "Luigi's Mansion 64"
-	elseif (gActiveMods[RM].name:find("Luigi's Mansion 64") and gActiveMods[RM].name:find(".5")) then RH_Name = "Luigi's Mansion 64.5"
-	elseif gActiveMods[RM].name:find("\\#fc2819\\Mario \\#3ffc19\\In The \\#19fcea\\Colorful Lands") then RH_Name = "Mario In The Colorful Lands"
-	elseif (gActiveMods[RM].name:find("Mario's Treasure Dome") and gActiveMods[RM].name:find("The Revival")) then RH_Name = "Mario's Treasure Dome: The Revival"
-	elseif gActiveMods[RM].name:find("Only Up 64") then RH_Name = "Only Up 64"
-	elseif (gActiveMods[RM].name:find("\\#ffffff\\Shining Stars") and gActiveMods[RM].name:find("2 Mirror Madness")) then RH_Name = "Shining Stars 2: Mirror Madness"
-	elseif (gActiveMods[RM].name:find("\\#ffffff\\Shining Stars") and not gActiveMods[RM].name:find("2 Mirror Madness")) then RH_Name = "Shining Stars"
-	elseif gActiveMods[RM].name:find("Super Mario 64 \\#ff0000\\Extra") then RH_Name = "Super Mario 64 Extra"
-	elseif gActiveMods[RM].name:find("Royal Legacy") then RH_Name = "SM64: Royal Legacy"
-	elseif gActiveMods[RM].name:find("SM64: The Green Stars") then RH_Name = "SM64: The Green Stars"
-	elseif gActiveMods[RM].name:find("Twisted Adventures") then RH_Name = "SM64: Twisted Adventures"
-	elseif gActiveMods[RM].name:find("Sonic Adventure 64 DX") then RH_Name = "Sonic Adventure 64 DX"
-	elseif gActiveMods[RM].name:find("Star Revenge 1: Star Takeover") then RH_Name = "Star Revenge 1: Star Takeover"
-	elseif (gActiveMods[RM].name:find("Star Revenge 1.3") and gActiveMods[RM].name:find("- Redone")) then RH_Name = "Star Revenge 1.3 Redone"
-	elseif gActiveMods[RM].name:find("Star Takeover Redone") then RH_Name = "Star Revenge 1.5: Star Takeover Redone"
-	elseif gActiveMods[RM].name:find("Star Revenge 2: Night of Doom") then RH_Name = "Star Revenge 2: Night of Doom"
-	elseif (gActiveMods[RM].name:find("Star Revenge 3") and gActiveMods[RM].name:find("Mario on An Saoire 64")) then RH_Name = "Star Revenge 3: Mario on An Saoire 64"
-	elseif (gActiveMods[RM].name:find("Star Revenge 4") and gActiveMods[RM].name:find("The Kedama Takeover 64")) then RH_Name = "Star Revenge 4: The Kedama Takeover 64"
-	elseif (gActiveMods[RM].name:find("Star Revenge 6") and gActiveMods[RM].name:find(".5")) then RH_Name = "Star Revenge 6.5"
-	elseif gActiveMods[RM].name:find("Super Bell Thrill") then RH_Name = "Super Bell Thrill"
-	elseif gActiveMods[RM].name:find("SM 64 Hidden Stars") then RH_Name = "SM64: Hidden Stars"
-	elseif gActiveMods[RM].name:find("Super Mario 64 Into Bowser's Castle") then RH_Name = "SM64: Into Bowser's Castle"
-	elseif gActiveMods[RM].name:find("Super Mario 64 Moonshine") then RH_Name = "SM64: Moonshine"
-	elseif gActiveMods[RM].name:find("SM64 Paradise Island") then RH_Name = "SM64: Paradise Island"
-	elseif gActiveMods[RM].name:find("pink star") then RH_Name = "SM64: Peach and the Pink Star"
-	elseif gActiveMods[RM].name:find("SM64 \\#0f52ba\\Sapphire\\#ffffff\\") then RH_Name = "SM64 Sapphire"
-	elseif gActiveMods[RM].name:find("SM64 \\#0f52ba\\Sapphire \\#00FF00\\Green Comet\\dcdcdc\\") then RH_Name = "SM64 Sapphire Green Comet"
-	elseif gActiveMods[RM].name:find("\\#ff2b1c\\The \\#636363\\Mushroom \\#ffb742\\Cup") then RH_Name = "SM64: The Mushroom Cup"
-	elseif gActiveMods[RM].name:find("The Underworld") then RH_Name = "SM64: The Underworld"
-	elseif gActiveMods[RM].name:find("Super Mario 64 Trouble Town") then RH_Name = "SM64: Trouble Town"
-	elseif gActiveMods[RM].name:find("Super Mario 74") and gActiveMods[RM].name:find("(+EE)") then RH_Name = "Super Mario 74"
-	elseif gActiveMods[RM].name:find("Ten Years After") then RH_Name = "SM74: Ten Years After"
-	elseif gActiveMods[RM].name:find("Super Mario and the Marvel Adventure") then RH_Name = "Super Mario and the Marvel Adventure"
-	elseif gActiveMods[RM].name:find("Super Mario Rainbow Road") then RH_Name = "Super Mario Rainbow Road"
-	elseif (gActiveMods[RM].name:find("Star Road") and not gActiveMods[RM].name:find("The Replica Comet")) then RH_Name = "Star Road"
-	elseif (gActiveMods[RM].name:find("Star Road") and gActiveMods[RM].name:find("The Replica Comet")) then RH_Name = "Star Road: The Replica Comet"
-	elseif gActiveMods[RM].name:find("The Galactic Journey") then RH_Name = "Super Mario The Galactic Journey"
-	elseif gActiveMods[RM].name:find("The Power Star Journey") then RH_Name = "Super Mario The Power Star Journey"
-	elseif gActiveMods[RM].name:find("Super Retro Land") then RH_Name = "Super Retro Land"
-	elseif gActiveMods[RM].name:find("The Phantom's Call") then RH_Name = "The Phantom's Call"
-	elseif (gActiveMods[RM].name:find("Thousand") and gActiveMods[RM].name:find("Year Door 64")) then RH_Name = "Thousand Year Door 64"
-	elseif gActiveMods[RM].name:find("\\#0c33c2\\Ztar Attack \\#c20c0c\\2") then RH_Name = "Ztar Attack 2"
-	elseif gActiveMods[RM].name:find("Roblox 64") then RH_Name = "Roblox 64"
-	elseif gActiveMods[RM].name:find("The Green Comet") then RH_Name = "SM64: The Green Comet" 
-	elseif gActiveMods[RM].name:find("Return To Retroland") then RH_Name = "Return To Retroland" 
-	elseif gActiveMods[RM].name:find("\\#7a5b1b\\Somari \\#aee1fe\\64: \\#fe8c0f\\DASH!") then RH_Name = "Somari 64: DASH!"
-	elseif gActiveMods[RM].name:find("\\#1775FF\\Super \\#EC1905\\Mario \\#00FF8C\\Fallen \\#B700B7\\Stars") then RH_Name = "Super Mario Fallen Stars"
-	elseif gActiveMods[RM].name:find("Super \\#00278B\\Banjo-") and gActiveMods[RM].name:find("\\#FF1A0F\\Kazooie 64\\#FFFFFF\\ REDUX") then RH_Name = "Super Banjo Kazooie 64 Redux"
-	elseif gActiveMods[RM].name:find("\\#383bfc\\Star Revenge 4.5: \\#ffed24\\The Kedama Takeover Redone") then RH_Name = "Star Revenge 4.5: The Kedama Takeover Redone"
-	elseif gActiveMods[RM].name:find("\\#00FFFF\\Star Revenge \\#0033FF\\5 \\#0062FF\\Neo Blue Realm") then RH_Name = "Star Revenge 5: Neo Blue Realm"
-	elseif gActiveMods[RM].name:find("\\#0A8DFF\\Super Mario \\#FFFF00\\8MB\\#FFCD00\\") then RH_Name = "Super Mario 8MB"
-	elseif gActiveMods[RM].name:find("Super Mario Star") then RH_Name = "Super Mario Star"
-	elseif gActiveMods[RM].name:find("\\#905028\\Goomba's Easter Egg Hunt") then RH_Name = "Goomba's Easter Egg Hunt"
+for _, RM in pairs(gActiveMods) do
+    if RM.name:find("\\#ff38cd\\Beat \\#ff38cd\\Block \\#ff38cd\\Beatdown") then RH_Name = "Beat Block Beatdown"
+	elseif RM.name:find("Despair Mario's Gambit") then RH_Name = "Despair Mario's Gambit"
+	elseif RM.name:find("Eternal Realm") then RH_Name = "Eternal Realm"
+	elseif RM.name:find("Green Star Revenge 1") then RH_Name = "Green Star Revenge 1"
+	elseif RM.name:find("Katze Stuck in the Toilet 64") then RH_Name = "Katze Stuck in the Toilet 64"
+	elseif RM.name:find("King Boo's Revenge 2") then RH_Name = "King Boo's Revenge 2"
+	elseif RM.name:find("Lug's Delightful Dioramas") and not RM.name:find("Green Comet") then RH_Name = "Lug's Delightful Dioramas"
+	elseif RM.name:find("Lug's Delightful Dioramas") and RM.name:find("Green Comet") then RH_Name = "Lug's Delightful Dioramas (Green Comet)"
+	elseif RM.name:find("\\#66ff82\\Luigi \\#ffffff\\& \\#ff66fa\\The Violet Stars") then RH_Name = "Luigi & The Violet Stars"
+	elseif RM.name:find("\\#074916\\Luigi and the Forest Ruins\\#ffffff\\") then RH_Name = "Luigi and the Forest Ruins"
+	elseif (RM.name:find("Luigi's Mansion 64") and not RM.name:find(".5")) then RH_Name = "Luigi's Mansion 64"
+	elseif (RM.name:find("Luigi's Mansion 64") and RM.name:find(".5")) then RH_Name = "Luigi's Mansion 64.5"
+	elseif RM.name:find("\\#fc2819\\Mario \\#3ffc19\\In The \\#19fcea\\Colorful Lands") then RH_Name = "Mario In The Colorful Lands"
+	elseif (RM.name:find("Mario's Treasure Dome") and RM.name:find("The Revival")) then RH_Name = "Mario's Treasure Dome: The Revival"
+	elseif RM.name:find("Only Up 64") then RH_Name = "Only Up 64"
+	elseif (RM.name:find("\\#ffffff\\Shining Stars") and RM.name:find("2 Mirror Madness")) then RH_Name = "Shining Stars 2: Mirror Madness"
+	elseif (RM.name:find("\\#ffffff\\Shining Stars") and not RM.name:find("2 Mirror Madness")) then RH_Name = "Shining Stars"
+	elseif RM.name:find("Super Mario 64 \\#ff0000\\Extra") then RH_Name = "Super Mario 64 Extra"
+	elseif RM.name:find("Royal Legacy") then RH_Name = "SM64: Royal Legacy"
+	elseif RM.name:find("SM64: The Green Stars") then RH_Name = "SM64: The Green Stars"
+	elseif RM.name:find("Twisted Adventures") then RH_Name = "SM64: Twisted Adventures"
+	elseif RM.name:find("Sonic Adventure 64 DX") then RH_Name = "Sonic Adventure 64 DX"
+	elseif RM.name:find("Star Revenge 1: Star Takeover") then RH_Name = "Star Revenge 1: Star Takeover"
+	elseif (RM.name:find("Star Revenge 1.3") and RM.name:find("- Redone")) then RH_Name = "Star Revenge 1.3 Redone"
+	elseif RM.name:find("Star Takeover Redone") then RH_Name = "Star Revenge 1.5: Star Takeover Redone"
+	elseif RM.name:find("Star Revenge 2: Night of Doom") then RH_Name = "Star Revenge 2: Night of Doom"
+	elseif (RM.name:find("Star Revenge 3") and RM.name:find("Mario on An Saoire 64")) then RH_Name = "Star Revenge 3: Mario on An Saoire 64"
+	elseif (RM.name:find("Star Revenge 4") and RM.name:find("The Kedama Takeover 64")) then RH_Name = "Star Revenge 4: The Kedama Takeover 64"
+	elseif (RM.name:find("Star Revenge 6") and RM.name:find(".5")) then RH_Name = "Star Revenge 6.5"
+	elseif RM.name:find("Super Bell Thrill") then RH_Name = "Super Bell Thrill"
+	elseif RM.name:find("SM 64 Hidden Stars") then RH_Name = "SM64: Hidden Stars"
+	elseif RM.name:find("Super Mario 64 Into Bowser's Castle") then RH_Name = "SM64: Into Bowser's Castle"
+	elseif RM.name:find("Super Mario 64 Moonshine") then RH_Name = "SM64: Moonshine"
+	elseif RM.name:find("SM64 Paradise Island") then RH_Name = "SM64: Paradise Island"
+	elseif RM.name:find("pink star") then RH_Name = "SM64: Peach and the Pink Star"
+	elseif RM.name:find("SM64 \\#0f52ba\\Sapphire\\#ffffff\\") then RH_Name = "SM64 Sapphire"
+	elseif RM.name:find("SM64 \\#0f52ba\\Sapphire \\#00FF00\\Green Comet\\dcdcdc\\") then RH_Name = "SM64 Sapphire Green Comet"
+	elseif RM.name:find("\\#ff2b1c\\The \\#636363\\Mushroom \\#ffb742\\Cup") then RH_Name = "SM64: The Mushroom Cup"
+	elseif RM.name:find("The Underworld") then RH_Name = "SM64: The Underworld"
+	elseif RM.name:find("Super Mario 64 Trouble Town") then RH_Name = "SM64: Trouble Town"
+	elseif RM.name:find("Super Mario 74") and RM.name:find("(+EE)") then RH_Name = "Super Mario 74"
+	elseif RM.name:find("Ten Years After") then RH_Name = "SM74: Ten Years After"
+	elseif RM.name:find("Super Mario and the Marvel Adventure") then RH_Name = "Super Mario and the Marvel Adventure"
+	elseif RM.name:find("Super Mario Rainbow Road") then RH_Name = "Super Mario Rainbow Road"
+	elseif (RM.name:find("Star Road") and not RM.name:find("The Replica Comet")) then RH_Name = "Star Road"
+	elseif (RM.name:find("Star Road") and RM.name:find("The Replica Comet")) then RH_Name = "Star Road: The Replica Comet"
+	elseif RM.name:find("The Galactic Journey") then RH_Name = "Super Mario The Galactic Journey"
+	elseif RM.name:find("The Power Star Journey") then RH_Name = "Super Mario The Power Star Journey"
+	elseif RM.name:find("Super Retro Land") then RH_Name = "Super Retro Land"
+	elseif RM.name:find("The Phantom's Call") then RH_Name = "The Phantom's Call"
+	elseif (RM.name:find("Thousand") and RM.name:find("Year Door 64")) then RH_Name = "Thousand Year Door 64"
+	elseif RM.name:find("\\#0c33c2\\Ztar Attack \\#c20c0c\\2") then RH_Name = "Ztar Attack 2"
+	elseif RM.name:find("Roblox 64") then RH_Name = "Roblox 64"
+	elseif RM.name:find("The Green Comet") then RH_Name = "SM64: The Green Comet" 
+	elseif RM.name:find("Return To Retroland") then RH_Name = "Return To Retroland" 
+	elseif RM.name:find("\\#7a5b1b\\Somari \\#aee1fe\\64: \\#fe8c0f\\DASH!") then RH_Name = "Somari 64: DASH!"
+	elseif RM.name:find("\\#1775FF\\Super \\#EC1905\\Mario \\#00FF8C\\Fallen \\#B700B7\\Stars") then RH_Name = "Super Mario Fallen Stars"
+	elseif RM.name:find("Super \\#00278B\\Banjo-") and RM.name:find("\\#FF1A0F\\Kazooie 64\\#FFFFFF\\ REDUX") then RH_Name = "Super Banjo Kazooie 64 Redux"
+	elseif RM.name:find("\\#383bfc\\Star Revenge 4.5: \\#ffed24\\The Kedama Takeover Redone") then RH_Name = "Star Revenge 4.5: The Kedama Takeover Redone"
+	elseif RM.name:find("\\#00FFFF\\Star Revenge \\#0033FF\\5 \\#0062FF\\Neo Blue Realm") then RH_Name = "Star Revenge 5: Neo Blue Realm"
+	elseif RM.name:find("\\#0A8DFF\\Super Mario \\#FFFF00\\8MB\\#FFCD00\\") then RH_Name = "Super Mario 8MB"
+	elseif RM.name:find("Super Mario Star") then RH_Name = "Super Mario Star"
+	elseif RM.name:find("\\#905028\\Goomba's Easter Egg Hunt") then RH_Name = "Goomba's Easter Egg Hunt"
+	elseif RM.name:find("\\#ff0000\\Kaizo \\#dcdcdc\\Mario 64") then RH_Name = "Kaizo Mario 64"
+	elseif RM.name:find("SM64 \\#00c0fd\\Openworld Quest \\#ffffdc\\v1.1") then RH_Name = "SM64 Openworld Quest"
+	elseif RM.name:find("\\#59d7c0\\Organ of Matrias") then RH_Name = "Organ of Matrias"
+	elseif (RM.name:find("\\#0129FD\\Star \\#EC0000\\Revenge \\#E7E7E7\\8") and RM.name:find("Scepter of Hope")) then RH_Name = "Star Revenge 8: Scepter of Hope"
+	elseif RM.name:find("\\#476fff\\Mario \\#47fff9\\on \\#476fff\\Indigo \\#47fff9\\Island") then RH_Name = "Mario on Indigo Island"
+	elseif RM.name:find("\\#63ff83\\Star Revenge 3.9:\\#63faff\\ Dreamish Block Beats") then RH_Name = "Star Revenge 3.9: Dreamish Block Beats"
     end
 end
 
@@ -85,7 +91,7 @@ if (RH_Name == "Green Star Revenge 1" or RH_Name == "Luigi & The Violet Stars" o
 or RH_Name == "Shining Stars" or RH_Name == "SM64: The Green Stars" or RH_Name == "SM64: Twisted Adventures" or RH_Name == "Star Revenge 1.3 Redone"
 or RH_Name == "Star Revenge 1.5: Star Takeover Redone" or RH_Name == "Star Revenge 2: Night of Doom" or RH_Name == "SM64: Into Bowser's Castle"
 or RH_Name == "SM64: The Underworld" or RH_Name == "Super Mario 74" or RH_Name == "SM74: Ten Years After" or RH_Name == "Super Mario The Power Star Journey"
-or RH_Name == "Star Revenge 4.5: The Kedama Takeover Redone" or RH_Name == "Super Mario Star") then
+or RH_Name == "Star Revenge 4.5: The Kedama Takeover Redone" or RH_Name == "Super Mario Star" or RH_Name == "Kaizo Mario 64" or RH_Name == "SM64 Openworld Quest") then
 STRGST.GrandStar = true
 end
 
@@ -93,7 +99,7 @@ end
 if (RH_Name == "Despair Mario's Gambit" or RH_Name == "Katze Stuck in the Toilet 64" or RH_Name == "Lug's Delightful Dioramas (Green Comet)"
 or RH_Name == "Luigi and the Forest Ruins" or RH_Name == "Super Mario 64 Extra" or RH_Name == "Star Revenge 1: Star Takeover"
 or RH_Name == "SM64: Hidden Stars" or (RH_Name == "SM64 Sapphire" or RH_Name == "SM64 Sapphire Green Comet") or RH_Name == "Super Retro Land"
-or RH_Name == "The Phantom's Call" or RH_Name == "Thousand Year Door 64" or RH_Name == "Star Revenge 5: Neo Blue Realm") then
+or RH_Name == "The Phantom's Call" or RH_Name == "Thousand Year Door 64" or RH_Name == "Star Revenge 5: Neo Blue Realm" or RH_Name == "Star Revenge 3.9: Dreamish Block Beats") then
 STRGST.CakeEnding = true
 end
 
@@ -105,7 +111,6 @@ end
 
 if STRGST.STRGameState == "Started" and STRGST.STRGameMode ~= 4 then
 if RH_Name == "King Boo's Revenge 2" then
-STRGST.AddRomhack = true
 if gNetworkPlayers[0].currLevelNum == LEVEL_BITS and gMarioStates[0].pos.y > 11000 and gMarioStates[0].pos.y < 11600 and gMarioStates[0].action == ACT_DISAPPEARED then
 	krb2timer = krb2timer - 1
 end
@@ -124,52 +129,30 @@ end
 end
 
 -- Custom Colors Support
-if RH_Name == "Despair Mario's Gambit" then
-STRNumbers = true STRWords = true STRQuotes = false
-
-elseif RH_Name == "Luigi and the Forest Ruins" then
-STRNumbers = true STRWords = false STRQuotes = false
-
-elseif (RH_Name == "Luigi's Mansion 64" or RH_Name == "Luigi's Mansion 64.5") then
-STRNumbers = true STRWords = true STRQuotes = true
-
-elseif (RH_Name == "SM64 Sapphire" or RH_Name == "SM64 Sapphire Green Comet") then
-STRNumbers = false STRWords = true STRQuotes = false
+if RH_Name == "Despair Mario's Gambit" then STRNumbers = true STRWords = true STRQuotes = false
+elseif RH_Name == "Luigi and the Forest Ruins" then STRNumbers = true STRWords = false STRQuotes = false
+elseif (RH_Name == "Luigi's Mansion 64" or RH_Name == "Luigi's Mansion 64.5") then STRNumbers = true STRWords = true STRQuotes = true
+elseif (RH_Name == "SM64 Sapphire" or RH_Name == "SM64 Sapphire Green Comet") then STRNumbers = false STRWords = true STRQuotes = false
 end
 
 -- Custom Run Names
-if STRGST.GrandStar == true and STRGST.CakeEnding == false then
-RH_Run_Name = "Grand Star"
-elseif STRGST.GrandStar == false and STRGST.CakeEnding == true then
-RH_Run_Name = "Cake Ending"
-elseif STRGST.GrandStar == true and STRGST.CakeEnding == true then
-RH_Run_Name = "Grand Star and Cake Ending"
-elseif RH_Name == "Beat Block Beatdown" or RH_Name == "King Boo's Revenge 2" then
-RH_Run_Name = "Enter The Last Pipe"
-elseif RH_Name == "Eternal Realm" then
-RH_Run_Name = "Bowser's Key 1"
-elseif RH_Name == "SM64: Trouble Town" then
-RH_Run_Name = "30 Stars"
-elseif RH_Name == "Return To Retroland" then
-RH_Run_Name = "5 Stars"
-elseif RH_Name == "Somari 64: DASH!" then
-RH_Run_Name = "Mips Star 1"
-elseif RH_Name == "Super Mario Fallen Stars" then
-RH_Run_Name = "24 Stars"
-elseif RH_Name == "Super Banjo Kazooie 64 Redux" then
-RH_Run_Name = "18 Stars"
-elseif RH_Name == "Only Up 64" or RH_Name == "Roblox 64" then
-RH_Run_Name = "1 Star"
-elseif RH_Name == "Star Revenge 6.5" then
-RH_Run_Name = "Red Coin Star in The Castle"
-elseif RH_Name == "Super Mario and the Marvel Adventure" then
-RH_Run_Name = "Star in White Void"
-elseif RH_Name == "Super Mario The Galactic Journey" then
-RH_Run_Name = "Star After Beating King Bob-omb"
-elseif RH_Name == "Super Mario 8MB" then
-RH_Run_Name = "12 Stars"
-elseif RH_Name == "Goomba's Easter Egg Hunt" then
-RH_Run_Name = "20 Easter Eggs"
+if STRGST.GrandStar == true and STRGST.CakeEnding == false then RH_Run_Name = "Grand Star"
+elseif STRGST.GrandStar == false and STRGST.CakeEnding == true then RH_Run_Name = "Cake Ending"
+elseif STRGST.GrandStar == true and STRGST.CakeEnding == true then RH_Run_Name = "Grand Star and Cake Ending"
+elseif RH_Name == "Beat Block Beatdown" or RH_Name == "King Boo's Revenge 2" then RH_Run_Name = "Enter The Last Pipe"
+elseif RH_Name == "Eternal Realm" then RH_Run_Name = "Bowser's Key 1"
+elseif RH_Name == "SM64: Trouble Town" then RH_Run_Name = "30 Stars"
+elseif RH_Name == "Return To Retroland" then RH_Run_Name = "5 Stars"
+elseif RH_Name == "Somari 64: DASH!" then RH_Run_Name = "Mips Star 1"
+elseif RH_Name == "Super Mario Fallen Stars" then RH_Run_Name = "24 Stars"
+elseif RH_Name == "Super Banjo Kazooie 64 Redux" then RH_Run_Name = "18 Stars"
+elseif RH_Name == "Only Up 64" or RH_Name == "Roblox 64" then RH_Run_Name = "1 Star"
+elseif RH_Name == "Star Revenge 6.5" then RH_Run_Name = "Red Coins Star in the Castle"
+elseif RH_Name == "Super Mario and the Marvel Adventure" or RH_Name == "Star Revenge 8: Scepter of Hope" then RH_Run_Name = "Star in the End Level"
+elseif RH_Name == "Super Mario The Galactic Journey" then RH_Run_Name = "Star After Beating King Bob-omb"
+elseif RH_Name == "Super Mario 8MB" then RH_Run_Name = "12 Stars"
+elseif RH_Name == "Goomba's Easter Egg Hunt" then RH_Run_Name = "20 Easter Eggs" 
+elseif RH_Name == "Organ of Matrias" then RH_Run_Name = "9 Stars" 
 end
 
 -- Save Check
@@ -215,8 +198,10 @@ or (RH_Name == "Somari 64: DASH!" and m.numStars >= 6 and save_file_get_flags() 
 or (RH_Name == "Super Mario Fallen Stars" and m.numStars >= 24)
 or (RH_Name == "Super Banjo Kazooie 64 Redux" and m.numStars >= 18) 
 or (RH_Name == "Super Mario 8MB" and m.numStars >= 12)
-or (RH_Name == "Goomba's Easter Egg Hunt" and m.numStars >= 20) then
+or (RH_Name == "Goomba's Easter Egg Hunt" and m.numStars >= 20)
+or (RH_Name == "Organ of Matrias" and m.numStars >= 9) then
 STRGST.STRGameState = "Finished"
+end
 end
 
 if RH_Name == "Lug's Delightful Dioramas" then
@@ -249,15 +234,16 @@ _G.STRApi.add_plugin_slot(3, m.numStars >= 145)
 end
 end
 end
-end
 
 function str_romhack_interact(m, o, type)
 if STRGST.STRGameState == "Started" and STRGST.STRGameMode ~= 4 then 
 if ((RH_Name == "Only Up 64" or RH_Name == "Roblox 64") and type == INTERACT_STAR_OR_KEY) 
 or (RH_Name == "Star Revenge 6.5" and type == INTERACT_STAR_OR_KEY and o.oBehParams == 5 << 24 and gNetworkPlayers[0].currLevelNum == LEVEL_CASTLE)
-or (RH_Name == "Super Mario and the Marvel Adventure" and type == INTERACT_STAR_OR_KEY and gNetworkPlayers[0].currLevelNum == LEVEL_ENDING)
-or (RH_Name == "Super Mario The Galactic Journey" and type == INTERACT_STAR_OR_KEY and gNetworkPlayers[0].currLevelNum == LEVEL_TOTWC) then
+or ((RH_Name == "Super Mario and the Marvel Adventure" or RH_Name == "Star Revenge 8: Scepter of Hope") and type == INTERACT_STAR_OR_KEY and gNetworkPlayers[0].currLevelNum == LEVEL_ENDING)
+or (RH_Name == "Super Mario The Galactic Journey" and type == INTERACT_STAR_OR_KEY and gNetworkPlayers[0].currLevelNum == LEVEL_TOTWC) 
+or (RH_Name == "Mario on Indigo Island" and type == INTERACT_STAR_OR_KEY and o.oBehParams == 6 << 24 and gNetworkPlayers[0].currLevelNum == LEVEL_CASTLE) then
 STRGST.STRGameState = "Finished"
+end
 end
 
 if (RH_Name == "Sonic Adventure 64 DX" or RH_Name == "Super Bell Thrill") then
@@ -271,7 +257,6 @@ _G.STRApi.add_plugin_slot(5, ((save_file_get_flags() & (SAVE_FLAG_HAVE_KEY_1 and
 and gNetworkPlayers[0].currLevelNum == LEVEL_ENDING and interactType == INTERACT_STAR_OR_KEY and o.oBehParams == 2 << 24))
 elseif RH_Name == "SM64: The Green Comet" and OmmEnabled then
 _G.STRApi.add_plugin_slot(1, gNetworkPlayers[0].currLevelNum == LEVEL_ENDING and gNetworkPlayers[0].currAreaIndex == 2 and type == INTERACT_STAR_OR_KEY)
-end
 end
 end
 
@@ -1099,6 +1084,48 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("Collect All 20 Easter Eggs in this Romhack", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("This is the Only Run you can do.", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 14, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	elseif RH_Name == "Kaizo Mario 64" then
+	shadow_text("120 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("Collect All 120 Stars in this Romhack", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("You need 120 Stars to Beat Bowser", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("All Glitches are Allowed", X - 70, Y + 14, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	elseif RH_Name == "SM64 Openworld Quest" then
+	shadow_text("50 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("Collect 50 Stars and Beat Bowser", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("Skipping Star Doors are Banned", X - 70, Y - 23, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
+	shadow_text("80 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("Collect All 80 Stars and Beat Bowser", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	elseif RH_Name == "Organ of Matrias" then
+	shadow_text("9 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("Collect All 9 Stars in this Romhack", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("This is the Only Run you can do.", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("All Glitches are Allowed", X - 70, Y + 14, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	elseif RH_Name == "Star Revenge 8: Scepter of Hope" then
+	shadow_text("80 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("Collect 80 Stars and Grab the 8 Star", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("Skipping Star Doors are Banned", X - 70, Y - 23, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
+	shadow_text("121 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("Collect All 121 Stars and Grab the 8 Star", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	elseif RH_Name == "Mario on Indigo Island" then
+	shadow_text("76 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("Collect 76 Stars and Grab The Giant Star", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("Skipping Star Doors are Banned", X - 70, Y - 23, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
+	shadow_text("111 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("Collect All 111 Stars and Grab The Giant Star", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	elseif RH_Name == "Star Revenge 3.9: Dreamish Block Beats" then
+	shadow_text("8 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("Collect 8 Stars and Enter The Blue Pipe", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("Skipping Star Doors are Banned", X - 70, Y - 23, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
+	shadow_text("20 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("Collect All 20 Stars and Enter The Blue Pipe", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	end
 	end
 end
@@ -1130,8 +1157,9 @@ _G.STRApi.add_run_slot(nil, 2, "20 Stars")
 _G.STRApi.add_run_slot(nil, 3, "65 Stars")
 _G.STRApi.add_run_slot(nil, 4, "80 Stars")
 _G.STRApi.add_run_slot(nil, 5, "130 Stars")
-elseif RH_Name == "Star Road: The Replica Comet" then
+if RH_Name == "Star Road: The Replica Comet" then
 _G.STRApi.add_run_slot(nil, 6, "150 Stars")
+end
 elseif RH_Name == "Ztar Attack 2" then
 _G.STRApi.add_run_slot(nil, 1, "Any%")
 _G.STRApi.add_run_slot(nil, 2, "Warpless Any%")

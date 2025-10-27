@@ -128,6 +128,7 @@ STRGST.STRSSText = 300
 
 STRGST.STRRunsTypes = 1
 STRGST.STRPluginsTypes = 0
+STRGST.STRPluginsSaved = 1
 
 STRGST.STRLFLimit = 1
 STRGST.STRLFID = 1
@@ -141,7 +142,7 @@ STRGST.STRLFLevels = 1
 
 STRGST.STRLFAction = 1
 STRGST.STRLFTimer = STRGST.STRLFSetTimer
-STRGST.STRLFSetTimer = 0
+STRGST.STRLFSetTimer = 1
 STRGST.STRLFActions = 1
 
 STRGST.STRLFXPos = 0
@@ -221,6 +222,7 @@ STRMenuTitleName = "MDConfig"
 end
 MenuSelectedOption = "Main"
 MenuViewHostCheck = false
+MenuSaveUpdate = false
 
 -- Local Number Functions
 STRLoadSaveUpdater = 0
@@ -365,7 +367,7 @@ STRLFB = {
 	[13] = {Type = "Toad 1",          ID = SAVE_FLAG_COLLECTED_TOAD_STAR_1,                                                    				Interact = false},
 	[14] = {Type = "Toad 2",          ID = SAVE_FLAG_COLLECTED_TOAD_STAR_2,                                                    				Interact = false},
 	[15] = {Type = "Toad 3",          ID = SAVE_FLAG_COLLECTED_TOAD_STAR_3,                                                    				Interact = false},
-	[16] = {Type = "All Switches",    ID = SAVE_FLAG_HAVE_WING_CAP and SAVE_FLAG_HAVE_VANISH_CAP and SAVE_FLAG_HAVE_METAL_CAP, 				Interact = false},
+	[16] = {Type = "All Switches",    ID = SAVE_FLAG_HAVE_WING_CAP | SAVE_FLAG_HAVE_VANISH_CAP | SAVE_FLAG_HAVE_METAL_CAP, 					Interact = false},
 }
 
 STRLevels = {
@@ -584,6 +586,27 @@ end
 function menu_shadow_text(text, x, y, scale, px, py, r, g, b, v, func)
     Hud_Color(0, 0, 0, v);
     Hud_Text(text, x + px, y + py, scale);
+	
+	if func then
+    Hud_Color(r, g, b, v);
+	else
+	Hud_Color(255, 255, 255, 255);
+	end
+    Hud_Text(text, x, y, scale);
+end
+
+function menu_shadow_lock_text(text, swx, shy, texh, scale, px, py, r, g, b, v, func)
+    local Width = Hud_Measure(text) * scale
+    local Height = texh * scale
+
+    local x = (S_Width() - Width) / swx
+    local y = (S_Height() - Height) / shy
+	
+	local px = x + swx
+    local py = y + shy
+
+    Hud_Color(0, 0, 0, v);
+    Hud_Text(text, px, py, scale);
 	
 	if func then
     Hud_Color(r, g, b, v);
@@ -939,3 +962,15 @@ end
 
 
 hook_chat_command("str_menu", "Display The Menu", str_menu_command)
+
+-- Objects
+function disable_object(obj)
+	if (STRGST.EnabledInteraction == false and STRGST.STRGameState == "Lobby") then
+    obj.oInteractType = 0
+	end
+end
+
+hook_behavior(id_bhvSpawnedStar, OBJ_LIST_LEVEL, false, nil, disable_object, "bhvSpawnedStar")
+hook_behavior(id_bhvStar, OBJ_LIST_LEVEL, false, nil, disable_object, "bhvStar")
+hook_behavior(id_bhvStarSpawnCoordinates, OBJ_LIST_LEVEL, false, nil, disable_object, "bhvStarSpawnCoordinates")
+hook_behavior(id_bhvBowserKey, OBJ_LIST_LEVEL, false, nil, disable_object, "bhvBowserKey")
