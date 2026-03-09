@@ -962,15 +962,5 @@ end
 
 
 hook_chat_command("str_menu", "Display The Menu", str_menu_command)
-
--- Objects
-function disable_object(obj)
-	if (STRGST.EnabledInteraction == false and STRGST.STRGameState == "Lobby") then
-    obj.oInteractType = 0
-	end
-end
-
-hook_behavior(id_bhvSpawnedStar, OBJ_LIST_LEVEL, false, nil, disable_object, "bhvSpawnedStar")
-hook_behavior(id_bhvStar, OBJ_LIST_LEVEL, false, nil, disable_object, "bhvStar")
-hook_behavior(id_bhvStarSpawnCoordinates, OBJ_LIST_LEVEL, false, nil, disable_object, "bhvStarSpawnCoordinates")
 hook_behavior(id_bhvBowserKey, OBJ_LIST_LEVEL, false, nil, disable_object, "bhvBowserKey")
+
