@@ -72,6 +72,27 @@ for _, RM in pairs(gActiveMods) do
 	elseif (RM.name:find("\\#0129FD\\Star \\#EC0000\\Revenge \\#E7E7E7\\8") and RM.name:find("Scepter of Hope")) then RH_Name = "Star Revenge 8: Scepter of Hope"
 	elseif RM.name:find("\\#476fff\\Mario \\#47fff9\\on \\#476fff\\Indigo \\#47fff9\\Island") then RH_Name = "Mario on Indigo Island"
 	elseif RM.name:find("\\#63ff83\\Star Revenge 3.9:\\#63faff\\ Dreamish Block Beats") then RH_Name = "Star Revenge 3.9: Dreamish Block Beats"
+	elseif RM.name:find("\\#fff90c\\Super Mario") and RM.name:find("\\#053a68\\King Bob") and RM.name:find("-omb's Revenge") then RH_Name = "Super Mario: King Bob-omb's Revenge"
+	elseif RM.name:find("\\#e41e1e\\Tomato\\#00c5c9\\bird8's \\#ffffff\\Classic Pack 64") then RH_Name = "Tomatobird8's Classic Pack 64"
+	elseif RM.name:find("\\#ffffff\\SM64 \\#fbff00\\The \\#0062ff\\Nostalgia \\#ffffff\\Trip") then RH_Name = "SM64 The Nostalgia Trip" 
+	elseif RM.name:find("\\#1E3FB0\\SM64 A New Journey") then RH_Name = "SM64: A New Journey" 
+	elseif RM.name:find("\\#FE3B33\\Ultra\\#4058E8\\ Mario\\#1AC323\\ 64\\#F7F649\\ Demo") then RH_Name = "Ultra Mario 64 Demo" 
+	elseif RM.name:find("\\#ffffff\\Super Mario\\#4b78eb\\ Astra") then RH_Name = "Super Mario Astra" 
+	elseif RM.name:find("\\#2dbf24\\Mechanical \\#24a5bf\\Madness \\#e42828\\2") then RH_Name = "Mechanical Madness 2" 
+	elseif RM.name:find("\\#890d0d\\Mechanical Madness \\#300d89\\3") then RH_Name = "Mechanical Madness 3" 
+	elseif RM.name:find("\\#f7e600\\Star Revenge 2 \\#f60100\\Act 1:\\#009cd5\\ To the Moon") then RH_Name = "Star Revenge 2 Act 1: To The Moon" 
+	elseif RM.name:find("\\#D45A4A\\Mario \\#4274F0\\and the \\#4274F0\\Magic \\#D45A4A\\Wand") then RH_Name = "Mario and the Magic Wand" 
+	elseif RM.name:find("\\#dc0000\\Super Mario Bros. \\#00dc00\\3D") then RH_Name = "Super Mario Bros. 3D" 
+	elseif RM.name:find("SM64 Openworld Edition") then RH_Name = "SM64 Openworld Edition"
+	elseif (RM.name:find("\\#2596be\\Little") and RM.name:find("\\#08cc2f\\Worlds")) then RH_Name = "Little Worlds"
+	elseif (RM.name:find("\\#2596be\\Little") and RM.name:find("\\#059922\\Comets")) then RH_Name = "Little Comets" 
+	elseif RM.name:find("\\#d37000\\Revenge of the Others") then RH_Name = "Revenge of the Others"
+	elseif (RM.name:find("Mario and the \\#ffae00\\Floating Isles") and not RM.name:find("2")) then RH_Name = "Mario and the Floating Isles"
+	elseif (RM.name:find("Mario and the \\#ffae00\\Floating Isles") and RM.name:find("2")) then RH_Name = "Mario and the Floating Isles 2"
+	elseif RM.name:find("SM64 \\#800000\\Mystery \\#034b04\\Bowser Worlds") then RH_Name = "SM64 Mystery Bowser Worlds"
+	elseif RM.name:find("Super Mario \\#8626b9\\Mystic Isles") then RH_Name = "Super Mario Mystic Isles"
+	elseif RM.name:find("SM64 \\#f9da0e\\Surge of Starlight") then RH_Name = "SM64 Surge of Starlight"
+	elseif RM.name:find("Super Mario \\#ffe600\\New Star") then RH_Name = "Super Mario New Star"
     end
 end
 
@@ -82,7 +103,7 @@ STRGST.AddRomhack = true
 end 
 if (RH_Name == "Green Star Revenge 1" or RH_Name == "SM64: Royal Legacy" or RH_Name == "Thousand Year Door 64") then
 if OmmEnabled then
-_G.OmmApi.omm_disable_feature("trueNonStop", true)
+_G.OmmApi.omm_disable_feature("trueNonStop", true) -- <- this is to prevent stars being impossible to grab with this option enabled
 end
 end
 
@@ -91,7 +112,8 @@ if (RH_Name == "Green Star Revenge 1" or RH_Name == "Luigi & The Violet Stars" o
 or RH_Name == "Shining Stars" or RH_Name == "SM64: The Green Stars" or RH_Name == "SM64: Twisted Adventures" or RH_Name == "Star Revenge 1.3 Redone"
 or RH_Name == "Star Revenge 1.5: Star Takeover Redone" or RH_Name == "Star Revenge 2: Night of Doom" or RH_Name == "SM64: Into Bowser's Castle"
 or RH_Name == "SM64: The Underworld" or RH_Name == "Super Mario 74" or RH_Name == "SM74: Ten Years After" or RH_Name == "Super Mario The Power Star Journey"
-or RH_Name == "Star Revenge 4.5: The Kedama Takeover Redone" or RH_Name == "Super Mario Star" or RH_Name == "Kaizo Mario 64" or RH_Name == "SM64 Openworld Quest") then
+or RH_Name == "Star Revenge 4.5: The Kedama Takeover Redone" or RH_Name == "Super Mario Star" or RH_Name == "Kaizo Mario 64" or RH_Name == "SM64 Openworld Quest"
+or RH_Name == "Mechanical Madness 2" or RH_Name == "Mechanical Madness 3" or RH_Name == "Star Revenge 2 Act 1: To The Moon" or RH_Name == "SM64 Openworld Edition") then
 STRGST.GrandStar = true
 end
 
@@ -99,13 +121,17 @@ end
 if (RH_Name == "Despair Mario's Gambit" or RH_Name == "Katze Stuck in the Toilet 64" or RH_Name == "Lug's Delightful Dioramas (Green Comet)"
 or RH_Name == "Luigi and the Forest Ruins" or RH_Name == "Super Mario 64 Extra" or RH_Name == "Star Revenge 1: Star Takeover"
 or RH_Name == "SM64: Hidden Stars" or (RH_Name == "SM64 Sapphire" or RH_Name == "SM64 Sapphire Green Comet") or RH_Name == "Super Retro Land"
-or RH_Name == "The Phantom's Call" or RH_Name == "Thousand Year Door 64" or RH_Name == "Star Revenge 5: Neo Blue Realm" or RH_Name == "Star Revenge 3.9: Dreamish Block Beats") then
+or RH_Name == "The Phantom's Call" or RH_Name == "Thousand Year Door 64" or RH_Name == "Star Revenge 5: Neo Blue Realm" or RH_Name == "Roblox 64"
+or RH_Name == "Star Revenge 3.9: Dreamish Block Beats" or RH_Name == "Tomatobird8's Classic Pack 64" or RH_Name == "SM64 The Nostalgia Trip"
+or RH_Name == "Mario and the Magic Wand" or RH_Name == "Mario and the Floating Isles 2" or RH_Name == "SM64 Mystery Bowser Worlds" 
+or RH_Name == "Super Mario Mystic Isles") then
 STRGST.CakeEnding = true
 end
 
--- Only Grand Star and End Picture (Incase if a Romhack gets a Update)
+-- Only Grand Star and End Picture (Incase if a Romhack gets a Update or has two path)
 if (RH_Name == "Mario In The Colorful Lands" or RH_Name == "Mario's Treasure Dome: The Revival" or RH_Name == "Shining Stars 2: Mirror Madness" or RH_Name == "SM64: Royal Legacy"
-or RH_Name == "Star Revenge 4: The Kedama Takeover 64" or RH_Name == "SM64: Paradise Island" or RH_Name == "SM64: Peach and the Pink Star" or RH_Name == "SM64: The Mushroom Cup") then
+or RH_Name == "Star Revenge 4: The Kedama Takeover 64" or RH_Name == "SM64: Paradise Island" or RH_Name == "SM64: Peach and the Pink Star" or RH_Name == "SM64: The Mushroom Cup"
+or RH_Name == "SM64: A New Journey") then
 STRGST.GrandStar = true STRGST.CakeEnding = true
 end
 
@@ -117,13 +143,26 @@ end
 	if krb2timer < 2 and gNetworkPlayers[0].currLevelNum == LEVEL_BITS then	
 	warp_to_start_level() -- <- this to prevent you softlock on the pipe (despite that was supposed to do that)
 	end
-	
 	if gNetworkPlayers[0].currLevelNum ~= LEVEL_BITS then	
 	krb2timer = 21 
 	end
-	
 	if gNetworkPlayers[0].currLevelNum == LEVEL_BITS and gMarioStates[0].action == ACT_DISAPPEARED and gMarioStates[0].pos.y > 11000 and gMarioStates[0].pos.y < 11600 and krb2timer < 2 then
 	STRGST.STRGameState = "Finished"
+		end
+	end
+if RH_Name == "Only Up 64" then
+if gMarioStates[0].action == ACT_SPAWN_SPIN_AIRBORNE then
+	if gMarioStates[0].pos.y < 1900 and gMarioStates[0].pos.y > -100 then
+        STRGST.STRGameState = "Finished"
+		end
+	end
+end
+	
+if RH_Name == "SM64 Surge of Starlight" then
+if gMarioStates[0].action == ACT_SPAWN_SPIN_AIRBORNE and gNetworkPlayers[0].currLevelNum == LEVEL_CASTLE_COURTYARD then
+	if gMarioStates[0].pos.y > 12000 then
+        STRGST.STRGameState = "Finished"
+		end
 		end
 	end
 end
@@ -133,6 +172,7 @@ if RH_Name == "Despair Mario's Gambit" then STRNumbers = true STRWords = true ST
 elseif RH_Name == "Luigi and the Forest Ruins" then STRNumbers = true STRWords = false STRQuotes = false
 elseif (RH_Name == "Luigi's Mansion 64" or RH_Name == "Luigi's Mansion 64.5") then STRNumbers = true STRWords = true STRQuotes = true
 elseif (RH_Name == "SM64 Sapphire" or RH_Name == "SM64 Sapphire Green Comet") then STRNumbers = false STRWords = true STRQuotes = false
+elseif (RH_Name == "Mechanical Madness 3") then STRNumbers = true STRWords = false STRQuotes = false
 end
 
 -- Custom Run Names
@@ -146,34 +186,24 @@ elseif RH_Name == "Return To Retroland" then RH_Run_Name = "5 Stars"
 elseif RH_Name == "Somari 64: DASH!" then RH_Run_Name = "Mips Star 1"
 elseif RH_Name == "Super Mario Fallen Stars" then RH_Run_Name = "24 Stars"
 elseif RH_Name == "Super Banjo Kazooie 64 Redux" then RH_Run_Name = "18 Stars"
-elseif RH_Name == "Only Up 64" or RH_Name == "Roblox 64" then RH_Run_Name = "1 Star"
+elseif RH_Name == "Only Up 64" then RH_Run_Name = "End Room"
 elseif RH_Name == "Star Revenge 6.5" then RH_Run_Name = "Red Coins Star in the Castle"
-elseif RH_Name == "Super Mario and the Marvel Adventure" or RH_Name == "Star Revenge 8: Scepter of Hope" then RH_Run_Name = "Star in the End Level"
+elseif RH_Name == "Super Mario and the Marvel Adventure" or RH_Name == "Star Revenge 8: Scepter of Hope" or RH_Name == "Super Mario: King Bob-omb's Revenge" or RH_Name == "Super Mario Astra" 
+or RH_Name == "Mario and the Floating Isles" then RH_Run_Name = "Star in the End Level"
 elseif RH_Name == "Super Mario The Galactic Journey" then RH_Run_Name = "Star After Beating King Bob-omb"
 elseif RH_Name == "Super Mario 8MB" then RH_Run_Name = "12 Stars"
+elseif RH_Name == "Mario on Indigo Island" then RH_Run_Name = "Big Star in the Castle"
 elseif RH_Name == "Goomba's Easter Egg Hunt" then RH_Run_Name = "20 Easter Eggs" 
 elseif RH_Name == "Organ of Matrias" then RH_Run_Name = "9 Stars" 
+elseif RH_Name == "Ultra Mario 64 Demo" then RH_Run_Name = "16 Stars"
+elseif RH_Name == "Super Mario Bros. 3D" or RH_Name == "SM64 Surge of Starlight" then RH_Run_Name = '"Grand" Star'
+elseif RH_Name == "Little Worlds" then RH_Run_Name = "5 Stars"
+elseif RH_Name == "Super Mario New Star" then RH_Run_Name = "Toad Star"
 end
 
 -- Save Check
 if RH_Name == "SM64: The Green Comet" then
-STRGST.SFSWingCap = "No Erase"
-STRGST.SFSMetalCap = "No Erase"
-STRGST.SFSVanishCap = "No Erase"
-STRGST.SFSDDDMovedBack = "No Erase"
-STRGST.SFSMoatDrain = "No Erase"
-STRGST.SFS50StarDoor = "No Erase"
-STRGST.SFSBasementDoor = "No Erase"
-STRGST.SFSBTIDWDoor = "No Erase"
-STRGST.SFSBITFSDoor = "No Erase"
-STRGST.SFSCCMDoor = "No Erase"
-STRGST.SFSJRBDoor = "No Erase"
-STRGST.SFSPSSDoor = "No Erase"
-STRGST.SFSUpstairsDoor = "No Erase"
-STRGST.SFSWFDoor = "No Erase"
-STRGST.SFSKeys = "No Erase"
 elseif RH_Name == "Super Banjo Kazooie 64 Redux" then
-STRGST.SFSWingCap = "No Erase"
 end
 
 -- Star Road Plugin
@@ -199,7 +229,10 @@ or (RH_Name == "Super Mario Fallen Stars" and m.numStars >= 24)
 or (RH_Name == "Super Banjo Kazooie 64 Redux" and m.numStars >= 18) 
 or (RH_Name == "Super Mario 8MB" and m.numStars >= 12)
 or (RH_Name == "Goomba's Easter Egg Hunt" and m.numStars >= 20)
-or (RH_Name == "Organ of Matrias" and m.numStars >= 9) then
+or (RH_Name == "Organ of Matrias" and m.numStars >= 9)
+or (RH_Name == "Ultra Mario 64 Demo" and m.numStars >= 16) 
+or (RH_Name == "Little Worlds" and m.numStars >= 5)
+or (RH_Name == "Super Mario New Star" and save_file_get_flags() & SAVE_FLAG_COLLECTED_TOAD_STAR_1 ~= 0) then
 STRGST.STRGameState = "Finished"
 end
 end
@@ -219,9 +252,9 @@ elseif RH_Name == "SM64: Moonshine" then
 _G.STRApi.add_plugin_slot(2, m.numStars >= 50)
 elseif RH_Name == "Super Mario Rainbow Road" then
 _G.STRApi.add_plugin_slot(2, m.numStars >= 60)
-elseif RH_Name ==  "Ztar Attack 2" then
+elseif RH_Name == "Ztar Attack 2" then
 _G.STRApi.add_plugin_slot(1, save_file_get_flags() & SAVE_FLAG_HAVE_WING_CAP ~= 0)
-_G.STRApi.add_plugin_slot(2, (save_file_get_flags() & (SAVE_FLAG_HAVE_KEY_1 and SAVE_FLAG_HAVE_KEY_2 and SAVE_FLAG_HAVE_METAL_CAP and SAVE_FLAG_HAVE_VANISH_CAP and SAVE_FLAG_HAVE_WING_CAP) ~= 0))
+_G.STRApi.add_plugin_slot(2, (save_file_get_flags() & (SAVE_FLAG_UNLOCKED_BASEMENT_DOOR and SAVE_FLAG_UNLOCKED_UPSTAIRS_DOOR and SAVE_FLAG_HAVE_METAL_CAP and SAVE_FLAG_HAVE_VANISH_CAP and SAVE_FLAG_HAVE_WING_CAP) ~= 0))
 _G.STRApi.add_plugin_slot(3, m.numStars >= 81 and save_file_get_flags() & SAVE_FLAG_HAVE_WING_CAP ~= 0)
 _G.STRApi.add_plugin_slot(4, m.numStars >= 91 and save_file_get_flags() & SAVE_FLAG_COLLECTED_MIPS_STAR_1 ~= 0)
 elseif RH_Name == "SM64: The Green Comet" then
@@ -232,16 +265,23 @@ else
 _G.STRApi.add_plugin_slot(2, m.numStars >= 121)
 _G.STRApi.add_plugin_slot(3, m.numStars >= 145)
 end
+elseif RH_Name == "Little Comets" then
+_G.STRApi.add_plugin_slot(2, m.numStars >= 31)
+elseif RH_Name == "Revenge of the Others" then
+_G.STRApi.add_plugin_slot(2, m.numStars >= 40)
 end
 end
 
 function str_romhack_interact(m, o, type)
 if STRGST.STRGameState == "Started" and STRGST.STRGameMode ~= 4 then 
-if ((RH_Name == "Only Up 64" or RH_Name == "Roblox 64") and type == INTERACT_STAR_OR_KEY) 
-or (RH_Name == "Star Revenge 6.5" and type == INTERACT_STAR_OR_KEY and o.oBehParams == 5 << 24 and gNetworkPlayers[0].currLevelNum == LEVEL_CASTLE)
+if (RH_Name == "Star Revenge 6.5" and type == INTERACT_STAR_OR_KEY and o.oBehParams == 5 << 24 and gNetworkPlayers[0].currLevelNum == LEVEL_CASTLE)
 or ((RH_Name == "Super Mario and the Marvel Adventure" or RH_Name == "Star Revenge 8: Scepter of Hope") and type == INTERACT_STAR_OR_KEY and gNetworkPlayers[0].currLevelNum == LEVEL_ENDING)
 or (RH_Name == "Super Mario The Galactic Journey" and type == INTERACT_STAR_OR_KEY and gNetworkPlayers[0].currLevelNum == LEVEL_TOTWC) 
-or (RH_Name == "Mario on Indigo Island" and type == INTERACT_STAR_OR_KEY and o.oBehParams == 6 << 24 and gNetworkPlayers[0].currLevelNum == LEVEL_CASTLE) then
+or (RH_Name == "Mario on Indigo Island" and type == INTERACT_STAR_OR_KEY and o.oBehParams == 6 << 24 and gNetworkPlayers[0].currLevelNum == LEVEL_CASTLE) 
+or (RH_Name == "Super Mario: King Bob-omb's Revenge" and gNetworkPlayers[0].currLevelNum == LEVEL_SA and type == INTERACT_STAR_OR_KEY)
+or (RH_Name == "Super Mario Astra" and gNetworkPlayers[0].currLevelNum == LEVEL_CASTLE_GROUNDS and gNetworkPlayers[0].currAreaIndex == 2 and type == INTERACT_STAR_OR_KEY) 
+or (RH_Name == "Super Mario Bros. 3D" and gNetworkPlayers[0].currLevelNum == LEVEL_CASTLE_GROUNDS and type == INTERACT_STAR_OR_KEY) 
+or (RH_Name == "Mario and the Floating Isles" and gNetworkPlayers[0].currLevelNum == LEVEL_WMOTR and type == INTERACT_STAR_OR_KEY) then 
 STRGST.STRGameState = "Finished"
 end
 end
@@ -253,10 +293,14 @@ _G.STRApi.add_plugin_slot(1, m.numStars >= 31 and get_id_from_behavior(o.behavio
 elseif RH_Name == "Super Mario Rainbow Road" then
 _G.STRApi.add_plugin_slot(1, m.numStars >= 54 and get_id_from_behavior(o.behavior) == id_bhvStar and gNetworkPlayers[0].currLevelNum == LEVEL_SA)
 elseif RH_Name ==  "Ztar Attack 2" then
-_G.STRApi.add_plugin_slot(5, ((save_file_get_flags() & (SAVE_FLAG_HAVE_KEY_1 and SAVE_FLAG_HAVE_KEY_2 and SAVE_FLAG_HAVE_METAL_CAP and SAVE_FLAG_HAVE_VANISH_CAP and SAVE_FLAG_HAVE_WING_CAP) ~= 0) 
-and gNetworkPlayers[0].currLevelNum == LEVEL_ENDING and interactType == INTERACT_STAR_OR_KEY and o.oBehParams == 2 << 24))
+_G.STRApi.add_plugin_slot(5, ((save_file_get_flags() & (SAVE_FLAG_UNLOCKED_BASEMENT_DOOR and SAVE_FLAG_UNLOCKED_UPSTAIRS_DOOR and SAVE_FLAG_HAVE_METAL_CAP and SAVE_FLAG_HAVE_VANISH_CAP and SAVE_FLAG_HAVE_WING_CAP) ~= 0) 
+and gNetworkPlayers[0].currLevelNum == LEVEL_ENDING and type == INTERACT_STAR_OR_KEY and o.oBehParams == 2 << 24))
 elseif RH_Name == "SM64: The Green Comet" and OmmEnabled then
 _G.STRApi.add_plugin_slot(1, gNetworkPlayers[0].currLevelNum == LEVEL_ENDING and gNetworkPlayers[0].currAreaIndex == 2 and type == INTERACT_STAR_OR_KEY)
+elseif RH_Name == "Little Comets" then
+_G.STRApi.add_plugin_slot(1, gNetworkPlayers[0].currLevelNum == LEVEL_HMC and type == INTERACT_STAR_OR_KEY)
+elseif RH_Name == "Revenge of the Others" then
+_G.STRApi.add_plugin_slot(1, type == INTERACT_STAR_OR_KEY)
 end
 end
 
@@ -276,6 +320,7 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("5 Star", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Beat the Game with All 5 Stars", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif RH_Name == "Despair Mario's Gambit" then
 	if not OmmEnabled then
 	shadow_text("0 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
@@ -298,6 +343,7 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("Collect All 120 Stars and Enter the Pipe", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	end
+	
 	elseif RH_Name == "Eternal Realm" then
 	shadow_text("0 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Clip through the Door and Grab the Key", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
@@ -310,6 +356,7 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("47 Stars", X - 70, Y + 20, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect All 47 Stars and Grab the Key", X - 70, Y + 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 37, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif RH_Name == "Green Star Revenge 1" then
 	if not OmmEnabled then
 	shadow_text("0 Green Stars", X - 70, Y - 70, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
@@ -344,6 +391,7 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("Beat The Game with All 133 Stars", X - 70, Y + 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 37, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	end
+	
 	elseif RH_Name == "Katze Stuck in the Toilet 64" then
 	if not OmmEnabled then
 	shadow_text("0 Burgers", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
@@ -366,6 +414,7 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("Collect All 40 Burgers and Enter the Warp", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	end
+	
 	elseif RH_Name == "King Boo's Revenge 2" then
 	shadow_text("0 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Clip Through Doors and Reach to the Pipe", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
@@ -378,6 +427,7 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("182 Stars", X - 70, Y + 20, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect All 182 Stars and Reach to the Pipe", X - 70, Y + 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 37, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif RH_Name == "Lug's Delightful Dioramas" then
 	shadow_text("64 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect 64 Stars in this Romhack", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
@@ -386,6 +436,7 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("74 Star", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect All 74 Stars in this Romhack", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif RH_Name == "Lug's Delightful Dioramas (Green Comet)" then
 	shadow_text("Any%", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Beat the Game with any Amount of Stars", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
@@ -394,6 +445,7 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("80 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Beat the Game with All 80 Stars", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif RH_Name ==  "Luigi & The Violet Stars" then
 	shadow_text("1 Star", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect 1 Star and Beat Bowser", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
@@ -406,6 +458,7 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("136 Stars", X - 70, Y + 20, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect All 136 Stars and Reach to the Pipe", X - 70, Y + 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 37, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif RH_Name == "Luigi and the Forest Ruins" then
 	shadow_text("21 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect 21 stars and Beat Bowser", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
@@ -414,6 +467,7 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("40 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect All 40 Stars and Beat Bowser", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif RH_Name == "Luigi's Mansion 64" then
 	shadow_text("100 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect 100 Stars and Beat Bowser", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
@@ -426,11 +480,13 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("118 Stars", X - 70, Y + 20, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect All 118 Stars (Including Shiverside Station)", X - 70, Y + 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 37, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif RH_Name == "Luigi's Mansion 64.5" then
 	shadow_text("111 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect All 111 Stars and Beat Bowser", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("This is the Only Run you can do.", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 14, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif RH_Name == "Mario In The Colorful Lands" then
 	shadow_text("50 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect 50 stars and Beat Bowser", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
@@ -439,6 +495,7 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("93 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect All 93 Stars and Beat Bowser", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif RH_Name == "Mario's Treasure Dome: The Revival" then
 	shadow_text("Any%", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Beat the Game with any Amount of Stars", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
@@ -447,11 +504,13 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("125 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Beat the Game with All 125 Stars", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif RH_Name == "Only Up 64" or RH_Name == "Roblox 64" then
 	shadow_text("1 Star", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Reach to the Top and Grab the Star", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("This is the Only Run you can do.", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 14, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif RH_Name == "Shining Stars: 2 Mirror Madness" then
 	if not OmmEnabled then
 	shadow_text("0 Stars", X - 155, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
@@ -498,6 +557,7 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("Collect All 122 Stars and Beat Bowser", X - 70, Y + 60, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70 , Y + 67, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	end
+	
 	elseif RH_Name == "Shining Stars" then
 	if not OmmEnabled then
 	shadow_text("0 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
@@ -520,12 +580,14 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("Collect All 151 Stars and Beat Bowser", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	end
+	
 	elseif (RH_Name == "Super Mario 64 Extra" or RH_Name == "SM64 Sapphire Green Comet" or RH_Name == "SM64: Trouble Town" 
 	or (RH_Name == "The Phantom's Call" and not OmmEnabled)) or (RH_Name == "SM64: Peach and the Pink Star" and OmmEnabled) then
 	shadow_text("30 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect All 30 Stars in this Romhack", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("This is the Only Run you can do.", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 14, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif RH_Name == "SM64: Royal Legacy" then
 	if not OmmEnabled then
 	shadow_text("0 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
@@ -541,6 +603,7 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("This is the Only Run you can do with OMM Rebirth.", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 14, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	end
+	
 	elseif RH_Name == "SM64: The Green Stars" then
 	shadow_text("80 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect 80 Stars and Beat Bowser", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
@@ -549,6 +612,7 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("131 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect All 131 Stars and Beat Bowser", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif RH_Name == "SM64: Twisted Adventures" then
 	shadow_text("75 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect 75 Stars and Beat Bowser", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
@@ -561,6 +625,7 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("151 Stars", X - 70, Y + 20, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect All 151 Stars and Beat Bowser", X - 70, Y + 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 37, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif RH_Name == "Sonic Adventure 64 DX" then
 	shadow_text("1 Star", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Defeat King Whomp and Grab the Star", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
@@ -569,6 +634,7 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("3 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect All 3 Stars in this Romhack", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif RH_Name == "Star Revenge 1: Star Takeover" then
 	shadow_text("91 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect 91 Stars and Enter the Pipe", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
@@ -577,11 +643,13 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("101 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect All 101 Stars and Enter the Pipe", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif RH_Name == "Star Revenge 1.3 Redone" then
 	shadow_text("106 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect All 106 Stars in this Romhack", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("This is the Only Run you can do?", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 14, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif RH_Name == "Star Revenge 1.5: Star Takeover Redone" then
 	shadow_text("66 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect 66 Stars and Beat Bowser", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
@@ -590,6 +658,7 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("125 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect All 125 Stars and Beat Bowser", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif RH_Name == "Star Revenge 2: Night of Doom" then
 	shadow_text("90 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect 90 Stars and Beat Bowser", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
@@ -598,6 +667,7 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("160 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect All 160 Stars and Beat Bowser", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif RH_Name == "Star Revenge 3: Mario on An Saoire 64" then
 	shadow_text("1 Star", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect 1 Star and Beat Wiggler", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
@@ -610,6 +680,7 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("65 Stars", X - 70, Y + 20, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect All 65 Stars and Beat Wiggler", X - 70, Y + 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 37, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif RH_Name == "Star Revenge 4: The Kedama Takeover 64" then
 	if not OmmEnabled then
 	shadow_text("35 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
@@ -640,8 +711,9 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("Collect All 100 Stars and Beat Bowser", X - 70, Y + 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 37, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	end
-	elseif RH_Name == "Star Revenge 6.5" then
-	if not OmmEnabled then
+	
+	elseif RH_Name == "Star Revenge 6.5" or RH_Name == "SM64 The Nostalgia Trip" then
+	if not OmmEnabled and RH_Name ~= "SM64 The Nostalgia Trip" then
 	shadow_text("1 Star", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect 1 Star in the Castle", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y - 23, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
@@ -649,12 +721,13 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("70 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect 70 Star in this Romhack", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-	else
+	elseif OmmEnabled or RH_Name == "SM64 The Nostalgia Trip" then
 	shadow_text("70 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect 70 Star in this Romhack", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("This is the Only Run you can do with OMM Rebirth.", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 14, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	end
+	
 	elseif RH_Name == "Super Bell Thrill" then
 	shadow_text("1 Star", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text('Collect The "First" Star in this Romhack', X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
@@ -663,6 +736,7 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("7 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect All 7 Star in this Romhack", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif RH_Name == "SM64: Hidden Stars" then
 	shadow_text("0 Stars", X - 70, Y - 70, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Beat The Game without Collecting Stars", X - 70, Y - 60, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
@@ -679,6 +753,7 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("112 Stars", X - 70, Y + 20, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect All 112 Stars and Enter the Pipe", X - 70, Y + 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 37, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif RH_Name == "SM64: Into Bowser's Castle" then
 	shadow_text("30 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect 30 Stars and Beat Bowser", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
@@ -691,6 +766,7 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("120 Stars", X - 70, Y + 20, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect All 120 Stars and Beat Bowser", X - 70, Y + 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 37, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif RH_Name == "SM64: Moonshine" then
 	shadow_text("31 Moons", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect 31 Moons in this Romhack", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
@@ -699,6 +775,7 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("50 Moons", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect All 50 Moons in this Romhack", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif RH_Name == "SM64: Paradise Island" then
 	shadow_text("30 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect 30 Stars in this Romhack", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
@@ -707,6 +784,7 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("50 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect All 50 Stars in this Romhack", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif (RH_Name == "SM64: Peach and the Pink Star" and not OmmEnabled) or RH_Name == "SM64 Sapphire" then
 	shadow_text("0 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Beat The Game without Collecting Stars", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
@@ -715,6 +793,7 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("30 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect All 30 Stars in this Romhack", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif RH_Name == "SM64: The Mushroom Cup" then
 	if not OmmEnabled then
 	shadow_text("16 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
@@ -749,11 +828,13 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("Collect All 130 Stars and Go to the Shrine", X - 70, Y + 60, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70 , Y + 67, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	end
+	
 	elseif RH_Name == "SM64: The Underworld" then
 	shadow_text("Grand Star", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Defeat Shitilizer and Grab The Grand Star", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("This is the Only Run you can do.", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 14, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif RH_Name == "Super Mario 74" then
 	if not OmmEnabled then
 	shadow_text("0 Stars", X - 70, Y - 70, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
@@ -807,6 +888,7 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	end
 	end
+	
 	elseif RH_Name == "SM74: Ten Years After" then
 	if not OmmEnabled then
 	shadow_text("0 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
@@ -829,6 +911,7 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("Collect All 155 Stars and Beat Bowser", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	end
+	
 	elseif RH_Name == "Super Mario and the Marvel Adventure" then
 	if not OmmEnabled then
 	shadow_text("46 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
@@ -851,6 +934,7 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("Collect All 51 Stars and Beat Bowser", X - 70, Y + 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 37, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	end
+	
 	elseif RH_Name == "Super Mario Rainbow Road" then
 	shadow_text("54 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect 54 Stars in this Romhack", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
@@ -859,6 +943,7 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("60 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect All 60 Stars in this Romhack", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif (RH_Name == "Star Road" or RH_Name == "Star Road: The Replica Comet") then
 	shadow_text("Any%", X - 155, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Beat the Game with any Amount of Stars", X - 155, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
@@ -879,11 +964,13 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("65 Stars", X, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Take the Cannon and Clip through the Door", X, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("Any Castle Skip Except 80 Star Door Skip is Banned", X, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	if RH_Name == "Star Road: The Replica Comet" then
 	shadow_text("150 Stars", X, Y + 20, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Beat The Game with All 130 Stars + 20 Extras", X, Y + 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X , Y + 37, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	end
+	
 	elseif RH_Name == "Super Mario The Galactic Journey" then
 	if not OmmEnabled then
 	shadow_text("12 Stars", X - 70, Y - 70, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
@@ -918,6 +1005,7 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("Beat The Game with All 102 Stars", X - 70, Y + 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 37, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	end
+	
 	elseif RH_Name == "Super Mario The Power Star Journey" then
 	shadow_text("80 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect at least 80 Stars and Beat Bowser", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
@@ -930,6 +1018,7 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("101 Stars", X - 70, Y + 20, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect 97 Stars Including 100 Coin Stars and Beat Bowser", X - 70, Y + 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 37, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif RH_Name == "Super Retro Land" then
 	if not OmmEnabled then
 	shadow_text("4 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
@@ -945,6 +1034,7 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("Collect All 4 Stars in this Romhack", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	end
+	
 	elseif RH_Name == "The Phantom's Call" and OmmEnabled then
 	shadow_text("Any%", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Beat the Game with any Amount of Stars", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
@@ -953,6 +1043,7 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("30 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect All 30 Stars in this Romhack", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif RH_Name == "Thousand Year Door 64" then
 	if not OmmEnabled then
 	shadow_text("0 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
@@ -975,6 +1066,7 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("Collect All 80 Stars and Enter the Teleporter", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	end
+	
 	elseif RH_Name == "Ztar Attack 2" then
 	shadow_text("Any%", X - 70, Y - 70, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Beat Bowser as Quickly as Possible", X - 70, Y - 60, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
@@ -995,6 +1087,7 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("All Bosses", X - 70, Y + 50, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Defeat All Bosses in Each Main Worlds", X - 70, Y + 60, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 67, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif RH_Name == "SM64: The Green Comet" then
 	if not OmmEnabled then
 	shadow_text("121 Green Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
@@ -1017,21 +1110,25 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("Collect 24 More Green Stars in this Romhack", X - 70, Y + 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("You need to Collect All Main 121 Stars First", X - 70, Y + 37, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	end
+	
 	elseif RH_Name == "Somari 64: DASH!" then
 	shadow_text("6 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect 5 Stars and then Collect Mips Star", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("This is the Only Run you can do.", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 14, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif RH_Name == "Super Mario Fallen Stars" then
 	shadow_text("24 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect All 24 Stars in this Romhack", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("This is the Only Run you can do.", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 14, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif RH_Name == "Super Banjo Kazooie 64 Redux" then
 	shadow_text("18 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect All 18 Stars in this Romhack", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("This is the Only Run you can do.", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 14, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif RH_Name == "Star Revenge 4.5: The Kedama Takeover Redone" then
 	shadow_text("50 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect 50 Stars and Beat Rainbow Bowser", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
@@ -1040,6 +1137,7 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("100 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect All 100 Stars and Beat Rainbow Bowser", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif RH_Name == "Star Revenge 5: Neo Blue Realm" then
 	shadow_text("1 Star", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Clip Through The Gate and Get The Blue Realm Ending", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
@@ -1052,11 +1150,13 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("70 Stars", X - 70, Y + 20, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect All 70 Stars in this Romhack", X - 70, Y + 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 37, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif RH_Name == "Super Mario 8MB" then
 	shadow_text("12 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect All 12 Stars in this Romhack", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("This is the Only Run you can do.", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 14, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif RH_Name == "Super Mario Star" then
 	if not OmmEnabled then
 	shadow_text("16 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
@@ -1067,28 +1167,31 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("All Star Doors can't be Skipped", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("BLJs/MIPS Clip are Banned", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	
-	shadow_text("102 Green Stars", X - 70, Y + 20, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("102 Stars", X - 70, Y + 20, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Beat The Game with All 102 Stars", X - 70, Y + 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 37, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	else
 	shadow_text("70 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
-	shadow_text("BLJs/MIPS Clip are Banned", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
-	shadow_text("All Glitches are Allowed", X - 70, Y - 23, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("All Star Doors can't be Skipped", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("BLJs/MIPS Clip are Banned", X - 70, Y - 23, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	
-	shadow_text("102 Green Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("102 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Beat The Game with All 102 Stars", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	end
+	
 	elseif RH_Name == "Goomba's Easter Egg Hunt" then
 	shadow_text("20 Easter Eggs", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect All 20 Easter Eggs in this Romhack", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("This is the Only Run you can do.", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 14, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif RH_Name == "Kaizo Mario 64" then
 	shadow_text("120 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect All 120 Stars in this Romhack", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("You need 120 Stars to Beat Bowser", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 14, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif RH_Name == "SM64 Openworld Quest" then
 	shadow_text("50 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect 50 Stars and Beat Bowser", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
@@ -1097,11 +1200,13 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("80 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect All 80 Stars and Beat Bowser", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif RH_Name == "Organ of Matrias" then
 	shadow_text("9 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect All 9 Stars in this Romhack", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("This is the Only Run you can do.", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 14, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif RH_Name == "Star Revenge 8: Scepter of Hope" then
 	shadow_text("80 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect 80 Stars and Grab the 8 Star", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
@@ -1110,6 +1215,7 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("121 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect All 121 Stars and Grab the 8 Star", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif RH_Name == "Mario on Indigo Island" then
 	shadow_text("76 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect 76 Stars and Grab The Giant Star", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
@@ -1118,6 +1224,7 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("111 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect All 111 Stars and Grab The Giant Star", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
 	elseif RH_Name == "Star Revenge 3.9: Dreamish Block Beats" then
 	shadow_text("8 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect 8 Stars and Enter The Blue Pipe", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
@@ -1126,6 +1233,190 @@ if STRMenuDisplay == false and RH_Name ~= "None" and CRH_Name == "None" then
 	shadow_text("20 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
 	shadow_text("Collect All 20 Stars and Enter The Blue Pipe", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
 	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
+	elseif RH_Name == "Super Mario: King Bob-omb's Revenge" then
+	if not OmmEnabled then
+	shadow_text("2 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("BLJs through Doors and Beat King Bob-omb", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("All Glitches are Allowed", X - 70, Y - 23, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
+	shadow_text("32 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("All Star Doors can't be Skipped", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("BLJs are Banned", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	else
+	shadow_text("32 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("Collect All 32 Stars in this Romhack", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("This is the Only Run you can do.", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("All Glitches are Allowed", X - 70, Y + 14, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	end
+	
+	elseif RH_Name == "Tomatobird8's Classic Pack 64" then
+	shadow_text("40 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("Collect 40 Stars and Beat Bowser", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("All Glitches are Allowed", X - 70, Y - 23, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
+	shadow_text("60 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("Collect All 60 Stars and Beat Bowser", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
+	elseif RH_Name == "SM64: A New Journey" then
+	shadow_text("30 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("The Bowser Doors can't be Skipped", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("Going to the Boss Early is Banned", X - 70, Y - 23, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
+	shadow_text("35 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("Collect All 35 Stars and Beat Bowser", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+
+	elseif RH_Name == "Ultra Mario 64 Demo" then
+	shadow_text("16 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("Collect All 16 Stars in this Romhack", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("This is the Only Run you can do.", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("All Glitches are Allowed", X - 70, Y + 14, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
+	elseif RH_Name == "Super Mario Astra" then
+	shadow_text("90 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("Collect All 90 Stars in this Romhack", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("This is the Only Run you can do.", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("All Glitches are Allowed", X - 70, Y + 14, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
+	elseif RH_Name == "Mechanical Madness 2" then
+	shadow_text("50 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("All Star Doors can't be Skipped", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("Going to the Boss Early is Banned", X - 70, Y - 23, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
+	shadow_text("80 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("Collect All 80 Stars and Beat Bowser", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
+	elseif RH_Name == "Mechanical Madness 3" then
+	shadow_text("75 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("All Star Doors can't be Skipped", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("Going to the Boss Early is Banned", X - 70, Y - 23, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
+	shadow_text("121 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("Collect All 121 Stars and Beat Bowser", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
+	elseif RH_Name == "Star Revenge 2 Act 1: To The Moon" then
+	shadow_text("1 Star", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("Collect 1 Star and then Beat Bowser", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("All Glitches are Allowed", X - 70, Y - 23, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
+	shadow_text("41 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("All Star Doors can't be Skipped", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("BLJs/MIPS Clip are Banned", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
+	shadow_text("85 Stars", X - 70, Y + 20, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("Collect All 85 Stars and Beat Bowser", X - 70, Y + 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("All Glitches are Allowed", X - 70, Y + 37, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
+	elseif RH_Name == "Mario and the Magic Wand" then
+	shadow_text("15 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("Collect 15 Stars and then enter the Key Door", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("All Glitches are Allowed", X - 70, Y - 23, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
+	shadow_text("30 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("Collect All 30 Stars and enter the Key Door", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
+	elseif RH_Name == "Super Mario Bros. 3D" then
+	shadow_text("22 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("Collect All 22 Stars in this Romhack", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("This is the Only Run you can do.", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("All Glitches are Allowed", X - 70, Y + 14, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
+	elseif RH_Name == "SM64 Openworld Edition" then
+	shadow_text("50 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("Collect 50 Stars and Beat Bowser", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("Skipping Star Doors are Banned", X - 70, Y - 23, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
+	shadow_text("121 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("Collect All 121 Stars and Beat Bowser", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
+	elseif RH_Name == "Little Worlds" then
+	shadow_text("5 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("Collect All 5 Stars in this Romhack", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("This is the Only Run you can do.", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("All Glitches are Allowed", X - 70, Y + 14, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
+	elseif RH_Name == "Little Comets" then
+	shadow_text("Any%", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("Grab The Final Challange Star", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("All Glitches are Allowed", X - 70, Y - 23, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
+	shadow_text("31 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("Collect All 31 Stars in this Romhack", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
+	elseif RH_Name == "Revenge of the Others" then
+	shadow_text("Any%", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("Grab the Key from King Bob-omb", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("All Glitches are Allowed", X - 70, Y - 23, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
+	shadow_text("40 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("Collect All 40 Stars in this Romhack", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
+	elseif RH_Name == "Mario and the Floating Isles" then
+	shadow_text("21 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("Collect All 21 Stars in this Romhack", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("This is the Only Run you can do.", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("All Glitches are Allowed", X - 70, Y + 14, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
+	elseif RH_Name == "Mario and the Floating Isles 2" then
+	shadow_text("Any%", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("Enter The Beginning Star Door", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("Clipping through the 20 Star Door is Banned", X - 70, Y - 23, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
+	shadow_text("26 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("Collect All 26 Stars in this Romhack", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
+	elseif RH_Name == "SM64 Mystery Bowser Worlds" then
+	shadow_text("15 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("Collect All 15 Stars and Beat Bowser", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("This is the Only Run you can do.", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("All Glitches are Allowed", X - 70, Y + 14, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
+	elseif RH_Name == "Super Mario Mystic Isles" then
+	shadow_text("20 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("Collect All 20 Stars and Beat King Bob-omb", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("This is the Only Run you can do.", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("All Glitches are Allowed", X - 70, Y + 14, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
+	elseif RH_Name == "SM64 Surge of Starlight" then
+	shadow_text("90 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("Collect 90 Stars and Beat Bowser", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("Clipping through the 90 Star Door is Banned", X - 70, Y - 23, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
+	shadow_text("131 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("Collect All 131 Stars in this Romhack", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
+	elseif RH_Name == "Super Mario New Star" then
+	if not OmmEnabled then
+	shadow_text("90 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("BLJs/MIPS Clip are Banned", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("Clipping through Doors is Banned", X - 70, Y - 23, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
+	shadow_text("132 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("Beat The Game with All 132 Stars", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("All Glitches are Allowed", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	else
+	shadow_text("13 Stars", X - 70, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("Collect 12 Stars and Collect Toad's Star", X - 70, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("All Glitches are Allowed", X - 70, Y - 23, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
+	shadow_text("90 Stars", X - 70, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("All Star Doors can't be Skipped", X - 70, Y, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("Clipping through Doors is Banned", X - 70, Y + 7, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	
+	shadow_text("132 Stars", X - 70, Y + 20, Size - 0.40, 0.95, 0.95, 255, 255, 255, 255)
+	shadow_text("Beat The Game with All 132 Stars", X - 70, Y + 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	shadow_text("All Glitches are Allowed", X - 70, Y + 37, Size - 0.50, 0.50, 0.50, 255, 255, 255, 255)
+	end
 	end
 	end
 end
@@ -1175,6 +1466,12 @@ _G.STRApi.add_run_slot(nil, 1, "1 Green Star")
 _G.STRApi.add_run_slot(nil, 2, "121 Green Stars")
 _G.STRApi.add_run_slot(nil, 3, "145 Green Stars")
 end
+elseif RH_Name == "Little Comets" then
+_G.STRApi.add_run_slot(nil, 1, "Any%")
+_G.STRApi.add_run_slot(nil, 2, "31 Stars") 
+elseif RH_Name == "Revenge of the Others" then
+_G.STRApi.add_run_slot(nil, 1, "Any%")
+_G.STRApi.add_run_slot(nil, 2, "40 Stars") 
 end
 end
 end

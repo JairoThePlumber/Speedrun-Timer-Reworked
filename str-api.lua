@@ -75,61 +75,86 @@ STRWords = Words
 STRQuotes = Quotes
 end
 
-local function set_custom_colors(Apply, R, B, G)
-if (STRCustomColors == "Disabled") or (STRCustomColors == "Enabled" and Apply == false) then
-Hud_Color(255, 255, 255, STRFV)
-elseif STRCustomColors == "Enabled" and Apply == true then
-Hud_Color(STRFR, STRFG, STRFB, STRFV)
-elseif Apply == "Custom" then
-Hud_Color(R, G, B, STRFV)
+function romhack_custom_location(STRCCourseID, STRCLevelID, STRCAreaID, STRCActID, Xpos, Ypos, Zpos)
+	STRGST.STRLocationPlugin = true
+	if not network_is_server() then return end
+	if STRGST.STRSpotUpdater <= 5 and (GroundSpot or AirSpot) and STRGST.WarpNodeRandomierDeplay > 89 then
+	STRGST.STRXPos = Xpos
+	STRGST.STRYPos = Ypos
+	STRGST.STRZPos = Zpos
+	end
+	
+	if STRGST.STRSavSpotUpdater <= 5 and (GroundSpot or AirSpot) and STRGST.WarpNodeRandomierDeplay > 89 then
+	STRGST.STRSavXPos = Xpos
+	STRGST.STRSavYPos = Ypos
+	STRGST.STRSavZPos = Zpos
+	end
+	
+	if STRGST.STRLevelUpdater < 5 and STRGST.WarpNodeRandomierDeplay > 89 then
+	STRGST.STRCourseID = STRCCourseID
+	STRGST.STRLevelID = STRCLevelID
+	STRGST.STRAreaID = STRCAreaID
+	STRGST.STRActID = STRCActID
+	end
+
+	if STRGST.STRSavLevelUpdater < 5 and STRGST.WarpNodeRandomierDeplay > 89 then
+	STRGST.STRSavCourseID = STRCCourseID
+	STRGST.STRSavLevelID = STRCLevelID
+	STRGST.STRSavAreaID = STRCAreaID
+	STRGST.STRSavActID = STRCActID
+	end
+end
+
+local function set_custom_colors(Apply, R, G, B)
+if (STRCustomColors == "Disabled" and Apply == false) or (STRCustomColors == "Enabled" and Apply == false) then
+Hud_Color(255, 255, 255, STRFontColors.STRFV)
+elseif (STRCustomColors == "Enabled" and Apply == true) or (STRCustomColors == "Enabled" and Apply == "Custom") then
+Hud_Color(STRFontColors.STRFR, STRFontColors.STRFG, STRFontColors.STRFB, STRFontColors.STRFV)
+elseif (Apply == "Custom" and STRCustomColors == "Disabled") then
+Hud_Color(R, G, B, STRFontColors.STRFV)
 	end
 end
 
 local function set_custom_countdown(FName, Tx, x, y, s1, s2, s3, s4, s5, s6, n1, n2, types, layers)
-	if not CountdownDisplayFunc then return end
+	if not (CountdownDisplayFunc or ShowCDFont) then return end
 	
-	if STRFontsTable[STRFontCDNumber].str_font_id ~= FName then return end
+	if STRFontsTable[STRFCDNumber].str_font_id ~= FName then return end
 	
-	if (layers == "Middle") or (layers == "Right") then
+	if (layers == "Middle") or (layers == "Right (Tens)") or (layers == "Right (Ones)") then
 	CD1 = (math.floor(STRGST.STRCountdown%10)%n1)
 	CD2 =  math.floor(STRGST.STRCountdown%10/n2)
 	elseif (layers == "Left (Tens)" or layers == "Left (Ones)") then
-	CD1 = ((math.floor(gGlobalSyncTable.STRCountdown/10)%10)%n1)
+	CD1 = ((math.floor(STRGST.STRCountdown/10)%10)%n1)
 	CD2 = math.floor(STRGST.STRCountdown%100/n2)
 	end
 	
-	if ((layers == "Middle" and STRGST.STRCountdown < 10) or ((layers ~= "Middle") and STRGST.STRCountdown >= 10)) then
-	if types == "Multiply" then
+	if (((layers == "Middle" or layers == "Left (Ones)" or layers == "Right (Ones)") and STRGST.STRCountdown < 10) or ((layers ~= "Middle") and STRGST.STRCountdown >= 10)) then
+	if (types == "Multiply" or types == "Multiplying") then
 	Hud_Tile_Tex(Texture(Tx), x, y, s1, s2, CD1*s3, CD2*s4, s5, s6)
-	elseif types == "Add" then
+	elseif (types == "Add" or types == "Adding") then
 	Hud_Tile_Tex(Texture(Tx), x, y, s1, s2, CD1*s3, CD2+s4, s5, s6)
 	end
 	end
 end
 
 local function set_custom_go(FName, Tx, x, y, s1, s2, s3, s4, s5, s6)
-	if not (GoDisplayFunc and STRGST.STRGameMode ~= 4) then return end
-	if STRFontsTable[STRFontGONumber].str_font_id ~= FName then return end
+	if not ((GoDisplayFunc and STRGST.STRGameMode ~= 4) or ShowGoFont) then return end
+	if STRFontsTable[STRFGONumber].str_font_id ~= FName then return end
     Hud_Tile_Tex(Texture(Tx), x, y, s1, s2, s3, s4, s5, s6)
 end
 
-local function set_custom_extras(FName, Tx, x, y, s1, s2, s3, s4, s5, s6, types)
-	if types == "Timer" and STRFontsTable[STRFontTMNumber].str_font_id == FName then
-    Hud_Tile_Tex(Texture(Tx), x + CXPos, y + CYPos, s1, s2, s3, s4, s5, s6)
+local function set_custom_extras(FName, Tx, x, y, s1, s2, s3, s4, s5, s6, types, speed)
+	if types == "Timer" and STRFontsTable[STRFTMNumber].str_font_id == FName then	
+    Hud_Tile_Tex(Texture(Tx), x + STRFontPosition.STRCX, y + STRFontPosition.STRCY, s1, s2, s3, s4, s5, s6)
 	elseif types ~= "Timer" then
-	if STRGST.STRGameMode ~= 4 then
-	if CountdownDisplayFunc and types == "Countdown" and STRFontsTable[STRFontCDNumber].str_font_id == FName then
+	if (CountdownDisplayFunc or ShowCDFont) and types == "Countdown" and STRFontsTable[STRFCDNumber].str_font_id == FName then
 	Hud_Tile_Tex(Texture(Tx), x, y, s1, s2, s3, s4, s5, s6)
-	end
-	if GoDisplayFunc and types == "Go" and STRFontsTable[STRFontGONumber].str_font_id == FName then
-	Hud_Tile_Tex(Texture(Tx), x, y, s1, s2, s3, s4, s5, s6)
-	end
 	end
 	end
 end
 
 local function set_custom_time(FName, Tx, x, y, s1, s2, s3, s4, s5, s6, n1, n2, types, speed, x2, y2, s7, s8, s9, s10, s11, s12, n3, n4)
-	if STRFontsTable[STRFontTMNumber].str_font_id ~= FName then return end
+	if STRFontsTable[STRFTMNumber].str_font_id ~= FName then return end
 	
 	if speed == "Hours Speed" then
 	TM1 = (math.floor(GSTRH%10)%n1)
@@ -149,43 +174,43 @@ local function set_custom_time(FName, Tx, x, y, s1, s2, s3, s4, s5, s6, n1, n2, 
 	elseif speed == "Milliseconds Speed" then
 	TM1 = (math.floor(GSTRMS%10)%n1)
 	TM2 =  math.floor(GSTRMS%10/n2)
-	TM1 = (math.floor(GSTRMS%10)%n3)
-	TM2 =  math.floor(GSTRMS%10/n4)
+	TM3 = (math.floor(GSTRMS%10)%n3)
+	TM4 =  math.floor(GSTRMS%10/n4)
 	end
 
     if GSTRH >= 10 then
 	if speed == "Static" and types == "None" then
-	Hud_Tile_Tex(Texture(Tx), x2 + CXPos, y2 + CYPos, s1, s2, s3, s4, s5, s6)
+	Hud_Tile_Tex(Texture(Tx), x2 + STRFontPosition.STRCX, y2 + STRFontPosition.STRCY, s1, s2, s3, s4, s5, s6)
 	elseif speed == "Moveable" and types == "None" then
-	Hud_Tile_Tex(Texture(Tx), x2 + CXPos, y2 + CYPos, s7, s8, s9, s10, s11, s12)
+	Hud_Tile_Tex(Texture(Tx), x2 + STRFontPosition.STRCX, y2 + STRFontPosition.STRCY, s7, s8, s9, s10, s11, s12)
 	end
 	
-	if types == "Multiply (Static)" then
-	Hud_Tile_Tex(Texture(Tx), x2 + CXPos, y2 + CYPos, s1, s2, TM1*s3, TM2*s4, s5, s6)
-	elseif types == "Multiply (Moveable)" then
-	Hud_Tile_Tex(Texture(Tx), x2 + CXPos, y2 + CYPos, s7, s8, TM3*s9, TM4*s10, s11, s12)
-	elseif types == "Add (Static)" then
-	Hud_Tile_Tex(Texture(Tx), x2 + CXPos, y2 + CYPos, s1, s2, TM1*s3, TM2+s4, s5, s6)
-	elseif types == "Add (Moveable)" then
-	Hud_Tile_Tex(Texture(Tx), x2 + CXPos, y2 + CYPos, s7, s8, TM3*s9, TM4+s10, s11, s12)
-		end
+	if (types == "Multiply (Static)" or types == "Multiplying (Static)") then
+	Hud_Tile_Tex(Texture(Tx), x2 + STRFontPosition.STRCX, y2 + STRFontPosition.STRCY, s1, s2, TM1*s3, TM2*s4, s5, s6)
+	elseif (types == "Multiply (Moveable)" or types == "Multiplying (Moveable)") then
+	Hud_Tile_Tex(Texture(Tx), x2 + STRFontPosition.STRCX, y2 + STRFontPosition.STRCY, s7, s8, TM3*s9, TM4*s10, s11, s12)
+	elseif (types == "Add (Static)" or types == "Adding (Static)") then
+	Hud_Tile_Tex(Texture(Tx), x2 + STRFontPosition.STRCX, y2 + STRFontPosition.STRCY, s1, s2, TM1*s3, TM2+s4, s5, s6)
+	elseif (types == "Add (Moveable)" or types == "Adding (Static)")  then
+	Hud_Tile_Tex(Texture(Tx), x2 + STRFontPosition.STRCX, y2 + STRFontPosition.STRCY, s7, s8, TM3*s9, TM4+s10, s11, s12)
+	end
 	end
 	
 	if GSTRH < 10 then
 	if (speed == "Static" or speed == "Moveable") and types == "None" then
-	Hud_Tile_Tex(Texture(Tx), x + CXPos, y + CYPos, s1, s2, s3, s4, s5, s6)
+	Hud_Tile_Tex(Texture(Tx), x + STRFontPosition.STRCX, y + STRFontPosition.STRCY, s1, s2, s3, s4, s5, s6)
 	end
 
-	if types == "Multiply (Static)" or types == "Multiply (Moveable)" then
-	Hud_Tile_Tex(Texture(Tx), x + CXPos, y + CYPos, s1, s2, TM1*s3, TM2*s4, s5, s6)
-	elseif types == "Add (Static)" or types == "Add (Moveable)" then
-	Hud_Tile_Tex(Texture(Tx), x + CXPos, y + CYPos, s1, s2, TM1*s3, TM2+s4, s5, s6)
+	if (types == "Multiply (Static)" or types == "Multiplying (Moveable)") then
+	Hud_Tile_Tex(Texture(Tx), x + STRFontPosition.STRCX, y + STRFontPosition.STRCY, s1, s2, TM1*s3, TM2*s4, s5, s6)
+	elseif (types == "Add (Static)" or types == "Adding (Moveable)") then
+	Hud_Tile_Tex(Texture(Tx), x + STRFontPosition.STRCX, y + STRFontPosition.STRCY, s1, s2, TM1*s3, TM2+s4, s5, s6)
 		end
 	end
 end
 
 local function set_custom_milliseconds(FName, Tx, x, y, s1, s2, s3, s4, s5, s6, n1, n2, types, layers)
-	if STRFontsTable[STRFontTMNumber].str_font_id ~= FName then return end
+	if STRFontsTable[STRFTMNumber].str_font_id ~= FName then return end
 	
 	if layers == "Ones" then
 	CD1 = (math.floor(GSTRMS%10)%n1)
@@ -197,16 +222,16 @@ local function set_custom_milliseconds(FName, Tx, x, y, s1, s2, s3, s4, s5, s6, 
 	CD1 = ((math.floor(GSTRMS/100)%10)%n1)
 	CD2 =  math.floor(GSTRMS%1000/n2)
 	end
-	
-	if types == "Multiply" then
-	Hud_Tile_Tex(Texture(Tx), x + CXPos, y + CYPos, s1, s2, CD1*s3, CD2*s4, s5, s6)
-	elseif types == "Add" then
-	Hud_Tile_Tex(Texture(Tx), x + CXPos, y + CYPos, s1, s2, CD1*s3, CD2+s4, s5, s6)
+
+	if (types == "Multiply" or types == "Multiplying") then
+	Hud_Tile_Tex(Texture(Tx), x + STRFontPosition.STRCX, y + STRFontPosition.STRCY, s1, s2, CD1*s3, CD2*s4, s5, s6)
+	elseif (types == "Add" or types == "Adding") then
+	Hud_Tile_Tex(Texture(Tx), x + STRFontPosition.STRCX, y + STRFontPosition.STRCY, s1, s2, CD1*s3, CD2+s4, s5, s6)
 	end
 end
 
 local function set_custom_seconds(FName, Tx, x, y, s1, s2, s3, s4, s5, s6, n1, n2, types, layers)
-	if STRFontsTable[STRFontTMNumber].str_font_id ~= FName then return end
+	if STRFontsTable[STRFTMNumber].str_font_id ~= FName then return end
 	
 	if layers == "Ones" then
 	CD1 = (math.floor(GSTRS%10)%n1)
@@ -215,20 +240,20 @@ local function set_custom_seconds(FName, Tx, x, y, s1, s2, s3, s4, s5, s6, n1, n
 	CD1 = ((math.floor(GSTRS/10)%10)%n1)
 	CD2 =  math.floor(GSTRS%100/n2)
 	end
-	
-	if types == "Multiply (Normal)" then
-	Hud_Tile_Tex(Texture(Tx), x + CXPos, y + CYPos, s1, s2, CD1*s3, CD2*s4, s5, s6)
-	elseif types == "Multiply (Hidden)" and Seconds >= 10 then
-	Hud_Tile_Tex(Texture(Tx), x + CXPos, y + CYPos, s1, s2, CD1*s3, CD2*s4, s5, s6)
-	elseif types == "Add (Normal)" then
-	Hud_Tile_Tex(Texture(Tx), x + CXPos, y + CYPos, s1, s2, CD1*s3, CD2+s4, s5, s6)
-	elseif types == "Add (Hidden)" and Seconds >= 10 then
-	Hud_Tile_Tex(Texture(Tx), x + CXPos, y + CYPos, s1, s2, CD1*s3, CD2+s4, s5, s6)
+
+	if (types == "Multiply (Normal)" or types == "Multiplying (Normal)") then
+	Hud_Tile_Tex(Texture(Tx), x + STRFontPosition.STRCX, y + STRFontPosition.STRCY, s1, s2, CD1*s3, CD2*s4, s5, s6)
+	elseif (types == "Multiply (Hidden)" or types == "Multiplying (Hidden)") and GSTRS >= 10 then
+	Hud_Tile_Tex(Texture(Tx), x + STRFontPosition.STRCX, y + STRFontPosition.STRCY, s1, s2, CD1*s3, CD2*s4, s5, s6)
+	elseif (types == "Add (Normal)" or types == "Adding (Normal)") then
+	Hud_Tile_Tex(Texture(Tx), x + STRFontPosition.STRCX, y + STRFontPosition.STRCY, s1, s2, CD1*s3, CD2+s4, s5, s6)
+	elseif (types == "Add (Hidden)" or types == "Adding (Hidden)") and GSTRS >= 10 then
+	Hud_Tile_Tex(Texture(Tx), x + STRFontPosition.STRCX, y + STRFontPosition.STRCY, s1, s2, CD1*s3, CD2+s4, s5, s6)
 	end
 end
 
 local function set_custom_minutes(FName, Tx, x, y, s1, s2, s3, s4, s5, s6, n1, n2, types, layers)
-	if STRFontsTable[STRFontTMNumber].str_font_id ~= FName then return end
+	if STRFontsTable[STRFTMNumber].str_font_id ~= FName then return end
 	
 	if layers == "Ones" then
 	CD1 = (math.floor(GSTRM%10)%n1)
@@ -238,19 +263,19 @@ local function set_custom_minutes(FName, Tx, x, y, s1, s2, s3, s4, s5, s6, n1, n
 	CD2 =  math.floor(GSTRM%100/n2)
 	end
 	
-	if types == "Multiply (Normal)" then
-	Hud_Tile_Tex(Texture(Tx), x + CXPos, y + CYPos, s1, s2, CD1*s3, CD2*s4, s5, s6)
-	elseif types == "Multiply (Hidden)" and GSTRM >= 10 then
-	Hud_Tile_Tex(Texture(Tx), x + CXPos, y + CYPos, s1, s2, CD1*s3, CD2*s4, s5, s6)
-	elseif types == "Add (Normal)" then
-	Hud_Tile_Tex(Texture(Tx), x + CXPos, y + CYPos, s1, s2, CD1*s3, CD2+s4, s5, s6)
-	elseif types == "Add (Hidden)" and GSTRM >= 10 then
-	Hud_Tile_Tex(Texture(Tx), x + CXPos, y + CYPos, s1, s2, CD1*s3, CD2+s4, s5, s6)
+	if (types == "Multiply (Normal)" or types == "Multiplying (Normal)") then
+	Hud_Tile_Tex(Texture(Tx), x + STRFontPosition.STRCX, y + STRFontPosition.STRCY, s1, s2, CD1*s3, CD2*s4, s5, s6)
+	elseif (types == "Multiply (Hidden)" or types == "Multiplying (Hidden)") and GSTRM >= 10 then
+	Hud_Tile_Tex(Texture(Tx), x + STRFontPosition.STRCX, y + STRFontPosition.STRCY, s1, s2, CD1*s3, CD2*s4, s5, s6)
+	elseif (types == "Add (Normal)" or types == "Adding (Normal)") then
+	Hud_Tile_Tex(Texture(Tx), x + STRFontPosition.STRCX, y + STRFontPosition.STRCY, s1, s2, CD1*s3, CD2+s4, s5, s6)
+	elseif (types == "Add (Hidden)" or types == "Adding (Hidden)") and GSTRM >= 10 then
+	Hud_Tile_Tex(Texture(Tx), x + STRFontPosition.STRCX, y + STRFontPosition.STRCY, s1, s2, CD1*s3, CD2+s4, s5, s6)
 	end
 end
 
 local function set_custom_hours(FName, Tx, x, y, s1, s2, s3, s4, s5, s6, n1, n2, types, layers)
-	if STRFontsTable[STRFontTMNumber].str_font_id ~= FName then return end
+	if STRFontsTable[STRFTMNumber].str_font_id ~= FName then return end
 	
 	if layers == "Ones" then
 	CD1 = (math.floor(GSTRH%10)%n1)
@@ -259,52 +284,52 @@ local function set_custom_hours(FName, Tx, x, y, s1, s2, s3, s4, s5, s6, n1, n2,
 	CD1 = ((math.floor(GSTRH/10)%10)%n1)
 	CD2 =  math.floor(GSTRH%100/n2)
 	end
-	
-	if types == "Multiply (Normal)" then
-	Hud_Tile_Tex(Texture(Tx), x + CXPos, y + CYPos, s1, s2, CD1*s3, CD2*s4, s5, s6)
-	elseif types == "Multiply (Hidden)" and GSTRH < 10 and layers == "Ones" then
-	Hud_Tile_Tex(Texture(Tx), x + CXPos, y + CYPos, s1, s2, CD1*s3, CD2*s4, s5, s6)
-	elseif types == "Multiply (Hidden)" and GSTRH >= 10 and layers == "Tens" then
-	Hud_Tile_Tex(Texture(Tx), x + CXPos, y + CYPos, s1, s2, CD1*s3, CD2*s4, s5, s6)
-	elseif types == "Add (Normal)" then
-	Hud_Tile_Tex(Texture(Tx), x + CXPos, y + CYPos, s1, s2, CD1*s3, CD2+s4, s5, s6)
-	elseif types == "Add (Hidden)"and GSTRH < 10 and layers == "Ones" then
-	Hud_Tile_Tex(Texture(Tx), x + CXPos, y + CYPos, s1, s2, CD1*s3, CD2+s4, s5, s6)
-	elseif types == "Add (Hidden)" and GSTRH >= 10 and layers == "Tens" then
-	Hud_Tile_Tex(Texture(Tx), x + CXPos, y + CYPos, s1, s2, CD1*s3, CD2+s4, s5, s6)
+
+	if (types == "Multiply (Normal)" or types == "Multiplying (Normal)") then
+	Hud_Tile_Tex(Texture(Tx), x + STRFontPosition.STRCX, y + STRFontPosition.STRCY, s1, s2, CD1*s3, CD2*s4, s5, s6)
+	elseif (types == "Multiply (Hidden)" or types == "Multiplying (Hidden)") and GSTRH < 10 and layers == "Ones" then
+	Hud_Tile_Tex(Texture(Tx), x + STRFontPosition.STRCX, y + STRFontPosition.STRCY, s1, s2, CD1*s3, CD2*s4, s5, s6)
+	elseif (types == "Multiply (Hidden)" or types == "Multiplying (Hidden)") and GSTRH >= 10 and layers == "Tens" then
+	Hud_Tile_Tex(Texture(Tx), x + STRFontPosition.STRCX, y + STRFontPosition.STRCY, s1, s2, CD1*s3, CD2*s4, s5, s6)
+	elseif (types == "Add (Normal)" or types == "Adding (Normal)") then
+	Hud_Tile_Tex(Texture(Tx), x + STRFontPosition.STRCX, y + STRFontPosition.STRCY, s1, s2, CD1*s3, CD2+s4, s5, s6)
+	elseif (types == "Add (Hidden)" or types == "Adding (Hidden)") and GSTRH < 10 and layers == "Ones" then
+	Hud_Tile_Tex(Texture(Tx), x + STRFontPosition.STRCX, y + STRFontPosition.STRCY, s1, s2, CD1*s3, CD2+s4, s5, s6)
+	elseif (types == "Add (Hidden)" or types == "Adding (Hidden)") and GSTRH >= 10 and layers == "Tens" then
+	Hud_Tile_Tex(Texture(Tx), x + STRFontPosition.STRCX, y + STRFontPosition.STRCY, s1, s2, CD1*s3, CD2+s4, s5, s6)
 	end
 end
 
 function play_full_sounds()
 	if is_game_paused() then Volume = 0.5 else Volume = 1 end
-	if (STRGST.STRGameState == "Preparing" and STRGST.STRSecondsDelay == 3 and (STRGST.STRStartingType == 1 or STRGST.STRStartingType == 2)) and STRFanfareNumber ~= 1 then
-		audio_sample_play(audio_sample_load(STRFanfareTable[STRFanfareNumber].str_fanfare_sound), gMarioStates[0].pos, Volume)
+	if (STRGST.STRGameState == "Preparing" and STRGST.STRSecondsDelay == 3 and (STRGST.STRStartingType == 1 or STRGST.STRStartingType == 2)) and STRSFFNumber ~= 1 then
+		audio_sample_play(audio_sample_load(STRFanfareTable[STRSFFNumber].str_fanfare_sound), gMarioStates[0].pos, Volume)
 	end
 	
-	if STRGST.STRCDSounds == 29 and STRCountdownNumber > 5 then
-		audio_sample_play(audio_sample_load(STRCountdownTable[STRCountdownNumber].str_countdown_sound), gMarioStates[0].pos, Volume)
+	if STRGST.STRCDSounds == 29 and STRSCDNumber > 5 then
+		audio_sample_play(audio_sample_load(STRCountdownTable[STRSCDNumber].str_countdown_sound), gMarioStates[0].pos, Volume)
 	end
 	
-	if STRGST.STRGlobalTimer == 2 and STRGoNumber ~= 1 and STRGST.STRGameMode ~= 4 then
-		audio_sample_play(audio_sample_load(STRGoTable[STRGoNumber].str_go_sound), gMarioStates[0].pos, Volume)
+	if STRGST.STRGlobalTimer == 2 and STRSGONumber ~= 1 and STRGST.STRGameMode ~= 4 then
+		audio_sample_play(audio_sample_load(STRGoTable[STRSGONumber].str_go_sound), gMarioStates[0].pos, Volume)
 	end
 	
 	if STRMenuDisplay == true and MenuSwitchDeplay == 5 and STRMenuTitleName == "MDCSettings" and MenuButtonsDeplay == 0 then
 	if STRPlaySound == true and MenuOptionDeplay == 9 and MenuUDOption == 1 then 
-	if STRFanfareNumber ~= 1 then
-	audio_sample_play(audio_sample_load(STRFanfareTable[STRFanfareNumber].str_fanfare_sound), gMarioStates[0].pos, Volume)
+	if STRSFFNumber ~= 1 then
+	audio_sample_play(audio_sample_load(STRFanfareTable[STRSFFNumber].str_fanfare_sound), gMarioStates[0].pos, Volume)
 	end
 	STRPlaySound = false
 	end
 	if STRPlaySound == true and MenuOptionDeplay == 9 and MenuUDOption == 2 then
-	if STRCountdownNumber > 5 then
-	audio_sample_play(audio_sample_load(STRCountdownTable[STRCountdownNumber].str_countdown_sound), gMarioStates[0].pos, Volume)
+	if STRSCDNumber > 5 then
+	audio_sample_play(audio_sample_load(STRCountdownTable[STRSCDNumber].str_countdown_sound), gMarioStates[0].pos, Volume)
 	end
 	STRPlaySound = false
 	end
 	if STRPlaySound == true and MenuOptionDeplay == 9 and MenuUDOption == 3 then 
-	if STRGoNumber ~= 1 then
-	audio_sample_play(audio_sample_load(STRGoTable[STRGoNumber].str_go_sound), gMarioStates[0].pos, Volume)
+	if STRSGONumber ~= 1 then
+	audio_sample_play(audio_sample_load(STRGoTable[STRSGONumber].str_go_sound), gMarioStates[0].pos, Volume)
 	end 
 	STRPlaySound = false
 	end
@@ -347,6 +372,10 @@ _G.STRApi = {
 	return STRGST.STRGlobalTimer
 	end,
 	
+	Set_Game_State = function (Type)
+	return STRGST.STRGameState == Type
+	end,
+	
 	Set_Countdown = function ()
 	return STRGST.STRCountdown 
 	end,
@@ -368,5 +397,7 @@ _G.STRApi = {
 	-- Sounds --
 	add_full_sounds = add_full_sounds,
 	play_full_sounds = play_full_sounds,
+	
 	-- Extra --
+	romhack_custom_location = romhack_custom_location
 }

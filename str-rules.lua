@@ -150,7 +150,7 @@ function Helper_Display()
 	
 	shadow_text("- How to Open the Menu -", X - 45, Y - 40, Size - 0.40, 0.95, 0.95, 255, 255, 255, STRHelperHide)
 	shadow_text("If you using Commands, Just type /str_menu", X - 53, Y - 30, Size - 0.50, 0.50, 0.50, 255, 255, 255, STRHelperHide)
-	shadow_text("If you using Controller Keybinds, Just Press " .. STRButtonBinds[STRMBinds1].name .. " + " .. STRButtonBinds[STRMBinds2].name .. " + " .. STRButtonBinds[STRMBinds3].name, X - 73, Y - 23, Size - 0.50, 0.50, 0.50, 255, 255, 255, STRHelperHide)
+	shadow_text("If you using Controller Keybinds, Just Press " .. STRButtonBinds[STRMenuBinds.MBind1].name .. " + " .. STRButtonBinds[STRMenuBinds.MBind2].name .. " + " .. STRButtonBinds[STRMenuBinds.MBind3].name, X - 73, Y - 23, Size - 0.50, 0.50, 0.50, 255, 255, 255, STRHelperHide)
 	
 	shadow_text("- How to avoid getting stuck in the Lobby -", X - 75, Y - 10, Size - 0.40, 0.95, 0.95, 255, 255, 255, STRHelperHide)
 	shadow_text('You can Find The Option "Warp Help" in Settings', X - 60, Y + 0, Size - 0.50, 0.50, 0.50, 255, 255, 255, STRHelperHide)

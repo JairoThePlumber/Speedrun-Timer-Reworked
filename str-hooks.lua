@@ -27,12 +27,8 @@ end
 local function str_hud_render()
 All_Hud_Renders()
 str_render_menu()
-if STRHelper == "Enabled" and STRHelperOpen == true then
-Helper_Display()
-end
-if STRRenderType == "Front" then
-Timer_Hud_Renders()
-end
+if STRHelper == "Enabled" and STRHelperOpen == true then Helper_Display() end
+if STRRenderType == "Front" then Timer_Hud_Renders() end
 end
 
 local function str_hud_render_behind()
@@ -42,13 +38,10 @@ end
 end
 
 local function str_allowinteract()
-	if (STRGST.EnabledInteraction == false and STRGST.STRGameState == "Lobby") then
-		return true
-	end
-	
-	if (STRGST.STRGlobalTimer < 1 and STRGST.STRGameMode ~= 4) or (STRGST.EnabledInteraction == true and STRGST.STRGameState == "Lobby") then
-		return false
-	end
+	if (STRGST.InteractionCheck == true and STRGST.STRGameState == "Lobby") then return true end
+	if (STRGST.STRGlobalTimer < 1 and STRGST.STRGameMode ~= 4) 
+	or (STRGST.InteractionCheck == false and STRGST.STRGameState == "Lobby")
+	or (STRGST.STRGameState == "Finish_Lobby" or STRGST.STRGameState == "Finished") then return false end
 end
 
 local function str_packetreceive(SaveData)
@@ -66,8 +59,10 @@ local function str_before_mario_update(m)
 	MBDown = gControllers[0].buttonDown
 	MBPress = gControllers[0].buttonPressed
 	end
-	if (STRGST.STRSpotUpdater < 5 and STRLocationSpot == "Ground" and network_is_server()) or (STRMenuDisplay == true) or (MenuSwitchDeplay ~= 0) 
-	or (STRGST.STRGameState == "Preparing" and STRGST.STRForceSpot == "Controller" and STRGST.STRGameMode == 1) or (STRGST.WarpNodeRandomierDeplay < 89 and STRGST.WNRCheck == true) then
+	
+	if (STRGST.STRSpotUpdater <= 4 and STRLocationSpot == "Ground" and network_is_server() and not STRGST.DisabledButtonLocked == true)
+	or (STRMenuDisplay == true) or (MenuSwitchDeplay ~= 0) or (STRGST.STRGameState == "Preparing" and STRGST.STRForceSpot == "Controller" and STRGST.STRGameMode == 1) 
+	or (STRGST.WarpNodeRandomierDeplay < 89 and STRGST.WNRCheck == true) then
 	gControllers[0].stickX = 0
 	gControllers[0].stickY = 0
 	gControllers[0].stickMag = 0

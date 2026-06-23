@@ -19,7 +19,7 @@ function Intermission_Display()
 end
 
 function ResettingSave_Display()
-    SaveText = "A New Fresh SaveFile In " .. tostring(math.floor(STRGST.STREraseSaveCD))
+    SaveText = "Making a New Fresh Save In " .. tostring(math.floor(STRGST.STREraseSaveCD))
 
     local Size = 0.50
     local Width = Hud_Measure(SaveText) * Size
@@ -91,13 +91,13 @@ function Requirements_Display()
 	CText = RH_Name .. " - " .. RH_Run_Name
 	elseif #STRPluginRuns == 0 and CRH_Name ~= "None" and STRGST.AddRomhack == true and STRGST.STRPluginsCheck == false then
 	CText = CRH_Name .. " - " .. RH_Run_Name
-	elseif #STRPluginRuns ~= 1 and STRGST.AddRomhack == true and STRGST.STRPluginsCheck == false then
+	elseif #STRPluginRuns ~= 1 and STRGST.AddRomhack == true and STRGST.STRPluginsCheck == false and RH_Name ~= "None" then
 	if network_is_server() then CText = RH_Name .. " - Available Slots (" .. #STRPluginRuns .. ")" else CText = "Wait until the Host Picks a Run" end
-	elseif #STRPluginRuns == 1 and STRGST.AddRomhack == true and STRGST.STRPluginsCheck == false then
+	elseif #STRPluginRuns == 1 and STRGST.AddRomhack == true and STRGST.STRPluginsCheck == false and RH_Name ~= "None" then
 	if network_is_server() then CText = RH_Name .. " - Available Slot (" .. #STRPluginRuns .. ")" else CText = "Wait until the Host Pick the Only Run" end
-	elseif #STRPluginRuns ~= 1 and STRGST.AddRomhack == false and STRGST.STRPluginsCheck == false then
+	elseif #STRPluginRuns ~= 1 and STRGST.AddRomhack == true and STRGST.STRPluginsCheck == false and CRH_Name ~= "None" then
 	if network_is_server() then CText = CRH_Name .. " - Available Slots (" .. #STRPluginRuns .. ")" else CText = "Wait until the Host Picks a Custom Run" end
-	elseif #STRPluginRuns == 1 and STRGST.AddRomhack == false and STRGST.STRPluginsCheck == false then
+	elseif #STRPluginRuns == 1 and STRGST.AddRomhack == true and STRGST.STRPluginsCheck == false and CRH_Name ~= "None" then
 	if network_is_server() then CText = CRH_Name .. " - Available Slot (" .. #STRPluginRuns .. ")" else CText = "Wait until the Host Pick the Only Custom Run" end
 	elseif STRGST.AddRomhack == true and STRGST.STRPluginsCheck == true and STRRunSlotAdded == true then
 	CText = RH_Name .. " - " .. STRPluginRuns[STRGST.STRPluginsTypes].PluginName
@@ -117,9 +117,9 @@ function Requirements_Display()
 	
 	if SM64Rules == true and STRGST.AddRomhack == false and #STRPluginRuns ~= 0 then
 	if STRGST.STRPluginsCheck == false then
-	CText = "SM64 - Available Slots (" .. #STRPluginRuns .. ")"
+	CText = "Super Mario 64 - Available Slots (" .. #STRPluginRuns .. ")"
 	elseif STRGST.STRPluginsCheck == true then
-	CText = "SM64 - " .. STRPluginRuns[STRGST.STRPluginsTypes].PluginName
+	CText = "Super Mario 64 - " .. STRPluginRuns[STRGST.STRPluginsTypes].PluginName
 	else
 	CText = "Loading Run..."
 	end
@@ -341,7 +341,8 @@ function BestTime_Display()
 
     BTDX = (S_Width() - BTDWidth) / 2.0
 	
-	if (((STRGST.STRGameState == "Lobby" or (STRGST.STRGameState == "Started" and STRSettingsTimer == 0)) and (STRRDisplay == "Start" or STRRDisplay == "SS_Start")) and (STRGST.STRGameMode == 1 or STRGST.STRGameMode == 2 or STRGST.STRGameMode == 3))
+	if (((STRGST.STRGameState == "Lobby" or (STRGST.STRGameState == "Started" and STRSettingsTimer == 0)) and (STRRDisplay == "Start" or STRRDisplay == "SS_Start")) 
+	and (STRGST.STRGameMode == 1 or STRGST.STRGameMode == 2 or STRGST.STRGameMode == 3))
 	or (STRGST.STRGameMode == 4 and ((STRGST.STRGameState == "Finished" and STRGST.STRSSText <= 1) or STRGST.STRGameState == "Lobby")) 
 	or (STRGST.STRGameState == "Finished" and STRGST.STRFinishText < 1)
 	or ((STRRDisplay == "Lobby" or STRRDisplay == "SS_Lobby") and STRGST.STRGameState == "Started" and STRGST.STRGameMode ~= 4) 
@@ -349,14 +350,15 @@ function BestTime_Display()
 	or (STRGST.STRIntermission <= 1 and STRGST.STRGameState == "Preparing") 
 	or (STRRDisplay == "None" and STRGST.STRGameState ~= "Finished" and STRGST.STRGameMode ~= 4) then
 	BTDY = (S_Height() - GHeight) / 2.0 - 116
-	elseif ((STRGST.STRRunsTypes == 1 or STRGST.STRRunsTypes == 2 or STRGST.STRRunsTypes == 3 or STRGST.STRRunsTypes == 4) and (STRRDisplay == "Lobby" or STRRDisplay == "Start"))
-	or ((STRGST.STRPluginsCheck == true or STRGST.AddRomhack == true)) 
+	elseif ((STRGST.STRRunsTypes == 1 or STRGST.STRRunsTypes == 2 or STRGST.STRRunsTypes == 3 or STRGST.STRRunsTypes == 4) and (STRRDisplay == "Lobby" or STRRDisplay == "Start" or STRRDisplay == "SS_Start"))
 	or (STRGST.STRGameState == "Finished" and STRGST.STRFinishGameWarp == "Disabled" and (STRGST.STRFinishText > 12 and STRGST.STRFinishText < 2)) 
 	or (STRGST.STRGameState == "Started" and STRGST.STRGameMode == 4) 
 	or (((STRGST.STRGameMode == 1 and STRGST.STRFinishGameWarp == "Enabled") or (STRGST.STRGameMode == 2 or STRGST.STRGameMode == 3)) and STRGST.STRGameState == "Finished") 
-	or (STRGST.STRGameMode == 1 and STRGST.STRIntermission >= 1 and STRGST.STRGameState == "Preparing") then
+	or (STRGST.STRGameMode == 1 and STRGST.STRIntermission >= 1 and STRGST.STRGameState == "Preparing") 
+	or ((STRGST.STRPluginsCheck == true or STRGST.AddRomhack == true) and not (STRRDisplay == "SS_Lobby" or STRRDisplay == "SS_Start")) then
     BTDY = (S_Height() - GHeight) / 2.0 - 100
-	elseif (STRGST.STRRunsTypes == 5 or STRGST.STRRunsTypes == 6 or STRGST.STRRunsTypes == 7 or STRGST.STRRunsTypes == 8 or STRGST.STRRunsTypes == 9 or STRGST.STRRunsTypes == 10) and (STRRDisplay == "Lobby" or STRRDisplay == "Start") then
+	elseif (STRGST.STRRunsTypes == 5 or STRGST.STRRunsTypes == 6 or STRGST.STRRunsTypes == 7 or STRGST.STRRunsTypes == 8 or STRGST.STRRunsTypes == 9 or STRGST.STRRunsTypes == 10) 
+	and (STRRDisplay == "Lobby" or STRRDisplay == "Start") then
     BTDY = (S_Height() - GHeight) / 2.0 - 92
 	elseif (STRGST.STRRunsTypes == 11 or STRGST.STRRunsTypes == 12 or STRGST.STRRunsTypes == 13 or STRGST.STRRunsTypes == 14) and (STRRDisplay == "Lobby" or STRRDisplay == "Start") then
     BTDY = (S_Height() - GHeight) / 2.0 - 84
@@ -368,28 +370,25 @@ function BestTime_Display()
 	
 	 -- render
     render_rect(BTDX - 6 * GSize, BTDY, BTDWidth + 12 * GSize, GHeight, 0, 0, 0, 128)
-	if STRBestTimeNumber ~= STRGST.STRGlobalTimer then
-	if STRBestTimeNumber >= STRGST.STRGlobalTimer and STRGST.STRGameState == "Finished" and STRBestTimeOption == "Enabled" then 
-	BTRed, BTGreen, BTBlue = 0, 255, 0
-	elseif STRBestTimeNumber <= STRGST.STRGlobalTimer and STRGST.STRGameState == "Finished" and STRBestTimeOption == "Enabled" then 
-	BTRed, BTGreen, BTBlue = 255, 0, 0
-	elseif STRBestTimeOption == "Enabled" and STRGST.STRGameState ~= "Finished" then
+	if STRBestTimeOption == "Enabled" and STRGST.STRGameState ~= "Finished" then
 	BTRed, BTGreen, BTBlue = 255, 255, 0
-	end
-	end
-	if STRBestTimeNumber == STRGST.STRGlobalTimer and STRBestTimeOption == "Enabled" and STRGST.STRGameState ~= "Finished" then
-	BTRed, BTGreen, BTBlue = 255, 255, 0
-	elseif STRBestTimeNumber == STRGST.STRGlobalTimer and STRBestTimeOption == "Saves" and STRGST.STRGameState ~= "Finished" then
+	elseif STRBestTimeOption == "Saves" and STRGST.STRGameState ~= "Finished" then
 	BTRed, BTGreen, BTBlue = 255, 255, 255
 	end
 	
-	if STRBestTimeNumber ~= 0 then
-	if STRBestTimeNumber >= STRGST.STRGlobalTimer and STRGST.STRGameState == "Finished" and STRBestTimeOption == "Saves" then 
+	if STRBestTimeNumber ~= STRGST.STRGlobalTimer and STRGST.STRGameState ~= "Lobby" then
+	if STRBestTimeNumber >= STRGST.STRGlobalTimer and STRBestTimeOption == "Enabled" then 
 	BTRed, BTGreen, BTBlue = 0, 255, 0
-	elseif STRBestTimeNumber <= STRGST.STRGlobalTimer and STRGST.STRGameState == "Finished" and STRBestTimeOption == "Saves" then 
+	elseif STRBestTimeNumber <= STRGST.STRGlobalTimer and STRBestTimeOption == "Enabled" then 
 	BTRed, BTGreen, BTBlue = 255, 0, 0
-	elseif STRBestTimeOption == "Saves" and STRGST.STRGameState ~= "Finished" then 
-	BTRed, BTGreen, BTBlue = 255, 255, 255
+	end
+	end
+	
+	if STRBestTimeNumber ~= 0 and STRGST.STRGameState ~= "Lobby" then
+	if STRBestTimeNumber >= STRGST.STRGlobalTimer and STRBestTimeOption == "Saves" then 
+	BTRed, BTGreen, BTBlue = 0, 255, 0
+	elseif STRBestTimeNumber <= STRGST.STRGlobalTimer and STRBestTimeOption == "Saves" then 
+	BTRed, BTGreen, BTBlue = 255, 0, 0
 	end
 	end
 	
@@ -399,12 +398,14 @@ end
 function Warp_Timer_Display()
 	if STRGST.STRFinishText > 6 and STRGST.STRGameMode == 1 and STRGST.STRFinishGameWarp == "Disabled" then
     WarpText = "The Run is Finished!!"
+	elseif ((STRGST.STRGameMode == 1 and STRGST.STRFinishGameWarp == "Enabled") or STRGST.STRGameMode == 2 or STRGST.STRGameMode == 3) and STRGST.STRCakeEndingCheck == true then
+	WarpText = "The Run will Reset, Once someone is out of the Cake Ending"
+	elseif ((STRGST.STRGameMode == 1 and STRGST.STRFinishGameWarp == "Enabled") or STRGST.STRGameMode == 2 or STRGST.STRGameMode == 3) and STRGST.STRCakeEndingCheck == false then
+	WarpText = "The Run will Reset in " .. tostring(math.floor(STRGST.STRWarpCountdown))
 	elseif STRGST.STRFinishText > 2 and STRGST.STRGameMode == 1 and STRGST.STRFinishGameWarp == "Disabled" and not network_is_server() then
     WarpText = "You can check around, While the Host is setting up"
 	elseif STRGST.STRFinishText > 2 and STRGST.STRGameMode == 1 and STRGST.STRFinishGameWarp == "Disabled" and network_is_server() then
     WarpText = "You can Redo the Run or Do a Different Run."
-	elseif ((STRGST.STRGameMode == 1 and STRGST.STRFinishGameWarp == "Enabled") or STRGST.STRGameMode == 2 or STRGST.STRGameMode == 3) and STRGST.STRWarpCountdown >= 1 then
-	WarpText = "The Run will Reset in " .. tostring(math.floor(STRGST.STRWarpCountdown))
 	end
 
     local Size = 0.50
@@ -414,303 +415,334 @@ function Warp_Timer_Display()
     local X = (S_Width() - Width) / 2.0
     local Y = (S_Height() - Height) / 2.0 - 112
 
-    -- render
     render_rect(X - 6 * Size, Y, Width + 12 * Size, Height, 0, 0, 0, 128)
     shadow_text(WarpText, X, Y - 0.5, Size, 1, 1, 255, 255, 255, 255)
 end
 
 function Normal_Timer_Hud()
-	T_Text = string.format('%01d:%02d:%02d.%03d', GSTRH, GSTRM, GSTRS, GSTRMS)
+	NT_T = string.format('%01d:%02d:%02d.%03d', GSTRH, GSTRM, GSTRS, GSTRMS)
 	
-	if STRFontTMNumber == 1 then
-	T_Size = 0.50
-	T_Height = 16 * T_Size
-	T_W = Hud_Measure(T_Text) * T_Size
-	T_X = (S_Width() - T_W) / 2.0 + CXPos
-    T_Y = (S_Height() - T_Height) / 2.0 + 108 + CYPos
-	custom_render_rect(T_X - 5.5, T_Y, T_W + 12, 16)
-	custom_shadow_text(T_Text, T_X, T_Y - 0.5, T_Size, 1, 1)
+	if STRFTMNumber == 1 then
+	NT_S = 0.50
+	NT_H = 16 * NT_S
+	NT_W = Hud_Measure(NT_T) * NT_S
+	NT_X = (S_Width() - NT_W) / 2.0 + STRFontPosition.STRCX
+    NT_Y = (S_Height() - NT_H) / 2.0 + 108 + STRFontPosition.STRCY
+	custom_render_rect(NT_X - 5.5, NT_Y, NT_W + 12, 16)
+	custom_shadow_text(NT_T, NT_X, NT_Y - 0.5, NT_S, 1, 1)
 	end
 
-	if GoDisplayFunc then
-    Center_Text = "Go!"
-	elseif CountdownSwitchFunc then
-	Center_Text = tostring(math.floor(STRGST.STRCountdown))
+	if GoDisplayFunc or ShowGoFont then
+    NT_C = "Go!"
+	elseif CountdownSwitchFunc or ShowCDFont then
+	NT_C = tostring(math.floor(STRGST.STRCountdown))
+	else
+	NT_C = "Wait"
 	end
 	
-	if STRFontCDNumber == 1 then
-	G_Size = 1
-	G_Height = 32 * G_Size
-	Center_W = Hud_Measure(Center_Text) * G_Size
-	Center_X = (S_Width() - Center_W) / 2.0 - 1
-	G_Y = (S_Height() - G_Height) / 2.0
-	if CountdownDisplayFunc then
-	custom_render_rect(Center_X - 5, G_Y, Center_W + 12, G_Height)
-	custom_shadow_text(Center_Text, Center_X, G_Y - 0.5, G_Size, 2, 2)
+	if STRFCDNumber == 1 then
+	NTCD_S = 1
+	NTCD_H = 32 * NTCD_S
+	NTCD_W = Hud_Measure(NT_C) * NTCD_S
+	NTCD_X = (S_Width() - NTCD_W) / 2.0 - 1
+	NTCD_Y = (S_Height() - NTCD_H) / 2.0
+	if CountdownDisplayFunc or ShowCDFont then
+	custom_render_rect(NTCD_X - 5, NTCD_Y, NTCD_W + 12, NTCD_H)
+	custom_shadow_text(NT_C, NTCD_X, NTCD_Y - 0.5, NTCD_S, 2, 2)
 	end
 	end
 	
-	if STRFontGONumber == 1 then
-	G_Size = 1
-	G_Height = 32 * G_Size
-	Center_W = Hud_Measure(Center_Text) * G_Size
-	Center_X = (S_Width() - Center_W) / 2.0 - 1
-	G_Y = (S_Height() - G_Height) / 2.0
-	if (GoDisplayFunc and STRGST.STRGameMode ~= 4) then
-	custom_render_rect(Center_X - 5, G_Y, Center_W + 12, G_Height)
-	custom_shadow_text(Center_Text, Center_X - 0.5, G_Y - 0.5, G_Size, 2, 2)
+	if STRFGONumber == 1 then
+	NTGO_S = 1
+	NTGO_H = 32 * NTGO_S
+	NTGO_W = Hud_Measure(NT_C) * NTGO_S
+	NTGO_X = (S_Width() - NTGO_W) / 2.0 - 1
+	NTGO_Y = (S_Height() - NTGO_H) / 2.0
+	if (GoDisplayFunc and STRGST.STRGameMode ~= 4) or ShowGoFont then
+	custom_render_rect(NTGO_X - 5, NTGO_Y, NTGO_W + 12, NTGO_H)
+	custom_shadow_text(NT_C, NTGO_X - 0.5, NTGO_Y - 0.5, NTGO_S, 2, 2)
 	end
 	end
 end
 
 function Aliased_Timer_Hud()
-	T_Text = string.format('%01d:%02d:%02d.%03d', GSTRH, GSTRM, GSTRS, GSTRMS)
+	AT_T = string.format('%01d:%02d:%02d.%03d', GSTRH, GSTRM, GSTRS, GSTRMS)
 	
-	if STRFontTMNumber == 2 then
-	T_Size = 0.50
-	T_Height = 16 * T_Size
-	T_W = Hud_Measure(T_Text) * T_Size
-	T_X = (S_Width() - T_W) / 2.0 + CXPos
-    T_Y = (S_Height() - T_Height) / 2.0 + 108 + CYPos
-	custom_render_rect(T_X - 5.5, T_Y, T_W + 12, 16)
-	custom_shadow_text(T_Text, T_X, T_Y - 0.5, T_Size, 1, 1)
+	if STRFTMNumber == 2 then
+	AT_S = 0.50
+	AT_H = 16 * AT_S
+	AT_W = Hud_Measure(AT_T) * AT_S
+	AT_X = (S_Width() - AT_W) / 2.0 + STRFontPosition.STRCX
+    AT_Y = (S_Height() - AT_H) / 2.0 + 108 + STRFontPosition.STRCY
+	custom_render_rect(AT_X - 5.5, AT_Y, AT_W + 12, 16)
+	custom_shadow_text(AT_T, AT_X, AT_Y - 0.5, AT_S, 1, 1)
 	end
 
-	if GoDisplayFunc then
-    Center_Text = "Go!"
-	elseif CountdownSwitchFunc then
-	Center_Text = tostring(math.floor(STRGST.STRCountdown))
+	if GoDisplayFunc or ShowGoFont then
+    AT_C = "Go!"
+	elseif CountdownSwitchFunc or ShowCDFont then
+	AT_C = tostring(math.floor(STRGST.STRCountdown))
+	else
+	AT_C = "Wait"
 	end
 	
-	if STRFontCDNumber == 2 then
-	G_Size = 1
-	G_Height = 32 * G_Size
-	Center_W = Hud_Measure(Center_Text) * G_Size
-	Center_X = (S_Width() - Center_W) / 2.0 - 1
-	G_Y = (S_Height() - G_Height) / 2.0
-	if CountdownDisplayFunc then
-	custom_render_rect(Center_X - 5, G_Y, Center_W + 12, G_Height)
-	custom_shadow_text(Center_Text, Center_X, G_Y - 0.5, G_Size, 2, 2)
+	if STRFCDNumber == 2 then
+	ATCD_S = 1
+	ATCD_H = 32 * ATCD_S
+	ATCD_W = Hud_Measure(AT_C) * ATCD_S
+	ATCD_X = (S_Width() - ATCD_W) / 2.0 - 1
+	ATCD_Y = (S_Height() - ATCD_H) / 2.0
+	if CountdownDisplayFunc or ShowCDFont then
+	custom_render_rect(ATCD_X - 5, ATCD_Y, ATCD_W + 12, ATCD_H)
+	custom_shadow_text(AT_C, ATCD_X, ATCD_Y - 0.5, ATCD_S, 2, 2)
 	end
 	end
 	
-	if STRFontGONumber == 2 then
-	G_Size = 1
-	G_Height = 32 * G_Size
-	Center_W = Hud_Measure(Center_Text) * G_Size
-	Center_X = (S_Width() - Center_W) / 2.0 - 1
-	G_Y = (S_Height() - G_Height) / 2.0
-	if (GoDisplayFunc and STRGST.STRGameMode ~= 4) then
-	custom_render_rect(Center_X - 5, G_Y, Center_W + 12, G_Height)
-	custom_shadow_text(Center_Text, Center_X - 0.5, G_Y - 0.5, G_Size, 2, 2)
+	if STRFGONumber == 2 then
+	ATGO_S = 1
+	ATGO_H = 32 * ATGO_S
+	ATGO_W = Hud_Measure(AT_C) * ATGO_S
+	ATGO_X = (S_Width() - ATGO_W) / 2.0 - 1
+	ATGO_Y = (S_Height() - ATGO_H) / 2.0
+	if (GoDisplayFunc and STRGST.STRGameMode ~= 4) or ShowGoFont then
+	custom_render_rect(ATGO_X - 5, ATGO_Y, ATGO_W + 12, ATGO_H)
+	custom_shadow_text(AT_C, ATGO_X - 0.5, ATGO_Y - 0.5, ATGO_S, 2, 2)
 	end
 	end
 end
 
 function Custom_Hud_Timer()
-	-- Timer Display
-	STRH10 = string.format("%02d", GSTRH)
-	STRH = string.format("%d", GSTRH)
-    STRM = string.format("%02d", GSTRM)
-	STRS = string.format("%02d", GSTRS)
-	STRMS = string.format("%03d", GSTRMS)
+	CHT_STRH10 = string.format("%02d", GSTRH)
+	CHT_STRH = string.format("%d", GSTRH)
+    CHT_STRM = string.format("%02d", GSTRM)
+	CHT_STRS = string.format("%02d", GSTRS)
+	CHT_STRMS = string.format("%03d", GSTRMS)
 	
-	T_Size = 1
-	T_W = 1 * T_Size
-	T_X = (S_Width() - T_W) / 2.0 + CXPos
+	if STRFTMNumber == 3 then
+	CHT_S = 1
+	CHT_W = 1 * CHT_S
+	CHT_H = 16 * CHT_S
+	CHT_X = (S_Width() - CHT_W) / 2.0 + STRFontPosition.STRCX
+	CHT_Y = (S_Height() - CHT_H) / 2.0 + 110 + STRFontPosition.STRCY	
 	
-	if GoDisplayFunc then
-	Center_Text = "GO!"
-	elseif CountdownDisplayFunc then
-	Center_Text = tostring(math.floor(STRGST.STRCountdown))
+	if GSTRH >= 10 then
+	z = -28
+	custom_normal_text("Time", CHT_X - 127 - z, CHT_Y, CHT_S)
+	custom_normal_text(CHT_STRH10, CHT_X - 67 - z, CHT_Y, CHT_S)
+	else
+	z = -20
+	custom_normal_text("Time", CHT_X - 115 - z, CHT_Y, CHT_S)
+	custom_normal_text(CHT_STRH, CHT_X - 55 - z, CHT_Y, CHT_S)
 	end
 	
-	G_Size = 2
-	G_Height = 16 * G_Size
-    Center_W = Hud_Measure(Center_Text) * G_Size
-	T_Height = 16 * G_Size
-	T_Y = (S_Height() - T_Height) / 2.0 + 118 + CYPos
-	G_Y = (S_Height() - G_Height) / 2.0
+	custom_normal_text(CHT_STRM, CHT_X - 35 - z, CHT_Y, CHT_S)
+	custom_normal_text(CHT_STRS, CHT_X - 1 - z, CHT_Y, CHT_S)
+	custom_normal_text(CHT_STRMS, CHT_X + 33 - z, CHT_Y, CHT_S)
+	
+	custom_normal_text("'", CHT_X - 40 - z, CHT_Y - 3, CHT_S)
+	custom_normal_text('"', CHT_X - 7 - z, CHT_Y - 3, CHT_S)
+	custom_normal_text('"', CHT_X + 27 - z, CHT_Y - 3, CHT_S)
+	end
+	
+	if GoDisplayFunc or ShowGoFont then
+	CH_C = "Go!"
+	elseif CountdownSwitchFunc or ShowCDFont then
+	CH_C = tostring(math.floor(STRGST.STRCountdown))
+	else
+	CH_C = "Wait"
+	end
+	
+	if STRFCDNumber == 3 then
+	CHCD_S = 2
+	CHCD_H = 16 * CHCD_S
+    CHCD_W = Hud_Measure(CH_C) * CHCD_S
+	CHCD_Y = (S_Height() - CHCD_H) / 2.0
 	
 	if STRGST.STRGlobalTimer == 0 then
 	if STRGST.STRCountdown < 10 then
-	Center_X = (S_Width() - Center_W) / 2.03
+	CHCD_X = (S_Width() - CHCD_W) / 2.03
 	else
-	Center_X = (S_Width() - Center_W) / 2.04
+	CHCD_X = (S_Width() - CHCD_W) / 2.04
 	end
-	elseif STRGST.STRGlobalTimer ~= 0 then
-	Center_X = (S_Width() - Center_W) / 2.01
 	end
 	
-	if STRFontTMNumber == 3 then
-	if GSTRH >= 10 then
-	custom_normal_text("TIME", T_X - 127, T_Y, T_Size)
-	custom_normal_text(STRH10, T_X - 67, T_Y, T_Size)
-	else
-	custom_normal_text("TIME", T_X - 115, T_Y, T_Size)
-	custom_normal_text(STRH, T_X - 55, T_Y, T_Size)
+	if CountdownDisplayFunc or ShowCDFont then
+	custom_normal_text(CH_C, CHCD_X, CHCD_Y, CHCD_S)
+	end
 	end
 	
-	custom_normal_text(STRM, T_X - 35, T_Y, T_Size)
-	custom_normal_text(STRS, T_X - 1, T_Y, T_Size)
-	custom_normal_text(STRMS, T_X + 33, T_Y, T_Size)
+	if STRFGONumber == 3 then
+	CHGO_S = 2
+	CHGO_H = 16 * CHGO_S
+	CHGO_W = Hud_Measure(CH_C) * CHGO_S
+	CHGO_X = (S_Width() - CHGO_W) / 2.01
+	CHGO_Y = (S_Height() - CHGO_H) / 2.0
 	
-	custom_normal_text("'", T_X - 40, T_Y - 3, T_Size)
-	custom_normal_text('"', T_X - 7, T_Y - 3, T_Size)
-	custom_normal_text('"', T_X + 27, T_Y - 3, T_Size)
+	if (GoDisplayFunc and STRGST.STRGameMode ~= 4) or ShowGoFont then
+	custom_normal_text(CH_C, CHGO_X, CHGO_Y, CHGO_S)
 	end
-	
-	if CountdownDisplayFunc and STRFontCDNumber == 3 then
-	custom_normal_text(Center_Text, Center_X, G_Y, G_Size)
-	end
-	if (GoDisplayFunc and STRGST.STRGameMode ~= 4) and STRFontGONumber == 3 then
-	custom_normal_text(Center_Text, Center_X, G_Y, G_Size)
 	end
 end
 
 function Normal_Hud_Timer()
-	-- Timer Display
-	STRH10 = string.format("%02d", GSTRH)
-	STRH = string.format("%d", GSTRH)
-    STRM = string.format("%02d", GSTRM)
-	STRS = string.format("%02d", GSTRS)
-	STRMS = string.format("%03d", GSTRMS)
+	NHT_STRH10 = string.format("%02d", GSTRH)
+	NHT_STRH = string.format("%d", GSTRH)
+    NHT_STRM = string.format("%02d", GSTRM)
+	NHT_STRS = string.format("%02d", GSTRS)
+	NHT_STRMS = string.format("%03d", GSTRMS)
 	
-	T_Size = 1
-	T_W = 1 * T_Size
-	T_X = (S_Width() - T_W) / 1.996 + CXPos
+	if STRFTMNumber == 4 then
+	NHT_S = 1
+	NHT_W = 1 * NHT_S
+	NHT_H = 16 * NHT_S
+	NHT_X = (S_Width() - NHT_W) / 2.0 + STRFontPosition.STRCX
+	NHT_Y = (S_Height() - NHT_H) / 2.0 + 110 + STRFontPosition.STRCY	
 	
-	if GoDisplayFunc then
-	Center_Text = "GO"
-	elseif CountdownDisplayFunc then
-	Center_Text = tostring(math.floor(STRGST.STRCountdown))
+	if GSTRH >= 10 then
+	z = -28
+	custom_romhack_text("TIME", NHT_X - 127 - z, NHT_Y, NHT_S, "Words")
+	custom_romhack_text(NHT_STRH10, NHT_X - 67 - z, NHT_Y, NHT_S, "Numbers")
+	else
+	z = -20
+	custom_romhack_text("TIME", NHT_X - 115 - z, NHT_Y, NHT_S, "Words")
+	custom_romhack_text(NHT_STRH, NHT_X - 55 - z, NHT_Y, NHT_S, "Numbers")
 	end
 	
-	G_Size = 2
-	G_Height = 16 * G_Size
-    Center_W = Hud_Measure(Center_Text) * G_Size
-	T_Height = 16 * G_Size
-	T_Y = (S_Height() - T_Height) / 2.0 + 118 + CYPos
-	G_Y = (S_Height() - G_Height) / 2.0
+	custom_romhack_text(NHT_STRM, NHT_X - 35 - z, NHT_Y, NHT_S, "Numbers")
+	custom_romhack_text(NHT_STRS, NHT_X - 1 - z, NHT_Y, NHT_S, "Numbers")
+	custom_romhack_text(NHT_STRMS, NHT_X + 33 - z, NHT_Y, NHT_S, "Numbers")
+	
+	custom_romhack_text("'", NHT_X - 45 - z, NHT_Y - 8, NHT_S, "Quotes")
+	custom_romhack_text('"', NHT_X - 10 - z, NHT_Y - 8, NHT_S, "Quotes")
+	custom_romhack_text('"', NHT_X + 24 - z, NHT_Y - 8, NHT_S, "Quotes")
+	end
+	
+	if GoDisplayFunc or ShowGoFont then
+	NH_C = "Go"
+	elseif CountdownSwitchFunc or ShowCDFont then
+	NH_C = tostring(math.floor(STRGST.STRCountdown))
+	else
+	NH_C = "Wait"
+	end
+	
+	if STRFCDNumber == 4 then
+	NHCD_S = 2
+	NHCD_H = 16 * NHCD_S
+    NHCD_W = Hud_Measure(NH_C) * NHCD_S
+	NHCD_Y = (S_Height() - NHCD_H) / 2.0
 	
 	if STRGST.STRGlobalTimer == 0 then
 	if STRGST.STRCountdown < 10 then
-	Center_X = (S_Width() - Center_W) / 2.03
+	NHCD_X = (S_Width() - NHCD_W) / 2.03
 	else
-	Center_X = (S_Width() - Center_W) / 2.04
+	NHCD_X = (S_Width() - NHCD_W) / 2.04
 	end
-	elseif STRGST.STRGlobalTimer ~= 0 then
-	Center_X = (S_Width() - Center_W) / 2.01
 	end
 	
-	if STRFontTMNumber == 4 then
-	if GSTRH >= 10 then
-	custom_romhack_text("TIME", T_X - 127, T_Y, T_Size, "Words")
-	custom_romhack_text(STRH10, T_X - 67, T_Y, T_Size, "Numbers")
-	else
-	custom_romhack_text("TIME", T_X - 115, T_Y, T_Size, "Words")
-	custom_romhack_text(STRH, T_X - 55, T_Y, T_Size, "Numbers")
+	if CountdownDisplayFunc or ShowCDFont then
+	custom_romhack_text(NH_C, NHCD_X, NHCD_Y, NHCD_S, "Numbers")
+	end
 	end
 	
-	custom_romhack_text(STRM, T_X - 35, T_Y, T_Size, "Numbers")
-	custom_romhack_text(STRS, T_X - 1, T_Y, T_Size, "Numbers")
-	custom_romhack_text(STRMS, T_X + 33, T_Y, T_Size, "Numbers")
+	if STRFGONumber == 4 then
+	NHGO_S = 2
+	NHGO_H = 16 * NHGO_S
+	NHGO_W = Hud_Measure(NH_C) * NHGO_S
+	NHGO_X = (S_Width() - NHGO_W) / 2.01
+	NHGO_Y = (S_Height() - NHGO_H) / 2.0
 	
-	custom_romhack_text("'", T_X - 45, T_Y - 8, T_Size, "Quotes")
-	custom_romhack_text('"', T_X - 10, T_Y - 8, T_Size, "Quotes")
-	custom_romhack_text('"', T_X + 24, T_Y - 8, T_Size, "Quotes")
+	if (GoDisplayFunc and STRGST.STRGameMode ~= 4) or ShowGoFont then
+	custom_romhack_text(NH_C, NHGO_X, NHGO_Y, NHGO_S, "Words")
 	end
-	
-	if CountdownDisplayFunc and STRFontCDNumber == 4 then
-	custom_romhack_text(Center_Text, Center_X, G_Y, G_Size, "Numbers")
-	end
-	if (GoDisplayFunc and STRGST.STRGameMode ~= 4) and STRFontGONumber == 4 then
-	custom_romhack_text(Center_Text, Center_X, G_Y, G_Size, "Words")
 	end
 end
 
 function Menu_Timer_Hud()
 	-- Timer Display
-	T_Text = string.format('%01d:%02d:%02d.%03d', GSTRH, GSTRM, GSTRS, GSTRMS)
+	MHT_T = string.format('%01d:%02d:%02d.%03d', GSTRH, GSTRM, GSTRS, GSTRMS)
 	
-	if STRFontTMNumber == 5 then
-	T_Size = 0.36
-	T_Height = 16 * T_Size
-	T_W = Hud_Measure(T_Text) * T_Size
-	T_X = (S_Width() - T_W) / 2.0 + CXPos
-    T_Y = (S_Height() - T_Height) / 2.0 + 102 + CYPos
-	custom_normal_text(T_Text, T_X, T_Y, T_Size)
+	if STRFTMNumber == 5 then
+	MHT_S = 0.36
+	MHT_H = 16 * MHT_S
+	MHT_W = Hud_Measure(MHT_T) * MHT_S
+	MHT_X = (S_Width() - MHT_W) / 2.0 + STRFontPosition.STRCX
+    MHT_Y = (S_Height() - MHT_H) / 2.0 + 102 + STRFontPosition.STRCY
+	custom_normal_text(MHT_T, MHT_X, MHT_Y, MHT_S)
 	end
 
-	if GoDisplayFunc then
-    Center_Text = "Go!"
-	elseif STRGST.STRCountdown >= 1.01 then
-	Center_Text = tostring(math.floor(STRGST.STRCountdown))
+	if GoDisplayFunc or ShowGoFont then
+    MH_C = "Go!"
+	elseif CountdownDisplayFunc or ShowCDFont then
+	MH_C = tostring(math.floor(STRGST.STRCountdown))
+	else
+	MH_C = "Wait"
 	end
 	
-	if STRFontCDNumber == 5 then
-	G_Size = 0.75
-	G_Height = 50 * G_Size
-	Center_W = Hud_Measure(Center_Text) * G_Size
-	Center_X = (S_Width() - Center_W) / 2.05
-	G_Y = (S_Height() - G_Height) / 2.0 
-	if CountdownDisplayFunc then
-	custom_normal_text(Center_Text, Center_X, G_Y, G_Size)
+	if STRFCDNumber == 5 then
+	MHCD_S = 0.75
+	MHCD_H = 50 * MHCD_S
+	MHCD_W = Hud_Measure(MH_C) * MHCD_S
+	MHCD_X = (S_Width() - MHCD_W) / 2.05
+	MHCD_Y = (S_Height() - MHCD_H) / 2.12
+	if CountdownDisplayFunc or ShowCDFont then
+	custom_normal_text(MH_C, MHCD_X, MHCD_Y, MHCD_S)
 	end
 	end
 	
-	if STRFontGONumber == 5 then
-	G_Size = 0.75
-	G_Height = 50 * G_Size
-	Center_W = Hud_Measure(Center_Text) * G_Size
-	Center_X = (S_Width() - Center_W) / 1.97
-	G_Y = (S_Height() - G_Height) / 2.0
-	if (GoDisplayFunc and STRGST.STRGameMode ~= 4) then
-	custom_normal_text(Center_Text, Center_X, G_Y, G_Size)
+	if STRFGONumber == 5 then
+	MHGO_S = 0.75
+	MHGO_H = 50 * MHGO_S
+	MHGO_W = Hud_Measure(MH_C) * MHGO_S
+	MHGO_X = (S_Width() - MHGO_W) / 1.97
+	MHGO_Y = (S_Height() - MHGO_H) / 2.12
+	if (GoDisplayFunc and STRGST.STRGameMode ~= 4) or ShowGoFont then
+	custom_normal_text(MH_C, MHGO_X, MHGO_Y, MHGO_S)
 	end
 	end
 end
 
 function Special_Timer_Hud()
-	T_Text = string.format('%01d:%02d:%02d.%03d', GSTRH, GSTRM, GSTRS, GSTRMS)
+	ST_T = string.format('%01d:%02d:%02d.%03d', GSTRH, GSTRM, GSTRS, GSTRMS)
 	
-	if STRFontTMNumber == 6 then
-	T_Size = 0.50
-	T_Height = 16 * T_Size
-	T_W = Hud_Measure(T_Text) * T_Size
-	T_X = (S_Width() - T_W) / 2.0 + CXPos
-    T_Y = (S_Height() - T_Height) / 2.0 + 108 + CYPos
-	custom_render_rect(T_X - 5.5, T_Y, T_W + 12, 16)
-	custom_shadow_text(T_Text, T_X, T_Y - 0.5, T_Size, 1, 1)
+	if STRFTMNumber == 6 then
+	ST_S = 0.50
+	ST_H = 16 * ST_S
+	ST_W = Hud_Measure(ST_T) * ST_S
+	ST_X = (S_Width() - ST_W) / 2.0 + STRFontPosition.STRCX
+    ST_Y = (S_Height() - ST_H) / 2.0 + 108 + STRFontPosition.STRCY
+	custom_render_rect(ST_X - 5.5, ST_Y, ST_W + 12, 16)
+	custom_shadow_text(ST_T, ST_X, ST_Y - 0.5, ST_S, 1, 1)
 	end
 
-	if GoDisplayFunc then
-    Center_Text = "Go!"
-	elseif CountdownSwitchFunc then
-	Center_Text = tostring(math.floor(STRGST.STRCountdown))
+	if GoDisplayFunc or ShowGoFont then
+    ST_C = "Go!"
+	elseif CountdownSwitchFunc or ShowCDFont then
+	ST_C = tostring(math.floor(STRGST.STRCountdown))
+	else
+	ST_C = "Wait"
 	end
 	
-	if STRFontCDNumber == 6 then
-	G_Size = 1
-	G_Height = 32 * G_Size
-	Center_W = Hud_Measure(Center_Text) * G_Size
-	Center_X = (S_Width() - Center_W) / 2.0 - 1
-	G_Y = (S_Height() - G_Height) / 2.0
-	if CountdownDisplayFunc then
-	custom_render_rect(Center_X - 5, G_Y, Center_W + 12, G_Height)
-	custom_shadow_text(Center_Text, Center_X, G_Y - 0.5, G_Size, 2, 2)
+	if STRFCDNumber == 6 then
+	STCD_S = 1
+	STCD_H = 32 * STCD_S
+	STCD_W = Hud_Measure(ST_C) * STCD_S
+	STCD_X = (S_Width() - STCD_W) / 2.0 - 1
+	STCD_Y = (S_Height() - STCD_H) / 2.0
+	if CountdownDisplayFunc or ShowCDFont then
+	custom_render_rect(STCD_X - 5, STCD_Y, STCD_W + 12, STCD_H)
+	custom_shadow_text(ST_C, STCD_X, STCD_Y - 0.5, STCD_S, 2, 2)
 	end
 	end
 	
-	if STRFontGONumber == 6 then
-	G_Size = 1
-	G_Height = 32 * G_Size
-	Center_W = Hud_Measure(Center_Text) * G_Size
-	Center_X = (S_Width() - Center_W) / 2.0 - 1
-	G_Y = (S_Height() - G_Height) / 2.0
-	if (GoDisplayFunc and STRGST.STRGameMode ~= 4) then
-	custom_render_rect(Center_X - 5, G_Y, Center_W + 12, G_Height)
-	custom_shadow_text(Center_Text, Center_X - 0.5, G_Y - 0.5, G_Size, 2, 2)
+	if STRFGONumber == 6 then
+	STGO_S = 1
+	STGO_H = 32 * STGO_S
+	STGO_W = Hud_Measure(ST_C) * STGO_S
+	STGO_X = (S_Width() - STGO_W) / 2.0 - 1
+	STGO_Y = (S_Height() - STGO_H) / 2.0
+	if (GoDisplayFunc and STRGST.STRGameMode ~= 4) or ShowGoFont then
+	custom_render_rect(STGO_X - 5, STGO_Y, STGO_W + 12, STGO_H)
+	custom_shadow_text(ST_C, STGO_X - 0.5, STGO_Y - 0.5, STGO_S, 2, 2)
 	end
 	end
 end
@@ -742,7 +774,7 @@ function All_Hud_Renders()
 	ServerSettings_Display()
 	end
 	
-	if (STRBestTimeOption == "Enabled" or STRBestTimeOption == "Saves") then 
+	if (STRBestTimeOption == "Enabled" or STRBestTimeOption == "Saves") and STRGST.EraseSave == false then 
 	BestTime_Display()
 	end
 
@@ -759,35 +791,35 @@ end
 function Timer_Hud_Renders()
 	djui_hud_set_resolution(RESOLUTION_N64)
 	
-	if (STRFontTMNumber == 1 or STRFontCDNumber == 1 or STRFontGONumber == 1) and STRLoadSaveUpdater > 1 then
+	if (STRFTMNumber == 1 or STRFCDNumber == 1 or STRFGONumber == 1) and STRLoadSaveUpdater > 1 then
 	djui_hud_set_font(FONT_NORMAL)
 	Normal_Timer_Hud()
 	end
 	
-	if STRFontTMNumber == 2 or STRFontCDNumber == 2 or STRFontGONumber == 2 and STRLoadSaveUpdater > 1 then
+	if STRFTMNumber == 2 or STRFCDNumber == 2 or STRFGONumber == 2 and STRLoadSaveUpdater > 1 then
 	djui_hud_set_font(FONT_ALIASED)
 	Aliased_Timer_Hud()
 	end
 	
-	if (STRFontTMNumber == 3 or STRFontCDNumber == 3 or STRFontGONumber == 3) and STRCustomColors == "Disabled" and STRLoadSaveUpdater > 1 then
+	if (STRFTMNumber == 3 or STRFCDNumber == 3 or STRFGONumber == 3) and STRCustomColors == "Disabled" and STRLoadSaveUpdater > 1 then
 	djui_hud_set_font(FONT_CUSTOM_HUD)
 	Custom_Hud_Timer()
-	elseif (STRFontTMNumber == 3 or STRFontCDNumber == 3 or STRFontGONumber == 3) and STRCustomColors == "Enabled" and STRLoadSaveUpdater > 1 then
+	elseif (STRFTMNumber == 3 or STRFCDNumber == 3 or STRFGONumber == 3) and STRCustomColors == "Enabled" and STRLoadSaveUpdater > 1 then
 	djui_hud_set_font(FONT_RECOLOR_HUD)
 	Custom_Hud_Timer()
 	end
 	
-	if STRFontTMNumber == 4 or STRFontCDNumber == 4 or STRFontGONumber == 4 and STRLoadSaveUpdater > 1 then
+	if STRFTMNumber == 4 or STRFCDNumber == 4 or STRFGONumber == 4 and STRLoadSaveUpdater > 1 then
 	djui_hud_set_font(FONT_HUD)
 	Normal_Hud_Timer()
 	end
 	
-	if STRFontTMNumber == 5 or STRFontCDNumber == 5 or STRFontGONumber == 5 and STRLoadSaveUpdater > 1 then
+	if STRFTMNumber == 5 or STRFCDNumber == 5 or STRFGONumber == 5 and STRLoadSaveUpdater > 1 then
 	djui_hud_set_font(FONT_MENU)
 	Menu_Timer_Hud()
 	end
 	
-	if STRFontTMNumber == 6 or STRFontCDNumber == 6 or STRFontGONumber == 6 and STRLoadSaveUpdater > 1 then
+	if STRFTMNumber == 6 or STRFCDNumber == 6 or STRFGONumber == 6 and STRLoadSaveUpdater > 1 then
 	djui_hud_set_font(FONT_SPECIAL)
 	Special_Timer_Hud()
 	end

@@ -9,59 +9,65 @@ Hud_Measure = djui_hud_measure_text
 Hud_Tile_Tex = djui_hud_render_texture_tile
 Hud_Texture = djui_hud_render_texture
 Texture = get_texture_info
-Save_Storage = mod_storage_save
-Save_Numbers = mod_storage_save_number
-Load_Storage = mod_storage_load
+STR_Save = mod_storage_save
+STR_Load = mod_storage_load
+STR_Remove = mod_storage_remove
+STR_Clear = mod_storage_clear
 
 -- Global Saves
-STRGST.STRFinishGameWarp = mod_storage_load("STRFGWarp") or "Enabled"
-STRGST.STRForceLevelType = mod_storage_load("STRFLType") or "Levels"
-STRGST.STRWarpType = mod_storage_load("STRWType") or "Start"
-STRGST.STRForceSpot = mod_storage_load("STRFSpot") or "Start"
-STRGST.STRBSFOption = mod_storage_load("STRBackupOption") or "Disabled"
-STRGST.CasualGM = mod_storage_load("STRCasualOption") or "Disabled"
+STRGST.STRFinishGameWarp = STR_Load("STRFGWarp") or "Enabled"
+STRGST.STRForceLevelType = STR_Load("STRFLType") or "Levels"
+STRGST.STRWarpType = STR_Load("STRWType") or "Start"
+STRGST.STRForceSpot = STR_Load("STRFSpot") or "Start"
+STRGST.STRBSFOption = STR_Load("STRBackupOption") or "Disabled"
+STRGST.CasualGM = STR_Load("STRCasualOption") or "Disabled"
 
-STRGST.STRCDNumber = tonumber(mod_storage_load("STRCDNum")) or 3
-STRGST.STRGameMode = tonumber(mod_storage_load("STRGM")) or 1
-STRGST.STRStartingType = tonumber(mod_storage_load("STRSType")) or 1
+STRGST.STRCDNumber = tonumber(STR_Load("STRCDNum")) or 3
+STRGST.STRGameMode = tonumber(STR_Load("STRGM")) or 1
+STRGST.STRStartingType = tonumber(STR_Load("STRSType")) or 1
 
 -- Global Functions
 STRGST.STRGameState = "Lobby"
-STRGST.STRStartingWarp = 0
 STRGST.VanillaCG = false
 STRGST.EraseSave = false
 STRGST.SwitchIntro = false
 STRGST.STRBackupSF = false
 STRGST.STRSFUpdater = false
 STRGST.STRPluginsCheck = false
-STRGST.EnabledInteraction = true
+STRGST.STRLocationPlugin = false
+STRGST.InteractionCheck = false
 STRGST.GrandStar = false
 STRGST.CakeEnding = false
 STRGST.AddRomhack = false
-STRGST.DisableCSMoveset = true
 STRGST.SavedBestTime = false
 STRGST.WNRCheck = false
+STRGST.STRCakeEndingCheck = false
 
-STRGST.SFSMipsStar1 = "Erase"
-STRGST.SFSMipsStar2 = "Erase"
-STRGST.SFSToadStar1 = "Erase"
-STRGST.SFSToadStar2 = "Erase"
-STRGST.SFSToadStar3 = "Erase"
-STRGST.SFSWingCap = "Erase"
-STRGST.SFSMetalCap = "Erase"
-STRGST.SFSVanishCap = "Erase"
-STRGST.SFSDDDMovedBack = "Erase"
-STRGST.SFSMoatDrain = "Erase"
-STRGST.SFS50StarDoor = "Erase"
-STRGST.SFSBasementDoor = "Erase"
-STRGST.SFSBTIDWDoor = "Erase"
-STRGST.SFSBITFSDoor = "Erase"
-STRGST.SFSCCMDoor = "Erase"
-STRGST.SFSJRBDoor = "Erase"
-STRGST.SFSPSSDoor = "Erase"
-STRGST.SFSUpstairsDoor = "Erase"
-STRGST.SFSWFDoor = "Erase"
-STRGST.SFSKeys = "Erase"
+STRGST.SFSMipsStar1 = true
+STRGST.SFSMipsStar2 = true
+STRGST.SFSToadStar1 = true
+STRGST.SFSToadStar2 = true
+STRGST.SFSToadStar3 = true
+STRGST.SFSWingCap = true
+STRGST.SFSMetalCap = true
+STRGST.SFSVanishCap = true
+STRGST.SFS50StarDoor = true
+STRGST.SFSBasementDoor = true
+STRGST.SFSUpstairsDoor = true
+STRGST.SFSBITDWDoor = true
+STRGST.SFSBITFSDoor = true
+STRGST.SFSWFDoor = true
+STRGST.SFSPSSDoor = true
+STRGST.SFSJRBDoor = true
+STRGST.SFSCCMDoor = true
+STRGST.SFSKey1 = true
+STRGST.SFSKey2 = true
+STRGST.SFSDDDMovedBack = true
+STRGST.SFSMoatDrain = true
+STRGST.SFSCapGround = true
+STRGST.SFSCapKlepto = true
+STRGST.SFSCapUkiki = true
+STRGST.SFSCapBlizzard = true
 
 for warpnoderandom in pairs(gActiveMods) do
     if gActiveMods[warpnoderandom].name:find("Warp Node Randomizer") then
@@ -72,6 +78,7 @@ end
 
 -- Global Number Functions
 STRGST.STRGlobalTimer = 0
+STRGST.STRStartingWarp = 0
 STRGST.STRIntermission = 5
 STRGST.STRSecondsDelay = 0
 STRGST.STRCountdown = STRGST.STRCDNumber
@@ -153,49 +160,27 @@ STRGST.STRLFEYPos = 0
 STRGST.STRLFEZPos = 0
 STRGST.STRLFPositions = 1
 
+STRGMOption = STRGST.STRGameMode
+STRSTOption = STRGST.STRStartingType
+
+gServerSettings.skipIntro = 1
+
 -- Local Saves
-STRMenuButtons = mod_storage_load("STRMButtons") or "Both"
-STRCustomColors = mod_storage_load("STRCColors") or "Enabled"
-STRLocationSpot = mod_storage_load("STRLSpot") or "Ground"
-STRRenderType = mod_storage_load("STRRType") or "Behind"
-STRRules = mod_storage_load("STRRulesDisplay") or "Enabled"
-STRHelper = mod_storage_load("STRHelperDisplay") or "Enabled"
-STRRDisplay = mod_storage_load("STRRequireDisplay") or "Start"
-STRMenuWarpType = mod_storage_load("STRMenuWType") or "Start"
-STRBestTimeOption = mod_storage_load("STRBestTimeType") or "Saves"
-
-STRMBinds1 = tonumber(Load_Storage("STRMenuBinds1")) or 6
-STRMBinds2 = tonumber(Load_Storage("STRMenuBinds2")) or 7
-STRMBinds3 = tonumber(Load_Storage("STRMenuBinds3")) or 10
-
-STRRBinds1 = tonumber(Load_Storage("STRRulesBinds1")) or 6
-STRRBinds2 = tonumber(Load_Storage("STRRulesBinds2")) or 7
-STRRBinds3 = tonumber(Load_Storage("STRRulesBinds3")) or 11
-
-STRSBinds1 = tonumber(Load_Storage("STRSingleBinds1")) or 6
-STRSBinds2 = tonumber(Load_Storage("STRSingleBinds2")) or 1
-STRSBinds3 = tonumber(Load_Storage("STRSingleBinds3")) or 1
-
-STRFR = tonumber(Load_Storage("STRFRed")) or 255
-STRFB = tonumber(Load_Storage("STRFBlue")) or 255
-STRFG = tonumber(Load_Storage("STRFGreen")) or 255
-STRFV = tonumber(Load_Storage("STRFVisible")) or 255
-
-STRRR = tonumber(Load_Storage("STRRRed")) or 0
-STRRB = tonumber(Load_Storage("STRRBlue")) or 0
-STRRG = tonumber(Load_Storage("STRRGreen")) or 0
-STRRV = tonumber(Load_Storage("STRRVisible")) or 128
-
-CXPos = tonumber(mod_storage_load("STRXPos")) or 0
-CYPos = tonumber(mod_storage_load("STRYPos")) or 0
-
-STRMenuR = tonumber(Load_Storage("STRMenuRed")) or 0
-STRMenuB = tonumber(Load_Storage("STRMenuBlue")) or 0
-STRMenuG = tonumber(Load_Storage("STRMenuGreen")) or 0
-STRMenuV = tonumber(Load_Storage("STRMenuVisible")) or 128
+STRMenuButtons = STR_Load("STRMButtons") or "All"
+STRCustomColors = STR_Load("STRCColors") or "Enabled"
+STRLocationSpot = STR_Load("STRLSpot") or "Ground"
+STRRenderType = STR_Load("STRRType") or "Behind"
+STRRules = STR_Load("STRRulesDisplay") or "Enabled"
+STRHelper = STR_Load("STRHelperDisplay") or "Enabled"
+STRRDisplay = STR_Load("STRRequireDisplay") or "Start"
+STRMenuWarpType = STR_Load("STRMenuWType") or "Start"
+STRBestTimeOption = STR_Load("STRBestTimeType") or "Saves"
+STRShowCDFont = STR_Load("STRShowCountdown") or "Disabled"
+STRShowGoFont = STR_Load("STRShowGo") or "Disabled"
 
 -- Local Functions
 STRMenuDisplay = false
+STRMenuPauseFlag = false
 STRMenuWarp = false
 STRRunSlotAdded = false
 if STRHelper == "Enabled" then
@@ -215,6 +200,8 @@ STRMenuBindsFS = false
 STRRulesBindsFS = false
 STRSingleBindsFS = false
 
+STRFlagFailSafe = false
+
 if network_is_server() then
 STRMenuTitleName = "MDMain"
 else
@@ -222,23 +209,25 @@ STRMenuTitleName = "MDConfig"
 end
 MenuSelectedOption = "Main"
 MenuViewHostCheck = false
+FreezePlayer = false
 MenuSaveUpdate = false
+SaveFlagsUpdate = false
 
 -- Local Number Functions
+STRFTMNumber = 1
+STRFCDNumber = 1
+STRFGONumber = 1
+
+STRSFFNumber = 1
+STRSCDNumber = 1
+STRSGONumber = 1
+
 STRLoadSaveUpdater = 0
 STRSettingsTimer = 150
 STRBestTimeNumber = 0
 STRBTNLimit = 30
 STRHelperTimer = 10
 STRHelperHide = 255
-
-STRFontTMNumber = 1
-STRFontCDNumber = 1
-STRFontGONumber = 1
-
-STRFanfareNumber = 1
-STRCountdownNumber = 1
-STRGoNumber = 1
 
 MenuPageLRDisplay = 1
 MenuPageUDDisplay = 1
@@ -259,6 +248,12 @@ DPRightDelay = 0
 MenuOptionDeplay = 10
 MenuButtonsDeplay = 10
 MenuSwitchDeplay = 0
+
+STRSSLevelMenu = 1
+STRSSAreaMenu = 1
+STRSSActMenu = 1
+STRSSStarMenu = 1
+STRSSTypeMenu = 1
 
 -- Save File Packet Numbers
 STR_Packet_Data = 1
@@ -473,87 +468,164 @@ STRButtonBinds = {
 	[17] = {name = "CStickR",      button = R_CBUTTONS},
 }
 
+STRFontColors = {STRFR = 255, STRFG = 255, STRFB = 255, STRFV = 255}
+STRRectColors = {STRRR = 0, STRRG = 0, STRRB = 0, STRRV = 128}
+STRMenuColors = {STRMR = 0, STRMG = 0, STRMB = 0, STRMV = 128}
+STRFontPosition = {STRCX = 0, STRCY = 0}
+STRMenuBinds = {MBind1 = 6, MBind2 = 7, MBind3 = 10}
+STRRuleBinds = {RBind1 = 6, RBind2 = 7, RBind3 = 11}
+STRSingleBinds = {SBind1 = 6, SBind2 = 1, SBind3 = 1}
+
+STRSFlagsUpdater = {Mips1 = true, Mips2 = true, Toad1 = true, Toad2 = true, Toad3 = true, WC = true, MC = true, VC = true, D50 = true, BM = true, US = true, 
+BDW = true, BFS = true, WF = true, PSS = true, JRB = true, CCM = true, Key1 = true, Key2 = true, DDD = true, MD = true, CG = true, CK = true, CU = true, CMB = true}
+
+STRSFlagsSaveUpdater = {Mips1 = true, Mips2 = true, Toad1 = true, Toad2 = true, Toad3 = true, WC = true, MC = true, VC = true, D50 = true, BM = true, US = true, 
+BDW = true, BFS = true, WF = true, PSS = true, JRB = true, CCM = true, Key1 = true, Key2 = true, DDD = true, MD = true, CG = true, CK = true, CU = true, CMB = true}
+
 -- Save Functions (Thanks to Squishy)
-function load_saves()
-	STRSavFontTM = Load_Storage("STRFontTM")
-	STRSavFontCD = Load_Storage("STRFontCD")
-	STRSavFontGO = Load_Storage("STRFontGO")
+function str_load_saves()
+	local STRSavFontTM = STR_Load("STRFontTM")
+	local STRSavFontCD = STR_Load("STRFontCD")
+	local STRSavFontGO = STR_Load("STRFontGO")
+	local STRSavFanfare = STR_Load("STRFanfare")
+	local STRSavCountdown = STR_Load("STRCountdown")
+	local STRSavGo = STR_Load("STRGo")
+	local STRSavFC = STR_Load("STRFColors")
+	local STRSavRC = STR_Load("STRRColors")
+	local STRSavMC = STR_Load("STRMColors")
+	local STRSavFP = STR_Load("STRFPosition")
+	local STRSavMB = STR_Load("STRMBinds")
+	local STRSavRB = STR_Load("STRRBinds")
+	local STRSavSB = STR_Load("STRSBinds")
 	
-	STRSavFanfare = Load_Storage("STRFanfare")
-	STRSavCountdown = Load_Storage("STRCountdown")
-	STRSavGo = Load_Storage("STRGo")
+	if STRSavFontTM == nil or STRSavFontTM == "" then STR_Save("STRFontTM", STRFontsTable[1].str_font_id) STRSavFontTM = STRFontsTable[1].str_font_id end
+    if STRSavFontTM ~= nil and STRSavFontTM ~= STRFontsTable[1].str_font_id then for i = 2, #STRFontsTable do if STRFontsTable[i].str_font_id == STRSavFontTM then STRFTMNumber = i end end end
 	
-    if STRSavFontTM == nil or STRSavFontTM == "" then
-        Save_Storage("STRFontTM", "Normal")
-        STRSavFontTM = "Normal"
-    end
-    if STRSavFontTM ~= nil and STRSavFontTM ~= "Normal" then
-        for i = 2, #STRFontsTable do
-            if STRFontsTable[i].str_font_id == STRSavFontTM then
-                STRFontTMNumber = i
-			end
-		end
-	end
+	if STRSavFontCD == nil or STRSavFontCD == "" then STR_Save("STRFontCD", STRFontsTable[1].str_font_id) STRSavFontCD = STRFontsTable[1].str_font_id end
+    if STRSavFontCD ~= nil and STRSavFontCD ~= STRFontsTable[1].str_font_id then for i = 2, #STRFontsTable do if STRFontsTable[i].str_font_id == STRSavFontCD then STRFCDNumber = i end end end
 	
-	if STRSavFontCD == nil or STRSavFontCD == "" then
-        Save_Storage("STRFontCD", "Normal")
-        STRSavFontCD = "Normal"
-    end
-    if STRSavFontCD ~= nil and STRSavFontCD ~= "Normal" then
-        for i = 2, #STRFontsTable do
-            if STRFontsTable[i].str_font_id == STRSavFontCD then
-                STRFontCDNumber = i
-			end
-		end
-	end
+	if STRSavFontGO == nil or STRSavFontGO == "" then STR_Save("STRFontGO", STRFontsTable[1].str_font_id) STRSavFontGO = STRFontsTable[1].str_font_id end
+    if STRSavFontGO ~= nil and STRSavFontGO ~= STRFontsTable[1].str_font_id then for i = 2, #STRFontsTable do if STRFontsTable[i].str_font_id == STRSavFontGO then STRFGONumber = i end end end
 	
-	if STRSavFontGO == nil or STRSavFontGO == "" then
-        Save_Storage("STRFontGO", "Normal")
-        STRSavFontGO = "Normal"
-    end
-    if STRSavFontGO ~= nil and STRSavFontGO ~= "Normal" then
-        for i = 2, #STRFontsTable do
-            if STRFontsTable[i].str_font_id == STRSavFontGO then
-                STRFontGONumber = i
-			end
-		end
-	end
+	if STRSavFanfare == nil or STRSavFanfare == "" then STR_Save("STRFanfare", STRFanfareTable[1].str_fanfare_id) STRSavFanfare = STRFanfareTable[1].str_fanfare_id end
+    if STRSavFanfare ~= nil and STRSavFanfare ~= STRFanfareTable[1].str_fanfare_id then for i = 2, #STRFanfareTable do if STRFanfareTable[i].str_fanfare_id == STRSavFanfare then STRSFFNumber = i end end end
 	
-	if STRSavFanfare == nil or STRSavFanfare == "" then
-        Save_Storage("STRFanfare", "RaceFanfare")
-        STRSavFanfare = "RaceFanfare"
-    end
-    if STRSavFanfare ~= nil and STRSavFanfare ~= "RaceFanfare" then
-        for i = 2, #STRFanfareTable do
-            if STRFanfareTable[i].str_fanfare_id == STRSavFanfare then
-                STRFanfareNumber = i
-			end
-		end
-	end
+	if STRSavCountdown == nil or STRSavCountdown == "" then STR_Save("STRCountdown", STRCountdownTable[1].str_countdown_id) STRSavCountdown = STRCountdownTable[1].str_countdown_id end
+    if STRSavCountdown ~= nil and STRSavCountdown ~= STRCountdownTable[1].str_countdown_id then for i = 2, #STRCountdownTable do if STRCountdownTable[i].str_countdown_id == STRSavCountdown then STRSCDNumber = i end end end
 	
-	if STRSavCountdown == nil or STRSavCountdown == "" then
-        Save_Storage("STRCountdown", "ChangeSelect")
-        STRSavCountdown = "ChangeSelect"
-    end
-    if STRSavCountdown ~= nil and STRSavCountdown ~= "ChangeSelect" then
-        for i = 2, #STRCountdownTable do
-            if STRCountdownTable[i].str_countdown_id == STRSavCountdown then
-                STRCountdownNumber = i
-			end
-		end
-	end
+	if STRSavGo == nil or STRSavGo == "" then STR_Save("STRGo", STRGoTable[1].str_go_id) STRSavGo = STRGoTable[1].str_go_id end
+    if STRSavGo ~= nil and STRSavGo ~= STRGoTable[1].str_go_id then for i = 2, #STRGoTable do if STRGoTable[i].str_go_id == STRSavGo then STRSGONumber = i end end end
 	
-	if STRSavGo == nil or STRSavGo == "" then
-        Save_Storage("STRGo", "GunShot")
-        STRSavGo = "GunShot"
-    end
-    if STRSavGo ~= nil and STRSavGo ~= "GunShot" then
-        for i = 2, #STRGoTable do
-            if STRGoTable[i].str_go_id == STRSavGo then
-                STRGoNumber = i
-			end
-		end
-	end
+	if STRSavFC ~= nil and STRSavFC ~= "" then local FCColor = str_split_table(STRSavFC, "_")
+    STRFontColors = {STRFR = tonumber(FCColor[1]), STRFG = tonumber(FCColor[2]), STRFB = tonumber(FCColor[3]), STRFV = tonumber(FCColor[4])}
+    else STR_Save("STRFColors", "255_255_255_255") end
+	
+	if STRSavRC ~= nil and STRSavRC ~= "" then local RCColor = str_split_table(STRSavRC, "_")
+    STRRectColors = {STRRR = tonumber(RCColor[1]), STRRG = tonumber(RCColor[2]), STRRB = tonumber(RCColor[3]), STRRV = tonumber(RCColor[4])}
+    else STR_Save("STRRColors", "0_0_0_128") end
+	
+	if STRSavMC ~= nil and STRSavMC ~= "" then local MCColor = str_split_table(STRSavMC, "_")
+    STRMenuColors = {STRMR = tonumber(MCColor[1]), STRMG = tonumber(MCColor[2]), STRMB = tonumber(MCColor[3]), STRMV = tonumber(MCColor[4])}
+    else STR_Save("STRMColors", "0_0_0_128") end
+	
+	if STRSavFP ~= nil and STRSavFP ~= "" then local FPNumbers = str_split_table(STRSavFP, "_")
+    STRFontPosition = {STRCX = tonumber(FPNumbers[1]), STRCY = tonumber(FPNumbers[2])}
+    else STR_Save("STRFPosition", "0_0") end
+	
+	if STRSavMB ~= nil and STRSavMB ~= "" then local MenuBinds = str_split_table(STRSavMB, "_")
+    STRMenuBinds = {MBind1 = tonumber(MenuBinds[1]), MBind2 = tonumber(MenuBinds[2]), MBind3 = tonumber(MenuBinds[3])}
+    else STR_Save("STRMBinds", "6_7_10") end
+	
+	if STRSavRB ~= nil and STRSavRB ~= "" then local RulesBinds = str_split_table(STRSavRB, "_")
+    STRRuleBinds = {RBind1 = tonumber(RulesBinds[1]), RBind2 = tonumber(RulesBinds[2]), RBind3 = tonumber(RulesBinds[3])}
+    else STR_Save("STRRBinds", "6_7_11") end
+	
+	if STRSavSB ~= nil and STRSavSB ~= "" then local SingleBinds = str_split_table(STRSavSB, "_")
+    STRSingleBinds = {SBind1 = tonumber(SingleBinds[1]), SBind2 = tonumber(SingleBinds[2]), SBind3 = tonumber(SingleBinds[3])}
+    else STR_Save("STRSBinds", "6_1_1") end
+end
+
+function str_clear_saves()
+STR_Clear()
+if network_is_server() then
+STRGST.STRFinishGameWarp = "Enabled"
+STRGST.STRForceLevelType = "Levels"
+STRGST.STRWarpType = "Start"
+STRGST.STRForceSpot = "Start"
+STRGST.STRBSFOption = "Disabled"
+STRGST.CasualGM = "Disabled"
+STRGST.STRCDNumber = 3
+STRGST.STRGameMode = 1
+STRGST.STRStartingType = 1
+end
+	
+STRMenuButtons = "All"
+STRCustomColors = "Enabled"
+STRLocationSpot = "Ground"
+STRRenderType = "Behind"
+STRRules = "Enabled"
+STRHelper = "Enabled"
+STRRDisplay = "Start"
+STRMenuWarpType = "Start"
+STRBestTimeOption = "Saves"
+STRShowCDFont = "Disabled"
+STRShowGoFont = "Disabled"
+STRFTMNumber, STRFCDNumber, STRFGONumber = 1, 1, 1
+STRSFFNumber, STRSCDNumber, STRSGONumber = 1, 1, 1
+STRFontColors.STRFR, STRFontColors.STRFG, STRFontColors.STRFB, STRFontColors.STRFV = 255, 255, 255, 255
+STRRectColors.STRRR, STRRectColors.STRRG, STRRectColors.STRRB, STRRectColors.STRRV = 0, 0, 0, 128
+STRMenuColors.STRMR, STRMenuColors.STRMG, STRMenuColors.STRMB, STRMenuColors.STRMV = 0, 0, 0, 128
+STRFontPosition.STRCX, STRFontPosition.STRCY = 0, 0
+STRMenuBinds.MBind1, STRMenuBinds.MBind2, STRMenuBinds.MBind3 = 6, 7, 10
+STRRuleBinds.RBind1, STRRuleBinds.RBind2, STRRuleBinds.RBind3 = 6, 7, 11
+STRSingleBinds.SBind1, STRSingleBinds.SBind2, STRSingleBinds.SBind3 = 6, 1, 1
+end
+
+function str_remove_saves()
+if MenuPageLRDisplay == 1 then
+STRFTMNumber, STRFCDNumber, STRFGONumber = 1, 1, 1 STRShowCDFont = "Disabled" STRShowGoFont = "Disabled"
+STR_Remove("STRFontTM")
+STR_Remove("STRFontCD")
+STR_Remove("STRFontGO")
+STR_Remove("STRShowCountdown")
+STR_Remove("STRShowGo")
+elseif MenuPageLRDisplay == 2 then
+STRSFFNumber, STRSCDNumber, STRSGONumber = 1, 1, 1
+STR_Remove("STRFanfare")
+STR_Remove("STRCountdown")
+STR_Remove("STRGo")
+elseif MenuPageLRDisplay == 3 then
+STRFontColors.STRFR, STRFontColors.STRFG, STRFontColors.STRFB, STRFontColors.STRFV = 255, 255, 255, 255
+STRRectColors.STRRR, STRRectColors.STRRG, STRRectColors.STRRB, STRRectColors.STRRV = 0, 0, 0, 128
+STRMenuColors.STRMR, STRMenuColors.STRMG, STRMenuColors.STRMB, STRMenuColors.STRMV = 0, 0, 0, 128
+STRFontPosition.STRCX, STRFontPosition.STRCY = 0, 0
+STR_Remove("STRFColors")
+STR_Remove("STRRColors")
+STR_Remove("STRMColors")
+STR_Remove("STRFPosition")
+elseif MenuPageLRDisplay == 4 and MenuPageUDDisplay == 1 then 
+STRMenuButtons = "All"
+STRCustomColors = "Enabled"
+STRRenderType = "Behind"
+STRRules = "Enabled"
+STRHelper = "Enabled"
+STRMenuBinds.MBind1, STRMenuBinds.MBind2, STRMenuBinds.MBind3 = 6, 7, 10
+STRRuleBinds.RBind1, STRRuleBinds.RBind2, STRRuleBinds.RBind3 = 6, 7, 11
+STR_Remove("STRCColors")
+STR_Remove("STRRType") 
+STR_Remove("STRHelperDisplay")
+STR_Remove("STRMButtons") 
+STR_Remove("STRRulesDisplay") 
+STR_Remove("STRMBinds") 
+STR_Remove("STRRBinds") 
+elseif MenuPageLRDisplay == 4 and MenuPageUDDisplay == 2 then 
+STRRDisplay = "Start"
+STRMenuWarpType = "Start"
+STRBestTimeOption = "Saves"
+STR_Remove("STRRequireDisplay")
+STR_Remove("STRMenuWType")
+STR_Remove("STRBestTimeType")
+end
 end
 
 -- Set Texts
@@ -590,7 +662,19 @@ function menu_shadow_text(text, x, y, scale, px, py, r, g, b, v, func)
 	if func then
     Hud_Color(r, g, b, v);
 	else
-	Hud_Color(255, 255, 255, 255);
+	Hud_Color(180, 180, 180, 255);
+	end
+    Hud_Text(text, x, y, scale);
+end
+
+function color_shadow_text(text, x, y, scale, px, py, r, g, b, v, r2, g2, b2, v2, func)
+    Hud_Color(0, 0, 0, v);
+    Hud_Text(text, x + px, y + py, scale);
+	
+	if func then
+    Hud_Color(r, g, b, v);
+	else
+	Hud_Color(r2, g2, b2, v2);
 	end
     Hud_Text(text, x, y, scale);
 end
@@ -628,55 +712,55 @@ end
 
 function custom_normal_text(text, x, y, scale)
 	if STRCustomColors == "Enabled" then
-	Hud_Color(STRFR, STRFG, STRFB, STRFV);
+	Hud_Color(STRFontColors.STRFR, STRFontColors.STRFG, STRFontColors.STRFB, STRFontColors.STRFV);
 	else
-	Hud_Color(255, 255, 255, STRFV);
+	Hud_Color(255, 255, 255, STRFontColors.STRFV);
 	end
     Hud_Text(text, x, y, scale);
 end
 
 function custom_shadow_text(text, x, y, scale, px, py)
-    Hud_Color(0, 0, 0, STRFV);
+    Hud_Color(0, 0, 0, STRFontColors.STRFV);
     Hud_Text(text, x + px, y + py, scale);
 
     if STRCustomColors == "Enabled" then
-	Hud_Color(STRFR, STRFG, STRFB, STRFV);
+	Hud_Color(STRFontColors.STRFR, STRFontColors.STRFG, STRFontColors.STRFB, STRFontColors.STRFV);
 	else
-	Hud_Color(255, 255, 255, STRFV);
+	Hud_Color(255, 255, 255, STRFontColors.STRFV);
 	end
     Hud_Text(text, x, y, scale);
 end
 
 function custom_romhack_text(text, x, y, scale, colors)
 	if STRNumbers == true and colors == "Numbers" and STRCustomColors == "Enabled" then
-	Hud_Color(STRFR, STRFG, STRFB, STRFV);
+	Hud_Color(STRFontColors.STRFR, STRFontColors.STRFG, STRFontColors.STRFB, STRFontColors.STRFV);
 	elseif STRNumbers == false and colors == "Numbers" and STRCustomColors == "Enabled" then
-	Hud_Color(255, 255, 255, STRFV);
+	Hud_Color(255, 255, 255, STRFontColors.STRFV);
 	end
 	
 	if STRWords == true and colors == "Words" and STRCustomColors == "Enabled" then
-	Hud_Color(STRFR, STRFG, STRFB, STRFV);
+	Hud_Color(STRFontColors.STRFR, STRFontColors.STRFG, STRFontColors.STRFB, STRFontColors.STRFV);
 	elseif STRWords == false and colors == "Words" and STRCustomColors == "Enabled" then
-	Hud_Color(255, 255, 255, STRFV);
+	Hud_Color(255, 255, 255, STRFontColors.STRFV);
 	end
 	
 	if STRQuotes == true and colors == "Quotes" and STRCustomColors == "Enabled" then
-	Hud_Color(STRFR, STRFG, STRFB, STRFV);
+	Hud_Color(STRFontColors.STRFR, STRFontColors.STRFG, STRFontColors.STRFB, STRFontColors.STRFV);
 	elseif STRQuotes == false and colors == "Quotes" and STRCustomColors == "Enabled" then
-	Hud_Color(255, 255, 255, STRFV);
+	Hud_Color(255, 255, 255, STRFontColors.STRFV);
 	end
 	
 	if STRCustomColors == "Disabled" then
-	Hud_Color(255, 255, 255, STRFV);
+	Hud_Color(255, 255, 255, STRFontColors.STRFV);
 	end
     Hud_Text(text, x, y, scale);
 end
 
 function custom_render_rect(x, y, w, h)
 	if STRCustomColors == "Enabled" then
-	Hud_Color(STRRR, STRRG, STRRB, STRRV);
+	Hud_Color(STRRectColors.STRRR, STRRectColors.STRRG, STRRectColors.STRRB, STRRectColors.STRRV);
 	else
-	Hud_Color(0, 0, 0, STRRV);
+	Hud_Color(0, 0, 0, STRRectColors.STRRV);
 	end
     Hud_Rect(x, y, w, h);
 end
@@ -695,29 +779,151 @@ function str_reset_save()
 	for course = 0, 25 do
 	save_file_remove_star_flags(file, course - 1, 0xFF)
 	end
+	m = gMarioStates[0]
 
-	if STRGST.SFSMipsStar1 == "Erase" then save_file_clear_flags(SAVE_FLAG_COLLECTED_MIPS_STAR_1) end
-	if STRGST.SFSMipsStar2 == "Erase" then save_file_clear_flags(SAVE_FLAG_COLLECTED_MIPS_STAR_2) end
-	if STRGST.SFSToadStar1 == "Erase" then save_file_clear_flags(SAVE_FLAG_COLLECTED_TOAD_STAR_1) end
-	if STRGST.SFSToadStar2 == "Erase" then save_file_clear_flags(SAVE_FLAG_COLLECTED_TOAD_STAR_2) end
-	if STRGST.SFSToadStar3 == "Erase" then save_file_clear_flags(SAVE_FLAG_COLLECTED_TOAD_STAR_3) end
-	if STRGST.SFSWingCap == "Erase" then save_file_clear_flags(SAVE_FLAG_HAVE_WING_CAP) end
-	if STRGST.SFSMetalCap == "Erase" then save_file_clear_flags(SAVE_FLAG_HAVE_METAL_CAP) end
-	if STRGST.SFSVanishCap == "Erase" then save_file_clear_flags(SAVE_FLAG_HAVE_VANISH_CAP) end
-	if STRGST.SFSDDDMovedBack == "Erase" then save_file_clear_flags(SAVE_FLAG_DDD_MOVED_BACK) end
-	if STRGST.SFSMoatDrain == "Erase" then save_file_clear_flags(SAVE_FLAG_MOAT_DRAINED) end
-	if STRGST.SFS50StarDoor == "Erase" then save_file_clear_flags(SAVE_FLAG_UNLOCKED_50_STAR_DOOR) end
-	if STRGST.SFSBasementDoor == "Erase" then save_file_clear_flags(SAVE_FLAG_UNLOCKED_BASEMENT_DOOR) end
-	if STRGST.SFSBTIDWDoor == "Erase" then save_file_clear_flags(SAVE_FLAG_UNLOCKED_BITDW_DOOR) end
-	if STRGST.SFSBITFSDoor == "Erase" then save_file_clear_flags(SAVE_FLAG_UNLOCKED_BITFS_DOOR) end
-	if STRGST.SFSCCMDoor == "Erase" then save_file_clear_flags(SAVE_FLAG_UNLOCKED_CCM_DOOR) end
-	if STRGST.SFSJRBDoor == "Erase" then save_file_clear_flags(SAVE_FLAG_UNLOCKED_JRB_DOOR) end
-	if STRGST.SFSPSSDoor == "Erase" then save_file_clear_flags(SAVE_FLAG_UNLOCKED_PSS_DOOR) end
-	if STRGST.SFSUpstairsDoor == "Erase" then save_file_clear_flags(SAVE_FLAG_UNLOCKED_UPSTAIRS_DOOR) end
-	if STRGST.SFSWFDoor == "Erase" then save_file_clear_flags(SAVE_FLAG_UNLOCKED_WF_DOOR) end
-	if STRGST.SFSKeys == "Erase" then save_file_clear_flags(SAVE_FLAG_HAVE_KEY_1 | SAVE_FLAG_HAVE_KEY_2) end
+	if STRGST.SFSMipsStar1 == true then save_file_clear_flags(SAVE_FLAG_COLLECTED_MIPS_STAR_1) else save_file_set_flags(SAVE_FLAG_COLLECTED_MIPS_STAR_1) end
+	if STRGST.SFSMipsStar2 == true then save_file_clear_flags(SAVE_FLAG_COLLECTED_MIPS_STAR_2) else save_file_set_flags(SAVE_FLAG_COLLECTED_MIPS_STAR_2) end
+	if STRGST.SFSToadStar1 == true then save_file_clear_flags(SAVE_FLAG_COLLECTED_TOAD_STAR_1) else save_file_set_flags(SAVE_FLAG_COLLECTED_TOAD_STAR_1) end
+	if STRGST.SFSToadStar2 == true then save_file_clear_flags(SAVE_FLAG_COLLECTED_TOAD_STAR_2) else save_file_set_flags(SAVE_FLAG_COLLECTED_TOAD_STAR_2) end
+	if STRGST.SFSToadStar3 == true then save_file_clear_flags(SAVE_FLAG_COLLECTED_TOAD_STAR_3) else save_file_set_flags(SAVE_FLAG_COLLECTED_TOAD_STAR_3) end
+	if STRGST.SFSWingCap == true then save_file_clear_flags(SAVE_FLAG_HAVE_WING_CAP) end
+	if STRGST.SFSMetalCap == true then save_file_clear_flags(SAVE_FLAG_HAVE_METAL_CAP) end
+	if STRGST.SFSVanishCap == true then save_file_clear_flags(SAVE_FLAG_HAVE_VANISH_CAP) end
+	if STRGST.SFS50StarDoor == true then save_file_clear_flags(SAVE_FLAG_UNLOCKED_50_STAR_DOOR) end
+	if STRGST.SFSBasementDoor == true then save_file_clear_flags(SAVE_FLAG_UNLOCKED_BASEMENT_DOOR) end
+	if STRGST.SFSUpstairsDoor == true then save_file_clear_flags(SAVE_FLAG_UNLOCKED_UPSTAIRS_DOOR) end
+	if STRGST.SFSBITDWDoor == true then save_file_clear_flags(SAVE_FLAG_UNLOCKED_BITDW_DOOR) end
+	if STRGST.SFSBITFSDoor == true then save_file_clear_flags(SAVE_FLAG_UNLOCKED_BITFS_DOOR) end
+	if STRGST.SFSWFDoor == true then save_file_clear_flags(SAVE_FLAG_UNLOCKED_WF_DOOR) end
+	if STRGST.SFSPSSDoor == true then save_file_clear_flags(SAVE_FLAG_UNLOCKED_PSS_DOOR) end
+	if STRGST.SFSJRBDoor == true then save_file_clear_flags(SAVE_FLAG_UNLOCKED_JRB_DOOR) end
+	if STRGST.SFSCCMDoor == true then save_file_clear_flags(SAVE_FLAG_UNLOCKED_CCM_DOOR) end
+	if STRGST.SFSKey1 == true then save_file_clear_flags(SAVE_FLAG_HAVE_KEY_1) else save_file_set_flags(SAVE_FLAG_HAVE_KEY_1) end
+	if STRGST.SFSKey2 == true then save_file_clear_flags(SAVE_FLAG_HAVE_KEY_2) else save_file_set_flags(SAVE_FLAG_HAVE_KEY_2) end
+	if STRGST.SFSDDDMovedBack == true then save_file_clear_flags(SAVE_FLAG_DDD_MOVED_BACK) else save_file_set_flags(SAVE_FLAG_DDD_MOVED_BACK) end
+	if STRGST.SFSMoatDrain == true then save_file_clear_flags(SAVE_FLAG_MOAT_DRAINED) else save_file_set_flags(SAVE_FLAG_MOAT_DRAINED) end
+	if STRGST.SFSCapGround == true then save_file_clear_flags(SAVE_FLAG_CAP_ON_GROUND) m.cap = m.cap & ~SAVE_FLAG_CAP_ON_GROUND end
+	if STRGST.SFSCapKlepto == true then save_file_clear_flags(SAVE_FLAG_CAP_ON_KLEPTO) m.cap = m.cap & ~SAVE_FLAG_CAP_ON_KLEPTO end
+	if STRGST.SFSCapUkiki == true then save_file_clear_flags(SAVE_FLAG_CAP_ON_UKIKI) m.cap = m.cap & ~SAVE_FLAG_CAP_ON_UKIKI end
+	if STRGST.SFSCapBlizzard == true then save_file_clear_flags(SAVE_FLAG_CAP_ON_MR_BLIZZARD) m.cap = m.cap & ~SAVE_FLAG_CAP_ON_MR_BLIZZARD end
+	
 	save_file_do_save(file, 1)
     update_all_mario_stars()
+end
+
+function str_save_flag()
+	STRFlagFailSafe = true
+	if save_file_get_flags() & SAVE_FLAG_COLLECTED_MIPS_STAR_1 ~= 0 then  STRGST.SFSMipsStar1 = false STRSFlagsUpdater.Mips1 = false end
+	if save_file_get_flags() & SAVE_FLAG_COLLECTED_MIPS_STAR_2 ~= 0 then  STRGST.SFSMipsStar2 = false STRSFlagsUpdater.Mips2 = false end
+	if save_file_get_flags() & SAVE_FLAG_COLLECTED_TOAD_STAR_1 ~= 0 then  STRGST.SFSToadStar1 = false STRSFlagsUpdater.Toad1 = false end
+	if save_file_get_flags() & SAVE_FLAG_COLLECTED_TOAD_STAR_2 ~= 0 then  STRGST.SFSToadStar2 = false STRSFlagsUpdater.Toad2 = false end
+	if save_file_get_flags() & SAVE_FLAG_COLLECTED_TOAD_STAR_3 ~= 0 then  STRGST.SFSToadStar3 = false STRSFlagsUpdater.Toad3 = false end
+	if save_file_get_flags() & SAVE_FLAG_HAVE_WING_CAP ~= 0 then 		  STRGST.SFSWingCap = false STRSFlagsUpdater.WC = false end 
+	if save_file_get_flags() & SAVE_FLAG_HAVE_METAL_CAP ~= 0 then 		  STRGST.SFSMetalCap = false STRSFlagsUpdater.MC = false end
+	if save_file_get_flags() & SAVE_FLAG_HAVE_VANISH_CAP ~= 0 then 		  STRGST.SFSVanishCap = false STRSFlagsUpdater.VC = false end
+	if save_file_get_flags() & SAVE_FLAG_UNLOCKED_50_STAR_DOOR ~= 0 then  STRGST.SFS50StarDoor = false STRSFlagsUpdater.D50 = false end
+	if save_file_get_flags() & SAVE_FLAG_UNLOCKED_BASEMENT_DOOR ~= 0 then STRGST.SFSBasementDoor = false STRSFlagsUpdater.BM = false end
+	if save_file_get_flags() & SAVE_FLAG_UNLOCKED_UPSTAIRS_DOOR ~= 0 then STRGST.SFSUpstairsDoor = false STRSFlagsUpdater.US = false end
+	if save_file_get_flags() & SAVE_FLAG_UNLOCKED_BITDW_DOOR ~= 0 then 	  STRGST.SFSBITDWDoor = false STRSFlagsUpdater.BDW = false end
+	if save_file_get_flags() & SAVE_FLAG_UNLOCKED_BITFS_DOOR ~= 0 then 	  STRGST.SFSBITFSDoor = false STRSFlagsUpdater.BFS = false end
+	if save_file_get_flags() & SAVE_FLAG_UNLOCKED_WF_DOOR ~= 0 then 	  STRGST.SFSWFDoor = false STRSFlagsUpdater.WF = false end
+	if save_file_get_flags() & SAVE_FLAG_UNLOCKED_PSS_DOOR ~= 0 then 	  STRGST.SFSPSSDoor = false STRSFlagsUpdater.PSS = false end
+	if save_file_get_flags() & SAVE_FLAG_UNLOCKED_JRB_DOOR ~= 0 then 	  STRGST.SFSJRBDoor = false STRSFlagsUpdater.JRB = false end
+	if save_file_get_flags() & SAVE_FLAG_UNLOCKED_CCM_DOOR ~= 0 then 	  STRGST.SFSCCMDoor = false STRSFlagsUpdater.CCM = false end
+	if save_file_get_flags() & SAVE_FLAG_HAVE_KEY_1 ~= 0 then 			  STRGST.SFSKey1 = false STRSFlagsUpdater.Key1 = false end
+	if save_file_get_flags() & SAVE_FLAG_HAVE_KEY_2 ~= 0 then 			  STRGST.SFSKey2 = false STRSFlagsUpdater.Key2 = false end
+	if save_file_get_flags() & SAVE_FLAG_DDD_MOVED_BACK ~= 0 then 		  STRGST.SFSDDDMovedBack = false STRSFlagsUpdater.DDD = false end
+	if save_file_get_flags() & SAVE_FLAG_MOAT_DRAINED ~= 0 then 		  STRGST.SFSMoatDrain = false STRSFlagsUpdater.MD = false end
+	if save_file_get_flags() & SAVE_FLAG_CAP_ON_GROUND ~= 0 then		  STRGST.SFSCapGround = false STRSFlagsUpdater.CG = false end
+	if save_file_get_flags() & SAVE_FLAG_CAP_ON_KLEPTO ~= 0 then 		  STRGST.SFSCapKlepto = false STRSFlagsUpdater.CK = false end
+	if save_file_get_flags() & SAVE_FLAG_CAP_ON_UKIKI ~= 0 then 		  STRGST.SFSCapUkiki = false STRSFlagsUpdater.CU = false end
+	if save_file_get_flags() & SAVE_FLAG_CAP_ON_MR_BLIZZARD ~= 0 then 	  STRGST.SFSCapBlizzard = false STRSFlagsUpdater.CMB = false end
+end
+
+function str_save_flag_saved()
+	if save_file_get_flags() & SAVE_FLAG_COLLECTED_MIPS_STAR_1 ~= 0 then  STRSFlagsSaveUpdater.Mips1 = false end
+	if save_file_get_flags() & SAVE_FLAG_COLLECTED_MIPS_STAR_2 ~= 0 then  STRSFlagsSaveUpdater.Mips2 = false end
+	if save_file_get_flags() & SAVE_FLAG_COLLECTED_TOAD_STAR_1 ~= 0 then  STRSFlagsSaveUpdater.Toad1 = false end
+	if save_file_get_flags() & SAVE_FLAG_COLLECTED_TOAD_STAR_2 ~= 0 then  STRSFlagsSaveUpdater.Toad2 = false end
+	if save_file_get_flags() & SAVE_FLAG_COLLECTED_TOAD_STAR_3 ~= 0 then  STRSFlagsSaveUpdater.Toad3 = false end
+	if save_file_get_flags() & SAVE_FLAG_HAVE_WING_CAP ~= 0 then 		  STRSFlagsSaveUpdater.WC = false end 
+	if save_file_get_flags() & SAVE_FLAG_HAVE_METAL_CAP ~= 0 then 		  STRSFlagsSaveUpdater.MC = false end
+	if save_file_get_flags() & SAVE_FLAG_HAVE_VANISH_CAP ~= 0 then 		  STRSFlagsSaveUpdater.VC = false end
+	if save_file_get_flags() & SAVE_FLAG_UNLOCKED_50_STAR_DOOR ~= 0 then  STRSFlagsSaveUpdater.D50 = false end
+	if save_file_get_flags() & SAVE_FLAG_UNLOCKED_BASEMENT_DOOR ~= 0 then STRSFlagsSaveUpdater.BM = false end
+	if save_file_get_flags() & SAVE_FLAG_UNLOCKED_UPSTAIRS_DOOR ~= 0 then STRSFlagsSaveUpdater.US = false end
+	if save_file_get_flags() & SAVE_FLAG_UNLOCKED_BITDW_DOOR ~= 0 then 	  STRSFlagsSaveUpdater.BDW = false end
+	if save_file_get_flags() & SAVE_FLAG_UNLOCKED_BITFS_DOOR ~= 0 then 	  STRSFlagsSaveUpdater.BFS = false end
+	if save_file_get_flags() & SAVE_FLAG_UNLOCKED_WF_DOOR ~= 0 then 	  STRSFlagsSaveUpdater.WF = false end
+	if save_file_get_flags() & SAVE_FLAG_UNLOCKED_PSS_DOOR ~= 0 then 	  STRSFlagsSaveUpdater.PSS = false end
+	if save_file_get_flags() & SAVE_FLAG_UNLOCKED_JRB_DOOR ~= 0 then 	  STRSFlagsSaveUpdater.JRB = false end
+	if save_file_get_flags() & SAVE_FLAG_UNLOCKED_CCM_DOOR ~= 0 then 	  STRSFlagsSaveUpdater.CCM = false end
+	if save_file_get_flags() & SAVE_FLAG_HAVE_KEY_1 ~= 0 then 			  STRSFlagsSaveUpdater.Key1 = false end
+	if save_file_get_flags() & SAVE_FLAG_HAVE_KEY_2 ~= 0 then 			  STRSFlagsSaveUpdater.Key2 = false end
+	if save_file_get_flags() & SAVE_FLAG_DDD_MOVED_BACK ~= 0 then 		  STRSFlagsSaveUpdater.DDD = false end
+	if save_file_get_flags() & SAVE_FLAG_MOAT_DRAINED ~= 0 then 		  STRSFlagsSaveUpdater.MD = false end
+	if save_file_get_flags() & SAVE_FLAG_CAP_ON_GROUND ~= 0 then		  STRSFlagsSaveUpdater.CG = false end
+	if save_file_get_flags() & SAVE_FLAG_CAP_ON_KLEPTO ~= 0 then 		  STRSFlagsSaveUpdater.CK = false end
+	if save_file_get_flags() & SAVE_FLAG_CAP_ON_UKIKI ~= 0 then 		  STRSFlagsSaveUpdater.CU = false end
+	if save_file_get_flags() & SAVE_FLAG_CAP_ON_MR_BLIZZARD ~= 0 then 	  STRSFlagsSaveUpdater.CMB = false end
+end
+
+function str_save_flag_prev()
+	STRFlagFailSafe = true
+	STRSFlagsUpdater.Mips1, STRGST.SFSMipsStar1 = STRSFlagsSaveUpdater.Mips1, STRSFlagsSaveUpdater.Mips1
+	STRSFlagsUpdater.Mips2, STRGST.SFSMipsStar2 = STRSFlagsSaveUpdater.Mips2, STRSFlagsSaveUpdater.Mips2
+	STRSFlagsUpdater.Toad1, STRGST.SFSToadStar1 = STRSFlagsSaveUpdater.Toad1, STRSFlagsSaveUpdater.Toad1
+	STRSFlagsUpdater.Toad2, STRGST.SFSToadStar2 = STRSFlagsSaveUpdater.Toad2, STRSFlagsSaveUpdater.Toad2
+	STRSFlagsUpdater.Toad3, STRGST.SFSToadStar3 = STRSFlagsSaveUpdater.Toad3, STRSFlagsSaveUpdater.Toad3
+	STRSFlagsUpdater.WC, STRGST.SFSWingCap = STRSFlagsSaveUpdater.WC, STRSFlagsSaveUpdater.WC
+	STRSFlagsUpdater.MC, STRGST.SFSMetalCap = STRSFlagsSaveUpdater.MC, STRSFlagsSaveUpdater.MC
+	STRSFlagsUpdater.VC, STRGST.SFSVanishCap = STRSFlagsSaveUpdater.VC, STRSFlagsSaveUpdater.VC
+	STRSFlagsUpdater.D50, STRGST.SFS50StarDoor = STRSFlagsSaveUpdater.D50, STRSFlagsSaveUpdater.D50
+	STRSFlagsUpdater.BM, STRGST.SFSBasementDoor = STRSFlagsSaveUpdater.BM, STRSFlagsSaveUpdater.BM
+	STRSFlagsUpdater.US, STRGST.SFSUpstairsDoor = STRSFlagsSaveUpdater.US, STRSFlagsSaveUpdater.US
+	STRSFlagsUpdater.BDW, STRGST.SFSBITDWDoor = STRSFlagsSaveUpdater.BDW, STRSFlagsSaveUpdater.BDW
+	STRSFlagsUpdater.BFS, STRGST.SFSBITFSDoor = STRSFlagsSaveUpdater.BFS, STRSFlagsSaveUpdater.BFS
+	STRSFlagsUpdater.WF, STRGST.SFSWFDoor = STRSFlagsSaveUpdater.WF, STRSFlagsSaveUpdater.WF
+	STRSFlagsUpdater.PSS, STRGST.SFSPSSDoor = STRSFlagsSaveUpdater.PSS, STRSFlagsSaveUpdater.PSS
+	STRSFlagsUpdater.JRB, STRGST.SFSJRBDoor = STRSFlagsSaveUpdater.JRB, STRSFlagsSaveUpdater.JRB
+	STRSFlagsUpdater.CCM, STRGST.SFSCCMDoor = STRSFlagsSaveUpdater.CCM, STRSFlagsSaveUpdater.CCM
+	STRSFlagsUpdater.Key1, STRGST.SFSKey1 = STRSFlagsSaveUpdater.Key1, STRSFlagsSaveUpdater.Key1
+	STRSFlagsUpdater.Key2, STRGST.SFSKey2 = STRSFlagsSaveUpdater.Key2, STRSFlagsSaveUpdater.Key2
+	STRSFlagsUpdater.DDD, STRGST.SFSDDDMovedBack = STRSFlagsSaveUpdater.DDD, STRSFlagsSaveUpdater.DDD
+	STRSFlagsUpdater.MD, STRGST.SFSMoatDrain = STRSFlagsSaveUpdater.MD, STRSFlagsSaveUpdater.MD
+	STRSFlagsUpdater.CG, STRGST.SFSCapGround = STRSFlagsSaveUpdater.CG, STRSFlagsSaveUpdater.CG
+	STRSFlagsUpdater.CK, STRGST.SFSCapKlepto = STRSFlagsSaveUpdater.CK, STRSFlagsSaveUpdater.CK
+	STRSFlagsUpdater.CU, STRGST.SFSCapUkiki = STRSFlagsSaveUpdater.CU, STRSFlagsSaveUpdater.CU
+	STRSFlagsUpdater.CMB, STRGST.SFSCapBlizzard = STRSFlagsSaveUpdater.CMB, STRSFlagsSaveUpdater.CMB
+end
+
+function str_save_flag_failsafe()
+	STRFlagFailSafe = false
+	if save_file_get_flags() & SAVE_FLAG_COLLECTED_MIPS_STAR_1 ~= 1 then  STRSFlagsUpdater.Mips1 = true end
+	if save_file_get_flags() & SAVE_FLAG_COLLECTED_MIPS_STAR_2 ~= 1 then  STRSFlagsUpdater.Mips2 = true end
+	if save_file_get_flags() & SAVE_FLAG_COLLECTED_TOAD_STAR_1 ~= 1 then  STRSFlagsUpdater.Toad1 = true end
+	if save_file_get_flags() & SAVE_FLAG_COLLECTED_TOAD_STAR_2 ~= 1 then  STRSFlagsUpdater.Toad2 = true end
+	if save_file_get_flags() & SAVE_FLAG_COLLECTED_TOAD_STAR_3 ~= 1 then  STRSFlagsUpdater.Toad3 = true end
+	if save_file_get_flags() & SAVE_FLAG_HAVE_WING_CAP ~= 1 then 		  STRSFlagsUpdater.WC = true end
+	if save_file_get_flags() & SAVE_FLAG_HAVE_METAL_CAP ~= 1 then 		  STRSFlagsUpdater.MC = true end
+	if save_file_get_flags() & SAVE_FLAG_HAVE_VANISH_CAP ~= 1 then 		  STRSFlagsUpdater.VC = true end
+	if save_file_get_flags() & SAVE_FLAG_UNLOCKED_50_STAR_DOOR ~= 1 then  STRSFlagsUpdater.D50 = true end
+	if save_file_get_flags() & SAVE_FLAG_UNLOCKED_BASEMENT_DOOR ~= 1 then STRSFlagsUpdater.BM = true end
+	if save_file_get_flags() & SAVE_FLAG_UNLOCKED_UPSTAIRS_DOOR ~= 1 then STRSFlagsUpdater.US = true end
+	if save_file_get_flags() & SAVE_FLAG_UNLOCKED_BITDW_DOOR ~= 1 then 	  STRSFlagsUpdater.BDW = true end
+	if save_file_get_flags() & SAVE_FLAG_UNLOCKED_BITFS_DOOR ~= 1 then 	  STRSFlagsUpdater.BFS = true end
+	if save_file_get_flags() & SAVE_FLAG_UNLOCKED_WF_DOOR ~= 1 then 	  STRSFlagsUpdater.WF = true end
+	if save_file_get_flags() & SAVE_FLAG_UNLOCKED_PSS_DOOR ~= 1 then 	  STRSFlagsUpdater.PSS = true end
+	if save_file_get_flags() & SAVE_FLAG_UNLOCKED_JRB_DOOR ~= 1 then 	  STRSFlagsUpdater.JRB = true end
+	if save_file_get_flags() & SAVE_FLAG_UNLOCKED_CCM_DOOR ~= 1 then 	  STRSFlagsUpdater.CCM = true end
+	if save_file_get_flags() & SAVE_FLAG_HAVE_KEY_1 ~= 1 then 			  STRSFlagsUpdater.Key1 = true end
+	if save_file_get_flags() & SAVE_FLAG_HAVE_KEY_2 ~= 1 then 			  STRSFlagsUpdater.Key2 = true end
+	if save_file_get_flags() & SAVE_FLAG_DDD_MOVED_BACK ~= 1 then 		  STRSFlagsUpdater.DDD = true end
+	if save_file_get_flags() & SAVE_FLAG_MOAT_DRAINED ~= 1 then 		  STRSFlagsUpdater.MD = true end
+	if save_file_get_flags() & SAVE_FLAG_CAP_ON_GROUND ~= 1 then		  STRSFlagsUpdater.CG = true end
+	if save_file_get_flags() & SAVE_FLAG_CAP_ON_KLEPTO ~= 1 then 		  STRSFlagsUpdater.CK = true end
+	if save_file_get_flags() & SAVE_FLAG_CAP_ON_UKIKI ~= 1 then 		  STRSFlagsUpdater.CU = true end
+	if save_file_get_flags() & SAVE_FLAG_CAP_ON_MR_BLIZZARD ~= 1 then 	  STRSFlagsUpdater.CMB = true end
 end
 
 -- Code From Pipocalio
@@ -739,11 +945,25 @@ function str_button_combo(controller, ...)
     return (controller.buttonDown & mask) | (controller.buttonPressed & mask) == mask
 end
 
+-- Split String Code
+function str_split_table(string, SAText)
+    if SAText == nil then
+        SAText = " "
+    end
+    local result = {}
+    for match in string:gmatch(string.format("[^%s]+", SAText)) do
+        table.insert(result, match)
+    end
+    return result
+end
+
 function str_erase_save()
 	if STRGST.STREraseSaveCD < 1 and STRGST.EraseSave == true then
 	str_reset_save()
 	save_file_reload(0)
 	network_send(true, {Update = STR_Packet_Data})
+	elseif STRGST.STREraseSaveCD > 1 and STRGST.EraseSave == true and STRFlagFailSafe == true then
+	str_save_flag()
 	end
 end
 
@@ -778,64 +998,60 @@ function str_sounds()
 		end
 	end
 	
-	if (STRGST.STRGameState == "Preparing" and STRGST.STRSecondsDelay == 3 and (STRGST.STRStartingType == 1 or STRGST.STRStartingType == 2)) and STRFanfareNumber == 1 then
+	if (STRGST.STRGameState == "Preparing" and STRGST.STRSecondsDelay == 3 and (STRGST.STRStartingType == 1 or STRGST.STRStartingType == 2)) and STRSFFNumber == 1 then
 		play_race_fanfare()
 	end
 	
-	if STRGST.STRCDSounds == 29 and STRCountdownNumber < 6 then
-		play_sound(STRCountdownTable[STRCountdownNumber].str_countdown_sound, gMarioStates[0].marioObj.header.gfx.cameraToObject)
+	if STRGST.STRCDSounds == 29 and STRSCDNumber < 6 then
+		play_sound(STRCountdownTable[STRSCDNumber].str_countdown_sound, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 	end
 	
-	if STRGST.STRGlobalTimer == 2 and STRGoNumber == 1 and STRGST.STRGameMode ~= 4 then
-		play_sound(STRGoTable[STRGoNumber].str_go_sound, gMarioStates[0].marioObj.header.gfx.cameraToObject)
+	if STRGST.STRGlobalTimer == 2 and STRSGONumber == 1 and STRGST.STRGameMode ~= 4 then
+		play_sound(STRGoTable[STRSGONumber].str_go_sound, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 	end
 end
 
 function str_level_updater()
 	if not network_is_server() then return end
-	LocationSpot = ((STRLocationSpot == "Anywhere" and gMarioStates[0].action & ACT_FLAG_AIR ~= 0) or ((gMarioStates[0].action & ACT_FLAG_AIR) == 0 and STRLocationSpot == "Ground"))
-	InstantSpot = (STRLocationSpot == "FrameSpot")
+	GroundSpot = ((gMarioStates[0].action & ACT_FLAG_AIR) == 0 and STRLocationSpot == "Ground")
+	AirSpot = (STRLocationSpot == "Air")
 	
-	if STRGST.STRSpotUpdater < 5 and (LocationSpot or InstantSpot) and STRGST.WarpNodeRandomierDeplay > 89 then
-        STRGST.STRSpotUpdater = STRGST.STRSpotUpdater + 1
-    end	
-	
-	if STRGST.STRSavSpotUpdater < 5 and (LocationSpot or InstantSpot) and STRGST.WarpNodeRandomierDeplay > 89 then
-        STRGST.STRSavSpotUpdater = STRGST.STRSavSpotUpdater + 1
-    end	
-	
-	if STRGST.STRSavLevelUpdater < 5 and network_is_server() and STRGST.WarpNodeRandomierDeplay > 89 then
-        STRGST.STRSavLevelUpdater = STRGST.STRSavLevelUpdater + 1
-	end	
-	
-	if (STRGST.STRSpotUpdater < 5 and LocationSpot) or (STRGST.STRSpotUpdater < 2 and InstantSpot) and STRGST.WarpNodeRandomierDeplay > 89 then
+	if STRGST.STRSpotUpdater <= 5 and (GroundSpot or AirSpot) and STRGST.WarpNodeRandomierDeplay > 89 then
+	STRGST.STRSpotUpdater = STRGST.STRSpotUpdater + 1
+	if not STRGST.STRLocationPlugin then
 	STRGST.STRXPos = gMarioStates[0].pos.x
 	STRGST.STRYPos = gMarioStates[0].pos.y
 	STRGST.STRZPos = gMarioStates[0].pos.z
 	end
+	end
 	
-	if (STRGST.STRSavSpotUpdater < 5 and LocationSpot) or (STRGST.STRSavSpotUpdater < 2 and InstantSpot) and STRGST.WarpNodeRandomierDeplay > 89 then
+	if STRGST.STRSavSpotUpdater <= 5 and (GroundSpot or AirSpot) and STRGST.WarpNodeRandomierDeplay > 89 then
+	STRGST.STRSavSpotUpdater = STRGST.STRSavSpotUpdater + 1
+	if not STRGST.STRLocationPlugin then
 	STRGST.STRSavXPos = gMarioStates[0].pos.x
 	STRGST.STRSavYPos = gMarioStates[0].pos.y
 	STRGST.STRSavZPos = gMarioStates[0].pos.z
 	end
-	
-	if STRGST.STRLevelUpdater < 5 and network_is_server() and STRGST.WarpNodeRandomierDeplay > 89 then
-        STRGST.STRLevelUpdater = STRGST.STRLevelUpdater + 1
-	end	
+	end
 	
 	if STRGST.STRLevelUpdater < 5 and STRGST.WarpNodeRandomierDeplay > 89 then
-	STRGST.STRLevelID = gNetworkPlayers[0].currLevelNum
+	STRGST.STRLevelUpdater = STRGST.STRLevelUpdater + 1
+	if not STRGST.STRLocationPlugin then
 	STRGST.STRCourseID = gNetworkPlayers[0].currCourseNum
+	STRGST.STRLevelID = gNetworkPlayers[0].currLevelNum
 	STRGST.STRAreaID = gNetworkPlayers[0].currAreaIndex
 	STRGST.STRActID = gNetworkPlayers[0].currActNum
 	end
+	end
 
 	if STRGST.STRSavLevelUpdater < 5 and STRGST.WarpNodeRandomierDeplay > 89 then
-	STRGST.STRSavLevelID = gNetworkPlayers[0].currLevelNum
+	STRGST.STRSavLevelUpdater = STRGST.STRSavLevelUpdater + 1
+	if not STRGST.STRLocationPlugin then
 	STRGST.STRSavCourseID = gNetworkPlayers[0].currCourseNum
+	STRGST.STRSavLevelID = gNetworkPlayers[0].currLevelNum
 	STRGST.STRSavAreaID = gNetworkPlayers[0].currAreaIndex
 	STRGST.STRSavActID = gNetworkPlayers[0].currActNum
+	end
 	end
 end
 
@@ -851,7 +1067,7 @@ function str_updater_function()
 	GoDisplayFunc = (STRGST.STRGlobalTimer >= 2 and STRGST.STRGoText < 28)
 	CountdownSwitchFunc = (STRGST.STRCountdown >= 1.01 or STRGST.STRCountdown == 1)
 	
-	saveflag, m, Star, NP = save_file_get_flags(), gMarioStates[0], INTERACT_STAR_OR_KEY, gNetworkPlayers[0]
+	saveflag, m, NP = save_file_get_flags(), gMarioStates[0], gNetworkPlayers[0]
 	StarsFunctions = ((STRGST.STRLFStars == 1 and m.numStars >= STRGST.STRLFLimit)
 	or (STRGST.STRLFStars == 3 and (saveflag & STRLFB[STRGST.STRLFBehavior].ID) ~= 0 and STRLFB[STRGST.STRLFBehavior].Interact == false) 
 	or (STRGST.STRLFStars == 5 and (saveflag & STRLFB[STRGST.STRLFBehavior].ID) ~= 0 and STRLFB[STRGST.STRLFBehavior].Interact == false and m.numStars >= STRGST.STRLFLimit))
@@ -881,26 +1097,26 @@ function str_updater_function()
 	or (STRGST.STRLFPositions == 12 and m.pos.x <= STRGST.STRLFXPos and m.pos.x >= STRGST.STRLFEXPos and m.pos.z <= STRGST.STRLFZPos and m.pos.z >= STRGST.STRLFEYPos)
 	or (STRGST.STRLFPositions == 13 and m.pos.y <= STRGST.STRLFYPos and m.pos.y >= STRGST.STRLFEYPos and m.pos.z <= STRGST.STRLFZPos and m.pos.z >= STRGST.STRLFEZPos) 
 	or (STRGST.STRLFPositions == 14 and m.pos.x <= STRGST.STRLFXPos and m.pos.x >= STRGST.STRLFEXPos and m.pos.y <= STRGST.STRLFYPos and m.pos.y >= STRGST.STRLFEYPos and m.pos.z <= STRGST.STRLFZPos and m.pos.z >= STRGST.STRLFZPos))
-
-	if STRGST.STRUpdater < 10 and network_is_server() then
-        STRGST.STRUpdater = STRGST.STRUpdater + 1
-    end	
 	
-	if STRLoadSaveUpdater < 3 then
-        STRLoadSaveUpdater = STRLoadSaveUpdater + 1
-    end	
+	ShowCDFont = (STRShowCDFont == "Enabled" and STRGST.STRGameState == "Lobby")
+	ShowGoFont = (STRShowGoFont == "Enabled" and STRGST.STRGameState == "Lobby")
 	
-	if STRLoadSaveUpdater > 0 and STRLoadSaveUpdater < 2 then
-	load_saves()
+	if STRShowCDFont == "Enabled" and STRShowGoFont == "Enabled" then
+	STRShowCDFont = "Disabled"
+	STRShowGoFont = "Disabled"
+	STR_Save("STRShowCountdown", STRShowCDFont)
+	STR_Save("STRShowGo", STRShowGoFont)
 	end
 	
-	if STRGST.STRUpdater < 3 then
-	STRGST.STRSetLives = gMarioStates[0].numLives
-	end
+	if STRGST.STRUpdater < 10 and network_is_server() then STRGST.STRUpdater = STRGST.STRUpdater + 1 end	
 	
-	if STRGST.STRGameState == "Started" and STRSettingsTimer >= 1 then
-	STRSettingsTimer = STRSettingsTimer - 1
-	end
+	if STRLoadSaveUpdater < 3 then STRLoadSaveUpdater = STRLoadSaveUpdater + 1 end	
+	
+	if STRLoadSaveUpdater > 0 and STRLoadSaveUpdater < 2 then str_load_saves() str_save_flag() str_save_flag_saved() end
+	
+	if STRGST.STRUpdater < 3 then STRGST.STRSetLives = gMarioStates[0].numLives end
+	
+	if STRGST.STRGameState == "Started" and STRSettingsTimer >= 1 then STRSettingsTimer = STRSettingsTimer - 1 end
 	
 	if STRGST.STREraseSaveCD >= 1 and STRGST.EraseSave == true and network_is_server() then
 	STRGST.STREraseSaveCD = STRGST.STREraseSaveCD - 1 / 30
@@ -909,17 +1125,11 @@ function str_updater_function()
 	STRGST.STREraseSaveCD = 4
 	end
 	
-	if STRGST.EraseSave == true and STRGST.STREraseSaveCD < 4 then
-	warp_to_start_level()
-	end
+	if STRGST.EraseSave == true and STRGST.STREraseSaveCD < 4 then warp_to_start_level() end
 	
-	if STRGST.STRGameState == "Finished" and STRGST.STRGameMode == 4 and STRGST.STRSSText >= 1 and network_is_server() then
-	STRGST.STRSSText = STRGST.STRSSText - 1
-	end
+	if STRGST.STRGameState == "Finished" and STRGST.STRGameMode == 4 and STRGST.STRSSText >= 1 and network_is_server() then STRGST.STRSSText = STRGST.STRSSText - 1 end
 	
-	if (STRGST.STRGameState == "Started" or STRGST.STRGameState == "Finished" or STRGST.STRGameState == "Paused") and GoDisplayFunc and network_is_server() then
-	STRGST.STRGoText = STRGST.STRGoText + 1
-	end
+	if (STRGST.STRGameState == "Started" or STRGST.STRGameState == "Finished" or STRGST.STRGameState == "Paused") and GoDisplayFunc and network_is_server() then STRGST.STRGoText = STRGST.STRGoText + 1 end
 	
 	if STRGST.STRGameMode ~= 4 then
 	if ((STRGST.STRGameState == "Preparing") or (STRGST.STRGlobalTimer <= 1 and STRGST.STRGameState == "Started")) and STRGST.STRStartingWarp < 3 and network_is_server() then
@@ -944,7 +1154,7 @@ end
 function str_menu_description(m)
 	if STRMenuButtons == "Buttons" then
 	update_chat_command_description('str_menu', "[\\#FF0000\\Commands Only\\#FFFFFF\\]")
-	elseif (STRMenuButtons == "Commands" or STRMenuButtons == "Both") then
+	elseif (STRMenuButtons == "Commands" or STRMenuButtons == "Both" or STRMenuButtons == "All") then
 	update_chat_command_description('str_menu', "Display The Menu")
 	end
 end
@@ -953,7 +1163,7 @@ function str_menu_command()
 	if STRMenuButtons == "Buttons" then
 	djui_chat_message_create("\\#FF0000\\This Command Works when having Commands Enabled") 
 	return true
-	elseif (STRMenuButtons == "Commands" or STRMenuButtons == "Both") then
+	elseif (STRMenuButtons == "Commands" or STRMenuButtons == "Both" or STRMenuButtons == "All") then
 	STRMenuDisplay = true 
 	play_sound(SOUND_MENU_HAND_APPEAR, gMarioStates[0].marioObj.header.gfx.cameraToObject)
 	return true
@@ -962,5 +1172,21 @@ end
 
 
 hook_chat_command("str_menu", "Display The Menu", str_menu_command)
-hook_behavior(id_bhvBowserKey, OBJ_LIST_LEVEL, false, nil, disable_object, "bhvBowserKey")
+
+if (STRMenuButtons == "Menu" or STRMenuButtons == "All") then
+function STRMenuButton()
+	if gMarioStates[0].action ~= ACT_EXIT_LAND_SAVE_DIALOG then
+	STRMenuDisplay = true 
+	game_unpause()
+	play_sound(SOUND_MENU_HAND_APPEAR, gMarioStates[0].marioObj.header.gfx.cameraToObject)
+	end
+	return not djui_hud_is_pause_menu_created()
+end
+
+if network_is_server() then
+hook_mod_menu_button("Main Menu", STRMenuButton)
+else
+hook_mod_menu_button("Config Menu", STRMenuButton)
+end
+end
 
