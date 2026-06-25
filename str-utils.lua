@@ -812,7 +812,6 @@ function str_reset_save()
 end
 
 function str_save_flag()
-	STRFlagFailSafe = true
 	if save_file_get_flags() & SAVE_FLAG_COLLECTED_MIPS_STAR_1 ~= 0 then  STRGST.SFSMipsStar1 = false STRSFlagsUpdater.Mips1 = false end
 	if save_file_get_flags() & SAVE_FLAG_COLLECTED_MIPS_STAR_2 ~= 0 then  STRGST.SFSMipsStar2 = false STRSFlagsUpdater.Mips2 = false end
 	if save_file_get_flags() & SAVE_FLAG_COLLECTED_TOAD_STAR_1 ~= 0 then  STRGST.SFSToadStar1 = false STRSFlagsUpdater.Toad1 = false end

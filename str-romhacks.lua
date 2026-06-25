@@ -201,11 +201,6 @@ elseif RH_Name == "Little Worlds" then RH_Run_Name = "5 Stars"
 elseif RH_Name == "Super Mario New Star" then RH_Run_Name = "Toad Star"
 end
 
--- Save Check
-if RH_Name == "SM64: The Green Comet" then
-elseif RH_Name == "Super Banjo Kazooie 64 Redux" then
-end
-
 -- Star Road Plugin
 if RH_Name == "Star Road" or RH_Name == "Star Road: The Replica Comet" then
 _G.STRApi.add_plugin_slot(1, gNetworkPlayers[0].currLevelNum == LEVEL_ENDING)
